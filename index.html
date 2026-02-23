@@ -675,34 +675,6 @@
             transform: scale(0.95);
         }
         
-        /* Адаптация для маленьких экранов */
-        @media (max-width: 400px) {
-            .github-buttons {
-                flex-direction: column;
-            }
-            .github-buttons .small-btn {
-                width: 100%;
-            }
-            .filter-chip {
-                padding: 8px 10px;
-                font-size: 0.85rem;
-            }
-            .computers-map {
-                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            }
-            .map-number {
-                font-size: 1.2rem;
-            }
-            .data-bar {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .data-bar div {
-                width: 100%;
-                justify-content: space-between;
-            }
-        }
-        
         /* Индикатор загрузки */
         .loading-overlay {
             display: none;
@@ -744,6 +716,34 @@
         }
         @keyframes spin {
             to { transform: rotate(360deg); }
+        }
+        
+        /* Адаптация для маленьких экранов */
+        @media (max-width: 400px) {
+            .github-buttons {
+                flex-direction: column;
+            }
+            .github-buttons .small-btn {
+                width: 100%;
+            }
+            .filter-chip {
+                padding: 8px 10px;
+                font-size: 0.85rem;
+            }
+            .computers-map {
+                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            }
+            .map-number {
+                font-size: 1.2rem;
+            }
+            .data-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .data-bar div {
+                width: 100%;
+                justify-content: space-between;
+            }
         }
     </style>
 </head>
@@ -1055,7 +1055,8 @@
 
         // Флаг автосохранения
         let autoSaveTimer = null;
-        let hasUnsavedChanges = false;
+        let isSaving = false;
+        let isLoading = false;
 
         // ==================== ЗАГРУЗКА СОСТОЯНИЯ ====================
         function loadSavedState() {
@@ -1107,15 +1108,13 @@
             // Показываем индикатор загрузки
             document.getElementById('loadingOverlay').classList.add('active');
             
-            // Сначала пытаемся загрузить с GitHub (если есть токен)
+            // Загружаем с GitHub (если есть токен)
             if (githubToken) {
-                const loaded = await loadFromGithub(true); // true = не показывать toast об ошибке 404
-                if (!loaded) {
-                    // Если не загрузилось с GitHub, используем исходные данные
+                const success = await loadFromGithub(true);
+                if (!success) {
                     loadSourceData();
                 }
             } else {
-                // Если нет токена, используем исходные данные
                 loadSourceData();
             }
             
@@ -1133,11 +1132,17 @@
         }
 
         // ==================== СОХРАНЕНИЕ В GITHUB ====================
-        async function saveToGithub() {
+        async function saveToGithub(showToastMessage = true) {
             if (!githubToken) {
-                showToast('❌ Сначала установите токен', 'error');
+                if (showToastMessage) {
+                    showToast('❌ Сначала установите токен', 'error');
+                }
                 return false;
             }
+            
+            // Предотвращаем множественные сохранения
+            if (isSaving) return false;
+            isSaving = true;
             
             try {
                 updateDataStatus('saving');
@@ -1189,46 +1194,59 @@
                     throw new Error(error.message);
                 }
                 
-                // Сохраняем в кэш
-                localStorage.setItem('cached_computers', JSON.stringify(computers));
-                localStorage.setItem('cached_inspector', globalInspector);
-                localStorage.setItem('cached_date', globalDate);
-                
                 updateDataStatus('saved');
-                hasUnsavedChanges = false;
-                showToast('✅ Данные сохранены в GitHub');
+                if (showToastMessage) {
+                    showToast('✅ Данные сохранены в GitHub');
+                }
                 return true;
                 
             } catch (error) {
                 console.error('Ошибка сохранения:', error);
                 updateDataStatus('error');
-                showToast('❌ Ошибка сохранения: ' + error.message, 'error');
+                if (showToastMessage) {
+                    showToast('❌ Ошибка сохранения: ' + error.message, 'error');
+                }
                 return false;
+            } finally {
+                isSaving = false;
             }
         }
 
         // ==================== ЗАГРУЗКА С GITHUB ====================
         async function loadFromGithub(silent = false) {
-            if (!githubToken && !silent) {
-                showToast('❌ Сначала установите токен', 'error');
+            if (!githubToken) {
+                if (!silent) {
+                    showToast('❌ Сначала установите токен', 'error');
+                }
                 return false;
             }
+            
+            // Предотвращаем множественные загрузки
+            if (isLoading) return false;
+            isLoading = true;
             
             try {
                 if (!silent) {
                     updateDataStatus('loading');
                 }
                 
-                const url = `https://raw.githubusercontent.com/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/main/${DATA_FILE}?t=${Date.now()}`;
-                const response = await fetch(url);
+                // Добавляем timestamp для обхода кэша GitHub
+                const timestamp = Date.now();
+                const url = `https://raw.githubusercontent.com/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/main/${DATA_FILE}?t=${timestamp}`;
+                
+                const response = await fetch(url, {
+                    cache: 'no-cache',
+                    headers: {
+                        'Cache-Control': 'no-cache',
+                        'Pragma': 'no-cache'
+                    }
+                });
                 
                 if (!response.ok) {
                     if (response.status === 404) {
                         if (!silent) {
                             showToast('📭 Файл данных не найден, будут использованы исходные данные', 'warning');
                         }
-                        loadSourceData();
-                        updateUI();
                         return false;
                     }
                     throw new Error(`HTTP ${response.status}`);
@@ -1240,11 +1258,6 @@
                     computers = data.computers;
                     if (data.globalInspector) globalInspector = data.globalInspector;
                     if (data.globalDate) globalDate = data.globalDate;
-                    
-                    // Сохраняем в кэш
-                    localStorage.setItem('cached_computers', JSON.stringify(computers));
-                    localStorage.setItem('cached_inspector', globalInspector);
-                    localStorage.setItem('cached_date', globalDate);
                     
                     currentIndex = 0;
                     updateUI();
@@ -1260,6 +1273,8 @@
                     updateDataStatus('error');
                     showToast('❌ Ошибка загрузки с GitHub', 'error');
                 }
+            } finally {
+                isLoading = false;
             }
             return false;
         }
@@ -1386,12 +1401,10 @@
                         
                         currentIndex = 0;
                         updateUI();
-                        hasUnsavedChanges = true;
-                        updateDataStatus('unsaved');
                         
                         // Если есть токен, сразу сохраняем в GitHub
                         if (githubToken) {
-                            await saveToGithub();
+                            await saveToGithub(true);
                         }
                         
                         showToast(`✅ Загружено ${computers.length} компьютеров из Excel`);
@@ -1424,17 +1437,15 @@
         }
 
         // ==================== СБРОС К ИСХОДНЫМ ====================
-        function resetToSource() {
+        async function resetToSource() {
             if (confirm('Сбросить все данные к исходным? Несохранённые изменения будут потеряны.')) {
                 loadSourceData();
                 currentIndex = 0;
                 updateUI();
-                hasUnsavedChanges = true;
-                updateDataStatus('unsaved');
                 
                 // Если есть токен, сразу сохраняем в GitHub
                 if (githubToken) {
-                    saveToGithub();
+                    await saveToGithub(true);
                 }
                 
                 showToast('🔄 Данные сброшены к исходным');
@@ -1443,16 +1454,13 @@
 
         // ==================== АВТОСОХРАНЕНИЕ ====================
         function scheduleAutoSave() {
-            hasUnsavedChanges = true;
-            updateDataStatus('unsaved');
-            
             if (autoSaveTimer) clearTimeout(autoSaveTimer);
             
             autoSaveTimer = setTimeout(() => {
-                if (hasUnsavedChanges && githubToken) {
-                    saveToGithub();
+                if (githubToken && !isSaving && !isLoading) {
+                    saveToGithub(false);
                 }
-            }, 3000);
+            }, 2000);
         }
 
         // ==================== ФУНКЦИИ ИНТЕРФЕЙСА ====================
@@ -1550,6 +1558,18 @@
         function saveCurrentForm() {
             if (!computers.length) return;
             const comp = computers[currentIndex];
+            
+            // Проверяем, были ли изменения
+            const hasChanges = 
+                comp.monitor !== document.getElementById('monitor').value ||
+                comp.mouse !== document.getElementById('mouse').value ||
+                comp.keyboard !== document.getElementById('keyboard').value ||
+                comp.disks !== document.getElementById('disks').value ||
+                comp.sound !== document.getElementById('sound').value ||
+                comp.notes !== document.getElementById('notes').value;
+            
+            if (!hasChanges) return;
+            
             comp.monitor = document.getElementById('monitor').value;
             comp.mouse = document.getElementById('mouse').value;
             comp.keyboard = document.getElementById('keyboard').value;
@@ -1563,6 +1583,8 @@
             renderMap();
             updateProgress();
             loadCurrentCompToForm();
+            
+            // Запускаем автосохранение
             scheduleAutoSave();
         }
 
@@ -1607,7 +1629,6 @@
             const icons = {
                 loaded: '📂',
                 saved: '💾',
-                unsaved: '⚠️',
                 saving: '⏳',
                 loading: '📥',
                 error: '❌'
@@ -1615,7 +1636,6 @@
             const texts = {
                 loaded: 'Данные загружены',
                 saved: 'Данные сохранены',
-                unsaved: 'Есть изменения',
                 saving: 'Сохранение...',
                 loading: 'Загрузка...',
                 error: 'Ошибка'
@@ -1623,7 +1643,7 @@
             statusEl.innerHTML = `${icons[type] || '📋'} ${texts[type] || ''}`;
             statusEl.className = 'data-status';
             if (type === 'loaded' || type === 'saved') statusEl.classList.add('ok');
-            if (type === 'unsaved' || type === 'saving' || type === 'loading') statusEl.classList.add('saving');
+            if (type === 'saving' || type === 'loading') statusEl.classList.add('saving');
             if (type === 'error') statusEl.classList.add('error');
         }
 
@@ -1639,7 +1659,7 @@
 
         // ==================== ИНИЦИАЛИЗАЦИЯ ====================
         document.addEventListener('DOMContentLoaded', function() {
-            // Загружаем сохраненное состояние
+            // Загружаем сохраненное состояние интерфейса
             loadSavedState();
             
             // Табы
@@ -1720,11 +1740,9 @@
                     
                     // После установки токена загружаем данные с GitHub
                     document.getElementById('loadingOverlay').classList.add('active');
-                    loadFromGithub().finally(() => {
+                    loadFromGithub(false).finally(() => {
                         document.getElementById('loadingOverlay').classList.remove('active');
                     });
-                    
-                    showToast('✅ Токен сохранён');
                 }
             });
             
@@ -1732,11 +1750,11 @@
                 document.getElementById('tokenModal').classList.remove('active');
             });
             
-            document.getElementById('saveToGithubBtn').addEventListener('click', saveToGithub);
+            document.getElementById('saveToGithubBtn').addEventListener('click', () => saveToGithub(true));
             
             document.getElementById('loadFromGithubBtn').addEventListener('click', function() {
                 document.getElementById('loadingOverlay').classList.add('active');
-                loadFromGithub().finally(() => {
+                loadFromGithub(false).finally(() => {
                     document.getElementById('loadingOverlay').classList.remove('active');
                 });
             });
@@ -1761,6 +1779,12 @@
             document.getElementById('globalDate').addEventListener('change', function() {
                 globalDate = this.value;
                 scheduleAutoSave();
+            });
+            
+            // Изменение полей формы
+            ['monitor', 'mouse', 'keyboard', 'disks', 'sound', 'notes'].forEach(id => {
+                document.getElementById(id).addEventListener('change', saveCurrentForm);
+                document.getElementById(id).addEventListener('input', saveCurrentForm);
             });
             
             // Тёмная тема
