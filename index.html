@@ -702,6 +702,49 @@
                 justify-content: space-between;
             }
         }
+        
+        /* Индикатор загрузки */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+        .loading-overlay.active {
+            display: flex;
+        }
+        .loading-spinner {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .dark-theme .loading-spinner {
+            background: #1e293b;
+            color: #f1f5f9;
+        }
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #e2e8f0;
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -710,6 +753,14 @@
         <h1>🖥️ Технический отчёт</h1>
         <div class="theme-toggle" id="themeToggle">
             <span>🌙</span> Тёмная
+        </div>
+    </div>
+
+    <!-- Индикатор загрузки -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <span>Загрузка данных с GitHub...</span>
         </div>
     </div>
 
@@ -745,7 +796,7 @@
         <div style="display: flex; gap: 6px; flex-wrap: wrap;">
             <button class="small-btn warning" id="resetDataBtn">🔄 Сбросить</button>
             <button class="small-btn success" id="downloadExcelBtn">📥 Excel</button>
-            <button class="small-btn" id="uploadExcelBtn">📤 Загрузить</button>
+            <button class="small-btn" id="uploadExcelBtn">📤 Загрузить Excel</button>
             <input type="file" id="excelFileInput" accept=".xlsx, .xls" style="display: none;">
         </div>
     </div>
@@ -1050,32 +1101,28 @@
         }
 
         // ==================== ИНИЦИАЛИЗАЦИЯ ====================
-        function initializeData() {
+        async function initializeData() {
             updateRepoDisplay();
             
-            // Пытаемся загрузить из localStorage как кэш
-            const cachedData = localStorage.getItem('cached_computers');
-            const cachedInspector = localStorage.getItem('cached_inspector');
-            const cachedDate = localStorage.getItem('cached_date');
+            // Показываем индикатор загрузки
+            document.getElementById('loadingOverlay').classList.add('active');
             
-            if (cachedData) {
-                try {
-                    computers = JSON.parse(cachedData);
-                    if (cachedInspector) globalInspector = cachedInspector;
-                    if (cachedDate) globalDate = cachedDate;
-                    showToast('📂 Загружены кэшированные данные');
-                } catch (e) {
+            // Сначала пытаемся загрузить с GitHub (если есть токен)
+            if (githubToken) {
+                const loaded = await loadFromGithub(true); // true = не показывать toast об ошибке 404
+                if (!loaded) {
+                    // Если не загрузилось с GitHub, используем исходные данные
                     loadSourceData();
                 }
             } else {
+                // Если нет токена, используем исходные данные
                 loadSourceData();
             }
             
-            // Пытаемся загрузить с GitHub
-            if (githubToken) {
-                loadFromGithub();
-            }
+            // Скрываем индикатор загрузки
+            document.getElementById('loadingOverlay').classList.remove('active');
             
+            // Обновляем UI
             updateUI();
         }
 
@@ -1161,16 +1208,25 @@
         }
 
         // ==================== ЗАГРУЗКА С GITHUB ====================
-        async function loadFromGithub() {
+        async function loadFromGithub(silent = false) {
+            if (!githubToken && !silent) {
+                showToast('❌ Сначала установите токен', 'error');
+                return false;
+            }
+            
             try {
-                updateDataStatus('loading');
+                if (!silent) {
+                    updateDataStatus('loading');
+                }
                 
                 const url = `https://raw.githubusercontent.com/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/main/${DATA_FILE}?t=${Date.now()}`;
                 const response = await fetch(url);
                 
                 if (!response.ok) {
                     if (response.status === 404) {
-                        showToast('📭 Файл данных не найден, будут использованы исходные данные', 'warning');
+                        if (!silent) {
+                            showToast('📭 Файл данных не найден, будут использованы исходные данные', 'warning');
+                        }
                         loadSourceData();
                         updateUI();
                         return false;
@@ -1193,15 +1249,43 @@
                     currentIndex = 0;
                     updateUI();
                     updateDataStatus('loaded');
-                    showToast(`✅ Загружено ${computers.length} компьютеров с GitHub`);
+                    if (!silent) {
+                        showToast(`✅ Загружено ${computers.length} компьютеров с GitHub`);
+                    }
                     return true;
                 }
             } catch (error) {
                 console.error('Ошибка загрузки:', error);
-                updateDataStatus('error');
-                showToast('❌ Ошибка загрузки с GitHub', 'error');
+                if (!silent) {
+                    updateDataStatus('error');
+                    showToast('❌ Ошибка загрузки с GitHub', 'error');
+                }
             }
             return false;
+        }
+
+        // ==================== ПРОВЕРКА ПОДКЛЮЧЕНИЯ ====================
+        async function testConnection() {
+            if (!githubToken) {
+                showToast('❌ Сначала установите токен', 'error');
+                return;
+            }
+            
+            try {
+                const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`;
+                const response = await fetch(url, {
+                    headers: { 'Authorization': `token ${githubToken}` }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    showToast(`✅ Подключено к ${data.full_name}`);
+                } else {
+                    throw new Error('Ошибка доступа');
+                }
+            } catch (error) {
+                showToast('❌ Ошибка подключения', 'error');
+            }
         }
 
         // ==================== СОЗДАНИЕ EXCEL ФАЙЛА ====================
@@ -1304,6 +1388,12 @@
                         updateUI();
                         hasUnsavedChanges = true;
                         updateDataStatus('unsaved');
+                        
+                        // Если есть токен, сразу сохраняем в GitHub
+                        if (githubToken) {
+                            await saveToGithub();
+                        }
+                        
                         showToast(`✅ Загружено ${computers.length} компьютеров из Excel`);
                     }
                 }
@@ -1341,6 +1431,12 @@
                 updateUI();
                 hasUnsavedChanges = true;
                 updateDataStatus('unsaved');
+                
+                // Если есть токен, сразу сохраняем в GitHub
+                if (githubToken) {
+                    saveToGithub();
+                }
+                
                 showToast('🔄 Данные сброшены к исходным');
             }
         }
@@ -1356,7 +1452,7 @@
                 if (hasUnsavedChanges && githubToken) {
                     saveToGithub();
                 }
-            }, 5000);
+            }, 3000);
         }
 
         // ==================== ФУНКЦИИ ИНТЕРФЕЙСА ====================
@@ -1621,6 +1717,13 @@
                     localStorage.setItem('github_token', token);
                     document.getElementById('tokenModal').classList.remove('active');
                     updateRepoDisplay();
+                    
+                    // После установки токена загружаем данные с GitHub
+                    document.getElementById('loadingOverlay').classList.add('active');
+                    loadFromGithub().finally(() => {
+                        document.getElementById('loadingOverlay').classList.remove('active');
+                    });
+                    
                     showToast('✅ Токен сохранён');
                 }
             });
@@ -1630,7 +1733,13 @@
             });
             
             document.getElementById('saveToGithubBtn').addEventListener('click', saveToGithub);
-            document.getElementById('loadFromGithubBtn').addEventListener('click', loadFromGithub);
+            
+            document.getElementById('loadFromGithubBtn').addEventListener('click', function() {
+                document.getElementById('loadingOverlay').classList.add('active');
+                loadFromGithub().finally(() => {
+                    document.getElementById('loadingOverlay').classList.remove('active');
+                });
+            });
             
             // Загрузка Excel
             document.getElementById('uploadExcelBtn').addEventListener('click', () => {
