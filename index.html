@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Технический отчёт — Управление компьютерами</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #f4f7fb;
+            color: #1e293b;
+            padding: 12px;
+            min-height: 100vh;
+        }
+        body.dark-theme {
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+        .dark-theme h1 {
+            color: #f1f5f9;
+        }
+        .theme-toggle {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 40px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+        .dark-theme .theme-toggle {
+            background: #1e293b;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 40px;
+            padding: 12px 24px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.15s;
+            flex: 1;
+            text-align: center;
+            min-width: 120px;
+        }
+        .dark-theme .tab {
+            background: #1e293b;
+            border-color: #334155;
+            color: #cbd5e1;
+        }
+        .tab.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        .panel {
+            display: none;
+        }
+        .panel.active {
+            display: block;
+        }
+        
+        /* Панель управления данными */
+        .data-bar {
+            background: #f1f5f9;
+            border-radius: 40px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .dark-theme .data-bar {
+            background: #0f172a;
+        }
+        .data-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+        .data-status.ok {
+            color: #22c55e;
+        }
+        .data-status.error {
+            color: #ef4444;
+        }
+        .data-status.saving {
+            color: #f59e0b;
+        }
+        .small-btn {
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 40px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .dark-theme .small-btn {
+            background: #1e293b;
+            color: #f1f5f9;
+            border-color: #334155;
+        }
+        .small-btn:active {
+            transform: scale(0.95);
+        }
+        .small-btn.primary {
+            background: #3b82f6;
+            color: white;
+            border: none;
+        }
+        .small-btn.success {
+            background: #22c55e;
+            color: white;
+            border: none;
+        }
+        .small-btn.warning {
+            background: #f59e0b;
+            color: white;
+            border: none;
+        }
+        
+        /* Панель даты и проверяющего */
+        .report-header {
+            background: white;
+            border-radius: 32px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #3b82f6;
+        }
+        .dark-theme .report-header {
+            background: #1e293b;
+        }
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #3b82f6;
+        }
+        .header-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .header-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .header-label {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .header-select, .header-input {
+            padding: 14px 18px;
+            border: 1px solid #cbd5e1;
+            border-radius: 30px;
+            font-size: 1rem;
+            background: white;
+            width: 100%;
+        }
+        .dark-theme .header-select, .dark-theme .header-input {
+            background: #0f172a;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+        
+        /* Карта компьютеров */
+        .map-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .map-search {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+        .map-search input {
+            width: 100%;
+            padding: 14px 18px 14px 45px;
+            border: 1px solid #e2e8f0;
+            border-radius: 40px;
+            font-size: 1rem;
+            background: white;
+        }
+        .dark-theme .map-search input {
+            background: #1e293b;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+        .map-search:before {
+            content: "🔍";
+            position: absolute;
+            left: 18px;
+            top: 14px;
+            color: #94a3b8;
+        }
+        .filter-chip {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 40px;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+        .dark-theme .filter-chip {
+            background: #1e293b;
+            border-color: #334155;
+            color: #cbd5e1;
+        }
+        .filter-chip.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        
+        .computers-map {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+            margin-bottom: 30px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 8px 4px;
+            background: white;
+            border-radius: 32px;
+            padding: 20px;
+        }
+        .dark-theme .computers-map {
+            background: #1e293b;
+        }
+        .map-item {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 12px 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.15s;
+            aspect-ratio: 1/1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .dark-theme .map-item {
+            background: #0f172a;
+            border-color: #334155;
+        }
+        .map-item.good { border-color: #22c55e; background: #f0fdf4; }
+        .dark-theme .map-item.good { background: #14532d; border-color: #22c55e; }
+        .map-item.warning { border-color: #eab308; background: #fefce8; }
+        .dark-theme .map-item.warning { background: #854d0e; border-color: #eab308; }
+        .map-item.bad { border-color: #ef4444; background: #fef2f2; }
+        .dark-theme .map-item.bad { background: #7f1d1d; border-color: #ef4444; }
+        .map-number {
+            font-weight: 800;
+            font-size: 1.6rem;
+        }
+        .map-icon {
+            font-size: 1.4rem;
+            margin: 4px 0;
+        }
+        
+        /* Прогресс */
+        .progress-card {
+            background: white;
+            border-radius: 24px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        .dark-theme .progress-card {
+            background: #1e293b;
+        }
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        .progress-bar-bg {
+            background: #e2e8f0;
+            height: 12px;
+            border-radius: 40px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            background: #3b82f6;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        /* Карточка компьютера */
+        .computer-card {
+            background: white;
+            border-radius: 32px;
+            padding: 20px 16px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        .dark-theme .computer-card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+        .comp-badge {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .comp-number-big {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: #f1f5f9;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+        }
+        .dark-theme .comp-number-big {
+            background: #0f172a;
+            color: #f1f5f9;
+        }
+        .comp-status-badge {
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+        }
+        .status-done { background: #dcfce7; color: #166534; }
+        .status-current { background: #3b82f6; color: white; }
+        
+        /* Форма */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .form-select, .form-input {
+            width: 100%;
+            padding: 16px 18px;
+            border: 1px solid #cbd5e1;
+            border-radius: 30px;
+            font-size: 1rem;
+            background: white;
+        }
+        .dark-theme .form-select, .dark-theme .form-input {
+            background: #0f172a;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+        textarea.form-input {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .nav-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .nav-btn {
+            flex: 1;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 40px;
+            padding: 14px 0;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+        }
+        .dark-theme .nav-btn {
+            background: #1e293b;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+        .nav-btn.primary {
+            background: #3b82f6;
+            color: white;
+            border: none;
+        }
+        .nav-btn:disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #22c55e;
+            color: white;
+            padding: 14px 20px;
+            border-radius: 60px;
+            font-weight: 500;
+            animation: fade 3s;
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .toast.error { background: #ef4444; }
+        .toast.warning { background: #f59e0b; }
+        @keyframes fade {
+            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 32px;
+            padding: 24px;
+            max-width: 500px;
+            width: 100%;
+        }
+        .dark-theme .modal-content {
+            background: #1e293b;
+            color: #f1f5f9;
+        }
+        .modal-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 30px;
+            margin: 20px 0;
+            font-size: 1rem;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        .modal-btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 40px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .modal-btn.primary {
+            background: #3b82f6;
+            color: white;
+        }
+        .modal-btn.secondary {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+        
+        /* Упрощенная панель GitHub */
+        .github-panel {
+            background: white;
+            border-radius: 32px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        .dark-theme .github-panel {
+            background: #1e293b;
+        }
+        .github-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+        .github-info span {
+            background: #f1f5f9;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-family: monospace;
+        }
+        .dark-theme .github-info span {
+            background: #0f172a;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🖥️ Технический отчёт</h1>
+        <div class="theme-toggle" id="themeToggle">
+            <span>🌙</span> Тёмная
+        </div>
+    </div>
+
+    <!-- Упрощенная панель GitHub с прописанными репозиториями -->
+    <div class="github-panel">
+        <div class="github-info">
+            <span>📦 Репозиторий: <strong id="repoDisplay"></strong></span>
+            <span id="tokenStatus" style="background: #fef3c7;">🔑 Токен не установлен</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <button class="small-btn" id="showTokenBtn">🔑 Установить токен</button>
+            <button class="small-btn primary" id="saveToGithubBtn">💾 Сохранить</button>
+            <button class="small-btn warning" id="loadFromGithubBtn">📂 Загрузить</button>
+        </div>
+    </div>
+
+    <!-- Панель управления данными -->
+    <div class="data-bar">
+        <div class="data-status" id="dataStatus">
+            💾 Данные загружены
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="small-btn warning" id="resetDataBtn">🔄 Сбросить к исходным</button>
+            <button class="small-btn success" id="downloadExcelBtn">📥 Скачать Excel</button>
+            <button class="small-btn" id="uploadExcelBtn">📤 Загрузить Excel</button>
+            <input type="file" id="excelFileInput" accept=".xlsx, .xls" style="display: none;">
+        </div>
+    </div>
+
+    <!-- ОБЩАЯ шапка отчёта (дата и проверяющий) -->
+    <div class="report-header" id="reportHeader">
+        <div class="header-title">📋 Параметры отчёта (общие для всех компьютеров)</div>
+        <div class="header-fields">
+            <div class="header-field">
+                <span class="header-label">👤 Проверяющий</span>
+                <select class="header-select" id="globalInspector">
+                    <option value="Риад">Риад</option>
+                    <option value="Анна">Анна</option>
+                    <option value="Пётр">Пётр</option>
+                    <option value="Елена">Елена</option>
+                    <option value="Максим">Максим</option>
+                    <option value="Ольга">Ольга</option>
+                    <option value="Дмитрий">Дмитрий</option>
+                </select>
+            </div>
+            <div class="header-field">
+                <span class="header-label">📅 Дата проверки</span>
+                <input type="date" class="header-input" id="globalDate">
+            </div>
+        </div>
+    </div>
+
+    <!-- Табы -->
+    <div class="tabs">
+        <div class="tab active" data-tab="map">🗺️ Карта компьютеров</div>
+        <div class="tab" data-tab="step">📝 Заполнение</div>
+    </div>
+
+    <!-- ========== КАРТА ========== -->
+    <div id="mapPanel" class="panel active">
+        <div class="map-controls">
+            <div class="map-search">
+                <input type="text" id="mapSearch" placeholder="Поиск по номеру...">
+            </div>
+            <div class="filter-chip active" data-filter="all">Все</div>
+            <div class="filter-chip" data-filter="good">✅ Хорошо</div>
+            <div class="filter-chip" data-filter="warning">⚠️ Замечания</div>
+            <div class="filter-chip" data-filter="bad">🔴 Проблемы</div>
+        </div>
+
+        <div class="computers-map" id="computersMap"></div>
+
+        <!-- Детали -->
+        <div class="computer-card" id="mapDetailCard" style="display: none;">
+            <div class="comp-badge">
+                <div class="comp-number-big" id="mapDetailNumber">1</div>
+                <div class="comp-status-badge" id="mapDetailStatus">Хорошо</div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div><strong>Монитор:</strong> <span id="mapDetailMonitor"></span></div>
+                <div><strong>Мышь:</strong> <span id="mapDetailMouse"></span></div>
+                <div><strong>Клавиатура:</strong> <span id="mapDetailKeyboard"></span></div>
+                <div><strong>Диски:</strong> <span id="mapDetailDisks"></span></div>
+                <div><strong>Звук:</strong> <span id="mapDetailSound"></span></div>
+            </div>
+            <div style="margin: 12px 0;"><strong>Заметки:</strong> <span id="mapDetailNotes"></span></div>
+            <button class="small-btn primary" style="width: 100%;" id="gotoEditFromMap">✏️ Редактировать</button>
+        </div>
+    </div>
+
+    <!-- ========== ЗАПОЛНЕНИЕ ========== -->
+    <div id="stepPanel" class="panel">
+        <!-- Прогресс -->
+        <div class="progress-card">
+            <div class="progress-header">
+                <span>📋 Прогресс заполнения</span>
+                <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="nav-row">
+            <button class="nav-btn" id="prevBtn" disabled>← Пред.</button>
+            <button class="nav-btn primary" id="nextBtn">Далее →</button>
+        </div>
+
+        <!-- Форма -->
+        <div class="computer-card">
+            <div class="comp-badge">
+                <div class="comp-number-big" id="currentCompNumber">1</div>
+                <div class="comp-status-badge" id="currentCompStatus">Текущий</div>
+            </div>
+
+            <form id="reportForm">
+                <div class="form-group">
+                    <label class="form-label">🖥️ Монитор</label>
+                    <select class="form-select" id="monitor">
+                        <option>Нет проблем</option>
+                        <option>Кабель питания</option>
+                        <option>Дисплей Порт</option>
+                        <option>Другое (укажите в заметках)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">🖱️ Мышь</label>
+                    <select class="form-select" id="mouse">
+                        <option>Нет проблем</option>
+                        <option>Не работает</option>
+                        <option>Другое (укажите в заметках)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">⌨️ Клавиатура</label>
+                    <select class="form-select" id="keyboard">
+                        <option>Нет проблем</option>
+                        <option>Нет резиновых ножек</option>
+                        <option>Залипает клавиша</option>
+                        <option>Другое (укажите в заметках)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">💿 Диски</label>
+                    <select class="form-select" id="disks">
+                        <option>Есть ещё место</option>
+                        <option>Отсутствует диск</option>
+                        <option>Другое (укажите в заметках)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">🔊 Звук</label>
+                    <select class="form-select" id="sound">
+                        <option>Нет проблем</option>
+                        <option>Нет Аудиокарты</option>
+                        <option>Другое (укажите в заметках)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">📝 Заметки</label>
+                    <textarea class="form-input" id="notes" rows="2" placeholder="Подробности проблем..."></textarea>
+                </div>
+            </form>
+        </div>
+
+        <div class="nav-row">
+            <button class="nav-btn" id="prevBtnBottom" disabled>← Пред.</button>
+            <button class="nav-btn primary" id="nextBtnBottom">Сохранить и далее →</button>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно токена -->
+<div class="modal" id="tokenModal">
+    <div class="modal-content">
+        <h3>🔑 GitHub Personal Access Token</h3>
+        <p>Введите токен с правами на запись в репозиторий</p>
+        <input type="password" class="modal-input" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxx">
+        <div class="modal-buttons">
+            <button class="modal-btn secondary" id="cancelTokenBtn">Отмена</button>
+            <button class="modal-btn primary" id="saveTokenBtn">Сохранить</button>
+        </div>
+    </div>
+</div>
+
+<!-- Уведомления -->
+<div id="toastMessage" style="display: none;" class="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+    (function() {
+        // ==================== НАСТРОЙКИ РЕПОЗИТОРИЯ (ПРОПИСАНЫ ЗДЕСЬ) ====================
+        const GITHUB_CONFIG = {
+            owner: 'ваш-username',      // ⚠️ ЗАМЕНИТЕ НА ВАШЕ ИМЯ ПОЛЬЗОВАТЕЛЯ
+            repo: 'ваш-репозиторий'      // ⚠️ ЗАМЕНИТЕ НА НАЗВАНИЕ ВАШЕГО РЕПОЗИТОРИЯ
+        };
+        
+        // ==================== ИСХОДНЫЕ ДАННЫЕ ИЗ НОВОГО EXCEL ====================
+        const SOURCE_DATA = {
+            inspectors: ['Риад', 'Анна', 'Пётр', 'Елена', 'Максим', 'Ольга', 'Дмитрий'],
+            computers: [
+                {num:1, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:2, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:3, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:4, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет резиновых ножек", disks:"Есть ещё место", sound:"Нет Аудиокарты", notes:""},
+                {num:5, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет резиновых ножек", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:6, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:7, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет резиновых ножек", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:8, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:9, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:10, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:11, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:12, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:13, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:14, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:15, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:16, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:17, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:18, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:19, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:24, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:25, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:26, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:27, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:28, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:29, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:30, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет резиновых ножек", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:31, monitor:"Кабель питания", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет Аудиокарты", notes:"Нет кабеля питания моника"},
+                {num:32, monitor:"Кабель питания", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Отсутствует диск", sound:"Нет проблем", notes:"Кабель питания моника обмотан изолентой"},
+                {num:33, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:34, monitor:"Кабель питания", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:"Заломан кабель питания моника, работает под определенным углом"},
+                {num:35, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:36, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:37, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:38, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:39, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:40, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:41, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:42, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:43, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:44, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:45, monitor:"Кабель питания", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:46, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:47, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:48, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:49, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:50, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет резиновых ножек", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:51, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:52, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:53, monitor:"Дисплей Порт", mouse:"Нет проблем", keyboard:"Залипает клавиша", disks:"Есть ещё место", sound:"Нет проблем", notes:"не работает клавиша \"~\" // Переодически монитор теряет сигнал"},
+                {num:54, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:55, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет Аудиокарты", notes:"Монитор подключен через HDMI, переодически гаснет и теряет сигнал"},
+                {num:56, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:57, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:58, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:59, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:60, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:61, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""}
+            ]
+        };
+
+        // ==================== СОСТОЯНИЕ ====================
+        let computers = [];
+        let currentIndex = 0;
+        let globalInspector = 'Риад';
+        let globalDate = new Date().toISOString().slice(0,10);
+        
+        // GitHub настройки (берутся из конфига выше)
+        let githubToken = localStorage.getItem('github_token') || '';
+        const DATA_FILE = 'tech_report_data.json';
+
+        // Флаг автосохранения
+        let autoSaveTimer = null;
+        let hasUnsavedChanges = false;
+
+        // ==================== ОТОБРАЖЕНИЕ ИНФОРМАЦИИ О РЕПОЗИТОРИИ ====================
+        function updateRepoDisplay() {
+            document.getElementById('repoDisplay').textContent = `${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`;
+            const tokenStatus = document.getElementById('tokenStatus');
+            if (githubToken) {
+                tokenStatus.innerHTML = '✅ Токен установлен';
+                tokenStatus.style.background = '#dcfce7';
+            } else {
+                tokenStatus.innerHTML = '🔑 Токен не установлен';
+                tokenStatus.style.background = '#fef3c7';
+            }
+        }
+
+        // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+        function initializeData() {
+            updateRepoDisplay();
+            
+            // Пытаемся загрузить из localStorage как кэш
+            const cachedData = localStorage.getItem('cached_computers');
+            const cachedInspector = localStorage.getItem('cached_inspector');
+            const cachedDate = localStorage.getItem('cached_date');
+            
+            if (cachedData) {
+                try {
+                    computers = JSON.parse(cachedData);
+                    if (cachedInspector) globalInspector = cachedInspector;
+                    if (cachedDate) globalDate = cachedDate;
+                    showToast('📂 Загружены кэшированные данные');
+                    updateUI();
+                } catch (e) {
+                    loadSourceData();
+                }
+            } else {
+                loadSourceData();
+            }
+            
+            // Пытаемся загрузить с GitHub
+            if (githubToken) {
+                loadFromGithub();
+            }
+            
+            updateUI();
+        }
+
+        function loadSourceData() {
+            computers = SOURCE_DATA.computers.map(c => ({...c}));
+            globalInspector = 'Риад';
+            globalDate = new Date().toISOString().slice(0,10);
+        }
+
+        // ==================== СОХРАНЕНИЕ В GITHUB ====================
+        async function saveToGithub() {
+            if (!githubToken) {
+                showToast('❌ Сначала установите токен', 'error');
+                return false;
+            }
+            
+            try {
+                updateDataStatus('saving');
+                
+                // Сохраняем текущую форму перед сохранением
+                saveCurrentForm();
+                
+                // Подготавливаем данные для сохранения
+                const data = {
+                    computers: computers,
+                    globalInspector: globalInspector,
+                    globalDate: globalDate,
+                    lastUpdated: new Date().toISOString()
+                };
+                
+                const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+                
+                // Проверяем существование файла
+                const getUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
+                const getResponse = await fetch(getUrl, {
+                    headers: { 'Authorization': `token ${githubToken}` }
+                });
+                
+                let sha = null;
+                if (getResponse.ok) {
+                    const fileData = await getResponse.json();
+                    sha = fileData.sha;
+                }
+                
+                // Создаём или обновляем файл
+                const putData = {
+                    message: `Обновление данных от ${globalDate}`,
+                    content: content,
+                    branch: 'main'
+                };
+                if (sha) putData.sha = sha;
+                
+                const putResponse = await fetch(getUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${githubToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(putData)
+                });
+                
+                if (!putResponse.ok) {
+                    const error = await putResponse.json();
+                    throw new Error(error.message);
+                }
+                
+                // Сохраняем в кэш
+                localStorage.setItem('cached_computers', JSON.stringify(computers));
+                localStorage.setItem('cached_inspector', globalInspector);
+                localStorage.setItem('cached_date', globalDate);
+                
+                updateDataStatus('saved');
+                hasUnsavedChanges = false;
+                showToast('✅ Данные сохранены в GitHub');
+                return true;
+                
+            } catch (error) {
+                console.error('Ошибка сохранения:', error);
+                updateDataStatus('error');
+                showToast('❌ Ошибка сохранения: ' + error.message, 'error');
+                return false;
+            }
+        }
+
+        // ==================== ЗАГРУЗКА С GITHUB ====================
+        async function loadFromGithub() {
+            try {
+                updateDataStatus('loading');
+                
+                const url = `https://raw.githubusercontent.com/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/main/${DATA_FILE}?t=${Date.now()}`;
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        showToast('📭 Файл данных не найден, будут использованы исходные данные', 'warning');
+                        loadSourceData();
+                        updateUI();
+                        return false;
+                    }
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.computers && Array.isArray(data.computers)) {
+                    computers = data.computers;
+                    if (data.globalInspector) globalInspector = data.globalInspector;
+                    if (data.globalDate) globalDate = data.globalDate;
+                    
+                    // Сохраняем в кэш
+                    localStorage.setItem('cached_computers', JSON.stringify(computers));
+                    localStorage.setItem('cached_inspector', globalInspector);
+                    localStorage.setItem('cached_date', globalDate);
+                    
+                    currentIndex = 0;
+                    updateUI();
+                    updateDataStatus('loaded');
+                    showToast(`✅ Загружено ${computers.length} компьютеров с GitHub`);
+                    return true;
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+                updateDataStatus('error');
+                showToast('❌ Ошибка загрузки с GitHub', 'error');
+            }
+            return false;
+        }
+
+        // ==================== ПРОВЕРКА ПОДКЛЮЧЕНИЯ ====================
+        async function testConnection() {
+            if (!githubToken) {
+                showToast('❌ Сначала установите токен', 'error');
+                return;
+            }
+            
+            try {
+                const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`;
+                const response = await fetch(url, {
+                    headers: { 'Authorization': `token ${githubToken}` }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    showToast(`✅ Подключено к ${data.full_name}`);
+                } else {
+                    throw new Error('Ошибка доступа');
+                }
+            } catch (error) {
+                showToast('❌ Ошибка подключения', 'error');
+            }
+        }
+
+        // ==================== СОЗДАНИЕ EXCEL ФАЙЛА ====================
+        function createExcelBlob() {
+            globalInspector = document.getElementById('globalInspector').value;
+            globalDate = document.getElementById('globalDate').value;
+            
+            // Создаём Excel файл - проверяющий и дата только в первой строке
+            const worksheetData = [
+                ['Номер компьютера', 'Монитор', 'Мышь', 'Клавиатура', 'Диски', 'Звук', 'Заметки', 'Имя проверяющего', 'Дата проверки']
+            ];
+            
+            computers.forEach((comp, index) => {
+                const row = [
+                    comp.num,
+                    comp.monitor,
+                    comp.mouse,
+                    comp.keyboard,
+                    comp.disks,
+                    comp.sound,
+                    comp.notes || '',
+                ];
+                
+                // Добавляем проверяющего и дату только в первую строку
+                if (index === 0) {
+                    row.push(globalInspector);
+                    row.push(globalDate);
+                } else {
+                    row.push(''); // Пустая ячейка для проверяющего
+                    row.push(''); // Пустая ячейка для даты
+                }
+                
+                worksheetData.push(row);
+            });
+            
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(worksheetData);
+            XLSX.utils.book_append_sheet(wb, ws, 'ТехОтчёт');
+            
+            const wbData = XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
+            return new Blob([wbData], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        }
+
+        // ==================== ЗАГРУЗКА ИЗ EXCEL ====================
+        async function loadFromExcel(file) {
+            try {
+                const data = await file.arrayBuffer();
+                const workbook = XLSX.read(data, { type: 'array' });
+                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                const rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+                
+                if (rows.length > 1) {
+                    const newComputers = [];
+                    let inspector = 'Риад';
+                    let date = new Date().toISOString().slice(0,10);
+                    
+                    // Обрабатываем строки, начиная со второй (индекс 1)
+                    for (let i = 1; i < rows.length; i++) {
+                        const row = rows[i];
+                        if (!row || row.length < 7) continue;
+                        
+                        const num = Math.floor(parseFloat(row[0])) || 0;
+                        if (num === 0) continue;
+                        
+                        const computer = {
+                            num: num,
+                            monitor: row[1] || 'Нет проблем',
+                            mouse: row[2] || 'Нет проблем',
+                            keyboard: row[3] || 'Нет проблем',
+                            disks: row[4] || 'Есть ещё место',
+                            sound: row[5] || 'Нет проблем',
+                            notes: row[6] || '',
+                        };
+                        
+                        newComputers.push(computer);
+                        
+                        // Проверяющий и дата берутся только из первой строки данных
+                        if (i === 1) {
+                            if (row[7] && row[7].toString().trim() !== '') {
+                                inspector = row[7].toString().trim();
+                            }
+                            if (row[8]) {
+                                if (typeof row[8] === 'number') {
+                                    const excelDate = new Date((row[8] - 25569) * 86400 * 1000);
+                                    date = excelDate.toISOString().slice(0,10);
+                                } else {
+                                    const dateStr = row[8].toString().trim();
+                                    if (dateStr) {
+                                        date = dateStr.slice(0,10);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (newComputers.length > 0) {
+                        computers = newComputers;
+                        computers.sort((a,b) => a.num - b.num);
+                        
+                        globalInspector = inspector;
+                        globalDate = date;
+                        
+                        currentIndex = 0;
+                        updateUI();
+                        hasUnsavedChanges = true;
+                        updateDataStatus('unsaved');
+                        showToast(`✅ Загружено ${computers.length} компьютеров из Excel`);
+                    }
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки Excel:', error);
+                showToast('❌ Ошибка при загрузке Excel файла', 'error');
+            }
+        }
+
+        // ==================== СКАЧИВАНИЕ EXCEL ====================
+        function downloadExcel() {
+            try {
+                const blob = createExcelBlob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ТехОтчёт_${globalDate}.xlsx`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                
+                showToast('📥 Excel файл скачан');
+            } catch (error) {
+                console.error('Ошибка скачивания:', error);
+                showToast('❌ Ошибка при скачивании', 'error');
+            }
+        }
+
+        // ==================== СБРОС К ИСХОДНЫМ ====================
+        function resetToSource() {
+            if (confirm('Сбросить все данные к исходным? Несохранённые изменения будут потеряны.')) {
+                loadSourceData();
+                currentIndex = 0;
+                updateUI();
+                hasUnsavedChanges = true;
+                updateDataStatus('unsaved');
+                showToast('🔄 Данные сброшены к исходным');
+            }
+        }
+
+        // ==================== АВТОСОХРАНЕНИЕ ====================
+        function scheduleAutoSave() {
+            hasUnsavedChanges = true;
+            updateDataStatus('unsaved');
+            
+            if (autoSaveTimer) clearTimeout(autoSaveTimer);
+            
+            autoSaveTimer = setTimeout(() => {
+                if (hasUnsavedChanges && githubToken) {
+                    saveToGithub();
+                }
+            }, 5000);
+        }
+
+        // ==================== ФУНКЦИИ ИНТЕРФЕЙСА ====================
+        function getComputerStatus(comp) {
+            if (comp.notes && comp.notes.trim() !== '') return 'bad';
+            if (comp.monitor !== 'Нет проблем' || comp.mouse !== 'Нет проблем' || 
+                comp.keyboard !== 'Нет проблем' || comp.sound !== 'Нет проблем' || 
+                comp.disks !== 'Есть ещё место') return 'warning';
+            return 'good';
+        }
+
+        function updateUI() {
+            document.getElementById('globalInspector').value = globalInspector;
+            document.getElementById('globalDate').value = globalDate;
+            
+            renderMap();
+            loadCurrentCompToForm();
+            updateProgress();
+        }
+
+        function renderMap() {
+            const search = document.getElementById('mapSearch').value.toLowerCase();
+            const activeFilter = document.querySelector('.filter-chip.active')?.dataset.filter || 'all';
+            
+            const mapEl = document.getElementById('computersMap');
+            mapEl.innerHTML = '';
+            
+            computers.filter(comp => {
+                if (search && !comp.num.toString().includes(search)) return false;
+                const status = getComputerStatus(comp);
+                if (activeFilter !== 'all' && status !== activeFilter) return false;
+                return true;
+            }).forEach(comp => {
+                const status = getComputerStatus(comp);
+                const emoji = status === 'good' ? '✅' : (status === 'warning' ? '⚠️' : '🔴');
+                
+                const item = document.createElement('div');
+                item.className = `map-item ${status}`;
+                item.setAttribute('data-num', comp.num);
+                item.innerHTML = `
+                    <div class="map-number">${comp.num}</div>
+                    <div class="map-icon">${emoji}</div>
+                `;
+                item.addEventListener('click', () => showComputerDetail(comp.num));
+                mapEl.appendChild(item);
+            });
+        }
+
+        function showComputerDetail(num) {
+            const comp = computers.find(c => c.num === num);
+            if (!comp) return;
+            
+            document.getElementById('mapDetailNumber').innerText = comp.num;
+            document.getElementById('mapDetailMonitor').innerText = comp.monitor;
+            document.getElementById('mapDetailMouse').innerText = comp.mouse;
+            document.getElementById('mapDetailKeyboard').innerText = comp.keyboard;
+            document.getElementById('mapDetailDisks').innerText = comp.disks;
+            document.getElementById('mapDetailSound').innerText = comp.sound;
+            document.getElementById('mapDetailNotes').innerText = comp.notes || '—';
+            
+            const status = getComputerStatus(comp);
+            document.getElementById('mapDetailStatus').innerText = 
+                status === 'good' ? '✅ Хорошо' : (status === 'warning' ? '⚠️ Замечания' : '🔴 Проблемы');
+            
+            document.getElementById('mapDetailCard').style.display = 'block';
+            document.getElementById('gotoEditFromMap').setAttribute('data-num', num);
+        }
+
+        function loadCurrentCompToForm() {
+            if (!computers.length) return;
+            const comp = computers[currentIndex];
+            document.getElementById('currentCompNumber').innerText = comp.num;
+            
+            const isFilled = comp.notes || comp.monitor !== 'Нет проблем' || 
+                           comp.mouse !== 'Нет проблем' || comp.keyboard !== 'Нет проблем' || 
+                           comp.disks !== 'Есть ещё место' || comp.sound !== 'Нет проблем';
+            
+            const statusEl = document.getElementById('currentCompStatus');
+            if (isFilled) {
+                statusEl.className = 'comp-status-badge status-done';
+                statusEl.innerText = '✓ Заполнен';
+            } else {
+                statusEl.className = 'comp-status-badge status-current';
+                statusEl.innerText = '➡️ Текущий';
+            }
+
+            document.getElementById('monitor').value = comp.monitor || 'Нет проблем';
+            document.getElementById('mouse').value = comp.mouse || 'Нет проблем';
+            document.getElementById('keyboard').value = comp.keyboard || 'Нет проблем';
+            document.getElementById('disks').value = comp.disks || 'Есть ещё место';
+            document.getElementById('sound').value = comp.sound || 'Нет проблем';
+            document.getElementById('notes').value = comp.notes || '';
+        }
+
+        function saveCurrentForm() {
+            if (!computers.length) return;
+            const comp = computers[currentIndex];
+            comp.monitor = document.getElementById('monitor').value;
+            comp.mouse = document.getElementById('mouse').value;
+            comp.keyboard = document.getElementById('keyboard').value;
+            comp.disks = document.getElementById('disks').value;
+            comp.sound = document.getElementById('sound').value;
+            comp.notes = document.getElementById('notes').value;
+            
+            globalInspector = document.getElementById('globalInspector').value;
+            globalDate = document.getElementById('globalDate').value;
+            
+            renderMap();
+            updateProgress();
+            loadCurrentCompToForm();
+            scheduleAutoSave();
+        }
+
+        function updateProgress() {
+            const filled = computers.filter(c => 
+                c.notes || c.monitor !== 'Нет проблем' || c.mouse !== 'Нет проблем' || 
+                c.keyboard !== 'Нет проблем' || c.disks !== 'Есть ещё место' || 
+                c.sound !== 'Нет проблем'
+            ).length;
+            const percent = computers.length ? Math.round((filled / computers.length) * 100) : 0;
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('progressPercent').innerText = percent + '%';
+        }
+
+        function goToNext() {
+            saveCurrentForm();
+            if (currentIndex < computers.length - 1) {
+                currentIndex++;
+                loadCurrentCompToForm();
+                updateNavButtons();
+            } else {
+                showToast('🎉 Все компьютеры заполнены!');
+            }
+        }
+
+        function goToPrev() {
+            saveCurrentForm();
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadCurrentCompToForm();
+                updateNavButtons();
+            }
+        }
+
+        function updateNavButtons() {
+            document.getElementById('prevBtn').disabled = currentIndex === 0;
+            document.getElementById('prevBtnBottom').disabled = currentIndex === 0;
+        }
+
+        function updateDataStatus(type) {
+            const statusEl = document.getElementById('dataStatus');
+            const icons = {
+                loaded: '📂',
+                saved: '💾',
+                unsaved: '⚠️',
+                saving: '⏳',
+                loading: '📥',
+                error: '❌'
+            };
+            const texts = {
+                loaded: 'Данные загружены',
+                saved: 'Данные сохранены в GitHub',
+                unsaved: 'Есть несохранённые изменения',
+                saving: 'Сохранение...',
+                loading: 'Загрузка...',
+                error: 'Ошибка'
+            };
+            statusEl.innerHTML = `${icons[type] || '📋'} ${texts[type] || ''}`;
+            statusEl.className = 'data-status';
+            if (type === 'loaded' || type === 'saved') statusEl.classList.add('ok');
+            if (type === 'unsaved' || type === 'saving' || type === 'loading') statusEl.classList.add('saving');
+            if (type === 'error') statusEl.classList.add('error');
+        }
+
+        function showToast(text, type = 'success') {
+            const toast = document.getElementById('toastMessage');
+            toast.className = 'toast';
+            if (type === 'error') toast.classList.add('error');
+            if (type === 'warning') toast.classList.add('warning');
+            toast.style.display = 'block';
+            toast.innerText = text;
+            setTimeout(() => toast.style.display = 'none', 3000);
+        }
+
+        // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Табы
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+                    document.getElementById(this.dataset.tab + 'Panel').classList.add('active');
+                    if (this.dataset.tab === 'map') renderMap();
+                });
+            });
+            
+            // Фильтры
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    renderMap();
+                });
+            });
+            
+            // Поиск
+            document.getElementById('mapSearch').addEventListener('input', renderMap);
+            
+            // Навигация
+            document.getElementById('nextBtn').addEventListener('click', goToNext);
+            document.getElementById('nextBtnBottom').addEventListener('click', goToNext);
+            document.getElementById('prevBtn').addEventListener('click', goToPrev);
+            document.getElementById('prevBtnBottom').addEventListener('click', goToPrev);
+            
+            // Редактирование с карты
+            document.getElementById('gotoEditFromMap').addEventListener('click', function() {
+                const num = parseInt(this.dataset.num);
+                const index = computers.findIndex(c => c.num === num);
+                if (index !== -1) {
+                    currentIndex = index;
+                    loadCurrentCompToForm();
+                    document.querySelector('[data-tab="step"]').click();
+                }
+            });
+            
+            // Кнопки управления данными
+            document.getElementById('downloadExcelBtn').addEventListener('click', downloadExcel);
+            document.getElementById('resetDataBtn').addEventListener('click', resetToSource);
+            
+            // GitHub кнопки
+            document.getElementById('showTokenBtn').addEventListener('click', () => {
+                document.getElementById('tokenModal').classList.add('active');
+            });
+            
+            document.getElementById('saveTokenBtn').addEventListener('click', function() {
+                const token = document.getElementById('githubToken').value.trim();
+                if (token) {
+                    githubToken = token;
+                    localStorage.setItem('github_token', token);
+                    document.getElementById('tokenModal').classList.remove('active');
+                    updateRepoDisplay();
+                    testConnection();
+                    showToast('✅ Токен сохранён');
+                }
+            });
+            
+            document.getElementById('cancelTokenBtn').addEventListener('click', function() {
+                document.getElementById('tokenModal').classList.remove('active');
+            });
+            
+            document.getElementById('saveToGithubBtn').addEventListener('click', saveToGithub);
+            document.getElementById('loadFromGithubBtn').addEventListener('click', loadFromGithub);
+            
+            // Загрузка Excel
+            document.getElementById('uploadExcelBtn').addEventListener('click', () => {
+                document.getElementById('excelFileInput').click();
+            });
+            
+            document.getElementById('excelFileInput').addEventListener('change', function(e) {
+                if (e.target.files.length > 0) {
+                    loadFromExcel(e.target.files[0]);
+                    e.target.value = '';
+                }
+            });
+            
+            // Изменение глобальных полей
+            document.getElementById('globalInspector').addEventListener('change', function() {
+                globalInspector = this.value;
+                scheduleAutoSave();
+            });
+            document.getElementById('globalDate').addEventListener('change', function() {
+                globalDate = this.value;
+                scheduleAutoSave();
+            });
+            
+            // Тёмная тема
+            document.getElementById('themeToggle').addEventListener('click', function() {
+                document.body.classList.toggle('dark-theme');
+                this.innerHTML = document.body.classList.contains('dark-theme') ? '☀️ Светлая' : '🌙 Тёмная';
+            });
+            
+            // Инициализация данных
+            initializeData();
+        });
+    })();
+</script>
+</body>
+</html>
