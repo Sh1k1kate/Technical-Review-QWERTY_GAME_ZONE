@@ -119,7 +119,7 @@
             background: #0f172a;
         }
         .github-content.expanded {
-            max-height: 280px;
+            max-height: 350px;
         }
         .github-panel {
             padding: 18px;
@@ -745,6 +745,34 @@
                 justify-content: space-between;
             }
         }
+        
+        /* Отладочная панель */
+        .debug-panel {
+            background: #fee2e2;
+            border: 1px solid #ef4444;
+            border-radius: 32px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: none;
+        }
+        .dark-theme .debug-panel {
+            background: #7f1d1d;
+            border-color: #ef4444;
+        }
+        .debug-panel.active {
+            display: block;
+        }
+        .debug-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #b91c1c;
+        }
+        .debug-content {
+            font-family: monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
     </style>
 </head>
 <body>
@@ -754,6 +782,12 @@
         <div class="theme-toggle" id="themeToggle">
             <span>🌙</span> Тёмная
         </div>
+    </div>
+
+    <!-- Отладочная панель -->
+    <div class="debug-panel" id="debugPanel">
+        <div class="debug-title">⚠️ Ошибка загрузки с GitHub</div>
+        <div class="debug-content" id="debugContent"></div>
     </div>
 
     <!-- Индикатор загрузки -->
@@ -783,6 +817,9 @@
                     <button class="small-btn" id="showTokenBtn">🔑 Установить токен</button>
                     <button class="small-btn primary" id="saveToGithubBtn">💾 Сохранить</button>
                     <button class="small-btn warning" id="loadFromGithubBtn">📂 Загрузить</button>
+                </div>
+                <div style="margin-top: 10px; font-size: 0.8rem; color: #64748b;">
+                    ⚠️ Для загрузки с GitHub требуется токен (даже для публичных репозиториев)
                 </div>
             </div>
         </div>
@@ -954,6 +991,7 @@
     <div class="modal-content">
         <div class="modal-title">🔑 GitHub Personal Access Token</div>
         <p>Введите токен с правами на запись в репозиторий</p>
+        <p style="font-size: 0.9rem; color: #64748b;">Для чтения публичных репозиториев тоже нужен токен из-за CORS</p>
         <input type="password" class="modal-input" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxx">
         <div class="modal-buttons">
             <button class="modal-btn secondary" id="cancelTokenBtn">Отмена</button>
@@ -1058,6 +1096,15 @@
         let isSaving = false;
         let isLoading = false;
 
+        // ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ДЛЯ UTF-8 ====================
+        function utf8ToBase64(str) {
+            return btoa(unescape(encodeURIComponent(str)));
+        }
+
+        function base64ToUtf8(base64) {
+            return decodeURIComponent(escape(atob(base64)));
+        }
+
         // ==================== ЗАГРУЗКА СОСТОЯНИЯ ====================
         function loadSavedState() {
             // Тема
@@ -1101,20 +1148,35 @@
             }
         }
 
+        // ==================== ПОКАЗ ОШИБКИ ====================
+        function showError(error) {
+            const debugPanel = document.getElementById('debugPanel');
+            const debugContent = document.getElementById('debugContent');
+            debugContent.textContent = error;
+            debugPanel.classList.add('active');
+            
+            // Автоматически скрываем через 10 секунд
+            setTimeout(() => {
+                debugPanel.classList.remove('active');
+            }, 10000);
+        }
+
         // ==================== ИНИЦИАЛИЗАЦИЯ ====================
         async function initializeData() {
             updateRepoDisplay();
             
+            if (!githubToken) {
+                loadSourceData();
+                updateUI();
+                return;
+            }
+            
             // Показываем индикатор загрузки
             document.getElementById('loadingOverlay').classList.add('active');
             
-            // Загружаем с GitHub (если есть токен)
-            if (githubToken) {
-                const success = await loadFromGithub(true);
-                if (!success) {
-                    loadSourceData();
-                }
-            } else {
+            // Загружаем с GitHub (с токеном)
+            const success = await loadFromGithub(true);
+            if (!success) {
                 loadSourceData();
             }
             
@@ -1158,12 +1220,17 @@
                     lastUpdated: new Date().toISOString()
                 };
                 
-                const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+                // Правильное кодирование UTF-8 в base64
+                const jsonString = JSON.stringify(data, null, 2);
+                const content = utf8ToBase64(jsonString);
                 
                 // Проверяем существование файла
                 const getUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
                 const getResponse = await fetch(getUrl, {
-                    headers: { 'Authorization': `token ${githubToken}` }
+                    headers: { 
+                        'Authorization': `token ${githubToken}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
                 });
                 
                 let sha = null;
@@ -1184,6 +1251,7 @@
                     method: 'PUT',
                     headers: {
                         'Authorization': `token ${githubToken}`,
+                        'Accept': 'application/vnd.github.v3+json',
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(putData)
@@ -1203,8 +1271,9 @@
             } catch (error) {
                 console.error('Ошибка сохранения:', error);
                 updateDataStatus('error');
+                showError(`Ошибка сохранения: ${error.message}`);
                 if (showToastMessage) {
-                    showToast('❌ Ошибка сохранения: ' + error.message, 'error');
+                    showToast('❌ Ошибка сохранения', 'error');
                 }
                 return false;
             } finally {
@@ -1230,45 +1299,50 @@
                     updateDataStatus('loading');
                 }
                 
-                // Добавляем timestamp для обхода кэша GitHub
-                const timestamp = Date.now();
-                const url = `https://raw.githubusercontent.com/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/main/${DATA_FILE}?t=${timestamp}`;
+                // Используем API GitHub вместо raw.githubusercontent.com
+                const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
                 
                 const response = await fetch(url, {
-                    cache: 'no-cache',
-                    headers: {
-                        'Cache-Control': 'no-cache',
-                        'Pragma': 'no-cache'
+                    headers: { 
+                        'Authorization': `token ${githubToken}`,
+                        'Accept': 'application/vnd.github.v3+json'
                     }
                 });
                 
                 if (!response.ok) {
                     if (response.status === 404) {
                         if (!silent) {
-                            showToast('📭 Файл данных не найден, будут использованы исходные данные', 'warning');
+                            showToast('📭 Файл данных не найден', 'warning');
                         }
                         return false;
                     }
-                    throw new Error(`HTTP ${response.status}`);
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
                 
                 const data = await response.json();
                 
-                if (data.computers && Array.isArray(data.computers)) {
-                    computers = data.computers;
-                    if (data.globalInspector) globalInspector = data.globalInspector;
-                    if (data.globalDate) globalDate = data.globalDate;
+                // Декодируем content из base64 с правильной UTF-8
+                if (data.content) {
+                    const decodedContent = base64ToUtf8(data.content);
+                    const jsonData = JSON.parse(decodedContent);
                     
-                    currentIndex = 0;
-                    updateUI();
-                    updateDataStatus('loaded');
-                    if (!silent) {
-                        showToast(`✅ Загружено ${computers.length} компьютеров с GitHub`);
+                    if (jsonData.computers && Array.isArray(jsonData.computers)) {
+                        computers = jsonData.computers;
+                        if (jsonData.globalInspector) globalInspector = jsonData.globalInspector;
+                        if (jsonData.globalDate) globalDate = jsonData.globalDate;
+                        
+                        currentIndex = 0;
+                        updateUI();
+                        updateDataStatus('loaded');
+                        if (!silent) {
+                            showToast(`✅ Загружено ${computers.length} компьютеров с GitHub`);
+                        }
+                        return true;
                     }
-                    return true;
                 }
             } catch (error) {
                 console.error('Ошибка загрузки:', error);
+                showError(`Ошибка загрузки: ${error.message}`);
                 if (!silent) {
                     updateDataStatus('error');
                     showToast('❌ Ошибка загрузки с GitHub', 'error');
@@ -1289,7 +1363,10 @@
             try {
                 const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`;
                 const response = await fetch(url, {
-                    headers: { 'Authorization': `token ${githubToken}` }
+                    headers: { 
+                        'Authorization': `token ${githubToken}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
                 });
                 
                 if (response.ok) {
@@ -1299,6 +1376,7 @@
                     throw new Error('Ошибка доступа');
                 }
             } catch (error) {
+                showError(`Ошибка подключения: ${error.message}`);
                 showToast('❌ Ошибка подключения', 'error');
             }
         }
@@ -1412,6 +1490,7 @@
                 }
             } catch (error) {
                 console.error('Ошибка загрузки Excel:', error);
+                showError(`Ошибка загрузки Excel: ${error.message}`);
                 showToast('❌ Ошибка при загрузке Excel файла', 'error');
             }
         }
@@ -1753,6 +1832,10 @@
             document.getElementById('saveToGithubBtn').addEventListener('click', () => saveToGithub(true));
             
             document.getElementById('loadFromGithubBtn').addEventListener('click', function() {
+                if (!githubToken) {
+                    showToast('❌ Сначала установите токен', 'error');
+                    return;
+                }
                 document.getElementById('loadingOverlay').classList.add('active');
                 loadFromGithub(false).finally(() => {
                     document.getElementById('loadingOverlay').classList.remove('active');
