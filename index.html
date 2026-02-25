@@ -76,7 +76,7 @@
             transform: scale(0.95);
         }
         
-        /* Скрываемая панель GitHub */
+        /* Скрываемая панель GitHub (скрыта в режиме только для чтения) */
         .github-collapse {
             margin-bottom: 12px;
             border-radius: 40px;
@@ -164,7 +164,7 @@
             min-width: 100px;
         }
         
-        /* Панель управления данными */
+        /* Панель управления данными (скрыта в режиме только для чтения) */
         .data-bar {
             background: #f1f5f9;
             border-radius: 40px;
@@ -286,7 +286,7 @@
             display: block;
         }
         
-        /* Шапка отчёта */
+        /* Шапка отчёта (скрыта в режиме только для чтения) */
         .report-header {
             background: white;
             border-radius: 32px;
@@ -449,7 +449,7 @@
             margin: 2px 0;
         }
         
-        /* Прогресс */
+        /* Прогресс (скрыт в режиме только для чтения) */
         .progress-card {
             background: white;
             border-radius: 24px;
@@ -521,7 +521,7 @@
         .status-done { background: #dcfce7; color: #166534; }
         .status-current { background: #3b82f6; color: white; }
         
-        /* Форма */
+        /* Форма (скрыта в режиме только для чтения) */
         .form-group {
             margin-bottom: 16px;
         }
@@ -551,7 +551,7 @@
             resize: vertical;
         }
         
-        /* Навигация */
+        /* Навигация (скрыта в режиме только для чтения) */
         .nav-row {
             display: flex;
             gap: 8px;
@@ -616,7 +616,7 @@
             100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
         }
         
-        /* Модальное окно токена */
+        /* Модальное окно токена (скрыто в режиме только для чтения) */
         .modal {
             display: none;
             position: fixed;
@@ -687,7 +687,7 @@
             transform: scale(0.95);
         }
         
-        /* Модальное окно для фото */
+        /* Модальное окно для фото (скрыто в режиме только для чтения) */
         .photo-preview-container {
             display: flex;
             flex-wrap: wrap;
@@ -733,7 +733,7 @@
             z-index: 10;
         }
 
-        /* Модальное окно для просмотра фото */
+        /* Модальное окно для просмотра фото с навигацией (доступно в обоих режимах) */
         .photo-viewer-modal .modal-content {
             max-width: 95vw;
             max-height: 95vh;
@@ -916,7 +916,7 @@
             word-break: break-all;
         }
         
-        /* Стили для галереи */
+        /* Стили для галереи (без кнопок удаления в режиме просмотра) */
         .photo-thumb {
             width: 80px;
             height: 80px;
@@ -999,6 +999,12 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
+            margin-bottom: 12px;
+        }
+        
+        /* Галерея в режиме только для чтения (без кнопок удаления) */
+        .readonly-mode .photo-item .photo-delete {
+            display: none;
         }
     </style>
 </head>
@@ -1021,8 +1027,13 @@
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner">
             <div class="spinner"></div>
-            <span>Загрузка данных с GitHub...</span>
+            <span>Загрузка данных...</span>
         </div>
+    </div>
+
+    <!-- Уведомление о режиме только для чтения (показывается только в спецрежиме) -->
+    <div class="readonly-notice" id="readonlyNotice" style="display: none;">
+        👁️ Режим демонстрации — все компьютеры в порядке
     </div>
 
     <!-- Скрываемая панель GitHub (скрыта в режиме только для чтения) -->
@@ -1038,16 +1049,14 @@
             <div class="github-panel">
                 <div class="github-info">
                     <span>📦 Репозиторий: <strong id="repoDisplay">Sh1k1kate/Technical-Review-QWERTY_GAME_ZONE</strong></span>
-                    <span id="tokenStatus" style="background: #fef3c7;">🔑 Токен не установлен</span>
+                    <span id="tokenStatus" style="background: #fef3c7;">🔑 Токен установлен в коде</span>
                 </div>
                 <div class="github-buttons">
-                    <button class="small-btn" id="showTokenBtn">🔑 Установить токен</button>
                     <button class="small-btn primary" id="saveToGithubBtn">💾 Сохранить</button>
                     <button class="small-btn warning" id="loadFromGithubBtn">📂 Загрузить</button>
                 </div>
-                
                 <div style="margin-top: 10px; font-size: 0.8rem; color: #64748b;">
-                    ⚠️ Для загрузки с GitHub требуется токен (даже для публичных репозиториев)
+                    ⚠️ Токен для загрузки фото задан в коде
                 </div>
             </div>
         </div>
@@ -1087,11 +1096,6 @@
                 <input type="date" class="header-input" id="globalDate">
             </div>
         </div>
-    </div>
-
-    <!-- Уведомление о режиме только для чтения (показывается только в спецрежиме) -->
-    <div class="readonly-notice" id="readonlyNotice" style="display: none; margin-bottom: 12px;">
-        👁️ Режим только для просмотра
     </div>
 
     <!-- Табы -->
@@ -1236,50 +1240,6 @@
     </div>
 </div>
 
-<!-- Модальное окно токена (скрыто в режиме только для чтения) -->
-<div class="modal readonly-hidden" id="tokenModal">
-    <div class="modal-content">
-        <div class="modal-title">🔑 GitHub Personal Access Token</div>
-        <p>Введите токен с правами на запись в репозиторий</p>
-        <p style="font-size: 0.9rem; color: #64748b;">Для чтения публичных репозиториев тоже нужен токен из-за CORS</p>
-        <input type="password" class="modal-input" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxx">
-        <div class="modal-buttons">
-            <button class="modal-btn secondary" id="cancelTokenBtn">Отмена</button>
-            <button class="modal-btn primary" id="saveTokenBtn">Сохранить</button>
-        </div>
-    </div>
-</div>
-
-<!-- Модальное окно для добавления фото (скрыто в режиме только для чтения) -->
-<div class="modal readonly-hidden" id="photoModal">
-    <div class="modal-content">
-        <div class="modal-title">📸 Добавить несколько фото</div>
-        <p>Выберите фото для компьютера №<span id="photoComputerNum"></span></p>
-        
-        <!-- Кнопка выбора файлов -->
-        <div style="margin: 15px 0;">
-            <label for="photoFiles" class="small-btn primary" style="display: inline-block; width: 100%; text-align: center; padding: 14px;">📁 Выбрать файлы (можно несколько)</label>
-            <input type="file" id="photoFiles" accept="image/*" multiple style="display: none;">
-        </div>
-        
-        <!-- Информация о выбранных файлах -->
-        <div id="fileInfo" class="file-info" style="display: none;">
-            <span>Выбрано файлов: <span id="fileCount" class="file-count">0</span></span>
-            <span>Общий размер: <span id="totalSize">0 KB</span></span>
-        </div>
-        
-        <!-- Превью выбранных фото -->
-        <div id="photoPreviewContainer" class="photo-preview-container">
-            <!-- Превью будут добавляться сюда -->
-        </div>
-        
-        <div class="modal-buttons">
-            <button class="modal-btn secondary" id="cancelPhotoBtn">Отмена</button>
-            <button class="modal-btn primary" id="uploadPhotosBtn" disabled>📤 Загрузить все</button>
-        </div>
-    </div>
-</div>
-
 <!-- Модальное окно для просмотра фото с навигацией (доступно в обоих режимах) -->
 <div class="modal photo-viewer-modal" id="photoViewerModal">
     <div class="modal-content">
@@ -1299,27 +1259,33 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
     (function() {
-        // ==================== НАСТРОЙКИ РЕПОЗИТОРИЯ ====================
+        // ==================== НАСТРОЙКИ ====================
+        // ⚠️ ИЗМЕНИТЕ ЭТИ ЗНАЧЕНИЯ НА СВОИ ⚠️
+        
+        // Секретное слово для режима просмотра
+        const SECRET_WORD = 'QWERTY2026'; // Замените на своё слово
+        
+        // GitHub токен (встроенный в код)
+        const GITHUB_TOKEN = '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'; // Замените на свой токен
+        
+        // Настройки репозитория
         const GITHUB_CONFIG = {
             owner: 'Sh1k1kate',
             repo: 'Technical-Review-QWERTY_GAME_ZONE'
         };
         
-        // ==================== СЕКРЕТНОЕ СЛОВО ====================
-        // Здесь вы можете установить любое секретное слово
-        const SECRET_WORD = 'QWERTY2026'; // Можете изменить на любое другое
-        
-        // ==================== ИСХОДНЫЕ ДАННЫЕ ====================
-        const SOURCE_DATA = {
-            inspectors: ['Риад', 'Даниил Х', 'Данил Я', 'Антон', 'Иван', 'Алина', 'Давид'],
-            computers: [
+        // ==================== ДАННЫЕ ДЛЯ РЕЖИМА ПРОСМОТРА ====================
+        // В режиме просмотра все компьютеры будут в состоянии "Нет проблем"
+        const DEMO_COMPUTERS = (function() {
+            // Берем исходные данные и очищаем все проблемы
+            const sourceComputers = [
                 {num:1, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:2, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:3, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
-                {num:4, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет резиновых ножек", disks:"Есть ещё место", sound:"Нет Аудиокарты", notes:""},
-                {num:5, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет резиновых ножек", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:4, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:5, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:6, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
-                {num:7, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет резиновых ножек", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:7, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:8, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:9, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:10, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
@@ -1338,11 +1304,11 @@
                 {num:27, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:28, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:29, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
-                {num:30, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет резиновых ножек", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
-                {num:31, monitor:"Кабель питания", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет Аудиокарты", notes:"Нет кабеля питания моника"},
-                {num:32, monitor:"Кабель питания", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Отсутствует диск", sound:"Нет проблем", notes:"Кабель питания моника обмотан изолентой"},
+                {num:30, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:31, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:32, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:33, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
-                {num:34, monitor:"Кабель питания", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:"Заломан кабель питания моника, работает под определенным углом"},
+                {num:34, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:35, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:36, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:37, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
@@ -1353,24 +1319,41 @@
                 {num:42, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:43, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:44, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
-                {num:45, monitor:"Кабель питания", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:45, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:46, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:47, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:48, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:49, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
-                {num:50, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет резиновых ножек", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
+                {num:50, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:51, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:52, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
-                {num:53, monitor:"Дисплей Порт", mouse:"Нет проблем", keyboard:"Залипает клавиша", disks:"Есть ещё место", sound:"Нет проблем", notes:"не работает клавиша \"~\" // Переодически монитор теряет сигнал"},
+                {num:53, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:54, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
-                {num:55, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет Аудиокарты", notes:"Монитор подключен через HDMI, переодически гаснет и теряет сигнал"},
+                {num:55, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:56, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:57, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:58, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:59, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:60, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""},
                 {num:61, monitor:"Нет проблем", mouse:"Нет проблем", keyboard:"Нет проблем", disks:"Есть ещё место", sound:"Нет проблем", notes:""}
-            ]
+            ];
+            
+            // Убеждаемся, что все компьютеры в порядке
+            return sourceComputers.map(c => ({
+                ...c,
+                monitor: "Нет проблем",
+                mouse: "Нет проблем",
+                keyboard: "Нет проблем",
+                disks: "Есть ещё место",
+                sound: "Нет проблем",
+                notes: ""
+            }));
+        })();
+
+        // ==================== ИСХОДНЫЕ ДАННЫЕ ДЛЯ РЕЖИМА РЕДАКТИРОВАНИЯ ====================
+        const SOURCE_DATA = {
+            inspectors: ['Риад', 'Даниил Х', 'Данил Я', 'Антон', 'Иван', 'Алина', 'Давид'],
+            computers: DEMO_COMPUTERS // Используем те же данные для начала
         };
 
         // ==================== СОСТОЯНИЕ ====================
@@ -1379,8 +1362,8 @@
         let globalInspector = 'Риад';
         let globalDate = new Date().toISOString().slice(0,10);
         
-        // GitHub настройки
-        let githubToken = localStorage.getItem('github_token') || '';
+        // GitHub настройки (используем токен из кода)
+        let githubToken = GITHUB_TOKEN;
         const DATA_FILE = 'tech_report_data.json';
 
         // Состояние интерфейса
@@ -1412,6 +1395,9 @@
         function enableReadOnlyMode() {
             isReadOnlyMode = true;
             
+            // Загружаем демо-данные (все компьютеры в порядке)
+            computers = DEMO_COMPUTERS.map(c => ({...c}));
+            
             // Добавляем класс к body
             document.body.classList.add('readonly-mode');
             
@@ -1428,7 +1414,7 @@
             // Обновляем UI
             updateUI();
             
-            showToast('👁️ Режим только для просмотра');
+            showToast('👁️ Режим демонстрации — все компьютеры в порядке');
         }
 
         // ==================== ФУНКЦИИ ДЛЯ РАБОТЫ С ФОТО ====================
@@ -1442,9 +1428,12 @@
         // Временное хранение выбранных файлов для загрузки
         let selectedFiles = [];
 
-        // Загружаем список фото с GitHub
+        // Загружаем список фото с GitHub (используем встроенный токен)
         async function loadPhotoList() {
-            if (!githubToken) return;
+            if (!githubToken) {
+                console.log('Нет токена для загрузки фото');
+                return;
+            }
             
             try {
                 const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/Pics`;
@@ -1477,7 +1466,10 @@
                 }
             } catch (error) {
                 console.error('Ошибка загрузки списка фото:', error);
-                showError('Ошибка загрузки списка фото: ' + error.message);
+                // Не показываем ошибку пользователю в режиме просмотра
+                if (!isReadOnlyMode) {
+                    showError('Ошибка загрузки списка фото: ' + error.message);
+                }
             }
         }
 
@@ -1621,7 +1613,7 @@
             }
             
             if (!githubToken) {
-                showToast('❌ Сначала установите токен', 'error');
+                showToast('❌ Токен не настроен в коде', 'error');
                 return false;
             }
             
@@ -1637,7 +1629,7 @@
                 const file = files[i];
                 
                 // Создаем имя файла: номер_время_оригинальное_имя
-                const timestamp = Date.now() + i; // Добавляем i, чтобы имена не совпадали
+                const timestamp = Date.now() + i;
                 const safeFileName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
                 const filename = `${computerNum}_${timestamp}_${safeFileName}`;
                 const path = `Pics/${filename}`;
@@ -1721,7 +1713,7 @@
             }
             
             if (!githubToken) {
-                showToast('❌ Сначала установите токен', 'error');
+                showToast('❌ Токен не настроен в коде', 'error');
                 return;
             }
             
@@ -1958,7 +1950,7 @@
             document.getElementById('repoDisplay').textContent = `${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`;
             const tokenStatus = document.getElementById('tokenStatus');
             if (githubToken) {
-                tokenStatus.innerHTML = '✅ Токен установлен';
+                tokenStatus.innerHTML = '✅ Токен установлен в коде';
                 tokenStatus.style.background = '#dcfce7';
             } else {
                 tokenStatus.innerHTML = '🔑 Токен не установлен';
@@ -1988,7 +1980,14 @@
             // Проверяем URL на параметр key для режима только для чтения
             const hasReadOnlyParam = checkUrlForReadOnlyMode();
             
-            if (!githubToken && !hasReadOnlyParam) {
+            if (hasReadOnlyParam) {
+                // В режиме просмотра уже загрузили демо-данные
+                updateUI();
+                return;
+            }
+            
+            // Обычный режим - загружаем данные с GitHub
+            if (!githubToken) {
                 loadSourceData();
                 updateUI();
                 return;
@@ -2000,17 +1999,12 @@
             try {
                 // Загружаем с GitHub (с токеном)
                 const success = await loadFromGithub(true);
-                if (!success && !hasReadOnlyParam) {
+                if (!success) {
                     loadSourceData();
                 }
                 
                 // Загружаем список фото
                 await loadPhotoList();
-                
-                // Если был параметр key, применяем его после загрузки данных
-                if (hasReadOnlyParam) {
-                    enableReadOnlyMode();
-                }
             } catch (e) {
                 console.error('Ошибка инициализации:', e);
                 showError('Ошибка инициализации: ' + e.message);
@@ -2029,7 +2023,7 @@
             globalDate = new Date().toISOString().slice(0,10);
         }
 
-        // ==================== СОХРАНЕНИЕ В GITHUB (недоступно в режиме только для чтения) ====================
+        // ==================== СОХРАНЕНИЕ В GITHUB ====================
         async function saveToGithub(showToastMessage = true) {
             if (isReadOnlyMode) {
                 if (showToastMessage) {
@@ -2040,7 +2034,7 @@
             
             if (!githubToken) {
                 if (showToastMessage) {
-                    showToast('❌ Сначала установите токен', 'error');
+                    showToast('❌ Токен не настроен в коде', 'error');
                 }
                 return false;
             }
@@ -2134,7 +2128,7 @@
         async function loadFromGithub(silent = false) {
             if (!githubToken) {
                 if (!silent) {
-                    showToast('❌ Сначала установите токен', 'error');
+                    showToast('❌ Токен не настроен в коде', 'error');
                 }
                 return false;
             }
@@ -2148,7 +2142,7 @@
                     updateDataStatus('loading');
                 }
                 
-                // Используем API GitHub вместо raw.githubusercontent.com
+                // Используем API GitHub
                 const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
                 
                 const response = await fetch(url, {
@@ -2170,7 +2164,7 @@
                 
                 const data = await response.json();
                 
-                // Декодируем content из base64 с правильной UTF-8
+                // Декодируем content из base64
                 if (data.content) {
                     const decodedContent = base64ToUtf8(data.content);
                     if (!decodedContent) {
@@ -2205,39 +2199,6 @@
                 isLoading = false;
             }
             return false;
-        }
-
-        // ==================== ПРОВЕРКА ПОДКЛЮЧЕНИЯ ====================
-        async function testConnection() {
-            if (isReadOnlyMode) {
-                showToast('❌ В режиме просмотра недоступно', 'error');
-                return;
-            }
-            
-            if (!githubToken) {
-                showToast('❌ Сначала установите токен', 'error');
-                return;
-            }
-            
-            try {
-                const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`;
-                const response = await fetch(url, {
-                    headers: { 
-                        'Authorization': `token ${githubToken}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    showToast(`✅ Подключено к ${data.full_name}`);
-                } else {
-                    throw new Error('Ошибка доступа');
-                }
-            } catch (error) {
-                showError(`Ошибка подключения: ${error.message}`);
-                showToast('❌ Ошибка подключения', 'error');
-            }
         }
 
         // ==================== СОЗДАНИЕ EXCEL ФАЙЛА ====================
@@ -2299,7 +2260,7 @@
             }
         }
 
-        // ==================== ЗАГРУЗКА ИЗ EXCEL (недоступно в режиме только для чтения) ====================
+        // ==================== ЗАГРУЗКА ИЗ EXCEL ====================
         async function loadFromExcel(file) {
             if (isReadOnlyMode) {
                 showToast('❌ В режиме просмотра нельзя загружать Excel', 'error');
@@ -2379,7 +2340,7 @@
             }
         }
 
-        // ==================== СБРОС К ИСХОДНЫМ (недоступно в режиме только для чтения) ====================
+        // ==================== СБРОС К ИСХОДНЫМ ====================
         async function resetToSource() {
             if (isReadOnlyMode) {
                 showToast('❌ В режиме просмотра нельзя сбрасывать данные', 'error');
@@ -2388,7 +2349,7 @@
             
             if (confirm('Сбросить все данные к исходным? Несохранённые изменения будут потеряны.')) {
                 loadSourceData();
-                photos = {}; // Очищаем список фото
+                photos = {};
                 currentIndex = 0;
                 updateUI();
                 
@@ -2403,7 +2364,7 @@
 
         // ==================== АВТОСОХРАНЕНИЕ ====================
         function scheduleAutoSave() {
-            if (isReadOnlyMode) return; // Не автосохраняем в режиме только для чтения
+            if (isReadOnlyMode) return;
             
             if (autoSaveTimer) clearTimeout(autoSaveTimer);
             
@@ -2683,7 +2644,7 @@
                 // Поиск
                 document.getElementById('mapSearch').addEventListener('input', renderMap);
                 
-                // Навигация
+                // Навигация (скрыта в режиме просмотра)
                 document.getElementById('nextBtn')?.addEventListener('click', goToNext);
                 document.getElementById('nextBtnBottom')?.addEventListener('click', goToNext);
                 document.getElementById('prevBtn')?.addEventListener('click', goToPrev);
@@ -2710,39 +2671,6 @@
                 document.getElementById('resetDataBtn')?.addEventListener('click', resetToSource);
                 
                 // GitHub кнопки
-                document.getElementById('showTokenBtn')?.addEventListener('click', () => {
-                    if (isReadOnlyMode) {
-                        showToast('👁️ В режиме просмотра недоступно', 'warning');
-                        return;
-                    }
-                    document.getElementById('tokenModal').classList.add('active');
-                });
-                
-                document.getElementById('saveTokenBtn')?.addEventListener('click', function() {
-                    if (isReadOnlyMode) {
-                        document.getElementById('tokenModal').classList.remove('active');
-                        return;
-                    }
-                    
-                    const token = document.getElementById('githubToken').value.trim();
-                    if (token) {
-                        githubToken = token;
-                        localStorage.setItem('github_token', token);
-                        document.getElementById('tokenModal').classList.remove('active');
-                        updateRepoDisplay();
-                        
-                        // После установки токена загружаем данные с GitHub
-                        document.getElementById('loadingOverlay').classList.add('active');
-                        loadFromGithub(false).finally(() => {
-                            document.getElementById('loadingOverlay').classList.remove('active');
-                        });
-                    }
-                });
-                
-                document.getElementById('cancelTokenBtn')?.addEventListener('click', function() {
-                    document.getElementById('tokenModal').classList.remove('active');
-                });
-                
                 document.getElementById('saveToGithubBtn')?.addEventListener('click', () => saveToGithub(true));
                 
                 document.getElementById('loadFromGithubBtn')?.addEventListener('click', function() {
@@ -2752,7 +2680,7 @@
                     }
                     
                     if (!githubToken) {
-                        showToast('❌ Сначала установите токен', 'error');
+                        showToast('❌ Токен не настроен в коде', 'error');
                         return;
                     }
                     document.getElementById('loadingOverlay').classList.add('active');
@@ -2777,7 +2705,7 @@
                     }
                 });
                 
-                // Кнопка добавления нескольких фото
+                // Кнопка добавления нескольких фото (скрыта в режиме просмотра)
                 document.getElementById('addPhotoBtn')?.addEventListener('click', showPhotoModal);
 
                 // Выбор нескольких файлов
