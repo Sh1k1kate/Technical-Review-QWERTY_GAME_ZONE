@@ -22,6 +22,16 @@
             background: #0f172a;
             color: #e2e8f0;
         }
+        body.readonly-mode .editable-element {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        body.readonly-mode .readonly-hidden {
+            display: none !important;
+        }
+        body.readonly-mode .readonly-visible {
+            display: block !important;
+        }
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -678,11 +688,49 @@
         }
         
         /* Модальное окно для фото */
-        #photoPreview {
-            max-width: 100%;
-            max-height: 200px;
+        .photo-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f8fafc;
             border-radius: 20px;
-            display: none;
+        }
+        .dark-theme .photo-preview-container {
+            background: #0f172a;
+        }
+        .photo-preview-item {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #e2e8f0;
+        }
+        .photo-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-preview-remove {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
         }
 
         /* Модальное окно для просмотра фото */
@@ -922,6 +970,36 @@
         .photo-delete:active {
             transform: scale(0.95);
         }
+        
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f1f5f9;
+            border-radius: 20px;
+            flex-wrap: wrap;
+        }
+        .dark-theme .file-info {
+            background: #0f172a;
+        }
+        .file-count {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        
+        /* Режим только для чтения */
+        .readonly-notice {
+            background: #3b82f6;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
     </style>
 </head>
 <body>
@@ -947,8 +1025,8 @@
         </div>
     </div>
 
-    <!-- Скрываемая панель GitHub -->
-    <div class="github-collapse">
+    <!-- Скрываемая панель GitHub (скрыта в режиме только для чтения) -->
+    <div class="github-collapse readonly-hidden" id="githubCollapse">
         <div class="github-header" id="githubHeader">
             <div class="github-header-left">
                 <span>⚙️</span>
@@ -967,6 +1045,7 @@
                     <button class="small-btn primary" id="saveToGithubBtn">💾 Сохранить</button>
                     <button class="small-btn warning" id="loadFromGithubBtn">📂 Загрузить</button>
                 </div>
+                
                 <div style="margin-top: 10px; font-size: 0.8rem; color: #64748b;">
                     ⚠️ Для загрузки с GitHub требуется токен (даже для публичных репозиториев)
                 </div>
@@ -974,8 +1053,8 @@
         </div>
     </div>
 
-    <!-- Панель управления данными -->
-    <div class="data-bar">
+    <!-- Панель управления данными (скрыта в режиме только для чтения) -->
+    <div class="data-bar readonly-hidden" id="dataBar">
         <div class="data-status" id="dataStatus">
             💾 Данные загружены
         </div>
@@ -987,8 +1066,8 @@
         </div>
     </div>
 
-    <!-- ОБЩАЯ шапка отчёта -->
-    <div class="report-header">
+    <!-- ОБЩАЯ шапка отчёта (скрыта в режиме только для чтения) -->
+    <div class="report-header readonly-hidden" id="reportHeader">
         <div class="header-title">📋 Параметры отчёта</div>
         <div class="header-fields">
             <div class="header-field">
@@ -1010,10 +1089,15 @@
         </div>
     </div>
 
+    <!-- Уведомление о режиме только для чтения (показывается только в спецрежиме) -->
+    <div class="readonly-notice" id="readonlyNotice" style="display: none; margin-bottom: 12px;">
+        👁️ Режим только для просмотра
+    </div>
+
     <!-- Табы -->
     <div class="tabs">
         <div class="tab active" data-tab="map">🗺️ Карта</div>
-        <div class="tab" data-tab="step">📝 Заполнение</div>
+        <div class="tab readonly-hidden" data-tab="step">📝 Заполнение</div>
     </div>
 
     <!-- ========== КАРТА ========== -->
@@ -1050,12 +1134,12 @@
                 <strong>📸 Фото:</strong>
                 <div id="mapDetailPhotos" class="photo-gallery"></div>
             </div>
-            <button class="small-btn primary" style="width: 100%;" id="gotoEditFromMap">✏️ Редактировать</button>
+            <button class="small-btn primary readonly-hidden" style="width: 100%;" id="gotoEditFromMap">✏️ Редактировать</button>
         </div>
     </div>
 
-    <!-- ========== ЗАПОЛНЕНИЕ ========== -->
-    <div id="stepPanel" class="panel">
+    <!-- ========== ЗАПОЛНЕНИЕ (скрыто в режиме только для чтения) ========== -->
+    <div id="stepPanel" class="panel readonly-hidden">
         <!-- Прогресс -->
         <div class="progress-card">
             <div class="progress-header">
@@ -1136,7 +1220,7 @@
                 <div class="form-group">
                     <label class="form-label">📸 Фотографии</label>
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <button type="button" class="small-btn" id="addPhotoBtn">➕ Добавить фото</button>
+                        <button type="button" class="small-btn" id="addPhotoBtn">➕ Добавить несколько фото</button>
                     </div>
                     <div id="photoGallery" class="photo-gallery">
                         <!-- Галерея загрузится сюда -->
@@ -1152,8 +1236,8 @@
     </div>
 </div>
 
-<!-- Модальное окно токена -->
-<div class="modal" id="tokenModal">
+<!-- Модальное окно токена (скрыто в режиме только для чтения) -->
+<div class="modal readonly-hidden" id="tokenModal">
     <div class="modal-content">
         <div class="modal-title">🔑 GitHub Personal Access Token</div>
         <p>Введите токен с правами на запись в репозиторий</p>
@@ -1166,32 +1250,37 @@
     </div>
 </div>
 
-<!-- Модальное окно для добавления фото -->
-<div class="modal" id="photoModal">
+<!-- Модальное окно для добавления фото (скрыто в режиме только для чтения) -->
+<div class="modal readonly-hidden" id="photoModal">
     <div class="modal-content">
-        <div class="modal-title">📸 Добавить фото</div>
+        <div class="modal-title">📸 Добавить несколько фото</div>
         <p>Выберите фото для компьютера №<span id="photoComputerNum"></span></p>
         
-        <!-- Превью фото -->
-        <div id="photoPreviewContainer" style="margin: 15px 0; text-align: center; max-height: 200px; overflow: hidden;">
-            <img id="photoPreview" src="#" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 20px; display: none;">
+        <!-- Кнопка выбора файлов -->
+        <div style="margin: 15px 0;">
+            <label for="photoFiles" class="small-btn primary" style="display: inline-block; width: 100%; text-align: center; padding: 14px;">📁 Выбрать файлы (можно несколько)</label>
+            <input type="file" id="photoFiles" accept="image/*" multiple style="display: none;">
         </div>
         
-        <!-- Кнопка выбора файла -->
-        <div style="margin: 15px 0;">
-            <label for="photoFile" class="small-btn" style="display: inline-block; width: auto; margin-right: 10px;">📁 Выбрать файл</label>
-            <input type="file" id="photoFile" accept="image/*" style="display: none;">
-            <span id="photoFileName" style="color: #64748b;">Файл не выбран</span>
+        <!-- Информация о выбранных файлах -->
+        <div id="fileInfo" class="file-info" style="display: none;">
+            <span>Выбрано файлов: <span id="fileCount" class="file-count">0</span></span>
+            <span>Общий размер: <span id="totalSize">0 KB</span></span>
+        </div>
+        
+        <!-- Превью выбранных фото -->
+        <div id="photoPreviewContainer" class="photo-preview-container">
+            <!-- Превью будут добавляться сюда -->
         </div>
         
         <div class="modal-buttons">
             <button class="modal-btn secondary" id="cancelPhotoBtn">Отмена</button>
-            <button class="modal-btn primary" id="uploadPhotoBtn" disabled>📤 Загрузить</button>
+            <button class="modal-btn primary" id="uploadPhotosBtn" disabled>📤 Загрузить все</button>
         </div>
     </div>
 </div>
 
-<!-- Модальное окно для просмотра фото с навигацией -->
+<!-- Модальное окно для просмотра фото с навигацией (доступно в обоих режимах) -->
 <div class="modal photo-viewer-modal" id="photoViewerModal">
     <div class="modal-content">
         <button class="photo-viewer-close" id="closePhotoViewer">✕</button>
@@ -1215,6 +1304,10 @@
             owner: 'Sh1k1kate',
             repo: 'Technical-Review-QWERTY_GAME_ZONE'
         };
+        
+        // ==================== СЕКРЕТНОЕ СЛОВО ====================
+        // Здесь вы можете установить любое секретное слово
+        const SECRET_WORD = 'QWERTY2026'; // Можете изменить на любое другое
         
         // ==================== ИСХОДНЫЕ ДАННЫЕ ====================
         const SOURCE_DATA = {
@@ -1299,6 +1392,44 @@
         let autoSaveTimer = null;
         let isSaving = false;
         let isLoading = false;
+        
+        // Флаг режима только для чтения
+        let isReadOnlyMode = false;
+
+        // ==================== ФУНКЦИИ ДЛЯ РАБОТЫ С URL ====================
+        function checkUrlForReadOnlyMode() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const keyParam = urlParams.get('key');
+            
+            // Проверяем, совпадает ли значение с секретным словом
+            if (keyParam && keyParam === SECRET_WORD) {
+                enableReadOnlyMode();
+                return true;
+            }
+            return false;
+        }
+
+        function enableReadOnlyMode() {
+            isReadOnlyMode = true;
+            
+            // Добавляем класс к body
+            document.body.classList.add('readonly-mode');
+            
+            // Показываем уведомление
+            document.getElementById('readonlyNotice').style.display = 'inline-flex';
+            
+            // Устанавливаем активным таб карты
+            activeTab = 'map';
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelector('[data-tab="map"]').classList.add('active');
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('mapPanel').classList.add('active');
+            
+            // Обновляем UI
+            updateUI();
+            
+            showToast('👁️ Режим только для просмотра');
+        }
 
         // ==================== ФУНКЦИИ ДЛЯ РАБОТЫ С ФОТО ====================
         // Структура для хранения информации о фото
@@ -1307,6 +1438,9 @@
         // Текущий индекс фото в просмотрщике
         let currentPhotoIndex = 0;
         let currentPhotoList = [];
+        
+        // Временное хранение выбранных файлов для загрузки
+        let selectedFiles = [];
 
         // Загружаем список фото с GitHub
         async function loadPhotoList() {
@@ -1333,9 +1467,13 @@
                         }
                     });
                     
-                    // Обновляем обе галереи
-                    updatePhotoGallery();
+                    // Обновляем галерею на карте
                     updateMapDetailPhotos();
+                    
+                    // Обновляем галерею в форме только если не в режиме только для чтения
+                    if (!isReadOnlyMode) {
+                        updatePhotoGallery();
+                    }
                 }
             } catch (error) {
                 console.error('Ошибка загрузки списка фото:', error);
@@ -1343,8 +1481,10 @@
             }
         }
 
-        // Обновляем галерею для текущего компьютера
+        // Обновляем галерею для текущего компьютера (только в режиме редактирования)
         function updatePhotoGallery() {
+            if (isReadOnlyMode) return;
+            
             const gallery = document.getElementById('photoGallery');
             if (!gallery) return;
             
@@ -1399,7 +1539,7 @@
             });
         }
 
-        // Обновляем фото в детальной карточке на карте
+        // Обновляем фото в детальной карточке на карте (доступно в обоих режимах)
         function updateMapDetailPhotos() {
             const container = document.getElementById('mapDetailPhotos');
             if (!container) return;
@@ -1436,7 +1576,7 @@
             });
         }
 
-        // Открыть просмотрщик фото с навигацией
+        // Открыть просмотрщик фото с навигацией (доступно в обоих режимах)
         function openPhotoViewer(photoList, currentPhoto) {
             if (!photoList || photoList.length === 0) return;
             
@@ -1473,82 +1613,113 @@
             updateViewerImage();
         }
 
-        // Загрузка фото на GitHub
-        async function uploadPhoto(file, computerNum) {
+        // Загрузка нескольких фото на GitHub (недоступно в режиме только для чтения)
+        async function uploadMultiplePhotos(files, computerNum) {
+            if (isReadOnlyMode) {
+                showToast('❌ В режиме просмотра нельзя загружать фото', 'error');
+                return false;
+            }
+            
             if (!githubToken) {
                 showToast('❌ Сначала установите токен', 'error');
                 return false;
             }
             
-            // Создаем имя файла: номер_время_оригинальное_имя
-            const timestamp = Date.now();
-            const safeFileName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
-            const filename = `${computerNum}_${timestamp}_${safeFileName}`;
-            const path = `Pics/${filename}`;
+            if (!files || files.length === 0) return false;
             
-            try {
-                // Конвертируем файл в base64
-                const reader = new FileReader();
-                const base64 = await new Promise((resolve, reject) => {
-                    reader.onload = () => resolve(reader.result.split(',')[1]);
-                    reader.onerror = reject;
-                    reader.readAsDataURL(file);
-                });
+            let successCount = 0;
+            let errorCount = 0;
+            
+            // Показываем индикатор загрузки
+            document.getElementById('loadingOverlay').classList.add('active');
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
                 
-                // Проверяем существование файла
-                const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${path}`;
-                const getResponse = await fetch(url, {
-                    headers: { 'Authorization': `token ${githubToken}` }
-                });
+                // Создаем имя файла: номер_время_оригинальное_имя
+                const timestamp = Date.now() + i; // Добавляем i, чтобы имена не совпадали
+                const safeFileName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
+                const filename = `${computerNum}_${timestamp}_${safeFileName}`;
+                const path = `Pics/${filename}`;
                 
-                let sha = null;
-                if (getResponse.ok) {
-                    const data = await getResponse.json();
-                    sha = data.sha;
+                try {
+                    // Конвертируем файл в base64
+                    const reader = new FileReader();
+                    const base64 = await new Promise((resolve, reject) => {
+                        reader.onload = () => resolve(reader.result.split(',')[1]);
+                        reader.onerror = reject;
+                        reader.readAsDataURL(file);
+                    });
+                    
+                    // Проверяем существование файла
+                    const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${path}`;
+                    const getResponse = await fetch(url, {
+                        headers: { 'Authorization': `token ${githubToken}` }
+                    });
+                    
+                    let sha = null;
+                    if (getResponse.ok) {
+                        const data = await getResponse.json();
+                        sha = data.sha;
+                    }
+                    
+                    // Загружаем файл
+                    const putData = {
+                        message: `Добавлено фото для компьютера ${computerNum}`,
+                        content: base64,
+                        branch: 'main'
+                    };
+                    if (sha) putData.sha = sha;
+                    
+                    const putResponse = await fetch(url, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `token ${githubToken}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(putData)
+                    });
+                    
+                    if (!putResponse.ok) {
+                        const error = await putResponse.json();
+                        throw new Error(error.message);
+                    }
+                    
+                    // Обновляем список фото
+                    if (!photos[computerNum]) photos[computerNum] = [];
+                    photos[computerNum].push(filename);
+                    
+                    successCount++;
+                    
+                } catch (error) {
+                    console.error('Ошибка загрузки фото:', error);
+                    errorCount++;
                 }
-                
-                // Загружаем файл
-                const putData = {
-                    message: `Добавлено фото для компьютера ${computerNum}`,
-                    content: base64,
-                    branch: 'main'
-                };
-                if (sha) putData.sha = sha;
-                
-                const putResponse = await fetch(url, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `token ${githubToken}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(putData)
-                });
-                
-                if (!putResponse.ok) {
-                    const error = await putResponse.json();
-                    throw new Error(error.message);
-                }
-                
-                // Обновляем список фото
-                if (!photos[computerNum]) photos[computerNum] = [];
-                photos[computerNum].push(filename);
-                
-                // Обновляем обе галереи
-                updatePhotoGallery();
-                updateMapDetailPhotos();
-                showToast('✅ Фото загружено');
-                
-                return true;
-                
-            } catch (error) {
-                console.error('Ошибка загрузки фото:', error);
-                showToast('❌ Ошибка загрузки фото: ' + error.message, 'error');
-                return false;
             }
+            
+            // Скрываем индикатор загрузки
+            document.getElementById('loadingOverlay').classList.remove('active');
+            
+            // Обновляем обе галереи
+            updatePhotoGallery();
+            updateMapDetailPhotos();
+            
+            if (successCount > 0) {
+                showToast(`✅ Загружено ${successCount} фото${errorCount > 0 ? ', ' + errorCount + ' ошибок' : ''}`);
+            } else {
+                showToast('❌ Не удалось загрузить фото', 'error');
+            }
+            
+            return successCount > 0;
         }
 
-        // Удаление фото
+        // Удаление фото (недоступно в режиме только для чтения)
         async function deletePhoto(filename, computerNum) {
+            if (isReadOnlyMode) {
+                showToast('❌ В режиме просмотра нельзя удалять фото', 'error');
+                return;
+            }
+            
             if (!githubToken) {
                 showToast('❌ Сначала установите токен', 'error');
                 return;
@@ -1609,38 +1780,119 @@
             }
         }
 
-        // Открыть модальное окно для загрузки фото
+        // Открыть модальное окно для загрузки нескольких фото (недоступно в режиме только для чтения)
         function showPhotoModal() {
+            if (isReadOnlyMode) {
+                showToast('❌ В режиме просмотра нельзя добавлять фото', 'error');
+                return;
+            }
+            
             const currentComp = computers[currentIndex];
             if (!currentComp) return;
             
+            // Сбрасываем выбранные файлы
+            selectedFiles = [];
             document.getElementById('photoComputerNum').textContent = currentComp.num;
-            document.getElementById('photoFile').value = '';
-            document.getElementById('photoFileName').textContent = 'Файл не выбран';
-            document.getElementById('photoPreview').style.display = 'none';
-            document.getElementById('uploadPhotoBtn').disabled = true;
+            document.getElementById('photoFiles').value = '';
+            document.getElementById('photoPreviewContainer').innerHTML = '';
+            document.getElementById('fileInfo').style.display = 'none';
+            document.getElementById('uploadPhotosBtn').disabled = true;
             document.getElementById('photoModal').classList.add('active');
         }
 
-        // Обработчик выбора файла
-        function handlePhotoFileSelect(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+        // Обработчик выбора нескольких файлов
+        function handlePhotoFilesSelect(event) {
+            if (isReadOnlyMode) return;
             
-            document.getElementById('photoFileName').textContent = file.name;
-            document.getElementById('uploadPhotoBtn').disabled = false;
+            const files = Array.from(event.target.files);
+            if (!files || files.length === 0) return;
             
-            // Превью
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const preview = document.getElementById('photoPreview');
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-            };
-            reader.onerror = function() {
-                showToast('Ошибка чтения файла', 'error');
-            };
-            reader.readAsDataURL(file);
+            selectedFiles = files;
+            
+            // Обновляем информацию о файлах
+            document.getElementById('fileCount').textContent = files.length;
+            
+            // Вычисляем общий размер
+            const totalBytes = files.reduce((sum, file) => sum + file.size, 0);
+            const totalSize = totalBytes < 1024 * 1024 
+                ? Math.round(totalBytes / 1024) + ' KB'
+                : (totalBytes / (1024 * 1024)).toFixed(2) + ' MB';
+            document.getElementById('totalSize').textContent = totalSize;
+            
+            document.getElementById('fileInfo').style.display = 'flex';
+            document.getElementById('uploadPhotosBtn').disabled = false;
+            
+            // Показываем превью
+            const previewContainer = document.getElementById('photoPreviewContainer');
+            previewContainer.innerHTML = '';
+            
+            files.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewDiv = document.createElement('div');
+                    previewDiv.className = 'photo-preview-item';
+                    previewDiv.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                        <button class="photo-preview-remove" data-index="${index}">✕</button>
+                    `;
+                    
+                    // Добавляем обработчик для удаления из списка
+                    const removeBtn = previewDiv.querySelector('.photo-preview-remove');
+                    removeBtn.onclick = function() {
+                        removeFileFromSelection(parseInt(this.dataset.index));
+                    };
+                    
+                    previewContainer.appendChild(previewDiv);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        // Удалить файл из списка выбранных
+        function removeFileFromSelection(index) {
+            if (isReadOnlyMode) return;
+            
+            selectedFiles.splice(index, 1);
+            
+            // Обновляем отображение
+            if (selectedFiles.length === 0) {
+                document.getElementById('photoFiles').value = '';
+                document.getElementById('photoPreviewContainer').innerHTML = '';
+                document.getElementById('fileInfo').style.display = 'none';
+                document.getElementById('uploadPhotosBtn').disabled = true;
+            } else {
+                // Пересоздаем превью
+                const previewContainer = document.getElementById('photoPreviewContainer');
+                previewContainer.innerHTML = '';
+                
+                selectedFiles.forEach((file, i) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const previewDiv = document.createElement('div');
+                        previewDiv.className = 'photo-preview-item';
+                        previewDiv.innerHTML = `
+                            <img src="${e.target.result}" alt="Preview">
+                            <button class="photo-preview-remove" data-index="${i}">✕</button>
+                        `;
+                        
+                        const removeBtn = previewDiv.querySelector('.photo-preview-remove');
+                        removeBtn.onclick = function() {
+                            removeFileFromSelection(parseInt(this.dataset.index));
+                        };
+                        
+                        previewContainer.appendChild(previewDiv);
+                    };
+                    reader.readAsDataURL(file);
+                });
+                
+                // Обновляем информацию
+                document.getElementById('fileCount').textContent = selectedFiles.length;
+                const totalBytes = selectedFiles.reduce((sum, file) => sum + file.size, 0);
+                const totalSize = totalBytes < 1024 * 1024 
+                    ? Math.round(totalBytes / 1024) + ' KB'
+                    : (totalBytes / (1024 * 1024)).toFixed(2) + ' MB';
+                document.getElementById('totalSize').textContent = totalSize;
+            }
         }
 
         // ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ДЛЯ UTF-8 ====================
@@ -1670,6 +1922,13 @@
                 document.getElementById('themeToggle').innerHTML = '☀️ Светлая';
             }
             
+            // Проверяем режим только для чтения
+            if (isReadOnlyMode) {
+                document.body.classList.add('readonly-mode');
+                document.getElementById('readonlyNotice').style.display = 'inline-flex';
+                activeTab = 'map';
+            }
+            
             // Вкладка
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
@@ -1679,7 +1938,7 @@
             // GitHub панель
             const githubContent = document.getElementById('githubContent');
             const githubArrow = document.getElementById('githubArrow');
-            if (isGithubExpanded) {
+            if (isGithubExpanded && !isReadOnlyMode) {
                 githubContent.classList.add('expanded');
                 githubArrow.classList.add('expanded');
             }
@@ -1687,6 +1946,8 @@
 
         // ==================== СОХРАНЕНИЕ СОСТОЯНИЯ ====================
         function saveState() {
+            if (isReadOnlyMode) return; // Не сохраняем состояние в режиме только для чтения
+            
             localStorage.setItem('dark_theme', isDarkTheme);
             localStorage.setItem('active_tab', activeTab);
             localStorage.setItem('github_expanded', isGithubExpanded);
@@ -1724,7 +1985,10 @@
         async function initializeData() {
             updateRepoDisplay();
             
-            if (!githubToken) {
+            // Проверяем URL на параметр key для режима только для чтения
+            const hasReadOnlyParam = checkUrlForReadOnlyMode();
+            
+            if (!githubToken && !hasReadOnlyParam) {
                 loadSourceData();
                 updateUI();
                 return;
@@ -1736,12 +2000,17 @@
             try {
                 // Загружаем с GitHub (с токеном)
                 const success = await loadFromGithub(true);
-                if (!success) {
+                if (!success && !hasReadOnlyParam) {
                     loadSourceData();
                 }
                 
                 // Загружаем список фото
                 await loadPhotoList();
+                
+                // Если был параметр key, применяем его после загрузки данных
+                if (hasReadOnlyParam) {
+                    enableReadOnlyMode();
+                }
             } catch (e) {
                 console.error('Ошибка инициализации:', e);
                 showError('Ошибка инициализации: ' + e.message);
@@ -1760,8 +2029,15 @@
             globalDate = new Date().toISOString().slice(0,10);
         }
 
-        // ==================== СОХРАНЕНИЕ В GITHUB ====================
+        // ==================== СОХРАНЕНИЕ В GITHUB (недоступно в режиме только для чтения) ====================
         async function saveToGithub(showToastMessage = true) {
+            if (isReadOnlyMode) {
+                if (showToastMessage) {
+                    showToast('❌ В режиме просмотра нельзя сохранять данные', 'error');
+                }
+                return false;
+            }
+            
             if (!githubToken) {
                 if (showToastMessage) {
                     showToast('❌ Сначала установите токен', 'error');
@@ -1777,7 +2053,9 @@
                 updateDataStatus('saving');
                 
                 // Сохраняем текущую форму перед сохранением
-                saveCurrentForm();
+                if (!isReadOnlyMode) {
+                    saveCurrentForm();
+                }
                 
                 // Подготавливаем данные для сохранения
                 const data = {
@@ -1931,6 +2209,11 @@
 
         // ==================== ПРОВЕРКА ПОДКЛЮЧЕНИЯ ====================
         async function testConnection() {
+            if (isReadOnlyMode) {
+                showToast('❌ В режиме просмотра недоступно', 'error');
+                return;
+            }
+            
             if (!githubToken) {
                 showToast('❌ Сначала установите токен', 'error');
                 return;
@@ -1959,8 +2242,8 @@
 
         // ==================== СОЗДАНИЕ EXCEL ФАЙЛА ====================
         function createExcelBlob() {
-            globalInspector = document.getElementById('globalInspector').value;
-            globalDate = document.getElementById('globalDate').value;
+            globalInspector = document.getElementById('globalInspector')?.value || globalInspector;
+            globalDate = document.getElementById('globalDate')?.value || globalDate;
             
             const worksheetData = [
                 ['Номер компьютера', 'Монитор', 'Мышь', 'Клавиатура', 'Диски', 'Звук', 'Заметки', 'Имя проверяющего', 'Дата проверки']
@@ -1996,8 +2279,33 @@
             return new Blob([wbData], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
         }
 
-        // ==================== ЗАГРУЗКА ИЗ EXCEL ====================
+        // ==================== СКАЧИВАНИЕ EXCEL ====================
+        function downloadExcel() {
+            try {
+                const blob = createExcelBlob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ТехОтчёт_${globalDate}.xlsx`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                
+                showToast('📥 Excel файл скачан');
+            } catch (error) {
+                console.error('Ошибка скачивания:', error);
+                showToast('❌ Ошибка при скачивании', 'error');
+            }
+        }
+
+        // ==================== ЗАГРУЗКА ИЗ EXCEL (недоступно в режиме только для чтения) ====================
         async function loadFromExcel(file) {
+            if (isReadOnlyMode) {
+                showToast('❌ В режиме просмотра нельзя загружать Excel', 'error');
+                return;
+            }
+            
             try {
                 const data = await file.arrayBuffer();
                 const workbook = XLSX.read(data, { type: 'array' });
@@ -2057,7 +2365,7 @@
                         updateUI();
                         
                         // Если есть токен, сразу сохраняем в GitHub
-                        if (githubToken) {
+                        if (githubToken && !isReadOnlyMode) {
                             await saveToGithub(true);
                         }
                         
@@ -2071,28 +2379,13 @@
             }
         }
 
-        // ==================== СКАЧИВАНИЕ EXCEL ====================
-        function downloadExcel() {
-            try {
-                const blob = createExcelBlob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `ТехОтчёт_${globalDate}.xlsx`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
-                
-                showToast('📥 Excel файл скачан');
-            } catch (error) {
-                console.error('Ошибка скачивания:', error);
-                showToast('❌ Ошибка при скачивании', 'error');
-            }
-        }
-
-        // ==================== СБРОС К ИСХОДНЫМ ====================
+        // ==================== СБРОС К ИСХОДНЫМ (недоступно в режиме только для чтения) ====================
         async function resetToSource() {
+            if (isReadOnlyMode) {
+                showToast('❌ В режиме просмотра нельзя сбрасывать данные', 'error');
+                return;
+            }
+            
             if (confirm('Сбросить все данные к исходным? Несохранённые изменения будут потеряны.')) {
                 loadSourceData();
                 photos = {}; // Очищаем список фото
@@ -2110,6 +2403,8 @@
 
         // ==================== АВТОСОХРАНЕНИЕ ====================
         function scheduleAutoSave() {
+            if (isReadOnlyMode) return; // Не автосохраняем в режиме только для чтения
+            
             if (autoSaveTimer) clearTimeout(autoSaveTimer);
             
             autoSaveTimer = setTimeout(() => {
@@ -2129,12 +2424,17 @@
         }
 
         function updateUI() {
-            document.getElementById('globalInspector').value = globalInspector;
-            document.getElementById('globalDate').value = globalDate;
+            if (!isReadOnlyMode) {
+                document.getElementById('globalInspector').value = globalInspector;
+                document.getElementById('globalDate').value = globalDate;
+            }
             
             renderMap();
-            loadCurrentCompToForm();
-            updateProgress();
+            
+            if (!isReadOnlyMode) {
+                loadCurrentCompToForm();
+                updateProgress();
+            }
         }
 
         function renderMap() {
@@ -2189,6 +2489,7 @@
         }
 
         function loadCurrentCompToForm() {
+            if (isReadOnlyMode) return;
             if (!computers.length) return;
             const comp = computers[currentIndex];
             document.getElementById('currentCompNumber').innerText = comp.num;
@@ -2218,6 +2519,7 @@
         }
 
         function saveCurrentForm() {
+            if (isReadOnlyMode) return;
             if (!computers.length) return;
             const comp = computers[currentIndex];
             
@@ -2251,6 +2553,7 @@
         }
 
         function updateProgress() {
+            if (isReadOnlyMode) return;
             const filled = computers.filter(c => 
                 c.notes || c.monitor !== 'Нет проблем' || c.mouse !== 'Нет проблем' || 
                 c.keyboard !== 'Нет проблем' || c.disks !== 'Есть ещё место' || 
@@ -2262,6 +2565,7 @@
         }
 
         function goToNext() {
+            if (isReadOnlyMode) return;
             saveCurrentForm();
             if (currentIndex < computers.length - 1) {
                 currentIndex++;
@@ -2273,6 +2577,7 @@
         }
 
         function goToPrev() {
+            if (isReadOnlyMode) return;
             saveCurrentForm();
             if (currentIndex > 0) {
                 currentIndex--;
@@ -2282,11 +2587,13 @@
         }
 
         function updateNavButtons() {
+            if (isReadOnlyMode) return;
             document.getElementById('prevBtn').disabled = currentIndex === 0;
             document.getElementById('prevBtnBottom').disabled = currentIndex === 0;
         }
 
         function updateDataStatus(type) {
+            if (isReadOnlyMode) return;
             const statusEl = document.getElementById('dataStatus');
             const icons = {
                 loaded: '📂',
@@ -2328,6 +2635,11 @@
                 // Табы
                 document.querySelectorAll('.tab').forEach(tab => {
                     tab.addEventListener('click', function() {
+                        if (isReadOnlyMode && this.dataset.tab === 'step') {
+                            showToast('👁️ В режиме просмотра доступна только карта', 'warning');
+                            return;
+                        }
+                        
                         activeTab = this.dataset.tab;
                         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                         this.classList.add('active');
@@ -2343,17 +2655,21 @@
                 const githubContent = document.getElementById('githubContent');
                 const githubArrow = document.getElementById('githubArrow');
                 
-                githubHeader.addEventListener('click', function() {
-                    isGithubExpanded = !isGithubExpanded;
-                    if (isGithubExpanded) {
-                        githubContent.classList.add('expanded');
-                        githubArrow.classList.add('expanded');
-                    } else {
-                        githubContent.classList.remove('expanded');
-                        githubArrow.classList.remove('expanded');
-                    }
-                    saveState();
-                });
+                if (githubHeader) {
+                    githubHeader.addEventListener('click', function() {
+                        if (isReadOnlyMode) return;
+                        
+                        isGithubExpanded = !isGithubExpanded;
+                        if (isGithubExpanded) {
+                            githubContent.classList.add('expanded');
+                            githubArrow.classList.add('expanded');
+                        } else {
+                            githubContent.classList.remove('expanded');
+                            githubArrow.classList.remove('expanded');
+                        }
+                        saveState();
+                    });
+                }
                 
                 // Фильтры
                 document.querySelectorAll('.filter-chip').forEach(chip => {
@@ -2368,13 +2684,18 @@
                 document.getElementById('mapSearch').addEventListener('input', renderMap);
                 
                 // Навигация
-                document.getElementById('nextBtn').addEventListener('click', goToNext);
-                document.getElementById('nextBtnBottom').addEventListener('click', goToNext);
-                document.getElementById('prevBtn').addEventListener('click', goToPrev);
-                document.getElementById('prevBtnBottom').addEventListener('click', goToPrev);
+                document.getElementById('nextBtn')?.addEventListener('click', goToNext);
+                document.getElementById('nextBtnBottom')?.addEventListener('click', goToNext);
+                document.getElementById('prevBtn')?.addEventListener('click', goToPrev);
+                document.getElementById('prevBtnBottom')?.addEventListener('click', goToPrev);
                 
                 // Редактирование с карты
                 document.getElementById('gotoEditFromMap').addEventListener('click', function() {
+                    if (isReadOnlyMode) {
+                        showToast('👁️ В режиме просмотра нельзя редактировать', 'warning');
+                        return;
+                    }
+                    
                     const num = parseInt(this.dataset.num);
                     const index = computers.findIndex(c => c.num === num);
                     if (index !== -1) {
@@ -2385,15 +2706,24 @@
                 });
                 
                 // Кнопки управления данными
-                document.getElementById('downloadExcelBtn').addEventListener('click', downloadExcel);
-                document.getElementById('resetDataBtn').addEventListener('click', resetToSource);
+                document.getElementById('downloadExcelBtn')?.addEventListener('click', downloadExcel);
+                document.getElementById('resetDataBtn')?.addEventListener('click', resetToSource);
                 
                 // GitHub кнопки
-                document.getElementById('showTokenBtn').addEventListener('click', () => {
+                document.getElementById('showTokenBtn')?.addEventListener('click', () => {
+                    if (isReadOnlyMode) {
+                        showToast('👁️ В режиме просмотра недоступно', 'warning');
+                        return;
+                    }
                     document.getElementById('tokenModal').classList.add('active');
                 });
                 
-                document.getElementById('saveTokenBtn').addEventListener('click', function() {
+                document.getElementById('saveTokenBtn')?.addEventListener('click', function() {
+                    if (isReadOnlyMode) {
+                        document.getElementById('tokenModal').classList.remove('active');
+                        return;
+                    }
+                    
                     const token = document.getElementById('githubToken').value.trim();
                     if (token) {
                         githubToken = token;
@@ -2409,13 +2739,18 @@
                     }
                 });
                 
-                document.getElementById('cancelTokenBtn').addEventListener('click', function() {
+                document.getElementById('cancelTokenBtn')?.addEventListener('click', function() {
                     document.getElementById('tokenModal').classList.remove('active');
                 });
                 
-                document.getElementById('saveToGithubBtn').addEventListener('click', () => saveToGithub(true));
+                document.getElementById('saveToGithubBtn')?.addEventListener('click', () => saveToGithub(true));
                 
-                document.getElementById('loadFromGithubBtn').addEventListener('click', function() {
+                document.getElementById('loadFromGithubBtn')?.addEventListener('click', function() {
+                    if (isReadOnlyMode) {
+                        showToast('👁️ В режиме просмотра недоступно', 'warning');
+                        return;
+                    }
+                    
                     if (!githubToken) {
                         showToast('❌ Сначала установите токен', 'error');
                         return;
@@ -2427,42 +2762,42 @@
                 });
                 
                 // Загрузка Excel
-                document.getElementById('uploadExcelBtn').addEventListener('click', () => {
+                document.getElementById('uploadExcelBtn')?.addEventListener('click', () => {
+                    if (isReadOnlyMode) {
+                        showToast('👁️ В режиме просмотра нельзя загружать Excel', 'warning');
+                        return;
+                    }
                     document.getElementById('excelFileInput').click();
                 });
                 
-                document.getElementById('excelFileInput').addEventListener('change', function(e) {
+                document.getElementById('excelFileInput')?.addEventListener('change', function(e) {
                     if (e.target.files.length > 0) {
                         loadFromExcel(e.target.files[0]);
                         e.target.value = '';
                     }
                 });
                 
-                // Кнопка добавления фото
-                document.getElementById('addPhotoBtn').addEventListener('click', showPhotoModal);
+                // Кнопка добавления нескольких фото
+                document.getElementById('addPhotoBtn')?.addEventListener('click', showPhotoModal);
 
-                // Выбор файла
-                document.getElementById('photoFile').addEventListener('change', handlePhotoFileSelect);
+                // Выбор нескольких файлов
+                document.getElementById('photoFiles')?.addEventListener('change', handlePhotoFilesSelect);
 
-                // Загрузка фото
-                document.getElementById('uploadPhotoBtn').addEventListener('click', async function() {
-                    const file = document.getElementById('photoFile').files[0];
+                // Загрузка нескольких фото
+                document.getElementById('uploadPhotosBtn')?.addEventListener('click', async function() {
                     const computerNum = computers[currentIndex].num;
                     
-                    if (file && computerNum) {
+                    if (selectedFiles.length > 0 && computerNum) {
                         document.getElementById('photoModal').classList.remove('active');
-                        document.getElementById('loadingOverlay').classList.add('active');
-                        try {
-                            await uploadPhoto(file, computerNum);
-                        } finally {
-                            document.getElementById('loadingOverlay').classList.remove('active');
-                        }
+                        await uploadMultiplePhotos(selectedFiles, computerNum);
+                        selectedFiles = [];
                     }
                 });
 
                 // Отмена загрузки
-                document.getElementById('cancelPhotoBtn').addEventListener('click', function() {
+                document.getElementById('cancelPhotoBtn')?.addEventListener('click', function() {
                     document.getElementById('photoModal').classList.remove('active');
+                    selectedFiles = [];
                 });
 
                 // Навигация по фото
@@ -2494,23 +2829,27 @@
                 });
                 
                 // Изменение глобальных полей
-                document.getElementById('globalInspector').addEventListener('change', function() {
+                document.getElementById('globalInspector')?.addEventListener('change', function() {
+                    if (isReadOnlyMode) return;
                     globalInspector = this.value;
                     scheduleAutoSave();
                 });
-                document.getElementById('globalDate').addEventListener('change', function() {
+                document.getElementById('globalDate')?.addEventListener('change', function() {
+                    if (isReadOnlyMode) return;
                     globalDate = this.value;
                     scheduleAutoSave();
                 });
                 
                 // Изменение полей формы
-                ['monitor', 'mouse', 'keyboard', 'disks', 'sound', 'notes'].forEach(id => {
-                    const element = document.getElementById(id);
-                    if (element) {
-                        element.addEventListener('change', saveCurrentForm);
-                        element.addEventListener('input', saveCurrentForm);
-                    }
-                });
+                if (!isReadOnlyMode) {
+                    ['monitor', 'mouse', 'keyboard', 'disks', 'sound', 'notes'].forEach(id => {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            element.addEventListener('change', saveCurrentForm);
+                            element.addEventListener('input', saveCurrentForm);
+                        }
+                    });
+                }
                 
                 // Тёмная тема
                 document.getElementById('themeToggle').addEventListener('click', function() {
