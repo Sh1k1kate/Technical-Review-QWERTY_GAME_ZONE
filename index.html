@@ -606,7 +606,7 @@
             100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
         }
         
-        /* Модальное окно */
+        /* Модальное окно токена */
         .modal {
             display: none;
             position: fixed;
@@ -629,6 +629,8 @@
             padding: 24px;
             max-width: 500px;
             width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         .dark-theme .modal-content {
             background: #1e293b;
@@ -673,6 +675,48 @@
         }
         .modal-btn:active {
             transform: scale(0.95);
+        }
+        
+        /* Модальное окно для фото */
+        #photoPreview {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 20px;
+            display: none;
+        }
+
+        /* Модальное окно для просмотра фото */
+        .photo-viewer-modal .modal-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            padding: 10px;
+            background: transparent;
+            box-shadow: none;
+        }
+        .photo-viewer-modal img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 16px;
+            display: block;
+            margin: 0 auto;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        .photo-viewer-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2100;
         }
         
         /* Индикатор загрузки */
@@ -772,6 +816,61 @@
             font-size: 0.9rem;
             white-space: pre-wrap;
             word-break: break-all;
+        }
+        
+        /* Стили для галереи */
+        .photo-thumb {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid #e2e8f0;
+            transition: transform 0.2s;
+            background: #f1f5f9;
+        }
+        .photo-thumb:hover {
+            transform: scale(1.05);
+        }
+        .dark-theme .photo-thumb {
+            border-color: #334155;
+            background: #0f172a;
+        }
+        .photo-gallery {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            min-height: 50px;
+        }
+        .photo-item {
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+        .photo-delete {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .photo-delete:hover {
+            background: #dc2626;
+        }
+        .photo-delete:active {
+            transform: scale(0.95);
         }
     </style>
 </head>
@@ -894,7 +993,13 @@
                 <div><strong>Диски:</strong> <span id="mapDetailDisks"></span></div>
                 <div><strong>Звук:</strong> <span id="mapDetailSound"></span></div>
             </div>
-            <div style="margin: 12px 0;"><strong>Заметки:</strong> <span id="mapDetailNotes"></span></div>
+            <div style="margin: 12px 0;">
+                <strong>Заметки:</strong> <span id="mapDetailNotes"></span>
+            </div>
+            <div style="margin: 12px 0;">
+                <strong>📸 Фото:</strong>
+                <div id="mapDetailPhotos" class="photo-gallery"></div>
+            </div>
             <button class="small-btn primary" style="width: 100%;" id="gotoEditFromMap">✏️ Редактировать</button>
         </div>
     </div>
@@ -976,6 +1081,17 @@
                     <label class="form-label">📝 Заметки</label>
                     <textarea class="form-input" id="notes" rows="2" placeholder="Подробности проблем..."></textarea>
                 </div>
+
+                <!-- Блок для фотографий -->
+                <div class="form-group">
+                    <label class="form-label">📸 Фотографии</label>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button type="button" class="small-btn" id="addPhotoBtn">➕ Добавить фото</button>
+                    </div>
+                    <div id="photoGallery" class="photo-gallery">
+                        <!-- Галерея загрузится сюда -->
+                    </div>
+                </div>
             </form>
         </div>
 
@@ -997,6 +1113,39 @@
             <button class="modal-btn secondary" id="cancelTokenBtn">Отмена</button>
             <button class="modal-btn primary" id="saveTokenBtn">Сохранить</button>
         </div>
+    </div>
+</div>
+
+<!-- Модальное окно для добавления фото -->
+<div class="modal" id="photoModal">
+    <div class="modal-content">
+        <div class="modal-title">📸 Добавить фото</div>
+        <p>Выберите фото для компьютера №<span id="photoComputerNum"></span></p>
+        
+        <!-- Превью фото -->
+        <div id="photoPreviewContainer" style="margin: 15px 0; text-align: center; max-height: 200px; overflow: hidden;">
+            <img id="photoPreview" src="#" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 20px; display: none;">
+        </div>
+        
+        <!-- Кнопка выбора файла -->
+        <div style="margin: 15px 0;">
+            <label for="photoFile" class="small-btn" style="display: inline-block; width: auto; margin-right: 10px;">📁 Выбрать файл</label>
+            <input type="file" id="photoFile" accept="image/*" style="display: none;">
+            <span id="photoFileName" style="color: #64748b;">Файл не выбран</span>
+        </div>
+        
+        <div class="modal-buttons">
+            <button class="modal-btn secondary" id="cancelPhotoBtn">Отмена</button>
+            <button class="modal-btn primary" id="uploadPhotoBtn" disabled>📤 Загрузить</button>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для просмотра фото -->
+<div class="modal photo-viewer-modal" id="photoViewerModal">
+    <div class="modal-content" style="position: relative;">
+        <button class="photo-viewer-close" id="closePhotoViewer">✕</button>
+        <img id="viewerImage" src="" alt="Просмотр фото">
     </div>
 </div>
 
@@ -1096,13 +1245,335 @@
         let isSaving = false;
         let isLoading = false;
 
+        // ==================== ФУНКЦИИ ДЛЯ РАБОТЫ С ФОТО ====================
+        // Структура для хранения информации о фото
+        let photos = {}; // { "computer_num": ["filename1.jpg", "filename2.jpg"] }
+
+        // Загружаем список фото с GitHub
+        async function loadPhotoList() {
+            if (!githubToken) return;
+            
+            try {
+                const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/Pics`;
+                const response = await fetch(url, {
+                    headers: { 
+                        'Authorization': `token ${githubToken}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const files = await response.json();
+                    photos = {};
+                    
+                    files.forEach(file => {
+                        if (file.type === 'file' && file.name.match(/^\d+_.+\.(jpg|jpeg|png|gif|webp)$/i)) {
+                            const num = file.name.split('_')[0];
+                            if (!photos[num]) photos[num] = [];
+                            photos[num].push(file.name);
+                        }
+                    });
+                    
+                    // Обновляем обе галереи
+                    updatePhotoGallery();
+                    updateMapDetailPhotos();
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки списка фото:', error);
+                showError('Ошибка загрузки списка фото: ' + error.message);
+            }
+        }
+
+        // Обновляем галерею для текущего компьютера
+        function updatePhotoGallery() {
+            const gallery = document.getElementById('photoGallery');
+            if (!gallery) return;
+            
+            const currentComp = computers[currentIndex];
+            if (!currentComp) {
+                gallery.innerHTML = '<div style="color: #64748b; width: 100%; text-align: center; padding: 20px;">📷 Компьютер не выбран</div>';
+                return;
+            }
+            
+            const compPhotos = photos[currentComp.num] || [];
+            
+            if (compPhotos.length === 0) {
+                gallery.innerHTML = '<div style="color: #64748b; width: 100%; text-align: center; padding: 20px;">📷 Нет фотографий</div>';
+                return;
+            }
+            
+            gallery.innerHTML = '';
+            compPhotos.forEach(filename => {
+                try {
+                    const photoUrl = `https://raw.githubusercontent.com/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/main/Pics/${encodeURIComponent(filename)}`;
+                    
+                    const photoDiv = document.createElement('div');
+                    photoDiv.className = 'photo-item';
+                    
+                    const img = document.createElement('img');
+                    img.src = photoUrl;
+                    img.className = 'photo-thumb';
+                    img.onclick = () => openPhotoViewer(photoUrl);
+                    img.onerror = function() {
+                        this.style.display = 'none';
+                        const errorDiv = document.createElement('div');
+                        errorDiv.style.cssText = 'width:80px;height:80px;background:#fee2e2;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#ef4444;text-align:center;';
+                        errorDiv.textContent = 'Ошибка загрузки';
+                        photoDiv.appendChild(errorDiv);
+                    };
+                    
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'photo-delete';
+                    deleteBtn.innerHTML = '✕';
+                    deleteBtn.onclick = (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        deletePhoto(filename, currentComp.num);
+                    };
+                    
+                    photoDiv.appendChild(img);
+                    photoDiv.appendChild(deleteBtn);
+                    gallery.appendChild(photoDiv);
+                } catch (e) {
+                    console.error('Ошибка создания элемента фото:', e);
+                }
+            });
+        }
+
+        // Обновляем фото в детальной карточке на карте
+        function updateMapDetailPhotos() {
+            const container = document.getElementById('mapDetailPhotos');
+            if (!container) return;
+            
+            const currentCompNum = document.getElementById('mapDetailNumber')?.innerText;
+            if (!currentCompNum) return;
+            
+            const compPhotos = photos[currentCompNum] || [];
+            
+            if (compPhotos.length === 0) {
+                container.innerHTML = '<span style="color: #64748b;">Нет фотографий</span>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            compPhotos.forEach(filename => {
+                try {
+                    const photoUrl = `https://raw.githubusercontent.com/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/main/Pics/${encodeURIComponent(filename)}`;
+                    
+                    const img = document.createElement('img');
+                    img.src = photoUrl;
+                    img.className = 'photo-thumb';
+                    img.style.width = '60px';
+                    img.style.height = '60px';
+                    img.onclick = () => openPhotoViewer(photoUrl);
+                    img.onerror = function() {
+                        this.style.display = 'none';
+                    };
+                    
+                    container.appendChild(img);
+                } catch (e) {
+                    console.error('Ошибка создания элемента фото для карты:', e);
+                }
+            });
+        }
+
+        // Открыть просмотрщик фото
+        function openPhotoViewer(url) {
+            const viewer = document.getElementById('viewerImage');
+            const modal = document.getElementById('photoViewerModal');
+            if (viewer && modal) {
+                viewer.src = url;
+                modal.classList.add('active');
+            }
+        }
+
+        // Загрузка фото на GitHub
+        async function uploadPhoto(file, computerNum) {
+            if (!githubToken) {
+                showToast('❌ Сначала установите токен', 'error');
+                return false;
+            }
+            
+            // Создаем имя файла: номер_время_оригинальное_имя
+            const timestamp = Date.now();
+            const safeFileName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
+            const filename = `${computerNum}_${timestamp}_${safeFileName}`;
+            const path = `Pics/${filename}`;
+            
+            try {
+                // Конвертируем файл в base64
+                const reader = new FileReader();
+                const base64 = await new Promise((resolve, reject) => {
+                    reader.onload = () => resolve(reader.result.split(',')[1]);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+                
+                // Проверяем существование файла
+                const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${path}`;
+                const getResponse = await fetch(url, {
+                    headers: { 'Authorization': `token ${githubToken}` }
+                });
+                
+                let sha = null;
+                if (getResponse.ok) {
+                    const data = await getResponse.json();
+                    sha = data.sha;
+                }
+                
+                // Загружаем файл
+                const putData = {
+                    message: `Добавлено фото для компьютера ${computerNum}`,
+                    content: base64,
+                    branch: 'main'
+                };
+                if (sha) putData.sha = sha;
+                
+                const putResponse = await fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${githubToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(putData)
+                });
+                
+                if (!putResponse.ok) {
+                    const error = await putResponse.json();
+                    throw new Error(error.message);
+                }
+                
+                // Обновляем список фото
+                if (!photos[computerNum]) photos[computerNum] = [];
+                photos[computerNum].push(filename);
+                
+                // Обновляем обе галереи
+                updatePhotoGallery();
+                updateMapDetailPhotos();
+                showToast('✅ Фото загружено');
+                
+                return true;
+                
+            } catch (error) {
+                console.error('Ошибка загрузки фото:', error);
+                showToast('❌ Ошибка загрузки фото: ' + error.message, 'error');
+                return false;
+            }
+        }
+
+        // Удаление фото
+        async function deletePhoto(filename, computerNum) {
+            if (!githubToken) {
+                showToast('❌ Сначала установите токен', 'error');
+                return;
+            }
+            
+            if (!confirm(`Удалить фото?`)) return;
+            
+            try {
+                const path = `Pics/${filename}`;
+                const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${path}`;
+                
+                // Получаем SHA файла
+                const getResponse = await fetch(url, {
+                    headers: { 'Authorization': `token ${githubToken}` }
+                });
+                
+                if (!getResponse.ok) {
+                    throw new Error('Файл не найден');
+                }
+                
+                const fileData = await getResponse.json();
+                
+                // Удаляем файл
+                const deleteResponse = await fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `token ${githubToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: `Удалено фото для компьютера ${computerNum}`,
+                        sha: fileData.sha,
+                        branch: 'main'
+                    })
+                });
+                
+                if (!deleteResponse.ok) {
+                    const error = await deleteResponse.json();
+                    throw new Error(error.message);
+                }
+                
+                // Удаляем из локального списка
+                if (photos[computerNum]) {
+                    photos[computerNum] = photos[computerNum].filter(f => f !== filename);
+                    if (photos[computerNum].length === 0) {
+                        delete photos[computerNum];
+                    }
+                }
+                
+                // Обновляем обе галереи
+                updatePhotoGallery();
+                updateMapDetailPhotos();
+                showToast('✅ Фото удалено');
+                
+            } catch (error) {
+                console.error('Ошибка удаления фото:', error);
+                showToast('❌ Ошибка удаления фото: ' + error.message, 'error');
+            }
+        }
+
+        // Открыть модальное окно для загрузки фото
+        function showPhotoModal() {
+            const currentComp = computers[currentIndex];
+            if (!currentComp) return;
+            
+            document.getElementById('photoComputerNum').textContent = currentComp.num;
+            document.getElementById('photoFile').value = '';
+            document.getElementById('photoFileName').textContent = 'Файл не выбран';
+            document.getElementById('photoPreview').style.display = 'none';
+            document.getElementById('uploadPhotoBtn').disabled = true;
+            document.getElementById('photoModal').classList.add('active');
+        }
+
+        // Обработчик выбора файла
+        function handlePhotoFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            document.getElementById('photoFileName').textContent = file.name;
+            document.getElementById('uploadPhotoBtn').disabled = false;
+            
+            // Превью
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('photoPreview');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.onerror = function() {
+                showToast('Ошибка чтения файла', 'error');
+            };
+            reader.readAsDataURL(file);
+        }
+
         // ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ДЛЯ UTF-8 ====================
         function utf8ToBase64(str) {
-            return btoa(unescape(encodeURIComponent(str)));
+            try {
+                return btoa(unescape(encodeURIComponent(str)));
+            } catch (e) {
+                console.error('Ошибка кодирования в base64:', e);
+                return '';
+            }
         }
 
         function base64ToUtf8(base64) {
-            return decodeURIComponent(escape(atob(base64)));
+            try {
+                return decodeURIComponent(escape(atob(base64)));
+            } catch (e) {
+                console.error('Ошибка декодирования из base64:', e);
+                return '';
+            }
         }
 
         // ==================== ЗАГРУЗКА СОСТОЯНИЯ ====================
@@ -1152,13 +1623,15 @@
         function showError(error) {
             const debugPanel = document.getElementById('debugPanel');
             const debugContent = document.getElementById('debugContent');
-            debugContent.textContent = error;
-            debugPanel.classList.add('active');
-            
-            // Автоматически скрываем через 10 секунд
-            setTimeout(() => {
-                debugPanel.classList.remove('active');
-            }, 10000);
+            if (debugPanel && debugContent) {
+                debugContent.textContent = error;
+                debugPanel.classList.add('active');
+                
+                // Автоматически скрываем через 10 секунд
+                setTimeout(() => {
+                    debugPanel.classList.remove('active');
+                }, 10000);
+            }
         }
 
         // ==================== ИНИЦИАЛИЗАЦИЯ ====================
@@ -1174,17 +1647,25 @@
             // Показываем индикатор загрузки
             document.getElementById('loadingOverlay').classList.add('active');
             
-            // Загружаем с GitHub (с токеном)
-            const success = await loadFromGithub(true);
-            if (!success) {
-                loadSourceData();
+            try {
+                // Загружаем с GitHub (с токеном)
+                const success = await loadFromGithub(true);
+                if (!success) {
+                    loadSourceData();
+                }
+                
+                // Загружаем список фото
+                await loadPhotoList();
+            } catch (e) {
+                console.error('Ошибка инициализации:', e);
+                showError('Ошибка инициализации: ' + e.message);
+            } finally {
+                // Скрываем индикатор загрузки
+                document.getElementById('loadingOverlay').classList.remove('active');
+                
+                // Обновляем UI
+                updateUI();
             }
-            
-            // Скрываем индикатор загрузки
-            document.getElementById('loadingOverlay').classList.remove('active');
-            
-            // Обновляем UI
-            updateUI();
         }
 
         function loadSourceData() {
@@ -1223,6 +1704,10 @@
                 // Правильное кодирование UTF-8 в base64
                 const jsonString = JSON.stringify(data, null, 2);
                 const content = utf8ToBase64(jsonString);
+                
+                if (!content) {
+                    throw new Error('Ошибка кодирования данных');
+                }
                 
                 // Проверяем существование файла
                 const getUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
@@ -1324,6 +1809,10 @@
                 // Декодируем content из base64 с правильной UTF-8
                 if (data.content) {
                     const decodedContent = base64ToUtf8(data.content);
+                    if (!decodedContent) {
+                        throw new Error('Ошибка декодирования данных');
+                    }
+                    
                     const jsonData = JSON.parse(decodedContent);
                     
                     if (jsonData.computers && Array.isArray(jsonData.computers)) {
@@ -1334,6 +1823,7 @@
                         currentIndex = 0;
                         updateUI();
                         updateDataStatus('loaded');
+                        
                         if (!silent) {
                             showToast(`✅ Загружено ${computers.length} компьютеров с GitHub`);
                         }
@@ -1519,6 +2009,7 @@
         async function resetToSource() {
             if (confirm('Сбросить все данные к исходным? Несохранённые изменения будут потеряны.')) {
                 loadSourceData();
+                photos = {}; // Очищаем список фото
                 currentIndex = 0;
                 updateUI();
                 
@@ -1604,6 +2095,9 @@
             document.getElementById('mapDetailStatus').innerText = 
                 status === 'good' ? '✅ Хорошо' : (status === 'warning' ? '⚠️ Замечания' : '🔴 Проблемы');
             
+            // Обновляем фото в детальной карточке
+            updateMapDetailPhotos();
+            
             document.getElementById('mapDetailCard').style.display = 'block';
             document.getElementById('gotoEditFromMap').setAttribute('data-num', num);
         }
@@ -1632,6 +2126,9 @@
             document.getElementById('disks').value = comp.disks || 'Есть ещё место';
             document.getElementById('sound').value = comp.sound || 'Нет проблем';
             document.getElementById('notes').value = comp.notes || '';
+            
+            // Обновляем галерею фото
+            updatePhotoGallery();
         }
 
         function saveCurrentForm() {
@@ -1738,148 +2235,194 @@
 
         // ==================== ИНИЦИАЛИЗАЦИЯ ====================
         document.addEventListener('DOMContentLoaded', function() {
-            // Загружаем сохраненное состояние интерфейса
-            loadSavedState();
-            
-            // Табы
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    activeTab = this.dataset.tab;
-                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-                    document.getElementById(activeTab + 'Panel').classList.add('active');
-                    if (activeTab === 'map') renderMap();
+            try {
+                // Загружаем сохраненное состояние интерфейса
+                loadSavedState();
+                
+                // Табы
+                document.querySelectorAll('.tab').forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        activeTab = this.dataset.tab;
+                        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+                        document.getElementById(activeTab + 'Panel').classList.add('active');
+                        if (activeTab === 'map') renderMap();
+                        saveState();
+                    });
+                });
+                
+                // Скрываемая GitHub панель
+                const githubHeader = document.getElementById('githubHeader');
+                const githubContent = document.getElementById('githubContent');
+                const githubArrow = document.getElementById('githubArrow');
+                
+                githubHeader.addEventListener('click', function() {
+                    isGithubExpanded = !isGithubExpanded;
+                    if (isGithubExpanded) {
+                        githubContent.classList.add('expanded');
+                        githubArrow.classList.add('expanded');
+                    } else {
+                        githubContent.classList.remove('expanded');
+                        githubArrow.classList.remove('expanded');
+                    }
                     saveState();
                 });
-            });
-            
-            // Скрываемая GitHub панель
-            const githubHeader = document.getElementById('githubHeader');
-            const githubContent = document.getElementById('githubContent');
-            const githubArrow = document.getElementById('githubArrow');
-            
-            githubHeader.addEventListener('click', function() {
-                isGithubExpanded = !isGithubExpanded;
-                if (isGithubExpanded) {
-                    githubContent.classList.add('expanded');
-                    githubArrow.classList.add('expanded');
-                } else {
-                    githubContent.classList.remove('expanded');
-                    githubArrow.classList.remove('expanded');
-                }
-                saveState();
-            });
-            
-            // Фильтры
-            document.querySelectorAll('.filter-chip').forEach(chip => {
-                chip.addEventListener('click', function() {
-                    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-                    this.classList.add('active');
-                    renderMap();
+                
+                // Фильтры
+                document.querySelectorAll('.filter-chip').forEach(chip => {
+                    chip.addEventListener('click', function() {
+                        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                        this.classList.add('active');
+                        renderMap();
+                    });
                 });
-            });
-            
-            // Поиск
-            document.getElementById('mapSearch').addEventListener('input', renderMap);
-            
-            // Навигация
-            document.getElementById('nextBtn').addEventListener('click', goToNext);
-            document.getElementById('nextBtnBottom').addEventListener('click', goToNext);
-            document.getElementById('prevBtn').addEventListener('click', goToPrev);
-            document.getElementById('prevBtnBottom').addEventListener('click', goToPrev);
-            
-            // Редактирование с карты
-            document.getElementById('gotoEditFromMap').addEventListener('click', function() {
-                const num = parseInt(this.dataset.num);
-                const index = computers.findIndex(c => c.num === num);
-                if (index !== -1) {
-                    currentIndex = index;
-                    loadCurrentCompToForm();
-                    document.querySelector('[data-tab="step"]').click();
-                }
-            });
-            
-            // Кнопки управления данными
-            document.getElementById('downloadExcelBtn').addEventListener('click', downloadExcel);
-            document.getElementById('resetDataBtn').addEventListener('click', resetToSource);
-            
-            // GitHub кнопки
-            document.getElementById('showTokenBtn').addEventListener('click', () => {
-                document.getElementById('tokenModal').classList.add('active');
-            });
-            
-            document.getElementById('saveTokenBtn').addEventListener('click', function() {
-                const token = document.getElementById('githubToken').value.trim();
-                if (token) {
-                    githubToken = token;
-                    localStorage.setItem('github_token', token);
+                
+                // Поиск
+                document.getElementById('mapSearch').addEventListener('input', renderMap);
+                
+                // Навигация
+                document.getElementById('nextBtn').addEventListener('click', goToNext);
+                document.getElementById('nextBtnBottom').addEventListener('click', goToNext);
+                document.getElementById('prevBtn').addEventListener('click', goToPrev);
+                document.getElementById('prevBtnBottom').addEventListener('click', goToPrev);
+                
+                // Редактирование с карты
+                document.getElementById('gotoEditFromMap').addEventListener('click', function() {
+                    const num = parseInt(this.dataset.num);
+                    const index = computers.findIndex(c => c.num === num);
+                    if (index !== -1) {
+                        currentIndex = index;
+                        loadCurrentCompToForm();
+                        document.querySelector('[data-tab="step"]').click();
+                    }
+                });
+                
+                // Кнопки управления данными
+                document.getElementById('downloadExcelBtn').addEventListener('click', downloadExcel);
+                document.getElementById('resetDataBtn').addEventListener('click', resetToSource);
+                
+                // GitHub кнопки
+                document.getElementById('showTokenBtn').addEventListener('click', () => {
+                    document.getElementById('tokenModal').classList.add('active');
+                });
+                
+                document.getElementById('saveTokenBtn').addEventListener('click', function() {
+                    const token = document.getElementById('githubToken').value.trim();
+                    if (token) {
+                        githubToken = token;
+                        localStorage.setItem('github_token', token);
+                        document.getElementById('tokenModal').classList.remove('active');
+                        updateRepoDisplay();
+                        
+                        // После установки токена загружаем данные с GitHub
+                        document.getElementById('loadingOverlay').classList.add('active');
+                        loadFromGithub(false).finally(() => {
+                            document.getElementById('loadingOverlay').classList.remove('active');
+                        });
+                    }
+                });
+                
+                document.getElementById('cancelTokenBtn').addEventListener('click', function() {
                     document.getElementById('tokenModal').classList.remove('active');
-                    updateRepoDisplay();
-                    
-                    // После установки токена загружаем данные с GitHub
+                });
+                
+                document.getElementById('saveToGithubBtn').addEventListener('click', () => saveToGithub(true));
+                
+                document.getElementById('loadFromGithubBtn').addEventListener('click', function() {
+                    if (!githubToken) {
+                        showToast('❌ Сначала установите токен', 'error');
+                        return;
+                    }
                     document.getElementById('loadingOverlay').classList.add('active');
                     loadFromGithub(false).finally(() => {
                         document.getElementById('loadingOverlay').classList.remove('active');
                     });
-                }
-            });
-            
-            document.getElementById('cancelTokenBtn').addEventListener('click', function() {
-                document.getElementById('tokenModal').classList.remove('active');
-            });
-            
-            document.getElementById('saveToGithubBtn').addEventListener('click', () => saveToGithub(true));
-            
-            document.getElementById('loadFromGithubBtn').addEventListener('click', function() {
-                if (!githubToken) {
-                    showToast('❌ Сначала установите токен', 'error');
-                    return;
-                }
-                document.getElementById('loadingOverlay').classList.add('active');
-                loadFromGithub(false).finally(() => {
-                    document.getElementById('loadingOverlay').classList.remove('active');
                 });
-            });
-            
-            // Загрузка Excel
-            document.getElementById('uploadExcelBtn').addEventListener('click', () => {
-                document.getElementById('excelFileInput').click();
-            });
-            
-            document.getElementById('excelFileInput').addEventListener('change', function(e) {
-                if (e.target.files.length > 0) {
-                    loadFromExcel(e.target.files[0]);
-                    e.target.value = '';
-                }
-            });
-            
-            // Изменение глобальных полей
-            document.getElementById('globalInspector').addEventListener('change', function() {
-                globalInspector = this.value;
-                scheduleAutoSave();
-            });
-            document.getElementById('globalDate').addEventListener('change', function() {
-                globalDate = this.value;
-                scheduleAutoSave();
-            });
-            
-            // Изменение полей формы
-            ['monitor', 'mouse', 'keyboard', 'disks', 'sound', 'notes'].forEach(id => {
-                document.getElementById(id).addEventListener('change', saveCurrentForm);
-                document.getElementById(id).addEventListener('input', saveCurrentForm);
-            });
-            
-            // Тёмная тема
-            document.getElementById('themeToggle').addEventListener('click', function() {
-                isDarkTheme = !isDarkTheme;
-                document.body.classList.toggle('dark-theme');
-                this.innerHTML = isDarkTheme ? '☀️ Светлая' : '🌙 Тёмная';
-                saveState();
-            });
-            
-            // Инициализация данных
-            initializeData();
+                
+                // Загрузка Excel
+                document.getElementById('uploadExcelBtn').addEventListener('click', () => {
+                    document.getElementById('excelFileInput').click();
+                });
+                
+                document.getElementById('excelFileInput').addEventListener('change', function(e) {
+                    if (e.target.files.length > 0) {
+                        loadFromExcel(e.target.files[0]);
+                        e.target.value = '';
+                    }
+                });
+                
+                // Кнопка добавления фото
+                document.getElementById('addPhotoBtn').addEventListener('click', showPhotoModal);
+
+                // Выбор файла
+                document.getElementById('photoFile').addEventListener('change', handlePhotoFileSelect);
+
+                // Загрузка фото
+                document.getElementById('uploadPhotoBtn').addEventListener('click', async function() {
+                    const file = document.getElementById('photoFile').files[0];
+                    const computerNum = computers[currentIndex].num;
+                    
+                    if (file && computerNum) {
+                        document.getElementById('photoModal').classList.remove('active');
+                        document.getElementById('loadingOverlay').classList.add('active');
+                        try {
+                            await uploadPhoto(file, computerNum);
+                        } finally {
+                            document.getElementById('loadingOverlay').classList.remove('active');
+                        }
+                    }
+                });
+
+                // Отмена загрузки
+                document.getElementById('cancelPhotoBtn').addEventListener('click', function() {
+                    document.getElementById('photoModal').classList.remove('active');
+                });
+
+                // Закрытие просмотрщика фото
+                document.getElementById('closePhotoViewer').addEventListener('click', function() {
+                    document.getElementById('photoViewerModal').classList.remove('active');
+                });
+
+                document.getElementById('photoViewerModal').addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.remove('active');
+                    }
+                });
+                
+                // Изменение глобальных полей
+                document.getElementById('globalInspector').addEventListener('change', function() {
+                    globalInspector = this.value;
+                    scheduleAutoSave();
+                });
+                document.getElementById('globalDate').addEventListener('change', function() {
+                    globalDate = this.value;
+                    scheduleAutoSave();
+                });
+                
+                // Изменение полей формы
+                ['monitor', 'mouse', 'keyboard', 'disks', 'sound', 'notes'].forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.addEventListener('change', saveCurrentForm);
+                        element.addEventListener('input', saveCurrentForm);
+                    }
+                });
+                
+                // Тёмная тема
+                document.getElementById('themeToggle').addEventListener('click', function() {
+                    isDarkTheme = !isDarkTheme;
+                    document.body.classList.toggle('dark-theme');
+                    this.innerHTML = isDarkTheme ? '☀️ Светлая' : '🌙 Тёмная';
+                    saveState();
+                });
+                
+                // Инициализация данных
+                initializeData();
+            } catch (e) {
+                console.error('Критическая ошибка при инициализации:', e);
+                showError('Критическая ошибка: ' + e.message);
+            }
         });
     })();
 </script>
