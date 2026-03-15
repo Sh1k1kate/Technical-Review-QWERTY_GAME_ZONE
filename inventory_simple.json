@@ -1,17 +1,4 @@
 {
-  "items": [
-    {
-      "id": 5,
-      "category": "Расходники",
-      "name": "Кабель HDMI",
-      "quantity": 25
-    },
-    {
-      "id": 3,
-      "category": "Электроника",
-      "name": "Монитор 24\"",
-      "quantity": 3
-    }
-  ],
-  "lastUpdated": "2026-03-15T20:12:42.443Z"
+  "items": [],
+  "lastUpdated": "2026-03-15T20:12:45.321Z"
 }
