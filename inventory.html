@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Инвентаризация товара</title>
-    <!-- Добавленная строка для favicon -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <!-- Для лучшей поддержки можно добавить и PNG версию -->
-    <link rel="icon" type="image/png" sizes="32x32" href="free-icon-trident-234004.png">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         * {
@@ -541,11 +537,14 @@
             <div class="form-group">
                 <label class="form-label">Категория</label>
                 <select class="form-select" id="category">
-                    <option value="Готовая Еда">Готовая Еда</option>
-                    <option value="Напитки">Напитки</option>
-                    <option value="Снэки">Снэки</option>
-                    <option value="Шоколад">Шоколад</option>
-                    <option value="Энергетичесике напитки">Энергетичесике напитки</option>
+                    <option value="Электроника">Электроника</option>
+                    <option value="Комплектующие">Комплектующие</option>
+                    <option value="Периферия">Периферия</option>
+                    <option value="Расходники">Расходники</option>
+                    <option value="Мебель">Мебель</option>
+                    <option value="Инструменты">Инструменты</option>
+                    <option value="Канцелярия">Канцелярия</option>
+                    <option value="Другое">Другое</option>
                 </select>
             </div>
             
@@ -630,6 +629,11 @@
 
             // ==================== НАЧАЛЬНЫЕ ДАННЫЕ ====================
             const DEFAULT_ITEMS = [
+                { id: 1, category: 'Периферия', name: 'Мышь проводная', quantity: 12 },
+                { id: 2, category: 'Периферия', name: 'Клавиатура', quantity: 8 },
+                { id: 3, category: 'Электроника', name: 'Монитор 24"', quantity: 3 },
+                { id: 4, category: 'Комплектующие', name: 'Жесткий диск 1TB', quantity: 0 },
+                { id: 5, category: 'Расходники', name: 'Кабель HDMI', quantity: 25 }
             ];
 
             // ==================== СОСТОЯНИЕ ====================
@@ -808,9 +812,6 @@
                 const nameInput = document.getElementById('name');
                 const autocompleteDiv = document.getElementById('autocomplete');
                 
-                // Собираем все уникальные названия из существующих товаров
-                const allNames = [...new Set(items.map(item => item.name))];
-                
                 nameInput.addEventListener('input', function() {
                     const value = this.value.toLowerCase().trim();
                     
@@ -819,22 +820,28 @@
                         return;
                     }
                     
-                    // Ищем совпадения в названиях и категориях
+                    // Ищем товары с похожим названием
                     const matches = items.filter(item => 
-                        item.name.toLowerCase().includes(value) || 
-                        item.category.toLowerCase().includes(value)
+                        item.name.toLowerCase().includes(value)
                     );
                     
-                    // Добавляем уникальные названия из всех товаров
-                    const uniqueMatches = [...new Set(matches.map(m => m.name))];
+                    // Убираем дубликаты по названию
+                    const uniqueMatches = [];
+                    const seen = new Set();
+                    matches.forEach(item => {
+                        if (!seen.has(item.name)) {
+                            seen.add(item.name);
+                            uniqueMatches.push(item);
+                        }
+                    });
                     
                     if (uniqueMatches.length > 0) {
                         autocompleteDiv.innerHTML = uniqueMatches
-                            .slice(0, 5) // Показываем не больше 5 вариантов
-                            .map(name => {
-                                const item = items.find(i => i.name === name);
-                                return `<div class="autocomplete-item" data-name="${name}" data-category="${item.category}">
-                                    ${name} <small>${item.category}</small>
+                            .slice(0, 5)
+                            .map(item => {
+                                const status = item.quantity === 0 ? '🔴' : item.quantity < 5 ? '🟡' : '🟢';
+                                return `<div class="autocomplete-item" data-id="${item.id}" data-category="${item.category}" data-name="${item.name}" data-quantity="${item.quantity}">
+                                    ${item.name} <small>${item.category} (сейчас: ${item.quantity} шт) ${status}</small>
                                 </div>`;
                             })
                             .join('');
@@ -848,9 +855,26 @@
                 autocompleteDiv.addEventListener('click', function(e) {
                     const item = e.target.closest('.autocomplete-item');
                     if (item) {
-                        nameInput.value = item.dataset.name;
-                        document.getElementById('category').value = item.dataset.category;
+                        const id = parseInt(item.dataset.id);
+                        const name = item.dataset.name;
+                        const category = item.dataset.category;
+                        const currentQuantity = parseInt(item.dataset.quantity);
+                        
+                        // Заполняем форму
+                        nameInput.value = name;
+                        document.getElementById('category').value = category;
+                        
+                        // Устанавливаем режим редактирования для этого товара
+                        editingId = id;
+                        document.getElementById('modalTitle').innerText = '✏️ Редактировать товар';
+                        
+                        // Показываем текущее количество и фокусируемся на нём для изменения
+                        document.getElementById('quantity').value = currentQuantity;
+                        document.getElementById('quantity').focus();
+                        
                         autocompleteDiv.style.display = 'none';
+                        
+                        showToast(`🔄 Редактирование: ${name} (сейчас ${currentQuantity} шт)`, 'success');
                     }
                 });
                 
@@ -891,7 +915,6 @@
                 const tbody = document.getElementById('tableBody');
                 tbody.innerHTML = '';
                 
-                // Сортировка по категории и названию
                 filtered.sort((a, b) => {
                     if (a.category === b.category) {
                         return a.name.localeCompare(b.name);
@@ -974,36 +997,61 @@
                     return;
                 }
                 
+                const category = document.getElementById('category').value;
                 const quantity = parseInt(document.getElementById('quantity').value) || 0;
                 
-                const item = {
-                    id: editingId || nextId++,
-                    category: document.getElementById('category').value,
-                    name: name,
-                    quantity: quantity
-                };
-                
                 if (editingId) {
+                    // Режим редактирования - обновляем существующий товар
                     const index = items.findIndex(i => i.id === editingId);
-                    if (index !== -1) items[index] = item;
+                    if (index !== -1) {
+                        const oldQuantity = items[index].quantity;
+                        items[index] = {
+                            ...items[index],
+                            category: category,
+                            quantity: quantity
+                        };
+                        showToast(`✅ Товар "${name}" обновлён (было: ${oldQuantity} шт, стало: ${quantity} шт)`);
+                    }
                 } else {
-                    items.push(item);
+                    // Режим добавления - создаём новый товар
+                    // Проверяем, нет ли уже товара с таким названием
+                    const existingItem = items.find(i => i.name.toLowerCase() === name.toLowerCase());
+                    
+                    if (existingItem) {
+                        // Если товар уже существует, спрашиваем, может хотели отредактировать?
+                        if (confirm(`Товар "${name}" уже существует (${existingItem.quantity} шт). Хотите отредактировать его количество?`)) {
+                            editingId = existingItem.id;
+                            document.getElementById('category').value = existingItem.category;
+                            document.getElementById('quantity').focus();
+                            return;
+                        }
+                    }
+                    
+                    // Создаём новый товар
+                    const newItem = {
+                        id: nextId++,
+                        category: category,
+                        name: name,
+                        quantity: quantity
+                    };
+                    items.push(newItem);
+                    showToast(`✅ Новый товар "${name}" добавлен (${quantity} шт)`);
                 }
                 
                 saveToLocal();
-                saveToGithub(false); // фоновое сохранение
+                saveToGithub(false);
                 renderTable();
                 closeModal();
-                showToast(editingId ? '✅ Товар обновлён' : '✅ Товар добавлен');
             }
 
             function deleteItem(id) {
-                if (confirm('Удалить товар?')) {
+                const item = items.find(i => i.id === id);
+                if (confirm(`Удалить товар "${item.name}"?`)) {
                     items = items.filter(i => i.id !== id);
                     saveToLocal();
                     saveToGithub(false);
                     renderTable();
-                    showToast('🗑️ Товар удалён');
+                    showToast(`🗑️ Товар "${item.name}" удалён`);
                 }
             }
 
