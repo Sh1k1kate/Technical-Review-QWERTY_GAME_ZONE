@@ -1,4 +1,29 @@
 {
-  "items": [],
-  "lastUpdated": "2026-03-15T20:12:45.321Z"
+  "items": [
+    {
+      "id": 2,
+      "category": "Периферия",
+      "name": "Клавиатура",
+      "quantity": 8
+    },
+    {
+      "id": 1,
+      "category": "Периферия",
+      "name": "Мышь проводная",
+      "quantity": 12
+    },
+    {
+      "id": 5,
+      "category": "Расходники",
+      "name": "Кабель HDMI",
+      "quantity": 25
+    },
+    {
+      "id": 3,
+      "category": "Электроника",
+      "name": "Монитор 24\"",
+      "quantity": 3
+    }
+  ],
+  "lastUpdated": "2026-03-15T20:26:25.523Z"
 }
