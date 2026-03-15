@@ -397,17 +397,23 @@
       "quantity": 0
     },
     {
+      "id": 68,
+      "category": "Напитки",
+      "name": "Fanta Berry 0,35л",
+      "quantity": 0
+    },
+    {
       "id": 36,
       "category": "Напитки",
       "name": "Mountain Dew Citrus Blast 0,33л",
       "quantity": 0
     },
     {
-      "id": 68,
+      "id": 69,
       "category": "Напитки",
-      "name": "Fanta Berry 0,35л",
+      "name": "Fanta Exotic 0,33л",
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-15T23:52:11.701Z"
+  "lastUpdated": "2026-03-15T23:52:18.688Z"
 }
