@@ -56,6 +56,73 @@
             color: #f1f5f9;
         }
         
+        /* Навигация */
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .nav-link {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 40px;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: #1e293b;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dark-theme .nav-link {
+            background: #1e293b;
+            color: #f1f5f9;
+            border-color: #334155;
+        }
+        .nav-link.primary {
+            background: #3b82f6;
+            color: white;
+            border: none;
+        }
+        
+        /* Панель GitHub */
+        .github-panel {
+            background: white;
+            border-radius: 30px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .dark-theme .github-panel {
+            background: #1e293b;
+        }
+        
+        .repo-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+        .repo-info span {
+            background: #f1f5f9;
+            padding: 8px 15px;
+            border-radius: 30px;
+        }
+        .dark-theme .repo-info span {
+            background: #0f172a;
+        }
+        
+        .github-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
         /* Панель управления */
         .control-bar {
             background: white;
@@ -97,6 +164,23 @@
             top: 12px;
             color: #94a3b8;
         }
+        
+        .data-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 30px;
+            background: #f1f5f9;
+        }
+        .dark-theme .data-status {
+            background: #0f172a;
+        }
+        .data-status.ok { color: #22c55e; }
+        .data-status.saving { color: #f59e0b; }
+        .data-status.error { color: #ef4444; }
         
         .btn {
             background: white;
@@ -190,7 +274,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 1200px;
+            min-width: 1300px;
         }
         
         th {
@@ -330,6 +414,9 @@
         .toast.error {
             background: #ef4444;
         }
+        .toast.warning {
+            background: #f59e0b;
+        }
         @keyframes fade {
             0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
             10% { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -338,7 +425,7 @@
         }
         
         /* Индикатор загрузки */
-        .loading {
+        .loading-overlay {
             display: none;
             position: fixed;
             top: 0;
@@ -350,19 +437,25 @@
             align-items: center;
             justify-content: center;
         }
-        .loading.active {
+        .loading-overlay.active {
             display: flex;
         }
-        .spinner {
+        .loading-spinner {
             background: white;
             padding: 20px 30px;
-            border-radius: 40px;
+            border-radius: 60px;
             display: flex;
             align-items: center;
             gap: 15px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
-        .spinner:after {
-            content: "";
+        .dark-theme .loading-spinner {
+            background: #1e293b;
+            color: #f1f5f9;
+        }
+        .spinner {
             width: 24px;
             height: 24px;
             border: 3px solid #e2e8f0;
@@ -373,13 +466,37 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        
+        /* Модальное окно токена */
+        .token-modal .modal-content {
+            max-width: 500px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Навигация -->
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">🖥️ Технический отчёт</a>
+            <a href="inventory.html?secret=INVENTORY2026" class="nav-link primary">📦 Инвентаризация</a>
+        </div>
+
         <div class="header">
             <h1>📦 Складская инвентаризация</h1>
             <div class="theme-toggle" id="themeToggle">🌙 Тёмная</div>
+        </div>
+
+        <!-- GitHub панель -->
+        <div class="github-panel">
+            <div class="repo-info">
+                <span>📦 <strong id="repoDisplay">Sh1k1kate/Technical-Review-QWERTY_GAME_ZONE</strong></span>
+                <span id="tokenStatus" style="background: #fef3c7;">🔑 Токен не установлен</span>
+            </div>
+            <div class="github-buttons">
+                <button class="btn" id="showTokenBtn">🔑 Токен</button>
+                <button class="btn btn-primary" id="saveToGithubBtn">💾 Сохранить</button>
+                <button class="btn btn-warning" id="loadFromGithubBtn">📂 Загрузить</button>
+            </div>
         </div>
 
         <!-- Панель управления -->
@@ -388,8 +505,10 @@
                 <input type="text" id="searchInput" placeholder="Поиск по названию, артикулу, категории...">
             </div>
             
+            <div class="data-status" id="dataStatus">💾 Данные загружены</div>
+            
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <button class="btn" id="addItemBtn">➕ Добавить товар</button>
+                <button class="btn" id="addItemBtn">➕ Добавить</button>
                 <button class="btn btn-success" id="exportBtn">📥 Excel</button>
                 <button class="btn btn-warning" id="importBtn">📤 Импорт</button>
                 <input type="file" id="excelFile" accept=".xlsx, .xls" style="display: none;">
@@ -537,19 +656,42 @@
         </div>
     </div>
 
+    <!-- Модальное окно токена -->
+    <div class="modal token-modal" id="tokenModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px;">🔑 GitHub Personal Access Token</h2>
+            <p>Введите токен с правами на запись в репозиторий</p>
+            <p style="font-size: 0.9rem; color: #64748b;">Для чтения тоже нужен токен из-за CORS</p>
+            <input type="password" class="form-input" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxx" style="margin: 20px 0;">
+            <div class="modal-buttons">
+                <button class="modal-btn" id="cancelTokenBtn">Отмена</button>
+                <button class="modal-btn btn-primary" id="saveTokenBtn">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Уведомления -->
     <div class="toast" id="toast" style="display: none;"></div>
     
     <!-- Индикатор загрузки -->
-    <div class="loading" id="loading">
-        <div class="spinner">Загрузка...</div>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <span>Загрузка с GitHub...</span>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
         (function() {
-            // ==================== СЕКРЕТНОЕ СЛОВО ====================
-            const SECRET_WORD = 'INVENTORY2026'; // Можете изменить на своё
+            // ==================== НАСТРОЙКИ ====================
+            const GITHUB_CONFIG = {
+                owner: 'Sh1k1kate',
+                repo: 'Technical-Review-QWERTY_GAME_ZONE'
+            };
+            
+            const SECRET_WORD = 'INVENTORY2026';
+            const DATA_FILE = 'inventory_data.json';
             
             // ==================== ПРОВЕРКА ДОСТУПА ====================
             function checkAccess() {
@@ -592,8 +734,199 @@
             let searchTerm = '';
             let editingId = null;
             let isDarkTheme = localStorage.getItem('inventory_dark_theme') === 'true';
+            
+            // GitHub настройки
+            let githubToken = localStorage.getItem('github_token') || '';
+            
+            // Флаги
+            let isSaving = false;
+            let isLoading = false;
 
-            // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+            // ==================== ФУНКЦИИ ДЛЯ UTF-8 ====================
+            function utf8ToBase64(str) {
+                try {
+                    return btoa(unescape(encodeURIComponent(str)));
+                } catch (e) {
+                    console.error('Ошибка кодирования в base64:', e);
+                    return '';
+                }
+            }
+
+            function base64ToUtf8(base64) {
+                try {
+                    return decodeURIComponent(escape(atob(base64)));
+                } catch (e) {
+                    console.error('Ошибка декодирования из base64:', e);
+                    return '';
+                }
+            }
+
+            // ==================== GITHUB ФУНКЦИИ ====================
+            function updateRepoDisplay() {
+                document.getElementById('repoDisplay').textContent = `${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`;
+                const tokenStatus = document.getElementById('tokenStatus');
+                if (githubToken) {
+                    tokenStatus.innerHTML = '✅ Токен установлен';
+                    tokenStatus.style.background = '#dcfce7';
+                } else {
+                    tokenStatus.innerHTML = '🔑 Токен не установлен';
+                    tokenStatus.style.background = '#fef3c7';
+                }
+            }
+
+            function updateDataStatus(type) {
+                const statusEl = document.getElementById('dataStatus');
+                const icons = {
+                    loaded: '📂',
+                    saved: '💾',
+                    saving: '⏳',
+                    loading: '📥',
+                    error: '❌'
+                };
+                const texts = {
+                    loaded: 'Данные загружены',
+                    saved: 'Данные сохранены',
+                    saving: 'Сохранение...',
+                    loading: 'Загрузка...',
+                    error: 'Ошибка'
+                };
+                statusEl.innerHTML = `${icons[type] || '📋'} ${texts[type] || ''}`;
+                statusEl.className = 'data-status';
+                if (type === 'loaded' || type === 'saved') statusEl.classList.add('ok');
+                if (type === 'saving' || type === 'loading') statusEl.classList.add('saving');
+                if (type === 'error') statusEl.classList.add('error');
+            }
+
+            async function saveToGithub(showToastMessage = true) {
+                if (!githubToken) {
+                    if (showToastMessage) showToast('❌ Сначала установите токен', 'error');
+                    return false;
+                }
+                
+                if (isSaving) return false;
+                isSaving = true;
+                
+                try {
+                    updateDataStatus('saving');
+                    
+                    const data = {
+                        items: items,
+                        lastUpdated: new Date().toISOString()
+                    };
+                    
+                    const jsonString = JSON.stringify(data, null, 2);
+                    const content = utf8ToBase64(jsonString);
+                    
+                    if (!content) throw new Error('Ошибка кодирования данных');
+                    
+                    const getUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
+                    const getResponse = await fetch(getUrl, {
+                        headers: { 
+                            'Authorization': `token ${githubToken}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    });
+                    
+                    let sha = null;
+                    if (getResponse.ok) {
+                        const fileData = await getResponse.json();
+                        sha = fileData.sha;
+                    }
+                    
+                    const putData = {
+                        message: `Обновление инвентаризации от ${new Date().toLocaleDateString()}`,
+                        content: content,
+                        branch: 'main'
+                    };
+                    if (sha) putData.sha = sha;
+                    
+                    const putResponse = await fetch(getUrl, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `token ${githubToken}`,
+                            'Accept': 'application/vnd.github.v3+json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(putData)
+                    });
+                    
+                    if (!putResponse.ok) {
+                        const error = await putResponse.json();
+                        throw new Error(error.message);
+                    }
+                    
+                    updateDataStatus('saved');
+                    if (showToastMessage) showToast('✅ Данные сохранены в GitHub');
+                    return true;
+                    
+                } catch (error) {
+                    console.error('Ошибка сохранения:', error);
+                    updateDataStatus('error');
+                    if (showToastMessage) showToast('❌ Ошибка сохранения', 'error');
+                    return false;
+                } finally {
+                    isSaving = false;
+                }
+            }
+
+            async function loadFromGithub(showToastMessage = true) {
+                if (!githubToken) {
+                    if (showToastMessage) showToast('❌ Сначала установите токен', 'error');
+                    return false;
+                }
+                
+                if (isLoading) return false;
+                isLoading = true;
+                
+                try {
+                    document.getElementById('loadingOverlay').classList.add('active');
+                    updateDataStatus('loading');
+                    
+                    const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
+                    const response = await fetch(url, {
+                        headers: { 
+                            'Authorization': `token ${githubToken}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        if (response.status === 404) {
+                            if (showToastMessage) showToast('📭 Файл данных не найден', 'warning');
+                            return false;
+                        }
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    const decodedContent = base64ToUtf8(data.content);
+                    
+                    if (!decodedContent) throw new Error('Ошибка декодирования');
+                    
+                    const jsonData = JSON.parse(decodedContent);
+                    
+                    if (jsonData.items && Array.isArray(jsonData.items)) {
+                        items = jsonData.items;
+                        nextId = Math.max(...items.map(i => i.id), 0) + 1;
+                        saveData(false); // Сохраняем в localStorage
+                        renderTable();
+                        updateDataStatus('loaded');
+                        if (showToastMessage) showToast(`✅ Загружено ${items.length} товаров`);
+                        return true;
+                    }
+                    
+                } catch (error) {
+                    console.error('Ошибка загрузки:', error);
+                    updateDataStatus('error');
+                    if (showToastMessage) showToast('❌ Ошибка загрузки', 'error');
+                } finally {
+                    document.getElementById('loadingOverlay').classList.remove('active');
+                    isLoading = false;
+                }
+                return false;
+            }
+
+            // ==================== РАБОТА С ДАННЫМИ ====================
             function loadData() {
                 const saved = localStorage.getItem('inventory_data');
                 if (saved) {
@@ -610,9 +943,14 @@
                 updateStats();
             }
 
-            function saveData() {
+            function saveData(saveToGithubFlag = true) {
                 localStorage.setItem('inventory_data', JSON.stringify(items));
                 updateStats();
+                
+                // Автосохранение на GitHub если есть токен
+                if (saveToGithubFlag && githubToken && !isSaving) {
+                    saveToGithub(false);
+                }
             }
 
             // ==================== ТЕМА ====================
@@ -630,7 +968,6 @@
             // ==================== ФИЛЬТРАЦИЯ ====================
             function filterItems() {
                 return items.filter(item => {
-                    // Поиск
                     if (searchTerm) {
                         const term = searchTerm.toLowerCase();
                         const matches = 
@@ -641,7 +978,6 @@
                         if (!matches) return false;
                     }
                     
-                    // Фильтр
                     switch(currentFilter) {
                         case 'in-stock':
                             return item.quantity > 0;
@@ -769,14 +1105,12 @@
                 
                 if (editingId) {
                     const index = items.findIndex(i => i.id === editingId);
-                    if (index !== -1) {
-                        items[index] = item;
-                    }
+                    if (index !== -1) items[index] = item;
                 } else {
                     items.push(item);
                 }
                 
-                saveData();
+                saveData(true);
                 renderTable();
                 closeModal();
                 showToast(editingId ? '✅ Товар обновлён' : '✅ Товар добавлен');
@@ -785,7 +1119,7 @@
             function deleteItem(id) {
                 if (confirm('Удалить товар?')) {
                     items = items.filter(i => i.id !== id);
-                    saveData();
+                    saveData(true);
                     renderTable();
                     showToast('🗑️ Товар удалён');
                 }
@@ -832,7 +1166,7 @@
 
             async function importFromExcel(file) {
                 try {
-                    document.getElementById('loading').classList.add('active');
+                    document.getElementById('loadingOverlay').classList.add('active');
                     
                     const data = await file.arrayBuffer();
                     const workbook = XLSX.read(data, { type: 'array' });
@@ -865,7 +1199,7 @@
                         if (newItems.length > 0) {
                             items = newItems;
                             nextId = maxId + 1;
-                            saveData();
+                            saveData(true);
                             renderTable();
                             showToast(`✅ Загружено ${newItems.length} товаров`);
                         }
@@ -873,15 +1207,15 @@
                 } catch (error) {
                     showToast('❌ Ошибка импорта', 'error');
                 } finally {
-                    document.getElementById('loading').classList.remove('active');
+                    document.getElementById('loadingOverlay').classList.remove('active');
                 }
             }
 
             function resetToDefault() {
-                if (confirm('Сбросить все данные? Все изменения будут потеряны.')) {
+                if (confirm('Сбросить все данные к исходным?')) {
                     items = [...DEFAULT_ITEMS];
                     nextId = Math.max(...items.map(i => i.id), 0) + 1;
-                    saveData();
+                    saveData(true);
                     renderTable();
                     showToast('🔄 Данные сброшены');
                 }
@@ -892,14 +1226,40 @@
                 const toast = document.getElementById('toast');
                 toast.className = 'toast';
                 if (type === 'error') toast.classList.add('error');
+                if (type === 'warning') toast.classList.add('warning');
                 toast.style.display = 'block';
                 toast.innerText = text;
                 setTimeout(() => toast.style.display = 'none', 3000);
             }
 
-            // ==================== СОБЫТИЯ ====================
+            // ==================== ИНИЦИАЛИЗАЦИЯ ====================
             document.addEventListener('DOMContentLoaded', function() {
+                updateRepoDisplay();
                 loadData();
+                
+                // GitHub кнопки
+                document.getElementById('showTokenBtn').addEventListener('click', () => {
+                    document.getElementById('githubToken').value = githubToken;
+                    document.getElementById('tokenModal').classList.add('active');
+                });
+                
+                document.getElementById('saveTokenBtn').addEventListener('click', function() {
+                    const token = document.getElementById('githubToken').value.trim();
+                    if (token) {
+                        githubToken = token;
+                        localStorage.setItem('github_token', token);
+                        document.getElementById('tokenModal').classList.remove('active');
+                        updateRepoDisplay();
+                        loadFromGithub(false);
+                    }
+                });
+                
+                document.getElementById('cancelTokenBtn').addEventListener('click', () => {
+                    document.getElementById('tokenModal').classList.remove('active');
+                });
+                
+                document.getElementById('saveToGithubBtn').addEventListener('click', () => saveToGithub(true));
+                document.getElementById('loadFromGithubBtn').addEventListener('click', () => loadFromGithub(true));
                 
                 // Поиск
                 document.getElementById('searchInput').addEventListener('input', function(e) {
@@ -933,7 +1293,7 @@
                     }
                 });
                 
-                // Модальное окно
+                // Модальное окно товара
                 document.getElementById('saveItemBtn').addEventListener('click', saveItem);
                 document.getElementById('cancelModalBtn').addEventListener('click', closeModal);
                 
@@ -944,13 +1304,17 @@
                     applyTheme();
                 });
                 
-                // Закрытие модалки по клику вне
+                // Закрытие модалок
                 document.getElementById('itemModal').addEventListener('click', function(e) {
                     if (e.target === this) closeModal();
                 });
+                
+                document.getElementById('tokenModal').addEventListener('click', function(e) {
+                    if (e.target === this) this.classList.remove('active');
+                });
             });
             
-            // Экспорт функций для глобального доступа
+            // Экспорт функций
             window.editItem = (id) => openModal(id);
             window.deleteItem = (id) => deleteItem(id);
         })();
