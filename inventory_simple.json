@@ -217,17 +217,23 @@
       "quantity": 0
     },
     {
+      "id": 38,
+      "category": "Напитки",
+      "name": "Липтон Зеленый 1л",
+      "quantity": 0
+    },
+    {
       "id": 36,
       "category": "Напитки",
       "name": "Mountain Dew Citrus Blast 0,33л",
       "quantity": 0
     },
     {
-      "id": 38,
+      "id": 39,
       "category": "Напитки",
-      "name": "Липтон Зеленый 1л",
+      "name": "Липтон Лимон 0.5л",
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-15T23:44:28.606Z"
+  "lastUpdated": "2026-03-15T23:46:41.899Z"
 }
