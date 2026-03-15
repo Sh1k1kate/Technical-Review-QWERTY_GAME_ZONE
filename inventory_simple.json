@@ -415,17 +415,23 @@
       "quantity": 0
     },
     {
+      "id": 71,
+      "category": "Напитки",
+      "name": "Fanta Lemon 0,33л",
+      "quantity": 0
+    },
+    {
       "id": 36,
       "category": "Напитки",
       "name": "Mountain Dew Citrus Blast 0,33л",
       "quantity": 0
     },
     {
-      "id": 71,
+      "id": 72,
       "category": "Напитки",
-      "name": "Fanta Lemon 0,33л",
+      "name": "Fanta Orange 0,35л",
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-15T23:52:37.815Z"
+  "lastUpdated": "2026-03-15T23:52:44.251Z"
 }
