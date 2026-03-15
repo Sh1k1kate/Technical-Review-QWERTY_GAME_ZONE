@@ -1,6 +1,12 @@
 {
   "items": [
     {
+      "id": 46,
+      "category": "Напитки",
+      "name": "Сок Любимый Яблоко 0,3л",
+      "quantity": 0
+    },
+    {
       "id": 1,
       "category": "Готовая Еда",
       "name": "Бургер \"Американский\"",
@@ -269,13 +275,7 @@
       "category": "Напитки",
       "name": "Mountain Dew Citrus Blast 0,33л",
       "quantity": 0
-    },
-    {
-      "id": 46,
-      "category": "",
-      "name": "Сок Любимый Яблоко 0,3л",
-      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-15T23:48:34.113Z"
+  "lastUpdated": "2026-03-15T23:48:39.385Z"
 }
