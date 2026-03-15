@@ -671,7 +671,13 @@
       "category": "Шоколад",
       "name": "Bounty 55г",
       "quantity": 0
+    },
+    {
+      "id": 113,
+      "category": "Шоколад",
+      "name": "Fruittella 41г",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-15T23:59:48.699Z"
+  "lastUpdated": "2026-03-15T23:59:55.464Z"
 }
