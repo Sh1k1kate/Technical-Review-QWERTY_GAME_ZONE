@@ -337,17 +337,23 @@
       "quantity": 0
     },
     {
+      "id": 58,
+      "category": "Напитки",
+      "name": "AriZona Ice Tea with Raspberry Flavor 0,65л",
+      "quantity": 0
+    },
+    {
       "id": 36,
       "category": "Напитки",
       "name": "Mountain Dew Citrus Blast 0,33л",
       "quantity": 0
     },
     {
-      "id": 58,
+      "id": 59,
       "category": "Напитки",
-      "name": "AriZona Ice Tea with Raspberry Flavor 0,65л",
+      "name": "AriZona Lemonade 0,65л",
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-15T23:50:19.809Z"
+  "lastUpdated": "2026-03-15T23:50:25.866Z"
 }
