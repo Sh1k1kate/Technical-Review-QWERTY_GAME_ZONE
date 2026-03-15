@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Технический отчёт — Управление компьютерами</title>
@@ -78,6 +77,44 @@
             color: #f1f5f9;
         }
         .theme-toggle:active {
+            transform: scale(0.95);
+        }
+        
+        /* Навигационные ссылки */
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .nav-link {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 40px;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: #1e293b;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .dark-theme .nav-link {
+            background: #1e293b;
+            color: #f1f5f9;
+            border-color: #334155;
+        }
+        .nav-link.primary {
+            background: #3b82f6;
+            color: white;
+            border: none;
+        }
+        .nav-link.primary:hover {
+            background: #2563eb;
+        }
+        .nav-link:active {
             transform: scale(0.95);
         }
         
@@ -1019,61 +1056,25 @@
             align-items: center;
             gap: 4px;
             margin-left: 10px;
-            /* Навигационные ссылки */
-.nav-links {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
-}
-.nav-link {
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 40px;
-    padding: 12px 20px;
-    text-decoration: none;
-    color: #1e293b;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: 0.2s;
-    -webkit-tap-highlight-color: transparent;
-}
-.dark-theme .nav-link {
-    background: #1e293b;
-    color: #f1f5f9;
-    border-color: #334155;
-}
-.nav-link.primary {
-    background: #3b82f6;
-    color: white;
-    border: none;
-}
-.nav-link.primary:hover {
-    background: #2563eb;
-}
-.nav-link:active {
-    transform: scale(0.95);
-}
         }
     </style>
 </head>
 <body>
 <div class="container">
-        <!-- Навигация -->
-        <div class="nav-links">
-            <a href="index.html" class="nav-link">🖥️ Технический отчёт</a>
-            <a href="inventory.html?secret=INVENTORY2026" class="nav-link primary">📦 Инвентаризация</a>
-        </div>
+    <!-- Навигация между разделами -->
+    <div class="nav-links">
+        <a href="index.html" class="nav-link primary">🖥️ Технический отчёт</a>
+        <a href="inventory.html?secret=INVENTORY2026" class="nav-link">📦 Инвентаризация</a>
+    </div>
 
-        <div class="header">
-            <h1>📦 Складская инвентаризация</h1>
-            <div class="theme-toggle" id="themeToggle">🌙 Тёмная</div>
-        </div>
+    <div class="header">
+        <h1>🖥️ Технический отчёт 
+            <span id="demoDataBadge" class="demo-data-badge" style="display: none;">📊 V0.5</span>
+        </h1>
         <div class="theme-toggle" id="themeToggle">
             <span>🌙</span> Тёмная
         </div>
+    </div>
 
     <!-- Отладочная панель -->
     <div class="debug-panel" id="debugPanel">
@@ -1134,7 +1135,7 @@
             <input type="file" id="excelFileInput" accept=".xlsx, .xls" style="display: none;">
         </div>
     </div>
-    
+
     <!-- ОБЩАЯ шапка отчёта (скрыта в режиме только для чтения) -->
     <div class="report-header readonly-hidden" id="reportHeader">
         <div class="header-title">📋 Параметры отчёта</div>
