@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Инвентаризация товара</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #f4f7fb;
+            color: #1e293b;
+            padding: 10px;
+            min-height: 100vh;
+        }
+        body.dark-theme {
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Шапка */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .theme-toggle {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 40px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .dark-theme .theme-toggle {
+            background: #1e293b;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+        
+        /* Панель управления */
+        .control-bar {
+            background: white;
+            border-radius: 30px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .dark-theme .control-bar {
+            background: #1e293b;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 1px solid #e2e8f0;
+            border-radius: 30px;
+            font-size: 1rem;
+        }
+        .dark-theme .search-box input {
+            background: #0f172a;
+            border-color: #334155;
+            color: white;
+        }
+        .search-box:before {
+            content: "🔍";
+            position: absolute;
+            left: 15px;
+            top: 12px;
+            color: #94a3b8;
+        }
+        
+        .btn {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 30px;
+            padding: 12px 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dark-theme .btn {
+            background: #0f172a;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+        .btn:active {
+            transform: scale(0.95);
+        }
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+            border: none;
+        }
+        .btn-success {
+            background: #22c55e;
+            color: white;
+            border: none;
+        }
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
+            border: none;
+        }
+        
+        /* Статистика */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 25px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .dark-theme .stat-card {
+            background: #1e293b;
+        }
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: #f1f5f9;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+        .stat-info h3 {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+        .stat-info .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        /* Таблица */
+        .table-container {
+            background: white;
+            border-radius: 30px;
+            padding: 20px;
+            overflow-x: auto;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .dark-theme .table-container {
+            background: #1e293b;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1200px;
+        }
+        
+        th {
+            text-align: left;
+            padding: 15px 10px;
+            background: #f8fafc;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #475569;
+            position: sticky;
+            top: 0;
+        }
+        .dark-theme th {
+            background: #0f172a;
+            color: #cbd5e1;
+        }
+        
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .dark-theme td {
+            border-bottom-color: #334155;
+        }
+        
+        tr:hover {
+            background: #f8fafc;
+        }
+        .dark-theme tr:hover {
+            background: #0f172a;
+        }
+        
+        /* Форма редактирования */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .dark-theme .modal-content {
+            background: #1e293b;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            font-size: 1rem;
+        }
+        .dark-theme .form-input, .dark-theme .form-select {
+            background: #0f172a;
+            border-color: #334155;
+            color: white;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        /* Фильтры */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .filter-chip {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 30px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .dark-theme .filter-chip {
+            background: #1e293b;
+            border-color: #334155;
+            color: #cbd5e1;
+        }
+        .filter-chip.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        
+        /* Уведомления */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #22c55e;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            animation: fade 3s;
+            z-index: 3000;
+        }
+        .toast.error {
+            background: #ef4444;
+        }
+        @keyframes fade {
+            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+        }
+        
+        /* Индикатор загрузки */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 4000;
+            align-items: center;
+            justify-content: center;
+        }
+        .loading.active {
+            display: flex;
+        }
+        .spinner {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .spinner:after {
+            content: "";
+            width: 24px;
+            height: 24px;
+            border: 3px solid #e2e8f0;
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📦 Складская инвентаризация</h1>
+            <div class="theme-toggle" id="themeToggle">🌙 Тёмная</div>
+        </div>
+
+        <!-- Панель управления -->
+        <div class="control-bar">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Поиск по названию, артикулу, категории...">
+            </div>
+            
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="btn" id="addItemBtn">➕ Добавить товар</button>
+                <button class="btn btn-success" id="exportBtn">📥 Excel</button>
+                <button class="btn btn-warning" id="importBtn">📤 Импорт</button>
+                <input type="file" id="excelFile" accept=".xlsx, .xls" style="display: none;">
+                <button class="btn" id="resetBtn">🔄 Сброс</button>
+            </div>
+        </div>
+
+        <!-- Статистика -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📦</div>
+                <div class="stat-info">
+                    <h3>Всего товаров</h3>
+                    <div class="stat-value" id="totalItems">0</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-info">
+                    <h3>В наличии</h3>
+                    <div class="stat-value" id="inStock">0</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚠️</div>
+                <div class="stat-info">
+                    <h3>Малый остаток</h3>
+                    <div class="stat-value" id="lowStock">0</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-info">
+                    <h3>Общая стоимость</h3>
+                    <div class="stat-value" id="totalValue">0 ₽</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Фильтры -->
+        <div class="filters">
+            <div class="filter-chip active" data-filter="all">Все товары</div>
+            <div class="filter-chip" data-filter="in-stock">В наличии</div>
+            <div class="filter-chip" data-filter="low-stock">Малый остаток (&lt;5)</div>
+            <div class="filter-chip" data-filter="out-stock">Нет в наличии</div>
+        </div>
+
+        <!-- Таблица -->
+        <div class="table-container">
+            <table id="inventoryTable">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Артикул</th>
+                        <th>Наименование</th>
+                        <th>Категория</th>
+                        <th>Количество</th>
+                        <th>Ед. изм.</th>
+                        <th>Цена (₽)</th>
+                        <th>Сумма (₽)</th>
+                        <th>Мин. остаток</th>
+                        <th>Место</th>
+                        <th>Дата</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Данные будут загружаться сюда -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Модальное окно добавления/редактирования -->
+    <div class="modal" id="itemModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px;" id="modalTitle">➕ Добавить товар</h2>
+            
+            <div class="form-group">
+                <label class="form-label">Артикул</label>
+                <input type="text" class="form-input" id="sku" placeholder="Например: ART-001">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Наименование товара *</label>
+                <input type="text" class="form-input" id="name" placeholder="Введите название">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Категория</label>
+                <select class="form-select" id="category">
+                    <option value="Электроника">Электроника</option>
+                    <option value="Комплектующие">Комплектующие</option>
+                    <option value="Периферия">Периферия</option>
+                    <option value="Расходники">Расходники</option>
+                    <option value="Мебель">Мебель</option>
+                    <option value="Другое">Другое</option>
+                </select>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div class="form-group">
+                    <label class="form-label">Количество *</label>
+                    <input type="number" class="form-input" id="quantity" min="0" value="0">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Единица измерения</label>
+                    <select class="form-select" id="unit">
+                        <option value="шт">шт</option>
+                        <option value="кг">кг</option>
+                        <option value="л">л</option>
+                        <option value="м">м</option>
+                        <option value="уп">уп</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div class="form-group">
+                    <label class="form-label">Цена за ед. (₽)</label>
+                    <input type="number" class="form-input" id="price" min="0" value="0">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Мин. остаток</label>
+                    <input type="number" class="form-input" id="minStock" min="0" value="1">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Место хранения</label>
+                <input type="text" class="form-input" id="location" placeholder="Стеллаж А, полка 3">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Примечание</label>
+                <textarea class="form-input" id="notes" rows="2" placeholder="Дополнительная информация..."></textarea>
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="modal-btn" id="cancelModalBtn">Отмена</button>
+                <button class="modal-btn btn-primary" id="saveItemBtn">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Уведомления -->
+    <div class="toast" id="toast" style="display: none;"></div>
+    
+    <!-- Индикатор загрузки -->
+    <div class="loading" id="loading">
+        <div class="spinner">Загрузка...</div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+        (function() {
+            // ==================== СЕКРЕТНОЕ СЛОВО ====================
+            const SECRET_WORD = 'INVENTORY2026'; // Можете изменить на своё
+            
+            // ==================== ПРОВЕРКА ДОСТУПА ====================
+            function checkAccess() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const keyParam = urlParams.get('secret');
+                
+                if (!keyParam || keyParam !== SECRET_WORD) {
+                    document.body.innerHTML = `
+                        <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #f4f7fb;">
+                            <div style="background: white; padding: 40px; border-radius: 30px; text-align: center; max-width: 400px;">
+                                <div style="font-size: 4rem; margin-bottom: 20px;">🔒</div>
+                                <h1 style="margin-bottom: 20px; color: #1e293b;">Доступ ограничен</h1>
+                                <p style="margin-bottom: 30px; color: #64748b;">Страница инвентаризации защищена секретным ключом</p>
+                                <div style="background: #f1f5f9; padding: 15px; border-radius: 20px;">
+                                    <code style="color: #3b82f6;">?secret=${SECRET_WORD}</code>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    return false;
+                }
+                return true;
+            }
+
+            if (!checkAccess()) return;
+
+            // ==================== НАЧАЛЬНЫЕ ДАННЫЕ ====================
+            const DEFAULT_ITEMS = [
+                { id: 1, sku: 'MON-001', name: 'Монитор Dell 24"', category: 'Электроника', quantity: 5, unit: 'шт', price: 15000, minStock: 2, location: 'Стеллаж А1', notes: '', date: new Date().toISOString().slice(0,10) },
+                { id: 2, sku: 'KB-002', name: 'Клавиатура Logitech', category: 'Периферия', quantity: 12, unit: 'шт', price: 2500, minStock: 3, location: 'Стеллаж Б2', notes: '', date: new Date().toISOString().slice(0,10) },
+                { id: 3, sku: 'M-003', name: 'Мышь проводная', category: 'Периферия', quantity: 2, unit: 'шт', price: 800, minStock: 5, location: 'Стеллаж Б2', notes: 'Мало осталось!', date: new Date().toISOString().slice(0,10) },
+                { id: 4, sku: 'HDD-004', name: 'Жесткий диск 1TB', category: 'Комплектующие', quantity: 0, unit: 'шт', price: 4500, minStock: 2, location: 'Стеллаж В3', notes: 'Закончились', date: new Date().toISOString().slice(0,10) },
+                { id: 5, sku: 'CBL-005', name: 'Кабель HDMI 2м', category: 'Расходники', quantity: 25, unit: 'шт', price: 300, minStock: 10, location: 'Ящик №4', notes: '', date: new Date().toISOString().slice(0,10) }
+            ];
+
+            // ==================== СОСТОЯНИЕ ====================
+            let items = [];
+            let nextId = 100;
+            let currentFilter = 'all';
+            let searchTerm = '';
+            let editingId = null;
+            let isDarkTheme = localStorage.getItem('inventory_dark_theme') === 'true';
+
+            // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+            function loadData() {
+                const saved = localStorage.getItem('inventory_data');
+                if (saved) {
+                    try {
+                        items = JSON.parse(saved);
+                        nextId = Math.max(...items.map(i => i.id), 0) + 1;
+                    } catch {
+                        items = [...DEFAULT_ITEMS];
+                    }
+                } else {
+                    items = [...DEFAULT_ITEMS];
+                }
+                renderTable();
+                updateStats();
+            }
+
+            function saveData() {
+                localStorage.setItem('inventory_data', JSON.stringify(items));
+                updateStats();
+            }
+
+            // ==================== ТЕМА ====================
+            function applyTheme() {
+                if (isDarkTheme) {
+                    document.body.classList.add('dark-theme');
+                    document.getElementById('themeToggle').innerHTML = '☀️ Светлая';
+                } else {
+                    document.body.classList.remove('dark-theme');
+                    document.getElementById('themeToggle').innerHTML = '🌙 Тёмная';
+                }
+            }
+            applyTheme();
+
+            // ==================== ФИЛЬТРАЦИЯ ====================
+            function filterItems() {
+                return items.filter(item => {
+                    // Поиск
+                    if (searchTerm) {
+                        const term = searchTerm.toLowerCase();
+                        const matches = 
+                            item.name.toLowerCase().includes(term) ||
+                            (item.sku && item.sku.toLowerCase().includes(term)) ||
+                            (item.category && item.category.toLowerCase().includes(term)) ||
+                            (item.location && item.location.toLowerCase().includes(term));
+                        if (!matches) return false;
+                    }
+                    
+                    // Фильтр
+                    switch(currentFilter) {
+                        case 'in-stock':
+                            return item.quantity > 0;
+                        case 'low-stock':
+                            return item.quantity > 0 && item.quantity < (item.minStock || 5);
+                        case 'out-stock':
+                            return item.quantity === 0;
+                        default:
+                            return true;
+                    }
+                });
+            }
+
+            // ==================== РЕНДЕР ТАБЛИЦЫ ====================
+            function renderTable() {
+                const filtered = filterItems();
+                const tbody = document.getElementById('tableBody');
+                tbody.innerHTML = '';
+                
+                filtered.sort((a, b) => a.name.localeCompare(b.name)).forEach((item, index) => {
+                    const total = item.quantity * item.price;
+                    const lowStock = item.quantity < (item.minStock || 5);
+                    const outStock = item.quantity === 0;
+                    
+                    const row = document.createElement('tr');
+                    row.style.background = outStock ? '#fee2e2' : lowStock ? '#fef3c7' : 'transparent';
+                    
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td><strong>${item.sku || '—'}</strong></td>
+                        <td>${item.name}</td>
+                        <td>${item.category || '—'}</td>
+                        <td style="font-weight: 600; color: ${outStock ? '#dc2626' : lowStock ? '#d97706' : '#16a34a'};">${item.quantity}</td>
+                        <td>${item.unit || 'шт'}</td>
+                        <td>${item.price.toLocaleString()} ₽</td>
+                        <td>${total.toLocaleString()} ₽</td>
+                        <td>${item.minStock || '—'}</td>
+                        <td>${item.location || '—'}</td>
+                        <td>${item.date || '—'}</td>
+                        <td>
+                            <div style="display: flex; gap: 5px;">
+                                <button class="btn" style="padding: 5px 10px;" onclick="window.editItem(${item.id})">✏️</button>
+                                <button class="btn" style="padding: 5px 10px; background: #ef4444; color: white;" onclick="window.deleteItem(${item.id})">🗑️</button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+                
+                updateStats();
+            }
+
+            // ==================== СТАТИСТИКА ====================
+            function updateStats() {
+                document.getElementById('totalItems').innerText = items.length;
+                
+                const inStock = items.filter(i => i.quantity > 0).length;
+                const lowStock = items.filter(i => i.quantity > 0 && i.quantity < (i.minStock || 5)).length;
+                const totalValue = items.reduce((sum, i) => sum + (i.quantity * i.price), 0);
+                
+                document.getElementById('inStock').innerText = inStock;
+                document.getElementById('lowStock').innerText = lowStock;
+                document.getElementById('totalValue').innerText = totalValue.toLocaleString() + ' ₽';
+            }
+
+            // ==================== МОДАЛЬНОЕ ОКНО ====================
+            function openModal(editId = null) {
+                editingId = editId;
+                
+                if (editId) {
+                    const item = items.find(i => i.id === editId);
+                    if (item) {
+                        document.getElementById('modalTitle').innerText = '✏️ Редактировать товар';
+                        document.getElementById('sku').value = item.sku || '';
+                        document.getElementById('name').value = item.name;
+                        document.getElementById('category').value = item.category || 'Электроника';
+                        document.getElementById('quantity').value = item.quantity;
+                        document.getElementById('unit').value = item.unit || 'шт';
+                        document.getElementById('price').value = item.price;
+                        document.getElementById('minStock').value = item.minStock || 1;
+                        document.getElementById('location').value = item.location || '';
+                        document.getElementById('notes').value = item.notes || '';
+                    }
+                } else {
+                    document.getElementById('modalTitle').innerText = '➕ Добавить товар';
+                    document.getElementById('sku').value = '';
+                    document.getElementById('name').value = '';
+                    document.getElementById('category').value = 'Электроника';
+                    document.getElementById('quantity').value = 0;
+                    document.getElementById('unit').value = 'шт';
+                    document.getElementById('price').value = 0;
+                    document.getElementById('minStock').value = 1;
+                    document.getElementById('location').value = '';
+                    document.getElementById('notes').value = '';
+                }
+                
+                document.getElementById('itemModal').classList.add('active');
+            }
+
+            function closeModal() {
+                document.getElementById('itemModal').classList.remove('active');
+                editingId = null;
+            }
+
+            function saveItem() {
+                const name = document.getElementById('name').value.trim();
+                if (!name) {
+                    showToast('Введите название товара', 'error');
+                    return;
+                }
+                
+                const item = {
+                    id: editingId || nextId++,
+                    sku: document.getElementById('sku').value.trim(),
+                    name: name,
+                    category: document.getElementById('category').value,
+                    quantity: parseInt(document.getElementById('quantity').value) || 0,
+                    unit: document.getElementById('unit').value,
+                    price: parseFloat(document.getElementById('price').value) || 0,
+                    minStock: parseInt(document.getElementById('minStock').value) || 1,
+                    location: document.getElementById('location').value.trim(),
+                    notes: document.getElementById('notes').value.trim(),
+                    date: new Date().toISOString().slice(0,10)
+                };
+                
+                if (editingId) {
+                    const index = items.findIndex(i => i.id === editingId);
+                    if (index !== -1) {
+                        items[index] = item;
+                    }
+                } else {
+                    items.push(item);
+                }
+                
+                saveData();
+                renderTable();
+                closeModal();
+                showToast(editingId ? '✅ Товар обновлён' : '✅ Товар добавлен');
+            }
+
+            function deleteItem(id) {
+                if (confirm('Удалить товар?')) {
+                    items = items.filter(i => i.id !== id);
+                    saveData();
+                    renderTable();
+                    showToast('🗑️ Товар удалён');
+                }
+            }
+
+            // ==================== ЭКСПОРТ/ИМПОРТ ====================
+            function exportToExcel() {
+                const data = [
+                    ['Артикул', 'Наименование', 'Категория', 'Количество', 'Ед.изм', 'Цена (₽)', 'Сумма (₽)', 'Мин.остаток', 'Место', 'Примечание', 'Дата']
+                ];
+                
+                items.forEach(item => {
+                    data.push([
+                        item.sku || '',
+                        item.name,
+                        item.category || '',
+                        item.quantity,
+                        item.unit || 'шт',
+                        item.price,
+                        item.quantity * item.price,
+                        item.minStock || '',
+                        item.location || '',
+                        item.notes || '',
+                        item.date || ''
+                    ]);
+                });
+                
+                const wb = XLSX.utils.book_new();
+                const ws = XLSX.utils.aoa_to_sheet(data);
+                XLSX.utils.book_append_sheet(wb, ws, 'Инвентаризация');
+                
+                const wbData = XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
+                const blob = new Blob([wbData], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Инвентаризация_${new Date().toISOString().slice(0,10)}.xlsx`;
+                a.click();
+                window.URL.revokeObjectURL(url);
+                
+                showToast('📥 Excel файл скачан');
+            }
+
+            async function importFromExcel(file) {
+                try {
+                    document.getElementById('loading').classList.add('active');
+                    
+                    const data = await file.arrayBuffer();
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+                    
+                    if (rows.length > 1) {
+                        const newItems = [];
+                        let maxId = Math.max(...items.map(i => i.id), 0);
+                        
+                        for (let i = 1; i < rows.length; i++) {
+                            const row = rows[i];
+                            if (!row || !row[1]) continue;
+                            
+                            newItems.push({
+                                id: ++maxId,
+                                sku: row[0] ? row[0].toString() : '',
+                                name: row[1].toString(),
+                                category: row[2] ? row[2].toString() : 'Другое',
+                                quantity: parseInt(row[3]) || 0,
+                                unit: row[4] ? row[4].toString() : 'шт',
+                                price: parseFloat(row[5]) || 0,
+                                minStock: parseInt(row[7]) || 1,
+                                location: row[8] ? row[8].toString() : '',
+                                notes: row[9] ? row[9].toString() : '',
+                                date: row[10] ? row[10].toString() : new Date().toISOString().slice(0,10)
+                            });
+                        }
+                        
+                        if (newItems.length > 0) {
+                            items = newItems;
+                            nextId = maxId + 1;
+                            saveData();
+                            renderTable();
+                            showToast(`✅ Загружено ${newItems.length} товаров`);
+                        }
+                    }
+                } catch (error) {
+                    showToast('❌ Ошибка импорта', 'error');
+                } finally {
+                    document.getElementById('loading').classList.remove('active');
+                }
+            }
+
+            function resetToDefault() {
+                if (confirm('Сбросить все данные? Все изменения будут потеряны.')) {
+                    items = [...DEFAULT_ITEMS];
+                    nextId = Math.max(...items.map(i => i.id), 0) + 1;
+                    saveData();
+                    renderTable();
+                    showToast('🔄 Данные сброшены');
+                }
+            }
+
+            // ==================== УВЕДОМЛЕНИЯ ====================
+            function showToast(text, type = 'success') {
+                const toast = document.getElementById('toast');
+                toast.className = 'toast';
+                if (type === 'error') toast.classList.add('error');
+                toast.style.display = 'block';
+                toast.innerText = text;
+                setTimeout(() => toast.style.display = 'none', 3000);
+            }
+
+            // ==================== СОБЫТИЯ ====================
+            document.addEventListener('DOMContentLoaded', function() {
+                loadData();
+                
+                // Поиск
+                document.getElementById('searchInput').addEventListener('input', function(e) {
+                    searchTerm = e.target.value;
+                    renderTable();
+                });
+                
+                // Фильтры
+                document.querySelectorAll('.filter-chip').forEach(chip => {
+                    chip.addEventListener('click', function() {
+                        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                        this.classList.add('active');
+                        currentFilter = this.dataset.filter;
+                        renderTable();
+                    });
+                });
+                
+                // Кнопки
+                document.getElementById('addItemBtn').addEventListener('click', () => openModal());
+                document.getElementById('exportBtn').addEventListener('click', exportToExcel);
+                document.getElementById('resetBtn').addEventListener('click', resetToDefault);
+                
+                document.getElementById('importBtn').addEventListener('click', () => {
+                    document.getElementById('excelFile').click();
+                });
+                
+                document.getElementById('excelFile').addEventListener('change', function(e) {
+                    if (e.target.files.length > 0) {
+                        importFromExcel(e.target.files[0]);
+                        e.target.value = '';
+                    }
+                });
+                
+                // Модальное окно
+                document.getElementById('saveItemBtn').addEventListener('click', saveItem);
+                document.getElementById('cancelModalBtn').addEventListener('click', closeModal);
+                
+                // Тема
+                document.getElementById('themeToggle').addEventListener('click', function() {
+                    isDarkTheme = !isDarkTheme;
+                    localStorage.setItem('inventory_dark_theme', isDarkTheme);
+                    applyTheme();
+                });
+                
+                // Закрытие модалки по клику вне
+                document.getElementById('itemModal').addEventListener('click', function(e) {
+                    if (e.target === this) closeModal();
+                });
+            });
+            
+            // Экспорт функций для глобального доступа
+            window.editItem = (id) => openModal(id);
+            window.deleteItem = (id) => deleteItem(id);
+        })();
+    </script>
+</body>
+</html>
