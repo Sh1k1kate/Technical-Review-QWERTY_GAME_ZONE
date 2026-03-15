@@ -599,7 +599,13 @@
       "category": "Снэки",
       "name": "Lays Краб 140г",
       "quantity": 0
+    },
+    {
+      "id": 101,
+      "category": "Снэки",
+      "name": "Lays Краб 225г",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-15T23:56:43.174Z"
+  "lastUpdated": "2026-03-15T23:56:49.244Z"
 }
