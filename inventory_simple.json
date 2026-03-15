@@ -457,17 +457,23 @@
       "quantity": 0
     },
     {
+      "id": 78,
+      "category": "Напитки",
+      "name": "Frustyle Лимон и Лайм 0.5л",
+      "quantity": 0
+    },
+    {
       "id": 36,
       "category": "Напитки",
       "name": "Mountain Dew Citrus Blast 0,33л",
       "quantity": 0
     },
     {
-      "id": 78,
+      "id": 79,
       "category": "Напитки",
-      "name": "Frustyle Лимон и Лайм 0.5л",
+      "name": "Irn Bru 0,33л",
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-15T23:53:36.845Z"
+  "lastUpdated": "2026-03-15T23:53:42.583Z"
 }
