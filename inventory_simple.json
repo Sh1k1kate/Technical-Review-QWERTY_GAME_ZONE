@@ -653,7 +653,13 @@
       "category": "Снэки",
       "name": "Lays Сметана и Зелень 70г",
       "quantity": 0
+    },
+    {
+      "id": 110,
+      "category": "Снэки",
+      "name": "Lays Сыр 70г",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-15T23:57:48.688Z"
+  "lastUpdated": "2026-03-15T23:57:55.444Z"
 }
