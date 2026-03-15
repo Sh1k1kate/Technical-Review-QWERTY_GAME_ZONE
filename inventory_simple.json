@@ -289,17 +289,23 @@
       "quantity": 0
     },
     {
+      "id": 50,
+      "category": "Напитки",
+      "name": "Сок J7 Frustyle Кактус Лайм 0.385л",
+      "quantity": 0
+    },
+    {
       "id": 36,
       "category": "Напитки",
       "name": "Mountain Dew Citrus Blast 0,33л",
       "quantity": 0
     },
     {
-      "id": 50,
+      "id": 51,
       "category": "Напитки",
-      "name": "Сок J7 Frustyle Кактус Лайм 0.385л",
+      "name": "Сок J7 Frustyle Красный Апельсин 0.385л",
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-15T23:49:23.273Z"
+  "lastUpdated": "2026-03-15T23:49:30.228Z"
 }
