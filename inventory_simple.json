@@ -361,17 +361,23 @@
       "quantity": 0
     },
     {
+      "id": 62,
+      "category": "Напитки",
+      "name": "Coca Cola Caffeine Free 0,33л",
+      "quantity": 0
+    },
+    {
       "id": 36,
       "category": "Напитки",
       "name": "Mountain Dew Citrus Blast 0,33л",
       "quantity": 0
     },
     {
-      "id": 62,
+      "id": 63,
       "category": "Напитки",
-      "name": "Coca Cola Caffeine Free 0,33л",
+      "name": "Coca Cola Cherry 0,33л",
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-15T23:50:51.790Z"
+  "lastUpdated": "2026-03-15T23:50:59.464Z"
 }
