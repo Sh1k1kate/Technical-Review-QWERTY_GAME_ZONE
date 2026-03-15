@@ -23,7 +23,7 @@
             color: #e2e8f0;
         }
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
         }
         
@@ -85,7 +85,7 @@
             border: none;
         }
         
-        /* Панель GitHub */
+        /* GitHub панель */
         .github-panel {
             background: white;
             border-radius: 30px;
@@ -123,8 +123,40 @@
             flex-wrap: wrap;
         }
         
-        /* Панель управления */
-        .control-bar {
+        .btn {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 30px;
+            padding: 10px 16px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .dark-theme .btn {
+            background: #0f172a;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+        .btn:active {
+            transform: scale(0.95);
+        }
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+            border: none;
+        }
+        .btn-success {
+            background: #22c55e;
+            color: white;
+            border: none;
+        }
+        
+        /* Панель поиска */
+        .search-bar {
             background: white;
             border-radius: 30px;
             padding: 16px 20px;
@@ -133,10 +165,9 @@
             flex-wrap: wrap;
             gap: 15px;
             align-items: center;
-            justify-content: space-between;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
         }
-        .dark-theme .control-bar {
+        .dark-theme .search-bar {
             background: #1e293b;
         }
         
@@ -178,84 +209,32 @@
         .dark-theme .data-status {
             background: #0f172a;
         }
-        .data-status.ok { color: #22c55e; }
-        .data-status.saving { color: #f59e0b; }
-        .data-status.error { color: #ef4444; }
-        
-        .btn {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 30px;
-            padding: 12px 20px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .dark-theme .btn {
-            background: #0f172a;
-            border-color: #334155;
-            color: #f1f5f9;
-        }
-        .btn:active {
-            transform: scale(0.95);
-        }
-        .btn-primary {
-            background: #3b82f6;
-            color: white;
-            border: none;
-        }
-        .btn-success {
-            background: #22c55e;
-            color: white;
-            border: none;
-        }
-        .btn-warning {
-            background: #f59e0b;
-            color: white;
-            border: none;
-        }
         
         /* Статистика */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         .stat-card {
             background: white;
             border-radius: 25px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            padding: 15px;
+            text-align: center;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
         }
         .dark-theme .stat-card {
             background: #1e293b;
         }
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            background: #f1f5f9;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-        }
-        .stat-info h3 {
-            font-size: 0.9rem;
-            color: #64748b;
-            margin-bottom: 5px;
-        }
-        .stat-info .stat-value {
+        .stat-value {
             font-size: 2rem;
             font-weight: 700;
+            color: #3b82f6;
+        }
+        .stat-label {
+            color: #64748b;
+            font-size: 0.9rem;
         }
         
         /* Таблица */
@@ -265,7 +244,6 @@
             padding: 20px;
             overflow-x: auto;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
         }
         .dark-theme .table-container {
             background: #1e293b;
@@ -274,7 +252,6 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 1300px;
         }
         
         th {
@@ -282,10 +259,7 @@
             padding: 15px 10px;
             background: #f8fafc;
             font-weight: 600;
-            font-size: 0.9rem;
             color: #475569;
-            position: sticky;
-            top: 0;
         }
         .dark-theme th {
             background: #0f172a;
@@ -307,7 +281,17 @@
             background: #0f172a;
         }
         
-        /* Форма редактирования */
+        .quantity-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .quantity-normal { background: #dcfce7; color: #166534; }
+        .quantity-low { background: #fef3c7; color: #92400e; }
+        .quantity-zero { background: #fee2e2; color: #991b1b; }
+        
+        /* Модальное окно */
         .modal {
             display: none;
             position: fixed;
@@ -328,10 +312,8 @@
             background: white;
             border-radius: 30px;
             padding: 30px;
-            max-width: 600px;
+            max-width: 500px;
             width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
         }
         .dark-theme .modal-content {
             background: #1e293b;
@@ -339,6 +321,7 @@
         
         .form-group {
             margin-bottom: 20px;
+            position: relative;
         }
         .form-label {
             display: block;
@@ -358,6 +341,47 @@
             color: white;
         }
         
+        /* Автодополнение */
+        .autocomplete-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            margin-top: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .dark-theme .autocomplete-list {
+            background: #1e293b;
+            border-color: #334155;
+        }
+        .autocomplete-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .dark-theme .autocomplete-item {
+            border-bottom-color: #334155;
+        }
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+        .autocomplete-item:hover {
+            background: #f1f5f9;
+        }
+        .dark-theme .autocomplete-item:hover {
+            background: #0f172a;
+        }
+        .autocomplete-item small {
+            color: #64748b;
+            margin-left: 10px;
+        }
+        
         .modal-buttons {
             display: flex;
             gap: 10px;
@@ -370,32 +394,6 @@
             border: none;
             font-weight: 600;
             cursor: pointer;
-        }
-        
-        /* Фильтры */
-        .filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .filter-chip {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 30px;
-            padding: 8px 16px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .dark-theme .filter-chip {
-            background: #1e293b;
-            border-color: #334155;
-            color: #cbd5e1;
-        }
-        .filter-chip.active {
-            background: #3b82f6;
-            color: white;
-            border-color: #3b82f6;
         }
         
         /* Уведомления */
@@ -411,12 +409,7 @@
             animation: fade 3s;
             z-index: 3000;
         }
-        .toast.error {
-            background: #ef4444;
-        }
-        .toast.warning {
-            background: #f59e0b;
-        }
+        .toast.error { background: #ef4444; }
         @keyframes fade {
             0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
             10% { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -447,13 +440,9 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            font-size: 1.1rem;
-            font-weight: 500;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
         .dark-theme .loading-spinner {
             background: #1e293b;
-            color: #f1f5f9;
         }
         .spinner {
             width: 24px;
@@ -466,11 +455,6 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        
-        /* Модальное окно токена */
-        .token-modal .modal-content {
-            max-width: 500px;
-        }
     </style>
 </head>
 <body>
@@ -482,7 +466,7 @@
         </div>
 
         <div class="header">
-            <h1>📦 Складская инвентаризация</h1>
+            <h1>📦 Складской учёт</h1>
             <div class="theme-toggle" id="themeToggle">🌙 Тёмная</div>
         </div>
 
@@ -495,88 +479,51 @@
             <div class="github-buttons">
                 <button class="btn" id="showTokenBtn">🔑 Токен</button>
                 <button class="btn btn-primary" id="saveToGithubBtn">💾 Сохранить</button>
-                <button class="btn btn-warning" id="loadFromGithubBtn">📂 Загрузить</button>
+                <button class="btn" id="loadFromGithubBtn">📂 Загрузить</button>
             </div>
         </div>
 
-        <!-- Панель управления -->
-        <div class="control-bar">
+        <!-- Панель поиска -->
+        <div class="search-bar">
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Поиск по названию, артикулу, категории...">
+                <input type="text" id="searchInput" placeholder="Поиск по названию или категории...">
             </div>
             
             <div class="data-status" id="dataStatus">💾 Данные загружены</div>
             
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <button class="btn" id="addItemBtn">➕ Добавить</button>
-                <button class="btn btn-success" id="exportBtn">📥 Excel</button>
-                <button class="btn btn-warning" id="importBtn">📤 Импорт</button>
-                <input type="file" id="excelFile" accept=".xlsx, .xls" style="display: none;">
-                <button class="btn" id="resetBtn">🔄 Сброс</button>
-            </div>
+            <button class="btn btn-success" id="addItemBtn">➕ Добавить товар</button>
         </div>
 
         <!-- Статистика -->
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-icon">📦</div>
-                <div class="stat-info">
-                    <h3>Всего товаров</h3>
-                    <div class="stat-value" id="totalItems">0</div>
-                </div>
+                <div class="stat-value" id="totalItems">0</div>
+                <div class="stat-label">Всего позиций</div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon">✅</div>
-                <div class="stat-info">
-                    <h3>В наличии</h3>
-                    <div class="stat-value" id="inStock">0</div>
-                </div>
+                <div class="stat-value" id="totalQuantity">0</div>
+                <div class="stat-label">Всего единиц</div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon">⚠️</div>
-                <div class="stat-info">
-                    <h3>Малый остаток</h3>
-                    <div class="stat-value" id="lowStock">0</div>
-                </div>
+                <div class="stat-value" id="lowStockItems">0</div>
+                <div class="stat-label">Мало (менее 5)</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon">💰</div>
-                <div class="stat-info">
-                    <h3>Общая стоимость</h3>
-                    <div class="stat-value" id="totalValue">0 ₽</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Фильтры -->
-        <div class="filters">
-            <div class="filter-chip active" data-filter="all">Все товары</div>
-            <div class="filter-chip" data-filter="in-stock">В наличии</div>
-            <div class="filter-chip" data-filter="low-stock">Малый остаток (&lt;5)</div>
-            <div class="filter-chip" data-filter="out-stock">Нет в наличии</div>
         </div>
 
         <!-- Таблица -->
         <div class="table-container">
-            <table id="inventoryTable">
+            <table>
                 <thead>
                     <tr>
-                        <th>№</th>
-                        <th>Артикул</th>
-                        <th>Наименование</th>
                         <th>Категория</th>
-                        <th>Количество</th>
-                        <th>Ед. изм.</th>
-                        <th>Цена (₽)</th>
-                        <th>Сумма (₽)</th>
-                        <th>Мин. остаток</th>
-                        <th>Место</th>
-                        <th>Дата</th>
+                        <th>Наименование</th>
+                        <th>Количество (шт)</th>
+                        <th>Статус</th>
                         <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <!-- Данные будут загружаться сюда -->
+                    <!-- Данные -->
                 </tbody>
             </table>
         </div>
@@ -588,16 +535,6 @@
             <h2 style="margin-bottom: 20px;" id="modalTitle">➕ Добавить товар</h2>
             
             <div class="form-group">
-                <label class="form-label">Артикул</label>
-                <input type="text" class="form-input" id="sku" placeholder="Например: ART-001">
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Наименование товара *</label>
-                <input type="text" class="form-input" id="name" placeholder="Введите название">
-            </div>
-            
-            <div class="form-group">
                 <label class="form-label">Категория</label>
                 <select class="form-select" id="category">
                     <option value="Электроника">Электроника</option>
@@ -605,48 +542,21 @@
                     <option value="Периферия">Периферия</option>
                     <option value="Расходники">Расходники</option>
                     <option value="Мебель">Мебель</option>
+                    <option value="Инструменты">Инструменты</option>
+                    <option value="Канцелярия">Канцелярия</option>
                     <option value="Другое">Другое</option>
                 </select>
             </div>
             
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <div class="form-group">
-                    <label class="form-label">Количество *</label>
-                    <input type="number" class="form-input" id="quantity" min="0" value="0">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Единица измерения</label>
-                    <select class="form-select" id="unit">
-                        <option value="шт">шт</option>
-                        <option value="кг">кг</option>
-                        <option value="л">л</option>
-                        <option value="м">м</option>
-                        <option value="уп">уп</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <div class="form-group">
-                    <label class="form-label">Цена за ед. (₽)</label>
-                    <input type="number" class="form-input" id="price" min="0" value="0">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Мин. остаток</label>
-                    <input type="number" class="form-input" id="minStock" min="0" value="1">
-                </div>
+            <div class="form-group" id="nameField">
+                <label class="form-label">Наименование *</label>
+                <input type="text" class="form-input" id="name" placeholder="Введите название" autocomplete="off">
+                <div id="autocomplete" class="autocomplete-list" style="display: none;"></div>
             </div>
             
             <div class="form-group">
-                <label class="form-label">Место хранения</label>
-                <input type="text" class="form-input" id="location" placeholder="Стеллаж А, полка 3">
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Примечание</label>
-                <textarea class="form-input" id="notes" rows="2" placeholder="Дополнительная информация..."></textarea>
+                <label class="form-label">Количество (шт) *</label>
+                <input type="number" class="form-input" id="quantity" min="0" value="0">
             </div>
             
             <div class="modal-buttons">
@@ -657,11 +567,10 @@
     </div>
 
     <!-- Модальное окно токена -->
-    <div class="modal token-modal" id="tokenModal">
+    <div class="modal" id="tokenModal">
         <div class="modal-content">
-            <h2 style="margin-bottom: 20px;">🔑 GitHub Personal Access Token</h2>
-            <p>Введите токен с правами на запись в репозиторий</p>
-            <p style="font-size: 0.9rem; color: #64748b;">Для чтения тоже нужен токен из-за CORS</p>
+            <h2 style="margin-bottom: 20px;">🔑 GitHub Token</h2>
+            <p>Введите токен с правами на запись</p>
             <input type="password" class="form-input" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxx" style="margin: 20px 0;">
             <div class="modal-buttons">
                 <button class="modal-btn" id="cancelTokenBtn">Отмена</button>
@@ -677,7 +586,7 @@
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner">
             <div class="spinner"></div>
-            <span>Загрузка с GitHub...</span>
+            <span>Загрузка...</span>
         </div>
     </div>
 
@@ -691,7 +600,7 @@
             };
             
             const SECRET_WORD = 'INVENTORY2026';
-            const DATA_FILE = 'inventory_data.json';
+            const DATA_FILE = 'inventory_simple.json';
             
             // ==================== ПРОВЕРКА ДОСТУПА ====================
             function checkAccess() {
@@ -704,7 +613,7 @@
                             <div style="background: white; padding: 40px; border-radius: 30px; text-align: center; max-width: 400px;">
                                 <div style="font-size: 4rem; margin-bottom: 20px;">🔒</div>
                                 <h1 style="margin-bottom: 20px; color: #1e293b;">Доступ ограничен</h1>
-                                <p style="margin-bottom: 30px; color: #64748b;">Страница инвентаризации защищена секретным ключом</p>
+                                <p style="margin-bottom: 30px; color: #64748b;">Страница защищена секретным ключом</p>
                                 <div style="background: #f1f5f9; padding: 15px; border-radius: 20px;">
                                     <code style="color: #3b82f6;">?secret=${SECRET_WORD}</code>
                                 </div>
@@ -720,34 +629,28 @@
 
             // ==================== НАЧАЛЬНЫЕ ДАННЫЕ ====================
             const DEFAULT_ITEMS = [
-                { id: 1, sku: 'MON-001', name: 'Монитор Dell 24"', category: 'Электроника', quantity: 5, unit: 'шт', price: 15000, minStock: 2, location: 'Стеллаж А1', notes: '', date: new Date().toISOString().slice(0,10) },
-                { id: 2, sku: 'KB-002', name: 'Клавиатура Logitech', category: 'Периферия', quantity: 12, unit: 'шт', price: 2500, minStock: 3, location: 'Стеллаж Б2', notes: '', date: new Date().toISOString().slice(0,10) },
-                { id: 3, sku: 'M-003', name: 'Мышь проводная', category: 'Периферия', quantity: 2, unit: 'шт', price: 800, minStock: 5, location: 'Стеллаж Б2', notes: 'Мало осталось!', date: new Date().toISOString().slice(0,10) },
-                { id: 4, sku: 'HDD-004', name: 'Жесткий диск 1TB', category: 'Комплектующие', quantity: 0, unit: 'шт', price: 4500, minStock: 2, location: 'Стеллаж В3', notes: 'Закончились', date: new Date().toISOString().slice(0,10) },
-                { id: 5, sku: 'CBL-005', name: 'Кабель HDMI 2м', category: 'Расходники', quantity: 25, unit: 'шт', price: 300, minStock: 10, location: 'Ящик №4', notes: '', date: new Date().toISOString().slice(0,10) }
+                { id: 1, category: 'Периферия', name: 'Мышь проводная', quantity: 12 },
+                { id: 2, category: 'Периферия', name: 'Клавиатура', quantity: 8 },
+                { id: 3, category: 'Электроника', name: 'Монитор 24"', quantity: 3 },
+                { id: 4, category: 'Комплектующие', name: 'Жесткий диск 1TB', quantity: 0 },
+                { id: 5, category: 'Расходники', name: 'Кабель HDMI', quantity: 25 }
             ];
 
             // ==================== СОСТОЯНИЕ ====================
             let items = [];
             let nextId = 100;
-            let currentFilter = 'all';
             let searchTerm = '';
             let editingId = null;
             let isDarkTheme = localStorage.getItem('inventory_dark_theme') === 'true';
-            
-            // GitHub настройки
             let githubToken = localStorage.getItem('github_token') || '';
-            
-            // Флаги
             let isSaving = false;
             let isLoading = false;
 
-            // ==================== ФУНКЦИИ ДЛЯ UTF-8 ====================
+            // ==================== UTF-8 ====================
             function utf8ToBase64(str) {
                 try {
                     return btoa(unescape(encodeURIComponent(str)));
                 } catch (e) {
-                    console.error('Ошибка кодирования в base64:', e);
                     return '';
                 }
             }
@@ -756,12 +659,11 @@
                 try {
                     return decodeURIComponent(escape(atob(base64)));
                 } catch (e) {
-                    console.error('Ошибка декодирования из base64:', e);
                     return '';
                 }
             }
 
-            // ==================== GITHUB ФУНКЦИИ ====================
+            // ==================== GITHUB ====================
             function updateRepoDisplay() {
                 document.getElementById('repoDisplay').textContent = `${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`;
                 const tokenStatus = document.getElementById('tokenStatus');
@@ -776,25 +678,9 @@
 
             function updateDataStatus(type) {
                 const statusEl = document.getElementById('dataStatus');
-                const icons = {
-                    loaded: '📂',
-                    saved: '💾',
-                    saving: '⏳',
-                    loading: '📥',
-                    error: '❌'
-                };
-                const texts = {
-                    loaded: 'Данные загружены',
-                    saved: 'Данные сохранены',
-                    saving: 'Сохранение...',
-                    loading: 'Загрузка...',
-                    error: 'Ошибка'
-                };
+                const icons = { loaded: '📂', saved: '💾', saving: '⏳', loading: '📥', error: '❌' };
+                const texts = { loaded: 'Данные загружены', saved: 'Данные сохранены', saving: 'Сохранение...', loading: 'Загрузка...', error: 'Ошибка' };
                 statusEl.innerHTML = `${icons[type] || '📋'} ${texts[type] || ''}`;
-                statusEl.className = 'data-status';
-                if (type === 'loaded' || type === 'saved') statusEl.classList.add('ok');
-                if (type === 'saving' || type === 'loading') statusEl.classList.add('saving');
-                if (type === 'error') statusEl.classList.add('error');
             }
 
             async function saveToGithub(showToastMessage = true) {
@@ -809,22 +695,12 @@
                 try {
                     updateDataStatus('saving');
                     
-                    const data = {
-                        items: items,
-                        lastUpdated: new Date().toISOString()
-                    };
-                    
-                    const jsonString = JSON.stringify(data, null, 2);
-                    const content = utf8ToBase64(jsonString);
-                    
-                    if (!content) throw new Error('Ошибка кодирования данных');
+                    const data = { items, lastUpdated: new Date().toISOString() };
+                    const content = utf8ToBase64(JSON.stringify(data, null, 2));
                     
                     const getUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
                     const getResponse = await fetch(getUrl, {
-                        headers: { 
-                            'Authorization': `token ${githubToken}`,
-                            'Accept': 'application/vnd.github.v3+json'
-                        }
+                        headers: { 'Authorization': `token ${githubToken}` }
                     });
                     
                     let sha = null;
@@ -833,34 +709,27 @@
                         sha = fileData.sha;
                     }
                     
-                    const putData = {
-                        message: `Обновление инвентаризации от ${new Date().toLocaleDateString()}`,
-                        content: content,
-                        branch: 'main'
-                    };
-                    if (sha) putData.sha = sha;
-                    
                     const putResponse = await fetch(getUrl, {
                         method: 'PUT',
                         headers: {
                             'Authorization': `token ${githubToken}`,
-                            'Accept': 'application/vnd.github.v3+json',
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify(putData)
+                        body: JSON.stringify({
+                            message: `Обновление от ${new Date().toLocaleDateString()}`,
+                            content: content,
+                            branch: 'main',
+                            sha: sha
+                        })
                     });
                     
-                    if (!putResponse.ok) {
-                        const error = await putResponse.json();
-                        throw new Error(error.message);
-                    }
+                    if (!putResponse.ok) throw new Error('Ошибка сохранения');
                     
                     updateDataStatus('saved');
-                    if (showToastMessage) showToast('✅ Данные сохранены в GitHub');
+                    if (showToastMessage) showToast('✅ Сохранено в GitHub');
                     return true;
                     
                 } catch (error) {
-                    console.error('Ошибка сохранения:', error);
                     updateDataStatus('error');
                     if (showToastMessage) showToast('❌ Ошибка сохранения', 'error');
                     return false;
@@ -884,31 +753,24 @@
                     
                     const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
                     const response = await fetch(url, {
-                        headers: { 
-                            'Authorization': `token ${githubToken}`,
-                            'Accept': 'application/vnd.github.v3+json'
-                        }
+                        headers: { 'Authorization': `token ${githubToken}` }
                     });
                     
                     if (!response.ok) {
                         if (response.status === 404) {
-                            if (showToastMessage) showToast('📭 Файл данных не найден', 'warning');
+                            if (showToastMessage) showToast('📭 Файл не найден', 'warning');
                             return false;
                         }
-                        throw new Error(`HTTP ${response.status}`);
+                        throw new Error('Ошибка загрузки');
                     }
                     
                     const data = await response.json();
-                    const decodedContent = base64ToUtf8(data.content);
+                    const jsonData = JSON.parse(base64ToUtf8(data.content));
                     
-                    if (!decodedContent) throw new Error('Ошибка декодирования');
-                    
-                    const jsonData = JSON.parse(decodedContent);
-                    
-                    if (jsonData.items && Array.isArray(jsonData.items)) {
+                    if (jsonData.items) {
                         items = jsonData.items;
                         nextId = Math.max(...items.map(i => i.id), 0) + 1;
-                        saveData(false); // Сохраняем в localStorage
+                        saveToLocal();
                         renderTable();
                         updateDataStatus('loaded');
                         if (showToastMessage) showToast(`✅ Загружено ${items.length} товаров`);
@@ -916,7 +778,6 @@
                     }
                     
                 } catch (error) {
-                    console.error('Ошибка загрузки:', error);
                     updateDataStatus('error');
                     if (showToastMessage) showToast('❌ Ошибка загрузки', 'error');
                 } finally {
@@ -926,9 +787,9 @@
                 return false;
             }
 
-            // ==================== РАБОТА С ДАННЫМИ ====================
-            function loadData() {
-                const saved = localStorage.getItem('inventory_data');
+            // ==================== ЛОКАЛЬНЫЕ ДАННЫЕ ====================
+            function loadFromLocal() {
+                const saved = localStorage.getItem('inventory_simple');
                 if (saved) {
                     try {
                         items = JSON.parse(saved);
@@ -940,17 +801,69 @@
                     items = [...DEFAULT_ITEMS];
                 }
                 renderTable();
-                updateStats();
             }
 
-            function saveData(saveToGithubFlag = true) {
-                localStorage.setItem('inventory_data', JSON.stringify(items));
-                updateStats();
+            function saveToLocal() {
+                localStorage.setItem('inventory_simple', JSON.stringify(items));
+            }
+
+            // ==================== АВТОДОПОЛНЕНИЕ ====================
+            function setupAutocomplete() {
+                const nameInput = document.getElementById('name');
+                const autocompleteDiv = document.getElementById('autocomplete');
                 
-                // Автосохранение на GitHub если есть токен
-                if (saveToGithubFlag && githubToken && !isSaving) {
-                    saveToGithub(false);
-                }
+                // Собираем все уникальные названия из существующих товаров
+                const allNames = [...new Set(items.map(item => item.name))];
+                
+                nameInput.addEventListener('input', function() {
+                    const value = this.value.toLowerCase().trim();
+                    
+                    if (value.length < 1) {
+                        autocompleteDiv.style.display = 'none';
+                        return;
+                    }
+                    
+                    // Ищем совпадения в названиях и категориях
+                    const matches = items.filter(item => 
+                        item.name.toLowerCase().includes(value) || 
+                        item.category.toLowerCase().includes(value)
+                    );
+                    
+                    // Добавляем уникальные названия из всех товаров
+                    const uniqueMatches = [...new Set(matches.map(m => m.name))];
+                    
+                    if (uniqueMatches.length > 0) {
+                        autocompleteDiv.innerHTML = uniqueMatches
+                            .slice(0, 5) // Показываем не больше 5 вариантов
+                            .map(name => {
+                                const item = items.find(i => i.name === name);
+                                return `<div class="autocomplete-item" data-name="${name}" data-category="${item.category}">
+                                    ${name} <small>${item.category}</small>
+                                </div>`;
+                            })
+                            .join('');
+                        autocompleteDiv.style.display = 'block';
+                    } else {
+                        autocompleteDiv.style.display = 'none';
+                    }
+                });
+                
+                // Обработчик клика по подсказке
+                autocompleteDiv.addEventListener('click', function(e) {
+                    const item = e.target.closest('.autocomplete-item');
+                    if (item) {
+                        nameInput.value = item.dataset.name;
+                        document.getElementById('category').value = item.dataset.category;
+                        autocompleteDiv.style.display = 'none';
+                    }
+                });
+                
+                // Скрываем подсказки при клике вне
+                document.addEventListener('click', function(e) {
+                    if (!nameInput.contains(e.target) && !autocompleteDiv.contains(e.target)) {
+                        autocompleteDiv.style.display = 'none';
+                    }
+                });
             }
 
             // ==================== ТЕМА ====================
@@ -967,28 +880,13 @@
 
             // ==================== ФИЛЬТРАЦИЯ ====================
             function filterItems() {
-                return items.filter(item => {
-                    if (searchTerm) {
-                        const term = searchTerm.toLowerCase();
-                        const matches = 
-                            item.name.toLowerCase().includes(term) ||
-                            (item.sku && item.sku.toLowerCase().includes(term)) ||
-                            (item.category && item.category.toLowerCase().includes(term)) ||
-                            (item.location && item.location.toLowerCase().includes(term));
-                        if (!matches) return false;
-                    }
-                    
-                    switch(currentFilter) {
-                        case 'in-stock':
-                            return item.quantity > 0;
-                        case 'low-stock':
-                            return item.quantity > 0 && item.quantity < (item.minStock || 5);
-                        case 'out-stock':
-                            return item.quantity === 0;
-                        default:
-                            return true;
-                    }
-                });
+                if (!searchTerm) return items;
+                
+                const term = searchTerm.toLowerCase();
+                return items.filter(item => 
+                    item.name.toLowerCase().includes(term) || 
+                    item.category.toLowerCase().includes(term)
+                );
             }
 
             // ==================== РЕНДЕР ТАБЛИЦЫ ====================
@@ -997,31 +895,35 @@
                 const tbody = document.getElementById('tableBody');
                 tbody.innerHTML = '';
                 
-                filtered.sort((a, b) => a.name.localeCompare(b.name)).forEach((item, index) => {
-                    const total = item.quantity * item.price;
-                    const lowStock = item.quantity < (item.minStock || 5);
-                    const outStock = item.quantity === 0;
+                // Сортировка по категории и названию
+                filtered.sort((a, b) => {
+                    if (a.category === b.category) {
+                        return a.name.localeCompare(b.name);
+                    }
+                    return a.category.localeCompare(b.category);
+                });
+                
+                filtered.forEach(item => {
+                    let statusClass = 'quantity-normal';
+                    let statusText = 'Норма';
+                    
+                    if (item.quantity === 0) {
+                        statusClass = 'quantity-zero';
+                        statusText = 'Нет в наличии';
+                    } else if (item.quantity < 5) {
+                        statusClass = 'quantity-low';
+                        statusText = 'Мало';
+                    }
                     
                     const row = document.createElement('tr');
-                    row.style.background = outStock ? '#fee2e2' : lowStock ? '#fef3c7' : 'transparent';
-                    
                     row.innerHTML = `
-                        <td>${index + 1}</td>
-                        <td><strong>${item.sku || '—'}</strong></td>
+                        <td><strong>${item.category}</strong></td>
                         <td>${item.name}</td>
-                        <td>${item.category || '—'}</td>
-                        <td style="font-weight: 600; color: ${outStock ? '#dc2626' : lowStock ? '#d97706' : '#16a34a'};">${item.quantity}</td>
-                        <td>${item.unit || 'шт'}</td>
-                        <td>${item.price.toLocaleString()} ₽</td>
-                        <td>${total.toLocaleString()} ₽</td>
-                        <td>${item.minStock || '—'}</td>
-                        <td>${item.location || '—'}</td>
-                        <td>${item.date || '—'}</td>
+                        <td><span class="quantity-badge ${statusClass}">${item.quantity} шт</span></td>
+                        <td>${statusText}</td>
                         <td>
-                            <div style="display: flex; gap: 5px;">
-                                <button class="btn" style="padding: 5px 10px;" onclick="window.editItem(${item.id})">✏️</button>
-                                <button class="btn" style="padding: 5px 10px; background: #ef4444; color: white;" onclick="window.deleteItem(${item.id})">🗑️</button>
-                            </div>
+                            <button class="btn" style="padding: 5px 10px;" onclick="window.editItem(${item.id})">✏️</button>
+                            <button class="btn" style="padding: 5px 10px; background: #ef4444; color: white;" onclick="window.deleteItem(${item.id})">🗑️</button>
                         </td>
                     `;
                     tbody.appendChild(row);
@@ -1034,13 +936,11 @@
             function updateStats() {
                 document.getElementById('totalItems').innerText = items.length;
                 
-                const inStock = items.filter(i => i.quantity > 0).length;
-                const lowStock = items.filter(i => i.quantity > 0 && i.quantity < (i.minStock || 5)).length;
-                const totalValue = items.reduce((sum, i) => sum + (i.quantity * i.price), 0);
+                const totalQty = items.reduce((sum, i) => sum + i.quantity, 0);
+                document.getElementById('totalQuantity').innerText = totalQty;
                 
-                document.getElementById('inStock').innerText = inStock;
-                document.getElementById('lowStock').innerText = lowStock;
-                document.getElementById('totalValue').innerText = totalValue.toLocaleString() + ' ₽';
+                const lowStock = items.filter(i => i.quantity > 0 && i.quantity < 5).length;
+                document.getElementById('lowStockItems').innerText = lowStock;
             }
 
             // ==================== МОДАЛЬНОЕ ОКНО ====================
@@ -1051,30 +951,19 @@
                     const item = items.find(i => i.id === editId);
                     if (item) {
                         document.getElementById('modalTitle').innerText = '✏️ Редактировать товар';
-                        document.getElementById('sku').value = item.sku || '';
+                        document.getElementById('category').value = item.category;
                         document.getElementById('name').value = item.name;
-                        document.getElementById('category').value = item.category || 'Электроника';
                         document.getElementById('quantity').value = item.quantity;
-                        document.getElementById('unit').value = item.unit || 'шт';
-                        document.getElementById('price').value = item.price;
-                        document.getElementById('minStock').value = item.minStock || 1;
-                        document.getElementById('location').value = item.location || '';
-                        document.getElementById('notes').value = item.notes || '';
                     }
                 } else {
                     document.getElementById('modalTitle').innerText = '➕ Добавить товар';
-                    document.getElementById('sku').value = '';
-                    document.getElementById('name').value = '';
                     document.getElementById('category').value = 'Электроника';
+                    document.getElementById('name').value = '';
                     document.getElementById('quantity').value = 0;
-                    document.getElementById('unit').value = 'шт';
-                    document.getElementById('price').value = 0;
-                    document.getElementById('minStock').value = 1;
-                    document.getElementById('location').value = '';
-                    document.getElementById('notes').value = '';
                 }
                 
                 document.getElementById('itemModal').classList.add('active');
+                document.getElementById('name').focus();
             }
 
             function closeModal() {
@@ -1089,18 +978,13 @@
                     return;
                 }
                 
+                const quantity = parseInt(document.getElementById('quantity').value) || 0;
+                
                 const item = {
                     id: editingId || nextId++,
-                    sku: document.getElementById('sku').value.trim(),
-                    name: name,
                     category: document.getElementById('category').value,
-                    quantity: parseInt(document.getElementById('quantity').value) || 0,
-                    unit: document.getElementById('unit').value,
-                    price: parseFloat(document.getElementById('price').value) || 0,
-                    minStock: parseInt(document.getElementById('minStock').value) || 1,
-                    location: document.getElementById('location').value.trim(),
-                    notes: document.getElementById('notes').value.trim(),
-                    date: new Date().toISOString().slice(0,10)
+                    name: name,
+                    quantity: quantity
                 };
                 
                 if (editingId) {
@@ -1110,7 +994,8 @@
                     items.push(item);
                 }
                 
-                saveData(true);
+                saveToLocal();
+                saveToGithub(false); // фоновое сохранение
                 renderTable();
                 closeModal();
                 showToast(editingId ? '✅ Товар обновлён' : '✅ Товар добавлен');
@@ -1119,105 +1004,10 @@
             function deleteItem(id) {
                 if (confirm('Удалить товар?')) {
                     items = items.filter(i => i.id !== id);
-                    saveData(true);
+                    saveToLocal();
+                    saveToGithub(false);
                     renderTable();
                     showToast('🗑️ Товар удалён');
-                }
-            }
-
-            // ==================== ЭКСПОРТ/ИМПОРТ ====================
-            function exportToExcel() {
-                const data = [
-                    ['Артикул', 'Наименование', 'Категория', 'Количество', 'Ед.изм', 'Цена (₽)', 'Сумма (₽)', 'Мин.остаток', 'Место', 'Примечание', 'Дата']
-                ];
-                
-                items.forEach(item => {
-                    data.push([
-                        item.sku || '',
-                        item.name,
-                        item.category || '',
-                        item.quantity,
-                        item.unit || 'шт',
-                        item.price,
-                        item.quantity * item.price,
-                        item.minStock || '',
-                        item.location || '',
-                        item.notes || '',
-                        item.date || ''
-                    ]);
-                });
-                
-                const wb = XLSX.utils.book_new();
-                const ws = XLSX.utils.aoa_to_sheet(data);
-                XLSX.utils.book_append_sheet(wb, ws, 'Инвентаризация');
-                
-                const wbData = XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
-                const blob = new Blob([wbData], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-                
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `Инвентаризация_${new Date().toISOString().slice(0,10)}.xlsx`;
-                a.click();
-                window.URL.revokeObjectURL(url);
-                
-                showToast('📥 Excel файл скачан');
-            }
-
-            async function importFromExcel(file) {
-                try {
-                    document.getElementById('loadingOverlay').classList.add('active');
-                    
-                    const data = await file.arrayBuffer();
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    const sheet = workbook.Sheets[workbook.SheetNames[0]];
-                    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-                    
-                    if (rows.length > 1) {
-                        const newItems = [];
-                        let maxId = Math.max(...items.map(i => i.id), 0);
-                        
-                        for (let i = 1; i < rows.length; i++) {
-                            const row = rows[i];
-                            if (!row || !row[1]) continue;
-                            
-                            newItems.push({
-                                id: ++maxId,
-                                sku: row[0] ? row[0].toString() : '',
-                                name: row[1].toString(),
-                                category: row[2] ? row[2].toString() : 'Другое',
-                                quantity: parseInt(row[3]) || 0,
-                                unit: row[4] ? row[4].toString() : 'шт',
-                                price: parseFloat(row[5]) || 0,
-                                minStock: parseInt(row[7]) || 1,
-                                location: row[8] ? row[8].toString() : '',
-                                notes: row[9] ? row[9].toString() : '',
-                                date: row[10] ? row[10].toString() : new Date().toISOString().slice(0,10)
-                            });
-                        }
-                        
-                        if (newItems.length > 0) {
-                            items = newItems;
-                            nextId = maxId + 1;
-                            saveData(true);
-                            renderTable();
-                            showToast(`✅ Загружено ${newItems.length} товаров`);
-                        }
-                    }
-                } catch (error) {
-                    showToast('❌ Ошибка импорта', 'error');
-                } finally {
-                    document.getElementById('loadingOverlay').classList.remove('active');
-                }
-            }
-
-            function resetToDefault() {
-                if (confirm('Сбросить все данные к исходным?')) {
-                    items = [...DEFAULT_ITEMS];
-                    nextId = Math.max(...items.map(i => i.id), 0) + 1;
-                    saveData(true);
-                    renderTable();
-                    showToast('🔄 Данные сброшены');
                 }
             }
 
@@ -1226,7 +1016,6 @@
                 const toast = document.getElementById('toast');
                 toast.className = 'toast';
                 if (type === 'error') toast.classList.add('error');
-                if (type === 'warning') toast.classList.add('warning');
                 toast.style.display = 'block';
                 toast.innerText = text;
                 setTimeout(() => toast.style.display = 'none', 3000);
@@ -1235,7 +1024,13 @@
             // ==================== ИНИЦИАЛИЗАЦИЯ ====================
             document.addEventListener('DOMContentLoaded', function() {
                 updateRepoDisplay();
-                loadData();
+                loadFromLocal();
+                
+                // Поиск
+                document.getElementById('searchInput').addEventListener('input', function(e) {
+                    searchTerm = e.target.value;
+                    renderTable();
+                });
                 
                 // GitHub кнопки
                 document.getElementById('showTokenBtn').addEventListener('click', () => {
@@ -1261,37 +1056,8 @@
                 document.getElementById('saveToGithubBtn').addEventListener('click', () => saveToGithub(true));
                 document.getElementById('loadFromGithubBtn').addEventListener('click', () => loadFromGithub(true));
                 
-                // Поиск
-                document.getElementById('searchInput').addEventListener('input', function(e) {
-                    searchTerm = e.target.value;
-                    renderTable();
-                });
-                
-                // Фильтры
-                document.querySelectorAll('.filter-chip').forEach(chip => {
-                    chip.addEventListener('click', function() {
-                        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-                        this.classList.add('active');
-                        currentFilter = this.dataset.filter;
-                        renderTable();
-                    });
-                });
-                
-                // Кнопки
+                // Добавление
                 document.getElementById('addItemBtn').addEventListener('click', () => openModal());
-                document.getElementById('exportBtn').addEventListener('click', exportToExcel);
-                document.getElementById('resetBtn').addEventListener('click', resetToDefault);
-                
-                document.getElementById('importBtn').addEventListener('click', () => {
-                    document.getElementById('excelFile').click();
-                });
-                
-                document.getElementById('excelFile').addEventListener('change', function(e) {
-                    if (e.target.files.length > 0) {
-                        importFromExcel(e.target.files[0]);
-                        e.target.value = '';
-                    }
-                });
                 
                 // Модальное окно товара
                 document.getElementById('saveItemBtn').addEventListener('click', saveItem);
@@ -1304,6 +1070,9 @@
                     applyTheme();
                 });
                 
+                // Настройка автодополнения
+                setupAutocomplete();
+                
                 // Закрытие модалок
                 document.getElementById('itemModal').addEventListener('click', function(e) {
                     if (e.target === this) closeModal();
@@ -1314,7 +1083,6 @@
                 });
             });
             
-            // Экспорт функций
             window.editItem = (id) => openModal(id);
             window.deleteItem = (id) => deleteItem(id);
         })();
