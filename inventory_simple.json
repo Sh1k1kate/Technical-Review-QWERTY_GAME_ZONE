@@ -235,17 +235,23 @@
       "quantity": 0
     },
     {
+      "id": 41,
+      "category": "Напитки",
+      "name": "Липтон Малина 0.5л",
+      "quantity": 0
+    },
+    {
       "id": 36,
       "category": "Напитки",
       "name": "Mountain Dew Citrus Blast 0,33л",
       "quantity": 0
     },
     {
-      "id": 41,
+      "id": 42,
       "category": "Напитки",
-      "name": "Липтон Малина 0.5л",
+      "name": "Липтон Малина 1л",
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-15T23:46:57.813Z"
+  "lastUpdated": "2026-03-15T23:47:07.540Z"
 }
