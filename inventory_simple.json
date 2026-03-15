@@ -379,17 +379,23 @@
       "quantity": 0
     },
     {
+      "id": 65,
+      "category": "Напитки",
+      "name": "Evervess Cola 0.5л",
+      "quantity": 0
+    },
+    {
       "id": 36,
       "category": "Напитки",
       "name": "Mountain Dew Citrus Blast 0,33л",
       "quantity": 0
     },
     {
-      "id": 65,
+      "id": 66,
       "category": "Напитки",
-      "name": "Evervess Cola 0.5л",
+      "name": "Evervess Cola 0.33л",
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-15T23:51:16.316Z"
+  "lastUpdated": "2026-03-15T23:51:21.603Z"
 }
