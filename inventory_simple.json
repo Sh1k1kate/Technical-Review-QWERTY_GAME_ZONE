@@ -1,4 +1,11 @@
 {
-  "items": [],
-  "lastUpdated": "2026-03-15T20:26:32.345Z"
+  "items": [
+    {
+      "id": 1,
+      "category": "Готовая Еда",
+      "name": "Чебупицца",
+      "quantity": 0
+    }
+  ],
+  "lastUpdated": "2026-03-15T21:56:04.391Z"
 }
