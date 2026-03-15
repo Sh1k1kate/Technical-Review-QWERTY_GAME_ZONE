@@ -665,7 +665,13 @@
       "category": "Шоколад",
       "name": "Мармелад БонПари \"Машинки\" 75г",
       "quantity": 0
+    },
+    {
+      "id": 112,
+      "category": "Шоколад",
+      "name": "Bounty 55г",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-15T23:58:17.109Z"
+  "lastUpdated": "2026-03-15T23:59:48.699Z"
 }
