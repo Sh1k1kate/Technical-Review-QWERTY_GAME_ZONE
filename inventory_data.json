@@ -1,0 +1,70 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "sku": "MON-001",
+      "name": "Монитор Dell 24\"",
+      "category": "Электроника",
+      "quantity": 5,
+      "unit": "шт",
+      "price": 15000,
+      "minStock": 2,
+      "location": "Стеллаж А1",
+      "notes": "",
+      "date": "2026-03-15"
+    },
+    {
+      "id": 2,
+      "sku": "KB-002",
+      "name": "Клавиатура Logitech",
+      "category": "Периферия",
+      "quantity": 12,
+      "unit": "шт",
+      "price": 2500,
+      "minStock": 3,
+      "location": "Стеллаж Б2",
+      "notes": "",
+      "date": "2026-03-15"
+    },
+    {
+      "id": 3,
+      "sku": "M-003",
+      "name": "Мышь проводная",
+      "category": "Периферия",
+      "quantity": 2,
+      "unit": "шт",
+      "price": 800,
+      "minStock": 5,
+      "location": "Стеллаж Б2",
+      "notes": "Мало осталось!",
+      "date": "2026-03-15"
+    },
+    {
+      "id": 4,
+      "sku": "HDD-004",
+      "name": "Жесткий диск 1TB",
+      "category": "Комплектующие",
+      "quantity": 0,
+      "unit": "шт",
+      "price": 4500,
+      "minStock": 2,
+      "location": "Стеллаж В3",
+      "notes": "Закончились",
+      "date": "2026-03-15"
+    },
+    {
+      "id": 5,
+      "sku": "CBL-005",
+      "name": "Кабель HDMI 2м",
+      "category": "Расходники",
+      "quantity": 25,
+      "unit": "шт",
+      "price": 300,
+      "minStock": 10,
+      "location": "Ящик №4",
+      "notes": "",
+      "date": "2026-03-15"
+    }
+  ],
+  "lastUpdated": "2026-03-15T19:40:59.000Z"
+}
