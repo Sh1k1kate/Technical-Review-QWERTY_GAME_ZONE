@@ -5,7 +5,13 @@
       "category": "Готовая Еда",
       "name": "Чебупицца",
       "quantity": 0
+    },
+    {
+      "id": 2,
+      "category": "Готовая Еда",
+      "name": "Чебупицца",
+      "quantity": 2
     }
   ],
-  "lastUpdated": "2026-03-15T21:56:04.391Z"
+  "lastUpdated": "2026-03-15T21:56:15.060Z"
 }
