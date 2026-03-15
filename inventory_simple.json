@@ -253,17 +253,23 @@
       "quantity": 0
     },
     {
+      "id": 44,
+      "category": "Напитки",
+      "name": "Сок Любимый Вишневая черешня 0,3л",
+      "quantity": 0
+    },
+    {
       "id": 36,
       "category": "Напитки",
       "name": "Mountain Dew Citrus Blast 0,33л",
       "quantity": 0
     },
     {
-      "id": 44,
+      "id": 45,
       "category": "Напитки",
-      "name": "Сок Любимый Вишневая черешня 0,3л",
+      "name": "Сок Любимый Земляничное лето 0,3л",
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-15T23:48:09.560Z"
+  "lastUpdated": "2026-03-15T23:48:19.515Z"
 }
