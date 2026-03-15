@@ -563,7 +563,13 @@
       "category": "Снэки",
       "name": "Cheetos Краб 85г",
       "quantity": 0
+    },
+    {
+      "id": 95,
+      "category": "Снэки",
+      "name": "Cheetos Сыр 85г",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-15T23:55:52.298Z"
+  "lastUpdated": "2026-03-15T23:56:01.900Z"
 }
