@@ -767,7 +767,13 @@
       "category": "Шоколад",
       "name": "Twix 55г",
       "quantity": 0
+    },
+    {
+      "id": 129,
+      "category": "Шоколад",
+      "name": "Twix Extra 82г",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:03:51.140Z"
+  "lastUpdated": "2026-03-16T00:03:57.825Z"
 }
