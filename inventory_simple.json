@@ -1001,7 +1001,13 @@
       "category": "Энергетичесике напитки",
       "name": "Monster Khaotic 0,5л",
       "quantity": 0
+    },
+    {
+      "id": 168,
+      "category": "Энергетичесике напитки",
+      "name": "Monster Mango Loco 0,5л",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:10:16.736Z"
+  "lastUpdated": "2026-03-16T00:10:22.617Z"
 }
