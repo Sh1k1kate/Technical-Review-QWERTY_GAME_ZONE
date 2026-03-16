@@ -304,7 +304,7 @@
       "id": 67,
       "category": "Напитки",
       "name": "Evervess cola 1л",
-      "quantity": 0
+      "quantity": 7
     },
     {
       "id": 68,
@@ -1129,5 +1129,5 @@
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:46:35.503Z"
+  "lastUpdated": "2026-03-16T00:46:53.908Z"
 }
