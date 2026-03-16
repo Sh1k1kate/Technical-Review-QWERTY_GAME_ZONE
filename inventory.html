@@ -154,8 +154,13 @@
             color: white;
             border: none;
         }
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+            border: none;
+        }
         
-        /* Панель поиска */
+        /* Панель поиска и сортировки */
         .search-bar {
             background: white;
             border-radius: 30px;
@@ -172,7 +177,7 @@
         }
         
         .search-box {
-            flex: 1;
+            flex: 2;
             min-width: 250px;
             position: relative;
         }
@@ -196,6 +201,47 @@
             color: #94a3b8;
         }
         
+        .sort-controls {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+        
+        .sort-select {
+            padding: 10px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 30px;
+            background: white;
+            font-size: 0.95rem;
+            cursor: pointer;
+            flex: 1;
+            min-width: 140px;
+        }
+        .dark-theme .sort-select {
+            background: #0f172a;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+        
+        .sort-order {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 30px;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .dark-theme .sort-order {
+            background: #0f172a;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+        
         .data-status {
             display: flex;
             align-items: center;
@@ -205,6 +251,7 @@
             padding: 8px 15px;
             border-radius: 30px;
             background: #f1f5f9;
+            white-space: nowrap;
         }
         .dark-theme .data-status {
             background: #0f172a;
@@ -223,9 +270,17 @@
             padding: 15px;
             text-align: center;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
         }
         .dark-theme .stat-card {
             background: #1e293b;
+        }
+        .stat-card.active {
+            border: 2px solid #3b82f6;
         }
         .stat-value {
             font-size: 2rem;
@@ -260,10 +315,18 @@
             background: #f8fafc;
             font-weight: 600;
             color: #475569;
+            cursor: pointer;
+            user-select: none;
         }
         .dark-theme th {
             background: #0f172a;
             color: #cbd5e1;
+        }
+        th:hover {
+            background: #e2e8f0;
+        }
+        .dark-theme th:hover {
+            background: #334155;
         }
         
         td {
@@ -274,11 +337,15 @@
             border-bottom-color: #334155;
         }
         
+        tr {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
         tr:hover {
-            background: #f8fafc;
+            background: #f1f5f9;
         }
         .dark-theme tr:hover {
-            background: #0f172a;
+            background: #334155;
         }
         
         .quantity-badge {
@@ -290,6 +357,21 @@
         .quantity-normal { background: #dcfce7; color: #166534; }
         .quantity-low { background: #fef3c7; color: #92400e; }
         .quantity-zero { background: #fee2e2; color: #991b1b; }
+        
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .delete-btn:hover {
+            opacity: 1;
+        }
         
         /* Модальное окно */
         .modal {
@@ -483,30 +565,44 @@
             </div>
         </div>
 
-        <!-- Панель поиска -->
+        <!-- Панель поиска и сортировки -->
         <div class="search-bar">
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Поиск по названию или категории...">
             </div>
             
+            <div class="sort-controls">
+                <select class="sort-select" id="sortBy">
+                    <option value="category">По категории</option>
+                    <option value="name">По названию</option>
+                    <option value="quantity">По остаткам</option>
+                    <option value="status">По статусу</option>
+                </select>
+                <div class="sort-order" id="sortOrder">⬆️</div>
+            </div>
+            
             <div class="data-status" id="dataStatus">💾 Данные загружены</div>
             
-            <button class="btn btn-success" id="addItemBtn">➕ Добавить товар</button>
+            <button class="btn btn-success" id="addItemBtn">➕ Добавить</button>
         </div>
 
-        <!-- Статистика -->
+        <!-- Статистика (кликабельна для фильтрации) -->
         <div class="stats-grid">
-            <div class="stat-card">
+            <div class="stat-card" data-filter="all" id="statAll">
                 <div class="stat-value" id="totalItems">0</div>
                 <div class="stat-label">Всего позиций</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-value" id="totalQuantity">0</div>
-                <div class="stat-label">Всего единиц</div>
+            <div class="stat-card" data-filter="normal" id="statNormal">
+                <div class="stat-value" id="normalItems">0</div>
+                <div class="stat-label">В наличии (≥5)</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card" data-filter="low" id="statLow">
                 <div class="stat-value" id="lowStockItems">0</div>
-                <div class="stat-label">Мало (менее 5)</div>
+                <div class="stat-label">Мало (1-4)</div>
+            </div>
+            <div class="stat-card" data-filter="zero" id="statZero">
+                <div class="stat-value" id="zeroItems">0</div>
+                <div class="stat-label">Нет в наличии</div>
             </div>
         </div>
 
@@ -515,10 +611,10 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Категория</th>
-                        <th>Наименование</th>
-                        <th>Количество (шт)</th>
-                        <th>Статус</th>
+                        <th onclick="window.sortBy('category')">Категория ⬇️⬆️</th>
+                        <th onclick="window.sortBy('name')">Наименование ⬇️⬆️</th>
+                        <th onclick="window.sortBy('quantity')">Количество ⬇️⬆️</th>
+                        <th onclick="window.sortBy('status')">Статус ⬇️⬆️</th>
                         <th>Действия</th>
                     </tr>
                 </thead>
@@ -537,11 +633,14 @@
             <div class="form-group">
                 <label class="form-label">Категория</label>
                 <select class="form-select" id="category">
-                     <option value="Готовая Еда">Готовая Еда</option>
-                    <option value="Напитки">Напитки</option>
-                    <option value="Снэки">Снэки</option>
-                    <option value="Шоколад">Шоколад</option>
-                    <option value="Энергетичесике напитки">Энергетичесике напитки</option>
+                    <option value="Электроника">Электроника</option>
+                    <option value="Комплектующие">Комплектующие</option>
+                    <option value="Периферия">Периферия</option>
+                    <option value="Расходники">Расходники</option>
+                    <option value="Мебель">Мебель</option>
+                    <option value="Инструменты">Инструменты</option>
+                    <option value="Канцелярия">Канцелярия</option>
+                    <option value="Другое">Другое</option>
                 </select>
             </div>
             
@@ -626,6 +725,11 @@
 
             // ==================== НАЧАЛЬНЫЕ ДАННЫЕ ====================
             const DEFAULT_ITEMS = [
+                { id: 1, category: 'Периферия', name: 'Мышь проводная', quantity: 12 },
+                { id: 2, category: 'Периферия', name: 'Клавиатура', quantity: 8 },
+                { id: 3, category: 'Электроника', name: 'Монитор 24"', quantity: 3 },
+                { id: 4, category: 'Комплектующие', name: 'Жесткий диск 1TB', quantity: 0 },
+                { id: 5, category: 'Расходники', name: 'Кабель HDMI', quantity: 25 }
             ];
 
             // ==================== СОСТОЯНИЕ ====================
@@ -637,6 +741,11 @@
             let githubToken = localStorage.getItem('github_token') || '';
             let isSaving = false;
             let isLoading = false;
+            
+            // Сортировка и фильтрация
+            let sortField = 'category';
+            let sortAscending = true;
+            let statusFilter = 'all'; // all, normal, low, zero
 
             // ==================== UTF-8 ====================
             function utf8ToBase64(str) {
@@ -812,12 +921,10 @@
                         return;
                     }
                     
-                    // Ищем товары с похожим названием
                     const matches = items.filter(item => 
                         item.name.toLowerCase().includes(value)
                     );
                     
-                    // Убираем дубликаты по названию
                     const uniqueMatches = [];
                     const seen = new Set();
                     matches.forEach(item => {
@@ -843,7 +950,6 @@
                     }
                 });
                 
-                // Обработчик клика по подсказке
                 autocompleteDiv.addEventListener('click', function(e) {
                     const item = e.target.closest('.autocomplete-item');
                     if (item) {
@@ -852,15 +958,11 @@
                         const category = item.dataset.category;
                         const currentQuantity = parseInt(item.dataset.quantity);
                         
-                        // Заполняем форму
                         nameInput.value = name;
                         document.getElementById('category').value = category;
                         
-                        // Устанавливаем режим редактирования для этого товара
                         editingId = id;
                         document.getElementById('modalTitle').innerText = '✏️ Редактировать товар';
-                        
-                        // Показываем текущее количество и фокусируемся на нём для изменения
                         document.getElementById('quantity').value = currentQuantity;
                         document.getElementById('quantity').focus();
                         
@@ -870,7 +972,6 @@
                     }
                 });
                 
-                // Скрываем подсказки при клике вне
                 document.addEventListener('click', function(e) {
                     if (!nameInput.contains(e.target) && !autocompleteDiv.contains(e.target)) {
                         autocompleteDiv.style.display = 'none';
@@ -890,31 +991,75 @@
             }
             applyTheme();
 
-            // ==================== ФИЛЬТРАЦИЯ ====================
+            // ==================== СОРТИРОВКА И ФИЛЬТРАЦИЯ ====================
+            function getItemStatus(item) {
+                if (item.quantity === 0) return 'zero';
+                if (item.quantity < 5) return 'low';
+                return 'normal';
+            }
+
             function filterItems() {
-                if (!searchTerm) return items;
-                
-                const term = searchTerm.toLowerCase();
-                return items.filter(item => 
-                    item.name.toLowerCase().includes(term) || 
-                    item.category.toLowerCase().includes(term)
-                );
+                return items.filter(item => {
+                    // Поиск
+                    if (searchTerm) {
+                        const term = searchTerm.toLowerCase();
+                        if (!item.name.toLowerCase().includes(term) && 
+                            !item.category.toLowerCase().includes(term)) {
+                            return false;
+                        }
+                    }
+                    
+                    // Фильтр по статусу
+                    if (statusFilter !== 'all') {
+                        const itemStatus = getItemStatus(item);
+                        if (itemStatus !== statusFilter) return false;
+                    }
+                    
+                    return true;
+                });
+            }
+
+            function sortItems(itemsToSort) {
+                return itemsToSort.sort((a, b) => {
+                    let comparison = 0;
+                    
+                    switch(sortField) {
+                        case 'category':
+                            comparison = a.category.localeCompare(b.category);
+                            break;
+                        case 'name':
+                            comparison = a.name.localeCompare(b.name);
+                            break;
+                        case 'quantity':
+                            comparison = a.quantity - b.quantity;
+                            break;
+                        case 'status':
+                            const statusA = getItemStatus(a);
+                            const statusB = getItemStatus(b);
+                            const statusOrder = { 'zero': 0, 'low': 1, 'normal': 2 };
+                            comparison = statusOrder[statusA] - statusOrder[statusB];
+                            break;
+                        default:
+                            comparison = 0;
+                    }
+                    
+                    return sortAscending ? comparison : -comparison;
+                });
+            }
+
+            function updateSortUI() {
+                document.getElementById('sortBy').value = sortField;
+                document.getElementById('sortOrder').innerHTML = sortAscending ? '⬆️' : '⬇️';
             }
 
             // ==================== РЕНДЕР ТАБЛИЦЫ ====================
             function renderTable() {
-                const filtered = filterItems();
+                let filtered = filterItems();
+                const sorted = sortItems(filtered);
                 const tbody = document.getElementById('tableBody');
                 tbody.innerHTML = '';
                 
-                filtered.sort((a, b) => {
-                    if (a.category === b.category) {
-                        return a.name.localeCompare(b.name);
-                    }
-                    return a.category.localeCompare(b.category);
-                });
-                
-                filtered.forEach(item => {
+                sorted.forEach(item => {
                     let statusClass = 'quantity-normal';
                     let statusText = 'Норма';
                     
@@ -927,14 +1072,20 @@
                     }
                     
                     const row = document.createElement('tr');
+                    row.onclick = (e) => {
+                        // Не открываем редактирование при клике на кнопку удаления
+                        if (!e.target.classList.contains('delete-btn')) {
+                            openModal(item.id);
+                        }
+                    };
+                    
                     row.innerHTML = `
                         <td><strong>${item.category}</strong></td>
                         <td>${item.name}</td>
                         <td><span class="quantity-badge ${statusClass}">${item.quantity} шт</span></td>
                         <td>${statusText}</td>
                         <td>
-                            <button class="btn" style="padding: 5px 10px;" onclick="window.editItem(${item.id})">✏️</button>
-                            <button class="btn" style="padding: 5px 10px; background: #ef4444; color: white;" onclick="window.deleteItem(${item.id})">🗑️</button>
+                            <button class="delete-btn" onclick="event.stopPropagation(); window.deleteItem(${item.id})">🗑️ Удалить</button>
                         </td>
                     `;
                     tbody.appendChild(row);
@@ -947,11 +1098,22 @@
             function updateStats() {
                 document.getElementById('totalItems').innerText = items.length;
                 
-                const totalQty = items.reduce((sum, i) => sum + i.quantity, 0);
-                document.getElementById('totalQuantity').innerText = totalQty;
+                const normal = items.filter(i => i.quantity >= 5).length;
+                const low = items.filter(i => i.quantity > 0 && i.quantity < 5).length;
+                const zero = items.filter(i => i.quantity === 0).length;
                 
-                const lowStock = items.filter(i => i.quantity > 0 && i.quantity < 5).length;
-                document.getElementById('lowStockItems').innerText = lowStock;
+                document.getElementById('normalItems').innerText = normal;
+                document.getElementById('lowStockItems').innerText = low;
+                document.getElementById('zeroItems').innerText = zero;
+                
+                // Подсветка активного фильтра
+                document.querySelectorAll('.stat-card').forEach(card => {
+                    if (card.dataset.filter === statusFilter) {
+                        card.classList.add('active');
+                    } else {
+                        card.classList.remove('active');
+                    }
+                });
             }
 
             // ==================== МОДАЛЬНОЕ ОКНО ====================
@@ -993,7 +1155,6 @@
                 const quantity = parseInt(document.getElementById('quantity').value) || 0;
                 
                 if (editingId) {
-                    // Режим редактирования - обновляем существующий товар
                     const index = items.findIndex(i => i.id === editingId);
                     if (index !== -1) {
                         const oldQuantity = items[index].quantity;
@@ -1005,12 +1166,9 @@
                         showToast(`✅ Товар "${name}" обновлён (было: ${oldQuantity} шт, стало: ${quantity} шт)`);
                     }
                 } else {
-                    // Режим добавления - создаём новый товар
-                    // Проверяем, нет ли уже товара с таким названием
                     const existingItem = items.find(i => i.name.toLowerCase() === name.toLowerCase());
                     
                     if (existingItem) {
-                        // Если товар уже существует, спрашиваем, может хотели отредактировать?
                         if (confirm(`Товар "${name}" уже существует (${existingItem.quantity} шт). Хотите отредактировать его количество?`)) {
                             editingId = existingItem.id;
                             document.getElementById('category').value = existingItem.category;
@@ -1019,7 +1177,6 @@
                         }
                     }
                     
-                    // Создаём новый товар
                     const newItem = {
                         id: nextId++,
                         category: category,
@@ -1066,6 +1223,26 @@
                 document.getElementById('searchInput').addEventListener('input', function(e) {
                     searchTerm = e.target.value;
                     renderTable();
+                });
+                
+                // Сортировка
+                document.getElementById('sortBy').addEventListener('change', function(e) {
+                    sortField = e.target.value;
+                    renderTable();
+                });
+                
+                document.getElementById('sortOrder').addEventListener('click', function() {
+                    sortAscending = !sortAscending;
+                    updateSortUI();
+                    renderTable();
+                });
+                
+                // Фильтры по клику на статистику
+                document.querySelectorAll('.stat-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        statusFilter = this.dataset.filter;
+                        renderTable();
+                    });
                 });
                 
                 // GitHub кнопки
@@ -1117,6 +1294,18 @@
                 document.getElementById('tokenModal').addEventListener('click', function(e) {
                     if (e.target === this) this.classList.remove('active');
                 });
+                
+                // Глобальные функции для сортировки
+                window.sortBy = (field) => {
+                    if (sortField === field) {
+                        sortAscending = !sortAscending;
+                    } else {
+                        sortField = field;
+                        sortAscending = true;
+                    }
+                    updateSortUI();
+                    renderTable();
+                };
             });
             
             window.editItem = (id) => openModal(id);
