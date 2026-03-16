@@ -1085,7 +1085,13 @@
       "category": "Энергетичесике напитки",
       "name": "Red Bull 0,25л",
       "quantity": 0
+    },
+    {
+      "id": 182,
+      "category": "Энергетичесике напитки",
+      "name": "Red Bull Арбуз 0,25л",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:11:36.751Z"
+  "lastUpdated": "2026-03-16T00:11:42.105Z"
 }
