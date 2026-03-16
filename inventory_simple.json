@@ -995,7 +995,13 @@
       "category": "Энергетичесике напитки",
       "name": "Monster Full Throttle 0,5л",
       "quantity": 0
+    },
+    {
+      "id": 167,
+      "category": "Энергетичесике напитки",
+      "name": "Monster Khaotic 0,5л",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:10:11.133Z"
+  "lastUpdated": "2026-03-16T00:10:16.736Z"
 }
