@@ -755,7 +755,13 @@
       "category": "Шоколад",
       "name": "Snickers Лесной Орех 81г",
       "quantity": 0
+    },
+    {
+      "id": 127,
+      "category": "Шоколад",
+      "name": "Snickers SUPER 81г",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:03:36.347Z"
+  "lastUpdated": "2026-03-16T00:03:44.127Z"
 }
