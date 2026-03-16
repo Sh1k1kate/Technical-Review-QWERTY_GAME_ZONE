@@ -736,7 +736,7 @@
       "id": 127,
       "category": "Шоколад",
       "name": "Snickers SUPER 81г",
-      "quantity": 0
+      "quantity": 8
     },
     {
       "id": 124,
@@ -1129,5 +1129,5 @@
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:58:42.844Z"
+  "lastUpdated": "2026-03-16T00:58:58.952Z"
 }
