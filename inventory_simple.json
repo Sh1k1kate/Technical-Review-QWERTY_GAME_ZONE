@@ -1,12 +1,6 @@
 {
   "items": [
     {
-      "id": 116,
-      "category": "Шоколад",
-      "name": "Kinder Bueno White 39г",
-      "quantity": 0
-    },
-    {
       "id": 1,
       "category": "Готовая Еда",
       "name": "Бургер \"Американский\"",
@@ -695,7 +689,19 @@
       "category": "Шоколад",
       "name": "Kinder Bueno 43г",
       "quantity": 0
+    },
+    {
+      "id": 116,
+      "category": "Шоколад",
+      "name": "Kinder Bueno White 39г",
+      "quantity": 0
+    },
+    {
+      "id": 117,
+      "category": "Шоколад",
+      "name": "KitKat 41,5г",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:02:08.194Z"
+  "lastUpdated": "2026-03-16T00:02:17.024Z"
 }
