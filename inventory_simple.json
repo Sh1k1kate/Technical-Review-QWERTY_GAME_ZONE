@@ -1013,7 +1013,13 @@
       "category": "Энергетичесике напитки",
       "name": "Monster Monarch 0,5л",
       "quantity": 0
+    },
+    {
+      "id": 170,
+      "category": "Энергетичесике напитки",
+      "name": "Monster Nitro Cosmic Peach 0,5л",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:10:28.661Z"
+  "lastUpdated": "2026-03-16T00:10:34.160Z"
 }
