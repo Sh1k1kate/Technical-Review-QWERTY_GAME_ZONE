@@ -797,7 +797,13 @@
       "category": "Энергетичесике напитки",
       "name": "Adrenaline Rush 0.25л",
       "quantity": 0
+    },
+    {
+      "id": 134,
+      "category": "Энергетичесике напитки",
+      "name": "Adrenaline Rush 0.45л",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:04:30.122Z"
+  "lastUpdated": "2026-03-16T00:04:45.879Z"
 }
