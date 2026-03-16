@@ -892,7 +892,7 @@
       "id": 149,
       "category": "Энергетичесике напитки",
       "name": "Drive Guava Mango Без Сахара 0,5л",
-      "quantity": 0
+      "quantity": 1
     },
     {
       "id": 150,
@@ -1129,5 +1129,5 @@
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:37:27.681Z"
+  "lastUpdated": "2026-03-16T00:37:33.058Z"
 }
