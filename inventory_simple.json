@@ -809,7 +809,13 @@
       "category": "Энергетичесике напитки",
       "name": "Adrenaline Rush Апельсин 0.45",
       "quantity": 0
+    },
+    {
+      "id": 136,
+      "category": "Энергетичесике напитки",
+      "name": "Adrenaline Zero Sugar 0.25л",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:06:16.742Z"
+  "lastUpdated": "2026-03-16T00:06:27.833Z"
 }
