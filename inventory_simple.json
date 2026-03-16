@@ -749,7 +749,13 @@
       "category": "Шоколад",
       "name": "Snickers Больше Арахиса 81г",
       "quantity": 0
+    },
+    {
+      "id": 126,
+      "category": "Шоколад",
+      "name": "Snickers Лесной Орех 81г",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:03:28.705Z"
+  "lastUpdated": "2026-03-16T00:03:36.347Z"
 }
