@@ -761,7 +761,13 @@
       "category": "Шоколад",
       "name": "Snickers SUPER 81г",
       "quantity": 0
+    },
+    {
+      "id": 128,
+      "category": "Шоколад",
+      "name": "Twix 55г",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:03:44.127Z"
+  "lastUpdated": "2026-03-16T00:03:51.140Z"
 }
