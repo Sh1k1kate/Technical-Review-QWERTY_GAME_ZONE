@@ -713,7 +713,13 @@
       "category": "Шоколад",
       "name": "m&m's арахис 45г",
       "quantity": 0
+    },
+    {
+      "id": 120,
+      "category": "Шоколад",
+      "name": "m&m's шоколад 45г",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:02:30.019Z"
+  "lastUpdated": "2026-03-16T00:02:36.251Z"
 }
