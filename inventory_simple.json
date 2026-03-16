@@ -1084,7 +1084,7 @@
       "id": 181,
       "category": "Энергетичесике напитки",
       "name": "Red Bull 0,25л",
-      "quantity": 0
+      "quantity": 16
     },
     {
       "id": 184,
@@ -1129,5 +1129,5 @@
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:46:53.908Z"
+  "lastUpdated": "2026-03-16T00:47:24.779Z"
 }
