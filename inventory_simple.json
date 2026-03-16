@@ -340,7 +340,7 @@
       "id": 73,
       "category": "Напитки",
       "name": "Fanta Peach 0,33л",
-      "quantity": 0
+      "quantity": 4
     },
     {
       "id": 74,
@@ -1129,5 +1129,5 @@
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T01:03:17.072Z"
+  "lastUpdated": "2026-03-16T01:03:29.561Z"
 }
