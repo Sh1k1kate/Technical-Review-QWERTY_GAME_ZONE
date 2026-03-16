@@ -760,7 +760,7 @@
       "id": 128,
       "category": "Шоколад",
       "name": "Twix 55г",
-      "quantity": 0
+      "quantity": 30
     },
     {
       "id": 129,
@@ -1129,5 +1129,5 @@
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T01:01:10.850Z"
+  "lastUpdated": "2026-03-16T01:01:53.636Z"
 }
