@@ -730,7 +730,7 @@
       "id": 123,
       "category": "Шоколад",
       "name": "Picnic Грецкий Орех 52г",
-      "quantity": 0
+      "quantity": 6
     },
     {
       "id": 127,
@@ -1129,5 +1129,5 @@
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:58:26.676Z"
+  "lastUpdated": "2026-03-16T00:58:42.844Z"
 }
