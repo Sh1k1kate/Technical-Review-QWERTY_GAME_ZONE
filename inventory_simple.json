@@ -775,12 +775,6 @@
       "quantity": 0
     },
     {
-      "id": 130,
-      "category": "Энергетичесике напитки",
-      "name": "Adrenalin Rush без сахара 449 мл",
-      "quantity": 0
-    },
-    {
       "id": 132,
       "category": "Энергетичесике напитки",
       "name": "Adrenaline Energy Power Game Fuel 0,45л",
@@ -1135,5 +1129,5 @@
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T01:11:01.303Z"
+  "lastUpdated": "2026-03-16T01:11:05.013Z"
 }
