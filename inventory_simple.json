@@ -946,7 +946,7 @@
       "id": 158,
       "category": "Энергетичесике напитки",
       "name": "Lit Energy Classic 0,45л",
-      "quantity": 0
+      "quantity": 9
     },
     {
       "id": 159,
@@ -1129,5 +1129,5 @@
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:40:07.046Z"
+  "lastUpdated": "2026-03-16T00:40:25.972Z"
 }
