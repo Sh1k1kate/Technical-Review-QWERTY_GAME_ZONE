@@ -328,7 +328,7 @@
       "id": 71,
       "category": "Напитки",
       "name": "Fanta Lemon 0,33л",
-      "quantity": 0
+      "quantity": 20
     },
     {
       "id": 72,
@@ -1129,5 +1129,5 @@
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T01:01:53.636Z"
+  "lastUpdated": "2026-03-16T01:02:59.677Z"
 }
