@@ -731,7 +731,13 @@
       "category": "Шоколад",
       "name": "Oreo Original 38г",
       "quantity": 0
+    },
+    {
+      "id": 123,
+      "category": "Шоколад",
+      "name": "Picnic Грецкий Орех 52г",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:02:50.949Z"
+  "lastUpdated": "2026-03-16T00:02:59.866Z"
 }
