@@ -725,7 +725,13 @@
       "category": "Шоколад",
       "name": "Mars MAX 81г",
       "quantity": 0
+    },
+    {
+      "id": 122,
+      "category": "Шоколад",
+      "name": "Oreo Original 38г",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:02:43.087Z"
+  "lastUpdated": "2026-03-16T00:02:50.949Z"
 }
