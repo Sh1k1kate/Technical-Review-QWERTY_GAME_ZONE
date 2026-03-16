@@ -676,7 +676,7 @@
       "id": 115,
       "category": "Шоколад",
       "name": "Kinder Bueno 43г",
-      "quantity": 0
+      "quantity": 25
     },
     {
       "id": 116,
@@ -1129,5 +1129,5 @@
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:59:25.845Z"
+  "lastUpdated": "2026-03-16T00:59:58.513Z"
 }
