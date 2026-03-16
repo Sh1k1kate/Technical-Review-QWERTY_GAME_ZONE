@@ -299,7 +299,7 @@
     },
     {
       "num": 38,
-      "monitor": "Нет проблем",
+      "monitor": "Другое (укажите в заметках)",
       "mouse": "Нет проблем",
       "keyboard": "Нет проблем",
       "disks": "Есть ещё место",
@@ -514,7 +514,7 @@
       "notes": ""
     }
   ],
-  "globalInspector": "Артем",
-  "globalDate": "2026-03-16",
-  "lastUpdated": "2026-03-16T06:37:01.945Z"
+  "globalInspector": "Алина",
+  "globalDate": "2026-03-08",
+  "lastUpdated": "2026-03-16T06:37:07.008Z"
 }
