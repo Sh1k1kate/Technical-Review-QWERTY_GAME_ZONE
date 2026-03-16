@@ -689,7 +689,13 @@
       "category": "Шоколад",
       "name": "Kinder Bueno 43г",
       "quantity": 0
+    },
+    {
+      "id": 116,
+      "category": "",
+      "name": "Kinder Bueno White 39г",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:00:17.237Z"
+  "lastUpdated": "2026-03-16T00:02:03.862Z"
 }
