@@ -875,7 +875,13 @@
       "category": "Энергетичесике напитки",
       "name": "Burn Gold Rush 0,45л",
       "quantity": 0
+    },
+    {
+      "id": 147,
+      "category": "Энергетичесике напитки",
+      "name": "Drive Berry Kick 0,5л",
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:07:41.085Z"
+  "lastUpdated": "2026-03-16T00:07:47.625Z"
 }
