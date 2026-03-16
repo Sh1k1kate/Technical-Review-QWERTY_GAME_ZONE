@@ -820,7 +820,7 @@
       "id": 146,
       "category": "Энергетичесике напитки",
       "name": "Burn Gold Rush 0,45л",
-      "quantity": 0
+      "quantity": 10
     },
     {
       "id": 137,
@@ -1129,5 +1129,5 @@
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:37:49.926Z"
+  "lastUpdated": "2026-03-16T00:38:37.609Z"
 }
