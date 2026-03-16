@@ -370,7 +370,7 @@
       "id": 78,
       "category": "Напитки",
       "name": "Frustyle Лимон и Лайм 0.5л",
-      "quantity": 0
+      "quantity": 4
     },
     {
       "id": 79,
@@ -1129,5 +1129,5 @@
       "quantity": 0
     }
   ],
-  "lastUpdated": "2026-03-16T00:46:24.981Z"
+  "lastUpdated": "2026-03-16T00:46:35.503Z"
 }
