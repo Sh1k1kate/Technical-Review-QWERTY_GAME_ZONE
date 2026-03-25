@@ -23,7 +23,7 @@
             color: #e2e8f0;
         }
         .container {
-            max-width: 1400px;
+            max-width: 800px;
             margin: 0 auto;
         }
         .header {
@@ -47,7 +47,7 @@
             border-radius: 40px;
             padding: 8px 16px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         .dark-theme .theme-toggle {
             background: #1e293b;
@@ -71,7 +71,7 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         .dark-theme .nav-link {
             background: #1e293b;
@@ -85,7 +85,7 @@
         }
         .github-panel {
             background: white;
-            border-radius: 24px;
+            border-radius: 20px;
             padding: 12px 16px;
             margin-bottom: 16px;
             display: flex;
@@ -102,14 +102,14 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             flex-wrap: wrap;
         }
         .repo-info span {
             background: #f1f5f9;
-            padding: 5px 12px;
+            padding: 4px 10px;
             border-radius: 20px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
         }
         .dark-theme .repo-info span {
             background: #0f172a;
@@ -118,14 +118,14 @@
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 30px;
-            padding: 8px 14px;
-            font-size: 0.85rem;
+            padding: 6px 12px;
+            font-size: 0.8rem;
             font-weight: 500;
             cursor: pointer;
             transition: 0.2s;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
         }
         .dark-theme .btn {
             background: #0f172a;
@@ -149,12 +149,12 @@
         }
         .search-bar {
             background: white;
-            border-radius: 24px;
+            border-radius: 20px;
             padding: 12px 16px;
             margin-bottom: 16px;
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 10px;
             align-items: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
@@ -162,8 +162,7 @@
             background: #1e293b;
         }
         .search-box {
-            flex: 2;
-            min-width: 200px;
+            flex: 1;
             position: relative;
         }
         .search-box input {
@@ -187,158 +186,225 @@
         }
         .stats-panel {
             display: flex;
-            gap: 12px;
+            gap: 8px;
             flex-wrap: wrap;
             align-items: center;
-            flex: 1;
+            justify-content: space-between;
+            width: 100%;
         }
         .stat-badge {
             background: #f1f5f9;
             border-radius: 30px;
-            padding: 8px 16px;
+            padding: 6px 12px;
             display: flex;
             gap: 12px;
-            flex-wrap: wrap;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
         .dark-theme .stat-badge {
             background: #0f172a;
         }
-        .stat-badge span {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+        .btn-group {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
         }
         .data-status {
             display: flex;
             align-items: center;
-            gap: 5px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            padding: 5px 12px;
+            gap: 4px;
+            font-size: 0.7rem;
+            padding: 4px 10px;
             border-radius: 30px;
             background: #f1f5f9;
-            white-space: nowrap;
         }
         .dark-theme .data-status {
             background: #0f172a;
         }
-        .table-container {
+        
+        /* Карточки для мобильных */
+        .cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .inventory-card {
             background: white;
-            border-radius: 24px;
-            padding: 12px;
-            overflow-x: auto;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.2s;
+            border-left: 4px solid #22c55e;
         }
-        .dark-theme .table-container {
+        .dark-theme .inventory-card {
             background: #1e293b;
+            border-left-color: #22c55e;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 600px;
-            font-size: 0.85rem;
+        .inventory-card.mismatch {
+            border-left-color: #ef4444;
+            background: #fff5f5;
         }
-        th {
-            text-align: left;
-            padding: 12px 8px;
-            background: #f8fafc;
+        .dark-theme .inventory-card.mismatch {
+            background: #2d1a1a;
+            border-left-color: #ef4444;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .card-category {
+            background: #e2e8f0;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
             font-weight: 600;
             color: #475569;
-            cursor: pointer;
-            user-select: none;
-            font-size: 0.8rem;
         }
-        .dark-theme th {
-            background: #0f172a;
+        .dark-theme .card-category {
+            background: #334155;
             color: #cbd5e1;
         }
-        th:hover {
-            background: #e2e8f0;
-        }
-        .dark-theme th:hover {
-            background: #334155;
-        }
-        td {
-            padding: 10px 8px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .dark-theme td {
-            border-bottom-color: #334155;
-        }
-        tr.mismatch {
-            background: #fee2e2;
-        }
-        .dark-theme tr.mismatch {
-            background: #7f1a1a;
-        }
-        .fact-input {
-            width: 85px;
-            padding: 6px 8px;
-            border-radius: 20px;
-            border: 1px solid #cbd5e1;
-            text-align: center;
-            background: white;
+        .card-name {
+            font-size: 1rem;
+            font-weight: 600;
             color: #1e293b;
-            font-size: 0.85rem;
+            word-break: break-word;
+            flex: 1;
         }
-        .dark-theme .fact-input {
-            background: #1e293b;
-            border-color: #475569;
+        .dark-theme .card-name {
             color: #f1f5f9;
         }
-        .system-quantity {
-            display: inline-block;
-            padding: 3px 10px;
+        .card-badge {
+            padding: 4px 10px;
             border-radius: 20px;
-            font-weight: 600;
-            background: #f1f5f9;
-            color: #1e293b;
-            font-size: 0.8rem;
-        }
-        .dark-theme .system-quantity {
-            background: #334155;
-            color: #f1f5f9;
-        }
-        .badge {
-            padding: 3px 8px;
-            border-radius: 20px;
-            font-weight: 600;
             font-size: 0.7rem;
-            display: inline-block;
+            font-weight: 600;
             white-space: nowrap;
         }
-        .badge-match { 
-            background: #22c55e; 
-            color: white; 
+        .badge-match-card {
+            background: #22c55e;
+            color: white;
         }
-        .badge-mismatch { 
-            background: #ef4444; 
-            color: white; 
+        .badge-mismatch-card {
+            background: #ef4444;
+            color: white;
         }
+        .card-details {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .quantity-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 10px 0;
+            border-top: 1px solid #e2e8f0;
+        }
+        .dark-theme .quantity-row {
+            border-top-color: #334155;
+        }
+        .system-qty {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            background: #f1f5f9;
+            padding: 6px 12px;
+            border-radius: 16px;
+        }
+        .dark-theme .system-qty {
+            background: #0f172a;
+        }
+        .system-qty-label {
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+        .system-qty-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+        .fact-qty {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            flex-wrap: wrap;
+        }
+        .fact-qty-label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #64748b;
+        }
+        .fact-input-card {
+            width: 90px;
+            padding: 8px 10px;
+            border-radius: 16px;
+            border: 1px solid #cbd5e1;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .dark-theme .fact-input-card {
+            background: #0f172a;
+            border-color: #475569;
+            color: white;
+        }
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 0.7rem;
+        }
+        
+        /* Скрываем таблицу на мобильных, показываем карточки */
+        .table-container {
+            display: none;
+        }
+        @media (min-width: 768px) {
+            .cards-container {
+                display: none;
+            }
+            .table-container {
+                display: block;
+                background: white;
+                border-radius: 20px;
+                padding: 12px;
+                overflow-x: auto;
+            }
+            .dark-theme .table-container {
+                background: #1e293b;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                min-width: 600px;
+                font-size: 0.85rem;
+            }
+            th, td {
+                padding: 10px 8px;
+            }
+        }
+        
         .filter-info {
             background: #fef3c7;
             padding: 4px 10px;
             border-radius: 20px;
             font-size: 0.7rem;
             color: #92400e;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
         }
         .dark-theme .filter-info {
             background: #422006;
             color: #fde047;
-        }
-        .btn-group {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .github-buttons {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
         }
         .toast {
             position: fixed;
@@ -352,9 +418,7 @@
             animation: fade 3s;
             z-index: 3000;
             font-size: 0.85rem;
-            white-space: nowrap;
             max-width: 90%;
-            white-space: normal;
             text-align: center;
         }
         .toast.error { background: #ef4444; }
@@ -408,18 +472,6 @@
             background: #1e293b;
             color: #e2e8f0;
         }
-        .mismatch-list {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        .mismatch-item {
-            padding: 10px;
-            border-bottom: 1px solid #e2e8f0;
-            font-size: 0.85rem;
-        }
-        .dark-theme .mismatch-item {
-            border-bottom-color: #334155;
-        }
         .spinner {
             width: 24px;
             height: 24px;
@@ -431,55 +483,15 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        .loading-spinner {
-            background: white;
-            padding: 15px 25px;
-            border-radius: 60px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
         }
-        @media (max-width: 768px) {
-            body {
-                padding: 8px;
-            }
-            h1 {
-                font-size: 1.2rem;
-            }
-            .github-panel {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .repo-info {
-                justify-content: center;
-            }
-            .github-buttons {
-                justify-content: center;
-            }
-            .search-bar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .stats-panel {
-                justify-content: space-between;
-            }
-            .stat-badge {
-                justify-content: center;
-            }
-            .btn-group {
-                justify-content: center;
-            }
-            th, td {
-                padding: 8px 6px;
-            }
-            .fact-input {
-                width: 70px;
-                padding: 4px 6px;
-            }
-            .badge {
-                font-size: 0.65rem;
-                padding: 2px 6px;
-            }
+        .github-buttons {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
         }
     </style>
 </head>
@@ -497,14 +509,14 @@
     <div class="github-panel">
         <div class="repo-info">
             <span>📦 <strong id="repoDisplay">Sh1k1kate/Technical-Review-QWERTY_GAME_ZONE</strong></span>
-            <span id="tokenStatus" style="background: #fef3c7;">🔑 Токен не установлен</span>
-            <span class="filter-info">✅ <span id="filterBadgeText">Только Активен</span></span>
+            <span id="tokenStatus" style="background: #fef3c7;">🔑 Нет токена</span>
+            <span class="filter-info">✅ Только Активен</span>
         </div>
         <div class="github-buttons">
             <button class="btn" id="showTokenBtn">🔑 Токен</button>
             <button class="btn btn-primary" id="saveToGithubBtn">💾 GitHub</button>
             <button class="btn" id="loadFromGithubBtn">📂 GitHub</button>
-            <button class="btn btn-success" id="loadCsvBtn">📁 CSV (1С)</button>
+            <button class="btn btn-success" id="loadCsvBtn">📁 CSV</button>
         </div>
         <input type="file" id="csvFileInput" accept=".csv" style="display: none;">
     </div>
@@ -520,26 +532,24 @@
                 <span>✅ <strong id="matchCount">0</strong></span>
             </div>
             <div class="btn-group">
-                <button class="btn btn-success" id="applyAllBtn" style="padding: 6px 12px;">💾 Сохранить</button>
-                <button class="btn btn-warning" id="showMismatchesBtn" style="padding: 6px 12px;">⚠️ Расхождения</button>
-                <button class="btn export-btn" id="exportMismatchesBtn" style="padding: 6px 12px; background:#8b5cf6; color:white;">📎 CSV</button>
+                <button class="btn btn-success btn-small" id="applyAllBtn">💾 Сохранить</button>
+                <button class="btn btn-warning btn-small" id="showMismatchesBtn">⚠️ Расхождения</button>
+                <button class="btn" id="exportMismatchesBtn" style="background:#8b5cf6; color:white;">📎 CSV</button>
             </div>
         </div>
         <div class="data-status" id="dataStatus">💾 Загружены</div>
     </div>
 
+    <!-- Карточки для мобильных -->
+    <div id="cardsContainer" class="cards-container"></div>
+    
+    <!-- Таблица для десктопа -->
     <div class="table-container">
         <table>
             <thead>
-                <tr>
-                    <th onclick="window.sortBy('category')">Категория ⬇️⬆️</th>
-                    <th onclick="window.sortBy('name')">Наименование ⬇️⬆️</th>
-                    <th onclick="window.sortBy('systemQuantity')">Учёт ⬇️⬆️</th>
-                    <th>Фактический</th>
-                    <th>Статус</th>
-                </tr>
+                <tr><th onclick="window.sortBy('category')">Категория ⬇️⬆️</th><th onclick="window.sortBy('name')">Наименование ⬇️⬆️</th><th onclick="window.sortBy('systemQuantity')">Учёт ⬇️⬆️</th><th>Фактический</th><th>Статус</th></tr>
             </thead>
-            <tbody id="inventoryTableBody"></tbody>
+            <tbody id="tableBody"></tbody>
         </table>
     </div>
 </div>
@@ -547,10 +557,8 @@
 <div class="modal" id="mismatchModal">
     <div class="modal-content">
         <h3>⚠️ Товары с расхождениями</h3>
-        <div id="mismatchList" class="mismatch-list"></div>
-        <div style="margin-top:20px;">
-            <button class="btn" id="closeMismatchModal">Закрыть</button>
-        </div>
+        <div id="mismatchList" style="max-height:400px; overflow-y:auto;"></div>
+        <button class="btn" id="closeMismatchModal" style="margin-top:20px;">Закрыть</button>
     </div>
 </div>
 
@@ -558,21 +566,16 @@
     <div class="modal-content">
         <h2>🔑 GitHub Token</h2>
         <p>Введите токен с правами на запись</p>
-        <input type="password" class="fact-input" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxx" style="width:100%; margin: 15px 0; padding: 10px;">
-        <div style="display: flex; gap: 10px;">
+        <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxx" style="width:100%; margin:15px 0; padding:10px; border-radius:16px; border:1px solid #e2e8f0;">
+        <div style="display:flex; gap:10px;">
             <button class="btn" id="cancelTokenBtn">Отмена</button>
             <button class="btn btn-primary" id="saveTokenBtn">Сохранить</button>
         </div>
     </div>
 </div>
 
-<div id="toast" style="display: none;" class="toast"></div>
-<div class="loading-overlay" id="loadingOverlay">
-    <div class="loading-spinner">
-        <div class="spinner"></div>
-        <span>Загрузка...</span>
-    </div>
-</div>
+<div id="toast" style="display:none;" class="toast"></div>
+<div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"><div class="spinner"></div><span>Загрузка...</span></div></div>
 
 <script>
 (function(){
@@ -601,17 +604,17 @@
     }
     
     function saveToLocal(){
-        localStorage.setItem('inventory_data_v5', JSON.stringify({ items: inventoryItems, nextId }));
+        localStorage.setItem('inventory_data_v6', JSON.stringify({ items: inventoryItems, nextId }));
     }
     
     function loadFromLocal(){
-        const saved = localStorage.getItem('inventory_data_v5');
+        const saved = localStorage.getItem('inventory_data_v6');
         if(saved){
             try{
                 const data = JSON.parse(saved);
                 inventoryItems = data.items || [];
                 nextId = data.nextId || 1;
-                renderTable();
+                renderAll();
                 return true;
             }catch(e){}
         }
@@ -620,20 +623,19 @@
     
     function updateRepoDisplay(){
         document.getElementById('repoDisplay').textContent = `${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`;
-        const tokenStatus = document.getElementById('tokenStatus');
+        const ts = document.getElementById('tokenStatus');
         if(githubToken){
-            tokenStatus.innerHTML = '✅ Токен есть';
-            tokenStatus.style.background = '#dcfce7';
+            ts.innerHTML = '✅ Токен есть';
+            ts.style.background = '#dcfce7';
         } else {
-            tokenStatus.innerHTML = '🔑 Нет токена';
-            tokenStatus.style.background = '#fef3c7';
+            ts.innerHTML = '🔑 Нет токена';
+            ts.style.background = '#fef3c7';
         }
     }
     
     async function saveToGithub(showMsg = true){
         if(!githubToken){ showToast('❌ Установите токен', 'error'); return false; }
         try {
-            updateDataStatus('saving');
             const data = { items: inventoryItems, lastUpdated: new Date().toISOString() };
             const content = utf8ToBase64(JSON.stringify(data, null, 2));
             const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
@@ -646,11 +648,9 @@
                 body: JSON.stringify({ message: `Обновление ${new Date().toLocaleString()}`, content: content, branch: 'main', sha: sha })
             });
             if(!putRes.ok) throw new Error();
-            updateDataStatus('saved');
             if(showMsg) showToast('✅ Сохранено в GitHub');
             return true;
         } catch(e){
-            updateDataStatus('error');
             if(showMsg) showToast('❌ Ошибка сохранения', 'error');
             return false;
         }
@@ -660,7 +660,6 @@
         if(!githubToken){ showToast('❌ Установите токен', 'error'); return false; }
         try {
             document.getElementById('loadingOverlay').classList.add('active');
-            updateDataStatus('loading');
             const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
             const res = await fetch(url, { headers: { 'Authorization': `token ${githubToken}` } });
             if(!res.ok){
@@ -673,13 +672,11 @@
                 inventoryItems = jsonData.items;
                 nextId = Math.max(...inventoryItems.map(i => i.id), 0) + 1;
                 saveToLocal();
-                renderTable();
-                updateDataStatus('loaded');
+                renderAll();
                 if(showMsg) showToast(`✅ Загружено ${inventoryItems.length} товаров`);
                 return true;
             }
         } catch(e){
-            updateDataStatus('error');
             if(showMsg) showToast('❌ Ошибка загрузки', 'error');
         } finally {
             document.getElementById('loadingOverlay').classList.remove('active');
@@ -687,14 +684,6 @@
         return false;
     }
     
-    function updateDataStatus(type){
-        const el = document.getElementById('dataStatus');
-        const icons = { loaded:'📂', saved:'💾', saving:'⏳', loading:'📥', error:'❌' };
-        const texts = { loaded:'Загружены', saved:'Сохранены', saving:'Сохранение...', loading:'Загрузка...', error:'Ошибка' };
-        el.innerHTML = `${icons[type] || '📋'} ${texts[type] || ''}`;
-    }
-    
-    // Парсинг CSV - берем только статус "Активен"
     function parseCSVToItems(csvText){
         const lines = csvText.split(/\r?\n/);
         if(lines.length === 0) return [];
@@ -702,25 +691,21 @@
         if(header.startsWith('\uFEFF')) header = header.substring(1);
         const headers = header.split(';').map(h => h.trim());
         
-        let nameIdx = headers.findIndex(h => h.includes('Наименование') || h === 'Наименование');
-        let categoryIdx = headers.findIndex(h => h.includes('Категория') || h === 'Категория');
+        let nameIdx = headers.findIndex(h => h.includes('Наименование'));
+        let categoryIdx = headers.findIndex(h => h.includes('Категория'));
         let qtyIdx = headers.findIndex(h => h.includes('Текущее_Количество') || h.includes('Количество'));
         let statusIdx = headers.findIndex(h => h === 'Статус' || h.includes('Статус'));
         
         const items = [];
-        let skippedHidden = 0;
+        let skipped = 0;
         
         for(let i = 1; i < lines.length; i++){
             if(!lines[i].trim()) continue;
             const cols = lines[i].split(';');
             if(cols.length <= Math.max(nameIdx, categoryIdx, qtyIdx, statusIdx)) continue;
             
-            // Проверка статуса - берем только "Активен"
             let status = statusIdx !== -1 ? (cols[statusIdx] || '').trim() : '';
-            if(status !== 'Активен') {
-                skippedHidden++;
-                continue;
-            }
+            if(status !== 'Активен') { skipped++; continue; }
             
             let name = nameIdx !== -1 ? cols[nameIdx].trim() : '';
             let category = categoryIdx !== -1 ? cols[categoryIdx].trim() : '';
@@ -732,11 +717,8 @@
                 items.push({ name, category, systemQuantity: quantity, factQuantity: quantity });
             }
         }
-        
-        if(skippedHidden > 0 && items.length > 0){
-            showToast(`📊 Загружено ${items.length} активных (${skippedHidden} скрытых пропущено)`, 'success');
-        } else if(items.length === 0 && skippedHidden > 0){
-            showToast(`⚠️ В CSV только скрытые товары (${skippedHidden} шт), активных нет`, 'error');
+        if(skipped > 0 && items.length > 0){
+            showToast(`📊 Загружено ${items.length} активных (${skipped} скрытых пропущено)`, 'success');
         }
         return items;
     }
@@ -757,7 +739,7 @@
                 factQuantity: item.factQuantity,
             }));
             saveToLocal();
-            renderTable();
+            renderAll();
             showToast(`✅ Загружено ${inventoryItems.length} активных товаров`, 'success');
         };
         reader.readAsText(file, 'UTF-8');
@@ -769,14 +751,8 @@
             item.factQuantity = parseFloat(newFact);
             if(isNaN(item.factQuantity)) item.factQuantity = 0;
             saveToLocal();
-            renderTable();
+            renderAll();
         }
-    }
-    
-    function applyAllFactual(){
-        saveToLocal();
-        renderTable();
-        showToast('✅ Фактические остатки сохранены', 'success');
     }
     
     function getMismatches(){
@@ -793,43 +769,81 @@
         });
     }
     
-    function renderTable(){
-        let filtered = inventoryItems;
-        if(searchTerm){
-            const term = searchTerm.toLowerCase();
-            filtered = filtered.filter(i => i.name.toLowerCase().includes(term) || i.category.toLowerCase().includes(term));
-        }
-        const sorted = sortItems(filtered);
-        const tbody = document.getElementById('inventoryTableBody');
-        tbody.innerHTML = '';
-        
-        if(sorted.length === 0){
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px;">📂 Нет данных. Загрузите CSV (только Активен)</td></tr>';
-            document.getElementById('totalCount').innerText = inventoryItems.length;
-            document.getElementById('mismatchCount').innerText = getMismatches().length;
-            document.getElementById('matchCount').innerText = inventoryItems.length - getMismatches().length;
+    function renderCards(items){
+        const container = document.getElementById('cardsContainer');
+        if(items.length === 0){
+            container.innerHTML = '<div class="empty-state">📭 Нет данных. Загрузите CSV (только Активен)</div>';
             return;
         }
-        
-        sorted.forEach(item => {
+        container.innerHTML = items.map(item => {
             const isMismatch = item.factQuantity !== item.systemQuantity;
-            const row = document.createElement('tr');
-            if(isMismatch) row.classList.add('mismatch');
-            row.innerHTML = `
-                <td><strong>${escapeHtml(item.category)}</strong></td>
-                <td>${escapeHtml(item.name)}</td>
-                <td><span class="system-quantity">${item.systemQuantity} шт</span></td>
-                <td><input type="number" class="fact-input" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0"></td>
-                <td><span class="badge ${isMismatch ? 'badge-mismatch' : 'badge-match'}">${isMismatch ? '⚠️ Расхождение' : '✅ Совпадает'}</span></td>
+            return `
+                <div class="inventory-card ${isMismatch ? 'mismatch' : ''}">
+                    <div class="card-header">
+                        <span class="card-category">${escapeHtml(item.category)}</span>
+                        <span class="card-badge ${isMismatch ? 'badge-mismatch-card' : 'badge-match-card'}">
+                            ${isMismatch ? '⚠️ Расхождение' : '✅ Совпадает'}
+                        </span>
+                    </div>
+                    <div class="card-name">${escapeHtml(item.name)}</div>
+                    <div class="card-details">
+                        <div class="quantity-row">
+                            <div class="system-qty">
+                                <span class="system-qty-label">Учётный остаток</span>
+                                <span class="system-qty-value">${item.systemQuantity} шт</span>
+                            </div>
+                            <div class="fact-qty">
+                                <span class="fact-qty-label">Фактический:</span>
+                                <input type="number" class="fact-input-card" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             `;
-            tbody.appendChild(row);
+        }).join('');
+        
+        document.querySelectorAll('.fact-input-card').forEach(inp => {
+            inp.addEventListener('change', (e) => {
+                updateFactQuantity(parseInt(inp.dataset.id), inp.value);
+            });
         });
+    }
+    
+    function renderTable(items){
+        const tbody = document.getElementById('tableBody');
+        if(items.length === 0){
+            tbody.innerHTML = '=<td colspan="5" style="text-align:center; padding:30px;">Нет данных</td>--';
+            return;
+        }
+        tbody.innerHTML = items.map(item => {
+            const isMismatch = item.factQuantity !== item.systemQuantity;
+            return `
+                <tr class="${isMismatch ? 'mismatch' : ''}">
+                    <td><strong>${escapeHtml(item.category)}</strong></td>
+                    <td>${escapeHtml(item.name)}</td>
+                    <td><span class="system-quantity">${item.systemQuantity} шт</span></td>
+                    <td><input type="number" class="fact-input" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0" style="width:80px; padding:6px; border-radius:16px;"></td>
+                    <td><span class="badge ${isMismatch ? 'badge-mismatch' : 'badge-match'}">${isMismatch ? '⚠️ Расхождение' : '✅ Совпадает'}</span></td>
+                </tr>
+            `;
+        }).join('');
         
         document.querySelectorAll('.fact-input').forEach(inp => {
             inp.addEventListener('change', (e) => {
                 updateFactQuantity(parseInt(inp.dataset.id), inp.value);
             });
         });
+    }
+    
+    function renderAll(){
+        let filtered = inventoryItems;
+        if(searchTerm){
+            const term = searchTerm.toLowerCase();
+            filtered = filtered.filter(i => i.name.toLowerCase().includes(term) || i.category.toLowerCase().includes(term));
+        }
+        const sorted = sortItems(filtered);
+        renderCards(sorted);
+        renderTable(sorted);
         
         document.getElementById('totalCount').innerText = inventoryItems.length;
         const mismatches = getMismatches();
@@ -845,7 +859,7 @@
         }
         const container = document.getElementById('mismatchList');
         container.innerHTML = mismatches.map(item => `
-            <div class="mismatch-item">
+            <div style="padding:10px; border-bottom:1px solid #e2e8f0;">
                 <strong>${escapeHtml(item.name)}</strong> (${escapeHtml(item.category)})<br>
                 📊 Учёт: ${item.systemQuantity} шт | ✏️ Факт: ${item.factQuantity} шт
                 <span style="color:#ef4444;"> → ${item.factQuantity - item.systemQuantity}</span>
@@ -896,7 +910,7 @@
     window.sortBy = (field) => {
         if(sortField === field) sortAscending = !sortAscending;
         else { sortField = field; sortAscending = true; }
-        renderTable();
+        renderAll();
     };
     
     document.addEventListener('DOMContentLoaded', () => {
@@ -905,10 +919,10 @@
         
         document.getElementById('csvFileInput').addEventListener('change', (e) => { if(e.target.files[0]) loadCSVAndInit(e.target.files[0]); });
         document.getElementById('loadCsvBtn').addEventListener('click', () => document.getElementById('csvFileInput').click());
-        document.getElementById('applyAllBtn').addEventListener('click', applyAllFactual);
+        document.getElementById('applyAllBtn').addEventListener('click', () => { saveToLocal(); renderAll(); showToast('✅ Сохранено', 'success'); });
         document.getElementById('showMismatchesBtn').addEventListener('click', showMismatchesModal);
         document.getElementById('exportMismatchesBtn').addEventListener('click', exportMismatchesToCSV);
-        document.getElementById('searchInput').addEventListener('input', (e) => { searchTerm = e.target.value; renderTable(); });
+        document.getElementById('searchInput').addEventListener('input', (e) => { searchTerm = e.target.value; renderAll(); });
         document.getElementById('themeToggle').addEventListener('click', () => { isDarkTheme = !isDarkTheme; localStorage.setItem('inventory_dark_theme', isDarkTheme); applyTheme(); });
         
         document.getElementById('showTokenBtn').addEventListener('click', () => { document.getElementById('githubToken').value = githubToken; document.getElementById('tokenModal').classList.add('active'); });
@@ -920,7 +934,7 @@
         
         applyTheme();
         if(inventoryItems.length === 0){
-            document.getElementById('inventoryTableBody').innerHTML = '=<td colspan="5" style="text-align:center; padding:30px;">📁 Нажмите "CSV (1С)" для загрузки активных товаров<br>⚠️ Загружаются только товары со статусом "Активен"</td>--';
+            document.getElementById('cardsContainer').innerHTML = '<div class="empty-state">📁 Нажмите "CSV" для загрузки активных товаров<br>⚠️ Загружаются только товары со статусом "Активен"</div>';
         }
     });
 })();
