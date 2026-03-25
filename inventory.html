@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Инвентаризация товара</title>
-       <!-- Добавленная строка для favicon -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <!-- Для лучшей поддержки можно добавить и PNG версию -->
+    <title>Инвентаризация со сверкой остатков</title>
     <link rel="icon" type="image/png" sizes="32x32" href="free-icon-food-and-drink-9290087.png">
     <style>
         * {
@@ -26,11 +23,9 @@
             color: #e2e8f0;
         }
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
-        
-        /* Шапка */
         .header {
             display: flex;
             justify-content: space-between;
@@ -58,8 +53,6 @@
             border-color: #334155;
             color: #f1f5f9;
         }
-        
-        /* Навигация */
         .nav-links {
             display: flex;
             gap: 10px;
@@ -87,8 +80,6 @@
             color: white;
             border: none;
         }
-        
-        /* GitHub панель */
         .github-panel {
             background: white;
             border-radius: 30px;
@@ -104,7 +95,6 @@
         .dark-theme .github-panel {
             background: #1e293b;
         }
-        
         .repo-info {
             display: flex;
             align-items: center;
@@ -119,13 +109,6 @@
         .dark-theme .repo-info span {
             background: #0f172a;
         }
-        
-        .github-buttons {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        
         .btn {
             background: white;
             border: 1px solid #e2e8f0;
@@ -144,9 +127,6 @@
             border-color: #334155;
             color: #f1f5f9;
         }
-        .btn:active {
-            transform: scale(0.95);
-        }
         .btn-primary {
             background: #3b82f6;
             color: white;
@@ -157,13 +137,11 @@
             color: white;
             border: none;
         }
-        .btn-danger {
-            background: #ef4444;
+        .btn-warning {
+            background: #f59e0b;
             color: white;
             border: none;
         }
-        
-        /* Панель поиска и сортировки */
         .search-bar {
             background: white;
             border-radius: 30px;
@@ -178,7 +156,6 @@
         .dark-theme .search-bar {
             background: #1e293b;
         }
-        
         .search-box {
             flex: 2;
             min-width: 250px;
@@ -196,106 +173,17 @@
             border-color: #334155;
             color: white;
         }
-        .search-box:before {
-            content: "🔍";
-            position: absolute;
-            left: 15px;
-            top: 12px;
-            color: #94a3b8;
-        }
-        
-        .sort-controls {
+        .csv-upload {
             display: flex;
-            gap: 8px;
+            gap: 10px;
+            align-items: center;
             flex-wrap: wrap;
-            flex: 1;
         }
-        
-        .sort-select {
-            padding: 10px 16px;
+        .csv-upload input {
+            padding: 8px;
+            border-radius: 30px;
             border: 1px solid #e2e8f0;
-            border-radius: 30px;
-            background: white;
-            font-size: 0.95rem;
-            cursor: pointer;
-            flex: 1;
-            min-width: 140px;
         }
-        .dark-theme .sort-select {
-            background: #0f172a;
-            border-color: #334155;
-            color: #f1f5f9;
-        }
-        
-        .sort-order {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 30px;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
-        .dark-theme .sort-order {
-            background: #0f172a;
-            border-color: #334155;
-            color: #f1f5f9;
-        }
-        
-        .data-status {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            padding: 8px 15px;
-            border-radius: 30px;
-            background: #f1f5f9;
-            white-space: nowrap;
-        }
-        .dark-theme .data-status {
-            background: #0f172a;
-        }
-        
-        /* Статистика */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        .stat-card {
-            background: white;
-            border-radius: 25px;
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .stat-card:hover {
-            transform: translateY(-2px);
-        }
-        .dark-theme .stat-card {
-            background: #1e293b;
-        }
-        .stat-card.active {
-            border: 2px solid #3b82f6;
-        }
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #3b82f6;
-        }
-        .stat-label {
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-        
-        /* Таблица */
         .table-container {
             background: white;
             border-radius: 30px;
@@ -306,32 +194,22 @@
         .dark-theme .table-container {
             background: #1e293b;
         }
-        
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 800px;
         }
-        
         th {
             text-align: left;
             padding: 15px 10px;
             background: #f8fafc;
             font-weight: 600;
             color: #475569;
-            cursor: pointer;
-            user-select: none;
         }
         .dark-theme th {
             background: #0f172a;
             color: #cbd5e1;
         }
-        th:hover {
-            background: #e2e8f0;
-        }
-        .dark-theme th:hover {
-            background: #334155;
-        }
-        
         td {
             padding: 12px 10px;
             border-bottom: 1px solid #e2e8f0;
@@ -339,44 +217,89 @@
         .dark-theme td {
             border-bottom-color: #334155;
         }
-        
-        tr {
-            cursor: pointer;
-            transition: background-color 0.2s;
+        tr.mismatch {
+            background: #fee2e2;
         }
-        tr:hover {
-            background: #f1f5f9;
+        .dark-theme tr.mismatch {
+            background: #7f1a1a;
         }
-        .dark-theme tr:hover {
-            background: #334155;
+        .fact-input {
+            width: 100px;
+            padding: 8px;
+            border-radius: 20px;
+            border: 1px solid #cbd5e1;
+            text-align: center;
         }
-        
-        .quantity-badge {
-            display: inline-block;
+        .dark-theme .fact-input {
+            background: #0f172a;
+            border-color: #475569;
+            color: white;
+        }
+        .badge {
             padding: 4px 10px;
             border-radius: 20px;
             font-weight: 600;
+            font-size: 0.85rem;
         }
-        .quantity-normal { background: #dcfce7; color: #166534; }
-        .quantity-low { background: #fef3c7; color: #92400e; }
-        .quantity-zero { background: #fee2e2; color: #991b1b; }
-        
-        .delete-btn {
-            background: #ef4444;
+        .badge-match { background: #dcfce7; color: #166534; }
+        .badge-mismatch { background: #fee2e2; color: #991b1b; }
+        .stats-panel {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .stat-badge {
+            background: white;
+            border-radius: 30px;
+            padding: 12px 20px;
+            display: inline-flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .dark-theme .stat-badge {
+            background: #1e293b;
+        }
+        .export-btn {
+            background: #8b5cf6;
             color: white;
             border: none;
-            border-radius: 20px;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            opacity: 0.7;
-            transition: opacity 0.2s;
         }
-        .delete-btn:hover {
-            opacity: 1;
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #22c55e;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            animation: fade 3s;
+            z-index: 3000;
         }
-        
-        /* Модальное окно */
+        .toast.error { background: #ef4444; }
+        @keyframes fade {
+            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+        }
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 4000;
+            align-items: center;
+            justify-content: center;
+        }
+        .loading-overlay.active {
+            display: flex;
+        }
         .modal {
             display: none;
             position: fixed;
@@ -397,916 +320,380 @@
             background: white;
             border-radius: 30px;
             padding: 30px;
-            max-width: 500px;
+            max-width: 600px;
             width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
         }
         .dark-theme .modal-content {
             background: #1e293b;
         }
-        
-        .form-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        .form-input, .form-select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #e2e8f0;
-            border-radius: 20px;
-            font-size: 1rem;
-        }
-        .dark-theme .form-input, .dark-theme .form-select {
-            background: #0f172a;
-            border-color: #334155;
-            color: white;
-        }
-        
-        /* Автодополнение */
-        .autocomplete-list {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 20px;
-            margin-top: 5px;
-            max-height: 200px;
+        .mismatch-list {
+            max-height: 400px;
             overflow-y: auto;
-            z-index: 100;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
         }
-        .dark-theme .autocomplete-list {
-            background: #1e293b;
-            border-color: #334155;
-        }
-        .autocomplete-item {
-            padding: 10px 16px;
-            cursor: pointer;
-            border-bottom: 1px solid #f1f5f9;
-        }
-        .dark-theme .autocomplete-item {
-            border-bottom-color: #334155;
-        }
-        .autocomplete-item:last-child {
-            border-bottom: none;
-        }
-        .autocomplete-item:hover {
-            background: #f1f5f9;
-        }
-        .dark-theme .autocomplete-item:hover {
-            background: #0f172a;
-        }
-        .autocomplete-item small {
-            color: #64748b;
-            margin-left: 10px;
-        }
-        
-        .modal-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .modal-btn {
-            flex: 1;
-            padding: 12px;
-            border-radius: 30px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        
-        /* Уведомления */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #22c55e;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 40px;
-            animation: fade 3s;
-            z-index: 3000;
-        }
-        .toast.error { background: #ef4444; }
-        @keyframes fade {
-            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
-            10% { opacity: 1; transform: translateX(-50%) translateY(0); }
-            90% { opacity: 1; transform: translateX(-50%) translateY(0); }
-            100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
-        }
-        
-        /* Индикатор загрузки */
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 4000;
-            align-items: center;
-            justify-content: center;
-        }
-        .loading-overlay.active {
-            display: flex;
-        }
-        .loading-spinner {
-            background: white;
-            padding: 20px 30px;
-            border-radius: 60px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .dark-theme .loading-spinner {
-            background: #1e293b;
-        }
-        .spinner {
-            width: 24px;
-            height: 24px;
-            border: 3px solid #e2e8f0;
-            border-top-color: #3b82f6;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .mismatch-item {
+            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Навигация -->
-        <div class="nav-links">
-            <a href="index.html" class="nav-link">🖥️ Технический отчёт</a>
-            <a href="inventory.html?secret=INVENTORY2026" class="nav-link primary">📦 Инвентаризация</a>
-        </div>
+<div class="container">
+    <div class="nav-links">
+        <a href="index.html" class="nav-link">🖥️ Технический отчёт</a>
+        <a href="inventory.html?secret=INVENTORY2026" class="nav-link primary">📦 Инвентаризация</a>
+    </div>
+    <div class="header">
+        <h1>📊 Сверка остатков (инвентаризация)</h1>
+        <div class="theme-toggle" id="themeToggle">🌙 Тёмная</div>
+    </div>
 
-        <div class="header">
-            <h1>📦 Складской учёт</h1>
-            <div class="theme-toggle" id="themeToggle">🌙 Тёмная</div>
+    <div class="github-panel">
+        <div class="repo-info">
+            <span>📦 <strong>Sh1k1kate/Technical-Review-QWERTY_GAME_ZONE</strong></span>
         </div>
-
-        <!-- GitHub панель -->
-        <div class="github-panel">
-            <div class="repo-info">
-                <span>📦 <strong id="repoDisplay">Sh1k1kate/Technical-Review-QWERTY_GAME_ZONE</strong></span>
-                <span id="tokenStatus" style="background: #fef3c7;">🔑 Токен не установлен</span>
-            </div>
-            <div class="github-buttons">
-                <button class="btn" id="showTokenBtn">🔑 Токен</button>
-                <button class="btn btn-primary" id="saveToGithubBtn">💾 Сохранить</button>
-                <button class="btn" id="loadFromGithubBtn">📂 Загрузить</button>
-            </div>
-        </div>
-
-        <!-- Панель поиска и сортировки -->
-        <div class="search-bar">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Поиск по названию или категории...">
-            </div>
-            
-            <div class="sort-controls">
-                <select class="sort-select" id="sortBy">
-                    <option value="category">По категории</option>
-                    <option value="name">По названию</option>
-                    <option value="quantity">По остаткам</option>
-                    <option value="status">По статусу</option>
-                </select>
-                <div class="sort-order" id="sortOrder">⬆️</div>
-            </div>
-            
-            <div class="data-status" id="dataStatus">💾 Данные загружены</div>
-            
-            <button class="btn btn-success" id="addItemBtn">➕ Добавить</button>
-        </div>
-
-        <!-- Статистика (кликабельна для фильтрации) -->
-        <div class="stats-grid">
-            <div class="stat-card" data-filter="all" id="statAll">
-                <div class="stat-value" id="totalItems">0</div>
-                <div class="stat-label">Всего позиций</div>
-            </div>
-            <div class="stat-card" data-filter="normal" id="statNormal">
-                <div class="stat-value" id="normalItems">0</div>
-                <div class="stat-label">В наличии (≥5)</div>
-            </div>
-            <div class="stat-card" data-filter="low" id="statLow">
-                <div class="stat-value" id="lowStockItems">0</div>
-                <div class="stat-label">Мало (1-4)</div>
-            </div>
-            <div class="stat-card" data-filter="zero" id="statZero">
-                <div class="stat-value" id="zeroItems">0</div>
-                <div class="stat-label">Нет в наличии</div>
-            </div>
-        </div>
-
-        <!-- Таблица -->
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th onclick="window.sortBy('category')">Категория ⬇️⬆️</th>
-                        <th onclick="window.sortBy('name')">Наименование ⬇️⬆️</th>
-                        <th onclick="window.sortBy('quantity')">Количество ⬇️⬆️</th>
-                        <th onclick="window.sortBy('status')">Статус ⬇️⬆️</th>
-                        <th>Действия</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    <!-- Данные -->
-                </tbody>
-            </table>
+        <div class="csv-upload">
+            <input type="file" id="csvFileInput" accept=".csv">
+            <button class="btn btn-primary" id="loadCsvBtn">📂 Загрузить CSV (остатки 1С)</button>
+            <button class="btn btn-warning" id="showMismatchesBtn">⚠️ Показать расхождения</button>
+            <button class="btn export-btn" id="exportMismatchesBtn">📎 Выгрузить расхождения (CSV)</button>
         </div>
     </div>
 
-    <!-- Модальное окно добавления/редактирования -->
-    <div class="modal" id="itemModal">
-        <div class="modal-content">
-            <h2 style="margin-bottom: 20px;" id="modalTitle">➕ Добавить товар</h2>
-            
-            <div class="form-group">
-                <label class="form-label">Категория</label>
-                <select class="form-select" id="category">
-                   <option value="Готовая Еда">Готовая Еда</option>
-                    <option value="Напитки">Напитки</option>
-                    <option value="Снэки">Снэки</option>
-                    <option value="Шоколад">Шоколад</option>
-                    <option value="Энергетичесике напитки">Энергетичесике напитки</option>
-                </select>
+    <div class="search-bar">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Поиск по названию...">
+        </div>
+        <div class="stats-panel">
+            <div class="stat-badge">
+                <span>📦 Всего товаров: <strong id="totalCount">0</strong></span>
+                <span>⚠️ Расхождения: <strong id="mismatchCount">0</strong></span>
+                <span>✅ Совпадают: <strong id="matchCount">0</strong></span>
             </div>
-            
-            <div class="form-group" id="nameField">
-                <label class="form-label">Наименование *</label>
-                <input type="text" class="form-input" id="name" placeholder="Введите название" autocomplete="off">
-                <div id="autocomplete" class="autocomplete-list" style="display: none;"></div>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Количество (шт) *</label>
-                <input type="number" class="form-input" id="quantity" min="0" value="0">
-            </div>
-            
-            <div class="modal-buttons">
-                <button class="modal-btn" id="cancelModalBtn">Отмена</button>
-                <button class="modal-btn btn-primary" id="saveItemBtn">Сохранить</button>
-            </div>
+            <button class="btn btn-success" id="applyAllBtn">💾 Применить все фактические остатки</button>
         </div>
     </div>
 
-    <!-- Модальное окно токена -->
-    <div class="modal" id="tokenModal">
-        <div class="modal-content">
-            <h2 style="margin-bottom: 20px;">🔑 GitHub Token</h2>
-            <p>Введите токен с правами на запись</p>
-            <input type="password" class="form-input" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxx" style="margin: 20px 0;">
-            <div class="modal-buttons">
-                <button class="modal-btn" id="cancelTokenBtn">Отмена</button>
-                <button class="modal-btn btn-primary" id="saveTokenBtn">Сохранить</button>
-            </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr><th>Категория</th><th>Наименование</th><th>Остаток в CSV (учётный)</th><th>Фактический остаток (вручную)</th><th>Статус</th></tr>
+            </thead>
+            <tbody id="inventoryTableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal" id="mismatchModal">
+    <div class="modal-content">
+        <h3>⚠️ Товары с расхождениями</h3>
+        <div id="mismatchList" class="mismatch-list"></div>
+        <div class="modal-buttons" style="margin-top:20px;">
+            <button class="btn" id="closeMismatchModal">Закрыть</button>
         </div>
     </div>
+</div>
 
-    <!-- Уведомления -->
-    <div class="toast" id="toast" style="display: none;"></div>
+<div id="toast" style="display: none;" class="toast"></div>
+<div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"><div class="spinner"></div><span>Загрузка...</span></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+(function(){
+    // ==================== ДАННЫЕ ====================
+    let inventoryItems = []; // { id, category, name, systemQuantity (из CSV), factQuantity (вручную), isMatch? }
+    let nextId = 1;
+    let searchTerm = '';
+    let isDarkTheme = localStorage.getItem('inventory_dark_theme') === 'true';
     
-    <!-- Индикатор загрузки -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-spinner">
-            <div class="spinner"></div>
-            <span>Загрузка...</span>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script>
-        (function() {
-            // ==================== НАСТРОЙКИ ====================
-            const GITHUB_CONFIG = {
-                owner: 'Sh1k1kate',
-                repo: 'Technical-Review-QWERTY_GAME_ZONE'
-            };
-            
-            const SECRET_WORD = 'INVENTORY2026';
-            const DATA_FILE = 'inventory_simple.json';
-            
-            // ==================== ПРОВЕРКА ДОСТУПА ====================
-            function checkAccess() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const keyParam = urlParams.get('secret');
-                
-                if (!keyParam || keyParam !== SECRET_WORD) {
-                    document.body.innerHTML = `
-                        <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #f4f7fb;">
-                            <div style="background: white; padding: 40px; border-radius: 30px; text-align: center; max-width: 400px;">
-                                <div style="font-size: 4rem; margin-bottom: 20px;">🔒</div>
-                                <h1 style="margin-bottom: 20px; color: #1e293b;">Доступ ограничен</h1>
-                                <p style="margin-bottom: 30px; color: #64748b;">Страница защищена секретным ключом</p>
-                                <div style="background: #f1f5f9; padding: 15px; border-radius: 20px;">
-                                    <code style="color: #3b82f6;">?secret=${SECRET_WORD}</code>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    return false;
-                }
-                return true;
-            }
-
-            if (!checkAccess()) return;
-
-            // ==================== НАЧАЛЬНЫЕ ДАННЫЕ ====================
-            const DEFAULT_ITEMS = [
-               
-            ];
-
-            // ==================== СОСТОЯНИЕ ====================
-            let items = [];
-            let nextId = 100;
-            let searchTerm = '';
-            let editingId = null;
-            let isDarkTheme = localStorage.getItem('inventory_dark_theme') === 'true';
-            let githubToken = localStorage.getItem('github_token') || '';
-            let isSaving = false;
-            let isLoading = false;
-            
-            // Сортировка и фильтрация
-            let sortField = 'category';
-            let sortAscending = true;
-            let statusFilter = 'all'; // all, normal, low, zero
-
-            // ==================== UTF-8 ====================
-            function utf8ToBase64(str) {
-                try {
-                    return btoa(unescape(encodeURIComponent(str)));
-                } catch (e) {
-                    return '';
-                }
-            }
-
-            function base64ToUtf8(base64) {
-                try {
-                    return decodeURIComponent(escape(atob(base64)));
-                } catch (e) {
-                    return '';
-                }
-            }
-
-            // ==================== GITHUB ====================
-            function updateRepoDisplay() {
-                document.getElementById('repoDisplay').textContent = `${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`;
-                const tokenStatus = document.getElementById('tokenStatus');
-                if (githubToken) {
-                    tokenStatus.innerHTML = '✅ Токен установлен';
-                    tokenStatus.style.background = '#dcfce7';
-                } else {
-                    tokenStatus.innerHTML = '🔑 Токен не установлен';
-                    tokenStatus.style.background = '#fef3c7';
-                }
-            }
-
-            function updateDataStatus(type) {
-                const statusEl = document.getElementById('dataStatus');
-                const icons = { loaded: '📂', saved: '💾', saving: '⏳', loading: '📥', error: '❌' };
-                const texts = { loaded: 'Данные загружены', saved: 'Данные сохранены', saving: 'Сохранение...', loading: 'Загрузка...', error: 'Ошибка' };
-                statusEl.innerHTML = `${icons[type] || '📋'} ${texts[type] || ''}`;
-            }
-
-            async function saveToGithub(showToastMessage = true) {
-                if (!githubToken) {
-                    if (showToastMessage) showToast('❌ Сначала установите токен', 'error');
-                    return false;
-                }
-                
-                if (isSaving) return false;
-                isSaving = true;
-                
-                try {
-                    updateDataStatus('saving');
-                    
-                    const data = { items, lastUpdated: new Date().toISOString() };
-                    const content = utf8ToBase64(JSON.stringify(data, null, 2));
-                    
-                    const getUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
-                    const getResponse = await fetch(getUrl, {
-                        headers: { 'Authorization': `token ${githubToken}` }
-                    });
-                    
-                    let sha = null;
-                    if (getResponse.ok) {
-                        const fileData = await getResponse.json();
-                        sha = fileData.sha;
-                    }
-                    
-                    const putResponse = await fetch(getUrl, {
-                        method: 'PUT',
-                        headers: {
-                            'Authorization': `token ${githubToken}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            message: `Обновление от ${new Date().toLocaleDateString()}`,
-                            content: content,
-                            branch: 'main',
-                            sha: sha
-                        })
-                    });
-                    
-                    if (!putResponse.ok) throw new Error('Ошибка сохранения');
-                    
-                    updateDataStatus('saved');
-                    if (showToastMessage) showToast('✅ Сохранено в GitHub');
-                    return true;
-                    
-                } catch (error) {
-                    updateDataStatus('error');
-                    if (showToastMessage) showToast('❌ Ошибка сохранения', 'error');
-                    return false;
-                } finally {
-                    isSaving = false;
-                }
-            }
-
-            async function loadFromGithub(showToastMessage = true) {
-                if (!githubToken) {
-                    if (showToastMessage) showToast('❌ Сначала установите токен', 'error');
-                    return false;
-                }
-                
-                if (isLoading) return false;
-                isLoading = true;
-                
-                try {
-                    document.getElementById('loadingOverlay').classList.add('active');
-                    updateDataStatus('loading');
-                    
-                    const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
-                    const response = await fetch(url, {
-                        headers: { 'Authorization': `token ${githubToken}` }
-                    });
-                    
-                    if (!response.ok) {
-                        if (response.status === 404) {
-                            if (showToastMessage) showToast('📭 Файл не найден', 'warning');
-                            return false;
-                        }
-                        throw new Error('Ошибка загрузки');
-                    }
-                    
-                    const data = await response.json();
-                    const jsonData = JSON.parse(base64ToUtf8(data.content));
-                    
-                    if (jsonData.items) {
-                        items = jsonData.items;
-                        nextId = Math.max(...items.map(i => i.id), 0) + 1;
-                        saveToLocal();
-                        renderTable();
-                        updateDataStatus('loaded');
-                        if (showToastMessage) showToast(`✅ Загружено ${items.length} товаров`);
-                        return true;
-                    }
-                    
-                } catch (error) {
-                    updateDataStatus('error');
-                    if (showToastMessage) showToast('❌ Ошибка загрузки', 'error');
-                } finally {
-                    document.getElementById('loadingOverlay').classList.remove('active');
-                    isLoading = false;
-                }
-                return false;
-            }
-
-            // ==================== ЛОКАЛЬНЫЕ ДАННЫЕ ====================
-            function loadFromLocal() {
-                const saved = localStorage.getItem('inventory_simple');
-                if (saved) {
-                    try {
-                        items = JSON.parse(saved);
-                        nextId = Math.max(...items.map(i => i.id), 0) + 1;
-                    } catch {
-                        items = [...DEFAULT_ITEMS];
-                    }
-                } else {
-                    items = [...DEFAULT_ITEMS];
-                }
+    // Сохраняем в localStorage
+    function saveToLocal() {
+        localStorage.setItem('inventory_data_v2', JSON.stringify({ items: inventoryItems, nextId }));
+    }
+    
+    function loadFromLocal() {
+        const saved = localStorage.getItem('inventory_data_v2');
+        if(saved){
+            try{
+                const data = JSON.parse(saved);
+                inventoryItems = data.items || [];
+                nextId = data.nextId || 1;
                 renderTable();
-            }
-
-            function saveToLocal() {
-                localStorage.setItem('inventory_simple', JSON.stringify(items));
-            }
-
-            // ==================== АВТОДОПОЛНЕНИЕ ====================
-            function setupAutocomplete() {
-                const nameInput = document.getElementById('name');
-                const autocompleteDiv = document.getElementById('autocomplete');
-                
-                nameInput.addEventListener('input', function() {
-                    const value = this.value.toLowerCase().trim();
-                    
-                    if (value.length < 1) {
-                        autocompleteDiv.style.display = 'none';
-                        return;
-                    }
-                    
-                    const matches = items.filter(item => 
-                        item.name.toLowerCase().includes(value)
-                    );
-                    
-                    const uniqueMatches = [];
-                    const seen = new Set();
-                    matches.forEach(item => {
-                        if (!seen.has(item.name)) {
-                            seen.add(item.name);
-                            uniqueMatches.push(item);
-                        }
-                    });
-                    
-                    if (uniqueMatches.length > 0) {
-                        autocompleteDiv.innerHTML = uniqueMatches
-                            .slice(0, 5)
-                            .map(item => {
-                                const status = item.quantity === 0 ? '🔴' : item.quantity < 5 ? '🟡' : '🟢';
-                                return `<div class="autocomplete-item" data-id="${item.id}" data-category="${item.category}" data-name="${item.name}" data-quantity="${item.quantity}">
-                                    ${item.name} <small>${item.category} (сейчас: ${item.quantity} шт) ${status}</small>
-                                </div>`;
-                            })
-                            .join('');
-                        autocompleteDiv.style.display = 'block';
-                    } else {
-                        autocompleteDiv.style.display = 'none';
-                    }
-                });
-                
-                autocompleteDiv.addEventListener('click', function(e) {
-                    const item = e.target.closest('.autocomplete-item');
-                    if (item) {
-                        const id = parseInt(item.dataset.id);
-                        const name = item.dataset.name;
-                        const category = item.dataset.category;
-                        const currentQuantity = parseInt(item.dataset.quantity);
-                        
-                        nameInput.value = name;
-                        document.getElementById('category').value = category;
-                        
-                        editingId = id;
-                        document.getElementById('modalTitle').innerText = '✏️ Редактировать товар';
-                        document.getElementById('quantity').value = currentQuantity;
-                        document.getElementById('quantity').focus();
-                        
-                        autocompleteDiv.style.display = 'none';
-                        
-                        showToast(`🔄 Редактирование: ${name} (сейчас ${currentQuantity} шт)`, 'success');
-                    }
-                });
-                
-                document.addEventListener('click', function(e) {
-                    if (!nameInput.contains(e.target) && !autocompleteDiv.contains(e.target)) {
-                        autocompleteDiv.style.display = 'none';
-                    }
-                });
-            }
-
-            // ==================== ТЕМА ====================
-            function applyTheme() {
-                if (isDarkTheme) {
-                    document.body.classList.add('dark-theme');
-                    document.getElementById('themeToggle').innerHTML = '☀️ Светлая';
-                } else {
-                    document.body.classList.remove('dark-theme');
-                    document.getElementById('themeToggle').innerHTML = '🌙 Тёмная';
-                }
-            }
-            applyTheme();
-
-            // ==================== СОРТИРОВКА И ФИЛЬТРАЦИЯ ====================
-            function getItemStatus(item) {
-                if (item.quantity === 0) return 'zero';
-                if (item.quantity < 5) return 'low';
-                return 'normal';
-            }
-
-            function filterItems() {
-                return items.filter(item => {
-                    // Поиск
-                    if (searchTerm) {
-                        const term = searchTerm.toLowerCase();
-                        if (!item.name.toLowerCase().includes(term) && 
-                            !item.category.toLowerCase().includes(term)) {
-                            return false;
-                        }
-                    }
-                    
-                    // Фильтр по статусу
-                    if (statusFilter !== 'all') {
-                        const itemStatus = getItemStatus(item);
-                        if (itemStatus !== statusFilter) return false;
-                    }
-                    
-                    return true;
-                });
-            }
-
-            function sortItems(itemsToSort) {
-                return itemsToSort.sort((a, b) => {
-                    let comparison = 0;
-                    
-                    switch(sortField) {
-                        case 'category':
-                            comparison = a.category.localeCompare(b.category);
-                            break;
-                        case 'name':
-                            comparison = a.name.localeCompare(b.name);
-                            break;
-                        case 'quantity':
-                            comparison = a.quantity - b.quantity;
-                            break;
-                        case 'status':
-                            const statusA = getItemStatus(a);
-                            const statusB = getItemStatus(b);
-                            const statusOrder = { 'zero': 0, 'low': 1, 'normal': 2 };
-                            comparison = statusOrder[statusA] - statusOrder[statusB];
-                            break;
-                        default:
-                            comparison = 0;
-                    }
-                    
-                    return sortAscending ? comparison : -comparison;
-                });
-            }
-
-            function updateSortUI() {
-                document.getElementById('sortBy').value = sortField;
-                document.getElementById('sortOrder').innerHTML = sortAscending ? '⬆️' : '⬇️';
-            }
-
-            // ==================== РЕНДЕР ТАБЛИЦЫ ====================
-            function renderTable() {
-                let filtered = filterItems();
-                const sorted = sortItems(filtered);
-                const tbody = document.getElementById('tableBody');
-                tbody.innerHTML = '';
-                
-                sorted.forEach(item => {
-                    let statusClass = 'quantity-normal';
-                    let statusText = 'Норма';
-                    
-                    if (item.quantity === 0) {
-                        statusClass = 'quantity-zero';
-                        statusText = 'Нет в наличии';
-                    } else if (item.quantity < 5) {
-                        statusClass = 'quantity-low';
-                        statusText = 'Мало';
-                    }
-                    
-                    const row = document.createElement('tr');
-                    row.onclick = (e) => {
-                        // Не открываем редактирование при клике на кнопку удаления
-                        if (!e.target.classList.contains('delete-btn')) {
-                            openModal(item.id);
-                        }
-                    };
-                    
-                    row.innerHTML = `
-                        <td><strong>${item.category}</strong></td>
-                        <td>${item.name}</td>
-                        <td><span class="quantity-badge ${statusClass}">${item.quantity} шт</span></td>
-                        <td>${statusText}</td>
-                        <td>
-                            <button class="delete-btn" onclick="event.stopPropagation(); window.deleteItem(${item.id})">🗑️ Удалить</button>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                });
-                
                 updateStats();
-            }
-
-            // ==================== СТАТИСТИКА ====================
-            function updateStats() {
-                document.getElementById('totalItems').innerText = items.length;
-                
-                const normal = items.filter(i => i.quantity >= 5).length;
-                const low = items.filter(i => i.quantity > 0 && i.quantity < 5).length;
-                const zero = items.filter(i => i.quantity === 0).length;
-                
-                document.getElementById('normalItems').innerText = normal;
-                document.getElementById('lowStockItems').innerText = low;
-                document.getElementById('zeroItems').innerText = zero;
-                
-                // Подсветка активного фильтра
-                document.querySelectorAll('.stat-card').forEach(card => {
-                    if (card.dataset.filter === statusFilter) {
-                        card.classList.add('active');
-                    } else {
-                        card.classList.remove('active');
-                    }
+                return true;
+            }catch(e){}
+        }
+        return false;
+    }
+    
+    // Парсинг CSV (разделитель ;)
+    function parseCSVToItems(csvText) {
+        const lines = csvText.split(/\r?\n/);
+        if(lines.length === 0) return [];
+        const header = lines[0].split(';').map(h => h.replace(/^\uFEFF/, '').trim());
+        // ищем колонки: Наименование, Категория, Текущее_Количество
+        let nameIdx = header.findIndex(h => h.includes('Наименование'));
+        let categoryIdx = header.findIndex(h => h.includes('Категория'));
+        let qtyIdx = header.findIndex(h => h.includes('Текущее_Количество') || h.includes('Количество'));
+        if(nameIdx === -1) nameIdx = header.findIndex(h => h.toLowerCase() === 'наименование');
+        if(categoryIdx === -1) categoryIdx = header.findIndex(h => h.toLowerCase() === 'категория');
+        if(qtyIdx === -1) qtyIdx = header.findIndex(h => h.toLowerCase() === 'текущее_количество');
+        
+        const items = [];
+        for(let i=1; i<lines.length; i++){
+            if(!lines[i].trim()) continue;
+            const cols = lines[i].split(';');
+            if(cols.length <= Math.max(nameIdx, categoryIdx, qtyIdx)) continue;
+            let name = (nameIdx !== -1 ? cols[nameIdx] : '').trim();
+            let category = (categoryIdx !== -1 ? cols[categoryIdx] : '').trim();
+            let qtyRaw = (qtyIdx !== -1 ? cols[qtyIdx] : '').trim();
+            let quantity = parseFloat(qtyRaw);
+            if(isNaN(quantity)) quantity = 0;
+            if(name && category){
+                items.push({
+                    name: name,
+                    category: category,
+                    systemQuantity: quantity,
+                    factQuantity: quantity, // по умолчанию факт = системный
                 });
             }
-
-            // ==================== МОДАЛЬНОЕ ОКНО ====================
-            function openModal(editId = null) {
-                editingId = editId;
-                
-                if (editId) {
-                    const item = items.find(i => i.id === editId);
-                    if (item) {
-                        document.getElementById('modalTitle').innerText = '✏️ Редактировать товар';
-                        document.getElementById('category').value = item.category;
-                        document.getElementById('name').value = item.name;
-                        document.getElementById('quantity').value = item.quantity;
-                    }
-                } else {
-                    document.getElementById('modalTitle').innerText = '➕ Добавить товар';
-                    document.getElementById('category').value = 'Электроника';
-                    document.getElementById('name').value = '';
-                    document.getElementById('quantity').value = 0;
-                }
-                
-                document.getElementById('itemModal').classList.add('active');
-                document.getElementById('name').focus();
+        }
+        return items;
+    }
+    
+    // Загружаем CSV и инициализируем инвентаризацию
+    function loadCSVAndInit(file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const text = e.target.result;
+            const parsed = parseCSVToItems(text);
+            if(parsed.length === 0){
+                showToast('❌ Не удалось распознать CSV. Проверьте разделитель (;) и колонки', 'error');
+                return;
             }
-
-            function closeModal() {
-                document.getElementById('itemModal').classList.remove('active');
-                editingId = null;
-            }
-
-            function saveItem() {
-                const name = document.getElementById('name').value.trim();
-                if (!name) {
-                    showToast('Введите название товара', 'error');
-                    return;
-                }
-                
-                const category = document.getElementById('category').value;
-                const quantity = parseInt(document.getElementById('quantity').value) || 0;
-                
-                if (editingId) {
-                    const index = items.findIndex(i => i.id === editingId);
-                    if (index !== -1) {
-                        const oldQuantity = items[index].quantity;
-                        items[index] = {
-                            ...items[index],
-                            category: category,
-                            quantity: quantity
-                        };
-                        showToast(`✅ Товар "${name}" обновлён (было: ${oldQuantity} шт, стало: ${quantity} шт)`);
-                    }
-                } else {
-                    const existingItem = items.find(i => i.name.toLowerCase() === name.toLowerCase());
-                    
-                    if (existingItem) {
-                        if (confirm(`Товар "${name}" уже существует (${existingItem.quantity} шт). Хотите отредактировать его количество?`)) {
-                            editingId = existingItem.id;
-                            document.getElementById('category').value = existingItem.category;
-                            document.getElementById('quantity').focus();
-                            return;
-                        }
-                    }
-                    
-                    const newItem = {
-                        id: nextId++,
-                        category: category,
-                        name: name,
-                        quantity: quantity
-                    };
-                    items.push(newItem);
-                    showToast(`✅ Новый товар "${name}" добавлен (${quantity} шт)`);
-                }
-                
-                saveToLocal();
-                saveToGithub(false);
-                renderTable();
-                closeModal();
-            }
-
-            function deleteItem(id) {
-                const item = items.find(i => i.id === id);
-                if (confirm(`Удалить товар "${item.name}"?`)) {
-                    items = items.filter(i => i.id !== id);
-                    saveToLocal();
-                    saveToGithub(false);
-                    renderTable();
-                    showToast(`🗑️ Товар "${item.name}" удалён`);
-                }
-            }
-
-            // ==================== УВЕДОМЛЕНИЯ ====================
-            function showToast(text, type = 'success') {
-                const toast = document.getElementById('toast');
-                toast.className = 'toast';
-                if (type === 'error') toast.classList.add('error');
-                toast.style.display = 'block';
-                toast.innerText = text;
-                setTimeout(() => toast.style.display = 'none', 3000);
-            }
-
-            // ==================== ИНИЦИАЛИЗАЦИЯ ====================
-            document.addEventListener('DOMContentLoaded', function() {
-                updateRepoDisplay();
-                loadFromLocal();
-                
-                // Поиск
-                document.getElementById('searchInput').addEventListener('input', function(e) {
-                    searchTerm = e.target.value;
-                    renderTable();
-                });
-                
-                // Сортировка
-                document.getElementById('sortBy').addEventListener('change', function(e) {
-                    sortField = e.target.value;
-                    renderTable();
-                });
-                
-                document.getElementById('sortOrder').addEventListener('click', function() {
-                    sortAscending = !sortAscending;
-                    updateSortUI();
-                    renderTable();
-                });
-                
-                // Фильтры по клику на статистику
-                document.querySelectorAll('.stat-card').forEach(card => {
-                    card.addEventListener('click', function() {
-                        statusFilter = this.dataset.filter;
-                        renderTable();
-                    });
-                });
-                
-                // GitHub кнопки
-                document.getElementById('showTokenBtn').addEventListener('click', () => {
-                    document.getElementById('githubToken').value = githubToken;
-                    document.getElementById('tokenModal').classList.add('active');
-                });
-                
-                document.getElementById('saveTokenBtn').addEventListener('click', function() {
-                    const token = document.getElementById('githubToken').value.trim();
-                    if (token) {
-                        githubToken = token;
-                        localStorage.setItem('github_token', token);
-                        document.getElementById('tokenModal').classList.remove('active');
-                        updateRepoDisplay();
-                        loadFromGithub(false);
-                    }
-                });
-                
-                document.getElementById('cancelTokenBtn').addEventListener('click', () => {
-                    document.getElementById('tokenModal').classList.remove('active');
-                });
-                
-                document.getElementById('saveToGithubBtn').addEventListener('click', () => saveToGithub(true));
-                document.getElementById('loadFromGithubBtn').addEventListener('click', () => loadFromGithub(true));
-                
-                // Добавление
-                document.getElementById('addItemBtn').addEventListener('click', () => openModal());
-                
-                // Модальное окно товара
-                document.getElementById('saveItemBtn').addEventListener('click', saveItem);
-                document.getElementById('cancelModalBtn').addEventListener('click', closeModal);
-                
-                // Тема
-                document.getElementById('themeToggle').addEventListener('click', function() {
-                    isDarkTheme = !isDarkTheme;
-                    localStorage.setItem('inventory_dark_theme', isDarkTheme);
-                    applyTheme();
-                });
-                
-                // Настройка автодополнения
-                setupAutocomplete();
-                
-                // Закрытие модалок
-                document.getElementById('itemModal').addEventListener('click', function(e) {
-                    if (e.target === this) closeModal();
-                });
-                
-                document.getElementById('tokenModal').addEventListener('click', function(e) {
-                    if (e.target === this) this.classList.remove('active');
-                });
-                
-                // Глобальные функции для сортировки
-                window.sortBy = (field) => {
-                    if (sortField === field) {
-                        sortAscending = !sortAscending;
-                    } else {
-                        sortField = field;
-                        sortAscending = true;
-                    }
-                    updateSortUI();
-                    renderTable();
-                };
+            // Преобразуем в формат inventoryItems
+            const newItems = parsed.map((item, idx) => ({
+                id: nextId++,
+                category: item.category,
+                name: item.name,
+                systemQuantity: item.systemQuantity,
+                factQuantity: item.factQuantity,
+            }));
+            inventoryItems = newItems;
+            saveToLocal();
+            renderTable();
+            updateStats();
+            showToast(`✅ Загружено ${inventoryItems.length} товаров из CSV`, 'success');
+        };
+        reader.readAsText(file, 'UTF-8');
+    }
+    
+    // Обновление фактического остатка
+    function updateFactQuantity(id, newFact) {
+        const item = inventoryItems.find(i => i.id === id);
+        if(item){
+            item.factQuantity = parseFloat(newFact);
+            if(isNaN(item.factQuantity)) item.factQuantity = 0;
+            saveToLocal();
+            renderTable();
+            updateStats();
+        }
+    }
+    
+    // Применить все фактические (сохранить как есть, просто перерисовать)
+    function applyAllFactual() {
+        saveToLocal();
+        renderTable();
+        updateStats();
+        showToast('✅ Все фактические остатки сохранены', 'success');
+    }
+    
+    // Получить расхождения (где факт != системный)
+    function getMismatches() {
+        return inventoryItems.filter(item => item.factQuantity !== item.systemQuantity);
+    }
+    
+    // Показать модалку с расхождениями
+    function showMismatchesModal() {
+        const mismatches = getMismatches();
+        if(mismatches.length === 0){
+            showToast('✨ Нет расхождений! Все остатки совпадают', 'success');
+            return;
+        }
+        const modal = document.getElementById('mismatchModal');
+        const container = document.getElementById('mismatchList');
+        container.innerHTML = mismatches.map(item => `
+            <div class="mismatch-item">
+                <strong>${item.name}</strong> (${item.category})<br>
+                Учёт: ${item.systemQuantity} шт | Факт: ${item.factQuantity} шт 
+                <span style="color:#ef4444;">→ разница: ${item.factQuantity - item.systemQuantity}</span>
+            </div>
+        `).join('');
+        modal.classList.add('active');
+    }
+    
+    // Экспорт расхождений в CSV
+    function exportMismatchesToCSV() {
+        const mismatches = getMismatches();
+        if(mismatches.length === 0){
+            showToast('Нет расхождений для экспорта', 'error');
+            return;
+        }
+        const headers = ['Наименование', 'Категория', 'Учётный остаток', 'Фактический остаток', 'Разница'];
+        const rows = mismatches.map(item => [
+            item.name,
+            item.category,
+            item.systemQuantity,
+            item.factQuantity,
+            item.factQuantity - item.systemQuantity
+        ]);
+        const csvContent = [headers, ...rows].map(row => row.join(';')).join('\n');
+        const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.href = url;
+        link.setAttribute('download', 'inventory_mismatches.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        showToast(`📎 Экспортировано ${mismatches.length} расхождений`, 'success');
+    }
+    
+    // Фильтрация и рендер
+    function renderTable() {
+        let filtered = inventoryItems;
+        if(searchTerm){
+            const term = searchTerm.toLowerCase();
+            filtered = filtered.filter(i => i.name.toLowerCase().includes(term) || i.category.toLowerCase().includes(term));
+        }
+        const tbody = document.getElementById('inventoryTableBody');
+        tbody.innerHTML = '';
+        filtered.forEach(item => {
+            const isMismatch = item.factQuantity !== item.systemQuantity;
+            const row = document.createElement('tr');
+            if(isMismatch) row.classList.add('mismatch');
+            const statusHtml = isMismatch ? '<span class="badge badge-mismatch">⚠️ Расхождение</span>' : '<span class="badge badge-match">✅ Совпадает</span>';
+            row.innerHTML = `
+                <td><strong>${escapeHtml(item.category)}</strong></td>
+                <td>${escapeHtml(item.name)}</td>
+                <td><span class="badge" style="background:#e2e3e5;">${item.systemQuantity} шт</span></td>
+                <td><input type="number" class="fact-input" data-id="${item.id}" value="${item.factQuantity}" step="1"></td>
+                <td>${statusHtml}</td>
+            `;
+            tbody.appendChild(row);
+        });
+        // добавим обработчики на инпуты
+        document.querySelectorAll('.fact-input').forEach(input => {
+            input.addEventListener('change', function(e) {
+                const id = parseInt(this.dataset.id);
+                const val = parseFloat(this.value);
+                updateFactQuantity(id, isNaN(val) ? 0 : val);
             });
-            
-            window.editItem = (id) => openModal(id);
-            window.deleteItem = (id) => deleteItem(id);
-        })();
-    </script>
+        });
+        updateStats();
+    }
+    
+    function updateStats() {
+        document.getElementById('totalCount').innerText = inventoryItems.length;
+        const mismatches = getMismatches();
+        document.getElementById('mismatchCount').innerText = mismatches.length;
+        document.getElementById('matchCount').innerText = inventoryItems.length - mismatches.length;
+    }
+    
+    function escapeHtml(str) {
+        if(!str) return '';
+        return str.replace(/[&<>]/g, function(m){
+            if(m === '&') return '&amp;';
+            if(m === '<') return '&lt;';
+            if(m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    function showToast(text, type = 'success') {
+        const toast = document.getElementById('toast');
+        toast.className = 'toast';
+        if(type === 'error') toast.classList.add('error');
+        toast.style.display = 'block';
+        toast.innerText = text;
+        setTimeout(() => toast.style.display = 'none', 3000);
+    }
+    
+    // ==================== ТЕМА ====================
+    function applyTheme() {
+        if(isDarkTheme){
+            document.body.classList.add('dark-theme');
+            document.getElementById('themeToggle').innerHTML = '☀️ Светлая';
+        } else {
+            document.body.classList.remove('dark-theme');
+            document.getElementById('themeToggle').innerHTML = '🌙 Тёмная';
+        }
+    }
+    
+    // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+    document.addEventListener('DOMContentLoaded', function() {
+        // проверка секретного ключа
+        const urlParams = new URLSearchParams(window.location.search);
+        const keyParam = urlParams.get('secret');
+        if(!keyParam || keyParam !== 'INVENTORY2026'){
+            document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;"><div style="background:white;padding:40px;border-radius:30px;"><h1>🔒 Доступ ограничен</h1><p>Требуется секретный ключ</p><code>?secret=INVENTORY2026</code></div></div>`;
+            return;
+        }
+        
+        const loaded = loadFromLocal();
+        if(!loaded || inventoryItems.length === 0){
+            // демо-данные пустые, чтобы не было пустоты
+            inventoryItems = [];
+            nextId = 1;
+            saveToLocal();
+            renderTable();
+        } else {
+            renderTable();
+        }
+        
+        // Загрузка CSV
+        document.getElementById('csvFileInput').addEventListener('change', function(e){
+            const file = e.target.files[0];
+            if(file){
+                loadCSVAndInit(file);
+            }
+        });
+        document.getElementById('loadCsvBtn').addEventListener('click', function(){
+            document.getElementById('csvFileInput').click();
+        });
+        document.getElementById('applyAllBtn').addEventListener('click', applyAllFactual);
+        document.getElementById('showMismatchesBtn').addEventListener('click', showMismatchesModal);
+        document.getElementById('exportMismatchesBtn').addEventListener('click', exportMismatchesToCSV);
+        document.getElementById('closeMismatchModal').addEventListener('click', function(){
+            document.getElementById('mismatchModal').classList.remove('active');
+        });
+        document.getElementById('mismatchModal').addEventListener('click', function(e){
+            if(e.target === this) this.classList.remove('active');
+        });
+        
+        // поиск
+        document.getElementById('searchInput').addEventListener('input', function(e){
+            searchTerm = e.target.value;
+            renderTable();
+        });
+        
+        // тема
+        document.getElementById('themeToggle').addEventListener('click', function(){
+            isDarkTheme = !isDarkTheme;
+            localStorage.setItem('inventory_dark_theme', isDarkTheme);
+            applyTheme();
+        });
+        applyTheme();
+        
+        // если нет данных, показываем подсказку
+        if(inventoryItems.length === 0){
+            const tbody = document.getElementById('inventoryTableBody');
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">📂 Загрузите CSV-файл с остатками из 1С, чтобы начать инвентаризацию</td></tr>';
+        }
+    });
+})();
+</script>
 </body>
 </html>
