@@ -152,6 +152,19 @@
             color: white;
             border: none;
         }
+        .btn-outline-warning {
+            background: transparent;
+            border: 1px solid #f59e0b;
+            color: #f59e0b;
+        }
+        .dark-theme .btn-outline-warning {
+            border-color: #f59e0b;
+            color: #f59e0b;
+        }
+        .btn-outline-warning.active {
+            background: #f59e0b;
+            color: white;
+        }
         .search-bar {
             background: white;
             border-radius: 20px;
@@ -212,6 +225,38 @@
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
+        }
+        .filter-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 30px;
+        }
+        .dark-theme .filter-group {
+            background: #0f172a;
+        }
+        .filter-label {
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+        .filter-btn {
+            background: transparent;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #64748b;
+        }
+        .filter-btn.active {
+            background: #3b82f6;
+            color: white;
+        }
+        .dark-theme .filter-btn.active {
+            background: #3b82f6;
         }
         .data-status {
             display: flex;
@@ -476,46 +521,6 @@
         .loading-overlay.active {
             display: flex;
         }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-        .modal.active {
-            display: flex;
-        }
-        .modal-content {
-            background: white;
-            border-radius: 24px;
-            padding: 20px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        .dark-theme .modal-content {
-            background: #1e293b;
-            color: #e2e8f0;
-        }
-        .spinner {
-            width: 24px;
-            height: 24px;
-            border: 3px solid #e2e8f0;
-            border-top-color: #3b82f6;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
         .empty-state {
             text-align: center;
             padding: 40px 20px;
@@ -524,12 +529,6 @@
         .github-buttons {
             display: flex;
             gap: 6px;
-            flex-wrap: wrap;
-        }
-        .upload-section {
-            display: flex;
-            gap: 8px;
-            align-items: center;
             flex-wrap: wrap;
         }
     </style>
@@ -570,10 +569,15 @@
                 <span>⚠️ <strong id="mismatchCount">0</strong></span>
                 <span>✅ <strong id="matchCount">0</strong></span>
             </div>
+            <div class="filter-group">
+                <span class="filter-label">Фильтр:</span>
+                <button class="filter-btn active" data-filter="all">Все</button>
+                <button class="filter-btn" data-filter="mismatch">⚠️ Только расхождения</button>
+                <button class="filter-btn" data-filter="match">✅ Без расхождений</button>
+            </div>
             <div class="btn-group">
                 <button class="btn btn-success btn-small" id="applyAllBtn">💾 Сохранить</button>
-                <button class="btn btn-warning btn-small" id="showMismatchesBtn">⚠️ Расхождения</button>
-                <button class="btn" id="exportMismatchesBtn" style="background:#8b5cf6; color:white;">📎 Выгрузить</button>
+                <button class="btn" id="exportMismatchesBtn" style="background:#8b5cf6; color:white;">📎 Выгрузить расхождения</button>
                 <button class="btn btn-purple" id="loadMismatchesBtn">📥 Загрузить расхождения</button>
             </div>
         </div>
@@ -587,9 +591,6 @@
     <input type="file" id="mismatchesFileInput" accept=".csv" style="display: none;">
 </div>
 
-<div class="modal" id="mismatchModal">
-    <div class="modal-content"><h3>⚠️ Товары с расхождениями</h3><div id="mismatchList"></div><button class="btn" id="closeMismatchModal" style="margin-top:20px;">Закрыть</button></div>
-</div>
 <div class="modal" id="tokenModal">
     <div class="modal-content"><h2>🔑 GitHub Token</h2><p>Введите токен с правами на запись</p><input type="password" id="githubToken" style="width:100%; margin:15px 0; padding:10px; border-radius:16px;"><div style="display:flex; gap:10px;"><button class="btn" id="cancelTokenBtn">Отмена</button><button class="btn btn-primary" id="saveTokenBtn">Сохранить</button></div></div>
 </div>
@@ -614,6 +615,7 @@
     let githubToken = localStorage.getItem('github_token') || '';
     let sortField = 'category';
     let sortAscending = true;
+    let viewFilter = 'all'; // all, mismatch, match
     
     function utf8ToBase64(str){
         try { return btoa(unescape(encodeURIComponent(str))); } catch(e){ return ''; }
@@ -623,11 +625,11 @@
     }
     
     function saveToLocal(){
-        localStorage.setItem('inventory_data_v8', JSON.stringify({ items: inventoryItems, nextId }));
+        localStorage.setItem('inventory_data_v9', JSON.stringify({ items: inventoryItems, nextId }));
     }
     
     function loadFromLocal(){
-        const saved = localStorage.getItem('inventory_data_v8');
+        const saved = localStorage.getItem('inventory_data_v9');
         if(saved){
             try{
                 const data = JSON.parse(saved);
@@ -703,7 +705,6 @@
         return false;
     }
     
-    // Парсинг CSV из 1С
     function parseCSVAndMerge(csvText){
         const lines = csvText.split(/\r?\n/);
         if(lines.length === 0) return [];
@@ -768,12 +769,11 @@
         }
         
         if(skipped > 0 && merged.length > 0){
-            showToast(`📊 Загружено ${merged.length} активных (${skipped} скрытых пропущено). Сохранены предыдущие фактические остатки.`, 'success');
+            showToast(`📊 Загружено ${merged.length} активных (${skipped} скрытых пропущено)`, 'success');
         }
         return merged;
     }
     
-    // Загрузка расхождений из CSV (Наименование;Категория;Фактический остаток)
     function loadMismatchesFromCSV(csvText){
         const lines = csvText.split(/\r?\n/);
         if(lines.length === 0) return [];
@@ -781,17 +781,15 @@
         if(header.startsWith('\uFEFF')) header = header.substring(1);
         const headers = header.split(';').map(h => h.trim().toLowerCase());
         
-        // Ищем колонки: наименование, категория, фактический остаток
         let nameIdx = headers.findIndex(h => h.includes('наименование') || h === 'наименование');
         let categoryIdx = headers.findIndex(h => h.includes('категория') || h === 'категория');
         let factIdx = headers.findIndex(h => h.includes('фактический') || h.includes('факт') || h === 'фактический остаток');
         
         if(nameIdx === -1 || factIdx === -1){
-            showToast('❌ CSV должен содержать колонки: Наименование, Фактический остаток (и желательно Категория)', 'error');
+            showToast('❌ CSV должен содержать колонки: Наименование, Фактический остаток', 'error');
             return [];
         }
         
-        const updates = [];
         let updatedCount = 0;
         let notFoundCount = 0;
         
@@ -808,7 +806,6 @@
             
             if(!name) continue;
             
-            // Ищем товар по имени и категории (если указана)
             let found = null;
             if(category){
                 found = inventoryItems.find(item => 
@@ -823,7 +820,6 @@
             if(found){
                 found.factQuantity = factQuantity;
                 updatedCount++;
-                updates.push(found);
             } else {
                 notFoundCount++;
             }
@@ -836,7 +832,6 @@
         } else {
             showToast(`❌ Товары не найдены. Проверьте названия в CSV`, 'error');
         }
-        return updates;
     }
     
     function loadCSVAndInit(file){
@@ -850,7 +845,7 @@
             inventoryItems = merged;
             saveToLocal();
             renderAll();
-            showToast(`✅ Загружено ${inventoryItems.length} товаров. Фактические остатки сохранены!`, 'success');
+            showToast(`✅ Загружено ${inventoryItems.length} товаров`, 'success');
         };
         reader.readAsText(file, 'UTF-8');
     }
@@ -877,6 +872,16 @@
         return inventoryItems.filter(item => item.factQuantity !== item.systemQuantity);
     }
     
+    function applyFilter(items){
+        if(viewFilter === 'mismatch'){
+            return items.filter(item => item.factQuantity !== item.systemQuantity);
+        }
+        if(viewFilter === 'match'){
+            return items.filter(item => item.factQuantity === item.systemQuantity);
+        }
+        return items;
+    }
+    
     function sortItems(arr){
         return [...arr].sort((a,b) => {
             let comp = 0;
@@ -890,7 +895,10 @@
     function renderCards(items){
         const container = document.getElementById('cardsContainer');
         if(items.length === 0){
-            container.innerHTML = '<div class="empty-state">📭 Нет данных. Загрузите CSV (только Активен)</div>';
+            let msg = '📭 Нет данных. Загрузите CSV';
+            if(viewFilter === 'mismatch') msg = '✨ Нет товаров с расхождениями';
+            if(viewFilter === 'match') msg = '📦 Нет товаров без расхождений';
+            container.innerHTML = `<div class="empty-state">${msg}</div>`;
             return;
         }
         container.innerHTML = items.map(item => {
@@ -930,7 +938,10 @@
     function renderTable(items){
         const tbody = document.getElementById('tableBody');
         if(items.length === 0){
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px;">Нет данных</td></tr>';
+            let msg = 'Нет данных';
+            if(viewFilter === 'mismatch') msg = 'Нет товаров с расхождениями';
+            if(viewFilter === 'match') msg = 'Нет товаров без расхождений';
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px;">${msg}</td></tr>`;
             return;
         }
         tbody.innerHTML = items.map(item => {
@@ -959,6 +970,7 @@
             const term = searchTerm.toLowerCase();
             filtered = filtered.filter(i => i.name.toLowerCase().includes(term) || i.category.toLowerCase().includes(term));
         }
+        filtered = applyFilter(filtered);
         const sorted = sortItems(filtered);
         renderCards(sorted);
         renderTable(sorted);
@@ -967,23 +979,15 @@
         const mismatches = getMismatches();
         document.getElementById('mismatchCount').innerText = mismatches.length;
         document.getElementById('matchCount').innerText = inventoryItems.length - mismatches.length;
-    }
-    
-    function showMismatchesModal(){
-        const mismatches = getMismatches();
-        if(mismatches.length === 0){
-            showToast('✨ Нет расхождений!', 'success');
-            return;
-        }
-        const container = document.getElementById('mismatchList');
-        container.innerHTML = mismatches.map(item => `
-            <div style="padding:10px; border-bottom:1px solid #e2e8f0;">
-                <strong>${escapeHtml(item.name)}</strong> (${escapeHtml(item.category)})<br>
-                📊 Учёт: ${item.systemQuantity} шт | ✏️ Факт: ${item.factQuantity} шт
-                <span style="color:#ef4444;"> → ${item.factQuantity - item.systemQuantity}</span>
-            </div>
-        `).join('');
-        document.getElementById('mismatchModal').classList.add('active');
+        
+        // Обновляем активный класс кнопок фильтра
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            if(btn.dataset.filter === viewFilter){
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
     }
     
     function exportMismatchesToCSV(){
@@ -1038,23 +1042,29 @@
         document.getElementById('csvFileInput').addEventListener('change', (e) => { if(e.target.files[0]) loadCSVAndInit(e.target.files[0]); });
         document.getElementById('loadCsvBtn').addEventListener('click', () => document.getElementById('csvFileInput').click());
         document.getElementById('applyAllBtn').addEventListener('click', () => { saveToLocal(); renderAll(); showToast('✅ Фактические остатки сохранены', 'success'); });
-        document.getElementById('showMismatchesBtn').addEventListener('click', showMismatchesModal);
         document.getElementById('exportMismatchesBtn').addEventListener('click', exportMismatchesToCSV);
         document.getElementById('loadMismatchesBtn').addEventListener('click', () => document.getElementById('mismatchesFileInput').click());
         document.getElementById('mismatchesFileInput').addEventListener('change', (e) => { if(e.target.files[0]) loadMismatchesFile(e.target.files[0]); });
         document.getElementById('searchInput').addEventListener('input', (e) => { searchTerm = e.target.value; renderAll(); });
         document.getElementById('themeToggle').addEventListener('click', () => { isDarkTheme = !isDarkTheme; localStorage.setItem('inventory_dark_theme', isDarkTheme); applyTheme(); });
         
+        // Фильтры
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                viewFilter = btn.dataset.filter;
+                renderAll();
+            });
+        });
+        
         document.getElementById('showTokenBtn').addEventListener('click', () => { document.getElementById('githubToken').value = githubToken; document.getElementById('tokenModal').classList.add('active'); });
         document.getElementById('saveTokenBtn').addEventListener('click', () => { const t = document.getElementById('githubToken').value.trim(); if(t){ githubToken = t; localStorage.setItem('github_token', t); document.getElementById('tokenModal').classList.remove('active'); updateRepoDisplay(); } });
         document.getElementById('cancelTokenBtn').addEventListener('click', () => document.getElementById('tokenModal').classList.remove('active'));
         document.getElementById('saveToGithubBtn').addEventListener('click', () => saveToGithub(true));
         document.getElementById('loadFromGithubBtn').addEventListener('click', () => loadFromGithub(true));
-        document.getElementById('closeMismatchModal').addEventListener('click', () => document.getElementById('mismatchModal').classList.remove('active'));
         
         applyTheme();
         if(inventoryItems.length === 0){
-            document.getElementById('cardsContainer').innerHTML = '<div class="empty-state">📁 Нажмите "CSV (1С)" для загрузки активных товаров<br>⚠️ Загружаются только товары со статусом "Активен"<br>💾 Введённые фактические остатки сохраняются при повторной загрузке CSV<br>📥 "Загрузить расхождения" - обновляет фактические остатки из файла (формат: Наименование;Категория;Фактический остаток)</div>';
+            document.getElementById('cardsContainer').innerHTML = '<div class="empty-state">📁 Нажмите "CSV (1С)" для загрузки активных товаров<br>⚠️ Загружаются только товары со статусом "Активен"<br>🔍 Используйте фильтр "Только расхождения" для просмотра несовпадающих остатков</div>';
         }
     });
 })();
