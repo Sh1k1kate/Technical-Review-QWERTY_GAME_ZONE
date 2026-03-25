@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>Инвентаризация со сверкой остатков</title>
     <link rel="icon" type="image/png" sizes="32x32" href="free-icon-food-and-drink-9290087.png">
     <style>
@@ -15,7 +15,7 @@
         body {
             background: #f4f7fb;
             color: #1e293b;
-            padding: 10px;
+            padding: 12px;
             min-height: 100vh;
         }
         body.dark-theme {
@@ -30,12 +30,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             flex-wrap: wrap;
             gap: 10px;
         }
         h1 {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             font-weight: 600;
             background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             -webkit-background-clip: text;
@@ -45,8 +45,9 @@
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 40px;
-            padding: 10px 20px;
+            padding: 8px 16px;
             cursor: pointer;
+            font-size: 0.9rem;
         }
         .dark-theme .theme-toggle {
             background: #1e293b;
@@ -55,20 +56,22 @@
         }
         .nav-links {
             display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
         }
         .nav-link {
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 40px;
-            padding: 12px 20px;
+            padding: 8px 16px;
             text-decoration: none;
             color: #1e293b;
             font-weight: 500;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            font-size: 0.9rem;
         }
         .dark-theme .nav-link {
             background: #1e293b;
@@ -82,15 +85,15 @@
         }
         .github-panel {
             background: white;
-            border-radius: 30px;
-            padding: 16px 20px;
-            margin-bottom: 20px;
+            border-radius: 24px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 12px;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         .dark-theme .github-panel {
             background: #1e293b;
@@ -98,14 +101,15 @@
         .repo-info {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 0.95rem;
+            gap: 8px;
+            font-size: 0.8rem;
             flex-wrap: wrap;
         }
         .repo-info span {
             background: #f1f5f9;
-            padding: 8px 15px;
-            border-radius: 30px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
         }
         .dark-theme .repo-info span {
             background: #0f172a;
@@ -114,14 +118,14 @@
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 30px;
-            padding: 10px 16px;
-            font-size: 0.95rem;
+            padding: 8px 14px;
+            font-size: 0.85rem;
             font-weight: 500;
             cursor: pointer;
             transition: 0.2s;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
         .dark-theme .btn {
             background: #0f172a;
@@ -145,52 +149,86 @@
         }
         .search-bar {
             background: white;
-            border-radius: 30px;
-            padding: 16px 20px;
-            margin-bottom: 20px;
+            border-radius: 24px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 12px;
             align-items: center;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         .dark-theme .search-bar {
             background: #1e293b;
         }
         .search-box {
             flex: 2;
-            min-width: 250px;
+            min-width: 200px;
             position: relative;
         }
         .search-box input {
             width: 100%;
-            padding: 12px 12px 12px 40px;
+            padding: 10px 12px 10px 36px;
             border: 1px solid #e2e8f0;
             border-radius: 30px;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         .dark-theme .search-box input {
             background: #0f172a;
             border-color: #334155;
             color: white;
         }
-        .csv-upload {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
+        .search-box::before {
+            content: "🔍";
+            position: absolute;
+            left: 12px;
+            top: 9px;
+            font-size: 0.9rem;
         }
-        .csv-upload input {
-            padding: 8px;
+        .stats-panel {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            flex: 1;
+        }
+        .stat-badge {
+            background: #f1f5f9;
             border-radius: 30px;
-            border: 1px solid #e2e8f0;
+            padding: 8px 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-size: 0.8rem;
+        }
+        .dark-theme .stat-badge {
+            background: #0f172a;
+        }
+        .stat-badge span {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .data-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 5px 12px;
+            border-radius: 30px;
+            background: #f1f5f9;
+            white-space: nowrap;
+        }
+        .dark-theme .data-status {
+            background: #0f172a;
         }
         .table-container {
             background: white;
-            border-radius: 30px;
-            padding: 20px;
+            border-radius: 24px;
+            padding: 12px;
             overflow-x: auto;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         .dark-theme .table-container {
             background: #1e293b;
@@ -198,16 +236,18 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 800px;
+            min-width: 600px;
+            font-size: 0.85rem;
         }
         th {
             text-align: left;
-            padding: 15px 10px;
+            padding: 12px 8px;
             background: #f8fafc;
             font-weight: 600;
             color: #475569;
             cursor: pointer;
             user-select: none;
+            font-size: 0.8rem;
         }
         .dark-theme th {
             background: #0f172a;
@@ -220,7 +260,7 @@
             background: #334155;
         }
         td {
-            padding: 12px 10px;
+            padding: 10px 8px;
             border-bottom: 1px solid #e2e8f0;
         }
         .dark-theme td {
@@ -233,13 +273,14 @@
             background: #7f1a1a;
         }
         .fact-input {
-            width: 100px;
-            padding: 8px;
+            width: 85px;
+            padding: 6px 8px;
             border-radius: 20px;
             border: 1px solid #cbd5e1;
             text-align: center;
             background: white;
             color: #1e293b;
+            font-size: 0.85rem;
         }
         .dark-theme .fact-input {
             background: #1e293b;
@@ -248,22 +289,24 @@
         }
         .system-quantity {
             display: inline-block;
-            padding: 4px 12px;
+            padding: 3px 10px;
             border-radius: 20px;
             font-weight: 600;
             background: #f1f5f9;
             color: #1e293b;
+            font-size: 0.8rem;
         }
         .dark-theme .system-quantity {
             background: #334155;
             color: #f1f5f9;
         }
         .badge {
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: 20px;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.7rem;
             display: inline-block;
+            white-space: nowrap;
         }
         .badge-match { 
             background: #22c55e; 
@@ -273,41 +316,29 @@
             background: #ef4444; 
             color: white; 
         }
-        .stats-panel {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        .stat-badge {
-            background: white;
-            border-radius: 30px;
-            padding: 12px 20px;
+        .filter-info {
+            background: #fef3c7;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #92400e;
             display: inline-flex;
-            gap: 15px;
+            align-items: center;
+            gap: 4px;
+        }
+        .dark-theme .filter-info {
+            background: #422006;
+            color: #fde047;
+        }
+        .btn-group {
+            display: flex;
+            gap: 8px;
             flex-wrap: wrap;
         }
-        .dark-theme .stat-badge {
-            background: #1e293b;
-        }
-        .export-btn {
-            background: #8b5cf6;
-            color: white;
-            border: none;
-        }
-        .data-status {
+        .github-buttons {
             display: flex;
-            align-items: center;
             gap: 6px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            padding: 8px 15px;
-            border-radius: 30px;
-            background: #f1f5f9;
-        }
-        .dark-theme .data-status {
-            background: #0f172a;
+            flex-wrap: wrap;
         }
         .toast {
             position: fixed;
@@ -316,10 +347,15 @@
             transform: translateX(-50%);
             background: #22c55e;
             color: white;
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 40px;
             animation: fade 3s;
             z-index: 3000;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            max-width: 90%;
+            white-space: normal;
+            text-align: center;
         }
         .toast.error { background: #ef4444; }
         @keyframes fade {
@@ -354,16 +390,16 @@
             z-index: 2000;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 16px;
         }
         .modal.active {
             display: flex;
         }
         .modal-content {
             background: white;
-            border-radius: 30px;
-            padding: 30px;
-            max-width: 600px;
+            border-radius: 24px;
+            padding: 20px;
+            max-width: 500px;
             width: 100%;
             max-height: 80vh;
             overflow-y: auto;
@@ -372,16 +408,17 @@
             background: #1e293b;
             color: #e2e8f0;
         }
-        .filter-info {
-            background: #fef3c7;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            color: #92400e;
+        .mismatch-list {
+            max-height: 400px;
+            overflow-y: auto;
         }
-        .dark-theme .filter-info {
-            background: #422006;
-            color: #fde047;
+        .mismatch-item {
+            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+        }
+        .dark-theme .mismatch-item {
+            border-bottom-color: #334155;
         }
         .spinner {
             width: 24px;
@@ -396,11 +433,53 @@
         }
         .loading-spinner {
             background: white;
-            padding: 20px 30px;
+            padding: 15px 25px;
             border-radius: 60px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 8px;
+            }
+            h1 {
+                font-size: 1.2rem;
+            }
+            .github-panel {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .repo-info {
+                justify-content: center;
+            }
+            .github-buttons {
+                justify-content: center;
+            }
+            .search-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .stats-panel {
+                justify-content: space-between;
+            }
+            .stat-badge {
+                justify-content: center;
+            }
+            .btn-group {
+                justify-content: center;
+            }
+            th, td {
+                padding: 8px 6px;
+            }
+            .fact-input {
+                width: 70px;
+                padding: 4px 6px;
+            }
+            .badge {
+                font-size: 0.65rem;
+                padding: 2px 6px;
+            }
         }
     </style>
 </head>
@@ -411,7 +490,7 @@
         <a href="inventory.html?secret=INVENTORY2026" class="nav-link primary">📦 Инвентаризация</a>
     </div>
     <div class="header">
-        <h1>📊 Сверка остатков (инвентаризация)</h1>
+        <h1>📊 Сверка остатков</h1>
         <div class="theme-toggle" id="themeToggle">🌙 Тёмная</div>
     </div>
 
@@ -419,13 +498,13 @@
         <div class="repo-info">
             <span>📦 <strong id="repoDisplay">Sh1k1kate/Technical-Review-QWERTY_GAME_ZONE</strong></span>
             <span id="tokenStatus" style="background: #fef3c7;">🔑 Токен не установлен</span>
-            <span class="filter-info">✅ Только активные товары из CSV</span>
+            <span class="filter-info">✅ <span id="filterBadgeText">Только Активен</span></span>
         </div>
         <div class="github-buttons">
             <button class="btn" id="showTokenBtn">🔑 Токен</button>
-            <button class="btn btn-primary" id="saveToGithubBtn">💾 Сохранить в GitHub</button>
-            <button class="btn" id="loadFromGithubBtn">📂 Загрузить из GitHub</button>
-            <button class="btn btn-success" id="loadCsvBtn">📁 Загрузить CSV (1С)</button>
+            <button class="btn btn-primary" id="saveToGithubBtn">💾 GitHub</button>
+            <button class="btn" id="loadFromGithubBtn">📂 GitHub</button>
+            <button class="btn btn-success" id="loadCsvBtn">📁 CSV (1С)</button>
         </div>
         <input type="file" id="csvFileInput" accept=".csv" style="display: none;">
     </div>
@@ -436,15 +515,17 @@
         </div>
         <div class="stats-panel">
             <div class="stat-badge">
-                <span>📦 Активных товаров: <strong id="totalCount">0</strong></span>
-                <span>⚠️ Расхождения: <strong id="mismatchCount">0</strong></span>
-                <span>✅ Совпадают: <strong id="matchCount">0</strong></span>
+                <span>📦 <strong id="totalCount">0</strong></span>
+                <span>⚠️ <strong id="mismatchCount">0</strong></span>
+                <span>✅ <strong id="matchCount">0</strong></span>
             </div>
-            <button class="btn btn-success" id="applyAllBtn">💾 Сохранить все фактические остатки</button>
-            <button class="btn btn-warning" id="showMismatchesBtn">⚠️ Показать расхождения</button>
-            <button class="btn export-btn" id="exportMismatchesBtn">📎 Выгрузить расхождения (CSV)</button>
+            <div class="btn-group">
+                <button class="btn btn-success" id="applyAllBtn" style="padding: 6px 12px;">💾 Сохранить</button>
+                <button class="btn btn-warning" id="showMismatchesBtn" style="padding: 6px 12px;">⚠️ Расхождения</button>
+                <button class="btn export-btn" id="exportMismatchesBtn" style="padding: 6px 12px; background:#8b5cf6; color:white;">📎 CSV</button>
+            </div>
         </div>
-        <div class="data-status" id="dataStatus">💾 Данные загружены</div>
+        <div class="data-status" id="dataStatus">💾 Загружены</div>
     </div>
 
     <div class="table-container">
@@ -453,8 +534,8 @@
                 <tr>
                     <th onclick="window.sortBy('category')">Категория ⬇️⬆️</th>
                     <th onclick="window.sortBy('name')">Наименование ⬇️⬆️</th>
-                    <th onclick="window.sortBy('systemQuantity')">Остаток в CSV (учётный) ⬇️⬆️</th>
-                    <th>Фактический остаток (вручную)</th>
+                    <th onclick="window.sortBy('systemQuantity')">Учёт ⬇️⬆️</th>
+                    <th>Фактический</th>
                     <th>Статус</th>
                 </tr>
             </thead>
@@ -467,7 +548,7 @@
     <div class="modal-content">
         <h3>⚠️ Товары с расхождениями</h3>
         <div id="mismatchList" class="mismatch-list"></div>
-        <div class="modal-buttons" style="margin-top:20px;">
+        <div style="margin-top:20px;">
             <button class="btn" id="closeMismatchModal">Закрыть</button>
         </div>
     </div>
@@ -476,9 +557,9 @@
 <div class="modal" id="tokenModal">
     <div class="modal-content">
         <h2>🔑 GitHub Token</h2>
-        <p>Введите токен с правами на запись в репозиторий</p>
-        <input type="password" class="fact-input" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxx" style="width:100%; margin: 20px 0;">
-        <div class="modal-buttons">
+        <p>Введите токен с правами на запись</p>
+        <input type="password" class="fact-input" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxx" style="width:100%; margin: 15px 0; padding: 10px;">
+        <div style="display: flex; gap: 10px;">
             <button class="btn" id="cancelTokenBtn">Отмена</button>
             <button class="btn btn-primary" id="saveTokenBtn">Сохранить</button>
         </div>
@@ -495,22 +576,15 @@
 
 <script>
 (function(){
-    // ==================== КОНФИГУРАЦИЯ ====================
-    const GITHUB_CONFIG = {
-        owner: 'Sh1k1kate',
-        repo: 'Technical-Review-QWERTY_GAME_ZONE'
-    };
+    const GITHUB_CONFIG = { owner: 'Sh1k1kate', repo: 'Technical-Review-QWERTY_GAME_ZONE' };
     const DATA_FILE = 'inventory_data.json';
     const SECRET_WORD = 'INVENTORY2026';
     
-    // Проверка доступа
-    const urlParams = new URLSearchParams(window.location.search);
-    if(!urlParams.get('secret') || urlParams.get('secret') !== SECRET_WORD){
-        document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;"><div style="background:white;padding:40px;border-radius:30px;"><h1>🔒 Доступ ограничен</h1><p>Требуется секретный ключ</p><code>?secret=INVENTORY2026</code></div></div>`;
+    if(!window.location.search.includes(`secret=${SECRET_WORD}`)){
+        document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;"><div style="background:white;padding:30px;border-radius:24px;"><h1>🔒 Доступ ограничен</h1><p>Требуется секретный ключ</p><code>?secret=${SECRET_WORD}</code></div></div>`;
         return;
     }
     
-    // ==================== ДАННЫЕ ====================
     let inventoryItems = [];
     let nextId = 1;
     let searchTerm = '';
@@ -519,101 +593,81 @@
     let sortField = 'category';
     let sortAscending = true;
     
-    // ==================== UTF-8 ФУНКЦИИ ====================
-    function utf8ToBase64(str) {
-        try {
-            return btoa(unescape(encodeURIComponent(str)));
-        } catch (e) { return ''; }
+    function utf8ToBase64(str){
+        try { return btoa(unescape(encodeURIComponent(str))); } catch(e){ return ''; }
     }
-    function base64ToUtf8(base64) {
-        try {
-            return decodeURIComponent(escape(atob(base64)));
-        } catch (e) { return ''; }
+    function base64ToUtf8(base64){
+        try { return decodeURIComponent(escape(atob(base64))); } catch(e){ return ''; }
     }
     
-    // ==================== ЛОКАЛЬНОЕ ХРАНЕНИЕ ====================
-    function saveToLocal() {
-        localStorage.setItem('inventory_data_v4', JSON.stringify({ items: inventoryItems, nextId }));
+    function saveToLocal(){
+        localStorage.setItem('inventory_data_v5', JSON.stringify({ items: inventoryItems, nextId }));
     }
     
-    function loadFromLocal() {
-        const saved = localStorage.getItem('inventory_data_v4');
+    function loadFromLocal(){
+        const saved = localStorage.getItem('inventory_data_v5');
         if(saved){
             try{
                 const data = JSON.parse(saved);
                 inventoryItems = data.items || [];
                 nextId = data.nextId || 1;
                 renderTable();
-                updateStats();
                 return true;
             }catch(e){}
         }
         return false;
     }
     
-    // ==================== GITHUB ====================
-    function updateRepoDisplay() {
+    function updateRepoDisplay(){
         document.getElementById('repoDisplay').textContent = `${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`;
         const tokenStatus = document.getElementById('tokenStatus');
         if(githubToken){
-            tokenStatus.innerHTML = '✅ Токен установлен';
+            tokenStatus.innerHTML = '✅ Токен есть';
             tokenStatus.style.background = '#dcfce7';
         } else {
-            tokenStatus.innerHTML = '🔑 Токен не установлен';
+            tokenStatus.innerHTML = '🔑 Нет токена';
             tokenStatus.style.background = '#fef3c7';
         }
     }
     
-    async function saveToGithub(showToastMessage = true) {
-        if(!githubToken){
-            if(showToastMessage) showToast('❌ Сначала установите токен', 'error');
-            return false;
-        }
+    async function saveToGithub(showMsg = true){
+        if(!githubToken){ showToast('❌ Установите токен', 'error'); return false; }
         try {
             updateDataStatus('saving');
             const data = { items: inventoryItems, lastUpdated: new Date().toISOString() };
             const content = utf8ToBase64(JSON.stringify(data, null, 2));
-            const getUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
-            const getResponse = await fetch(getUrl, { headers: { 'Authorization': `token ${githubToken}` } });
+            const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
+            const getRes = await fetch(url, { headers: { 'Authorization': `token ${githubToken}` } });
             let sha = null;
-            if(getResponse.ok){
-                const fileData = await getResponse.json();
-                sha = fileData.sha;
-            }
-            const putResponse = await fetch(getUrl, {
+            if(getRes.ok){ const d = await getRes.json(); sha = d.sha; }
+            const putRes = await fetch(url, {
                 method: 'PUT',
                 headers: { 'Authorization': `token ${githubToken}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: `Обновление от ${new Date().toLocaleString()}`, content: content, branch: 'main', sha: sha })
+                body: JSON.stringify({ message: `Обновление ${new Date().toLocaleString()}`, content: content, branch: 'main', sha: sha })
             });
-            if(!putResponse.ok) throw new Error('Ошибка сохранения');
+            if(!putRes.ok) throw new Error();
             updateDataStatus('saved');
-            if(showToastMessage) showToast('✅ Сохранено в GitHub');
+            if(showMsg) showToast('✅ Сохранено в GitHub');
             return true;
-        } catch(error){
+        } catch(e){
             updateDataStatus('error');
-            if(showToastMessage) showToast('❌ Ошибка сохранения', 'error');
+            if(showMsg) showToast('❌ Ошибка сохранения', 'error');
             return false;
         }
     }
     
-    async function loadFromGithub(showToastMessage = true) {
-        if(!githubToken){
-            if(showToastMessage) showToast('❌ Сначала установите токен', 'error');
-            return false;
-        }
+    async function loadFromGithub(showMsg = true){
+        if(!githubToken){ showToast('❌ Установите токен', 'error'); return false; }
         try {
             document.getElementById('loadingOverlay').classList.add('active');
             updateDataStatus('loading');
             const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
-            const response = await fetch(url, { headers: { 'Authorization': `token ${githubToken}` } });
-            if(!response.ok){
-                if(response.status === 404){
-                    if(showToastMessage) showToast('📭 Файл не найден', 'warning');
-                    return false;
-                }
-                throw new Error('Ошибка загрузки');
+            const res = await fetch(url, { headers: { 'Authorization': `token ${githubToken}` } });
+            if(!res.ok){
+                if(res.status === 404 && showMsg) showToast('📭 Файл не найден', 'warning');
+                return false;
             }
-            const data = await response.json();
+            const data = await res.json();
             const jsonData = JSON.parse(base64ToUtf8(data.content));
             if(jsonData.items){
                 inventoryItems = jsonData.items;
@@ -621,12 +675,12 @@
                 saveToLocal();
                 renderTable();
                 updateDataStatus('loaded');
-                if(showToastMessage) showToast(`✅ Загружено ${inventoryItems.length} товаров из GitHub`);
+                if(showMsg) showToast(`✅ Загружено ${inventoryItems.length} товаров`);
                 return true;
             }
-        } catch(error){
+        } catch(e){
             updateDataStatus('error');
-            if(showToastMessage) showToast('❌ Ошибка загрузки', 'error');
+            if(showMsg) showToast('❌ Ошибка загрузки', 'error');
         } finally {
             document.getElementById('loadingOverlay').classList.remove('active');
         }
@@ -634,36 +688,37 @@
     }
     
     function updateDataStatus(type){
-        const statusEl = document.getElementById('dataStatus');
-        const icons = { loaded: '📂', saved: '💾', saving: '⏳', loading: '📥', error: '❌' };
-        const texts = { loaded: 'Данные загружены', saved: 'Данные сохранены', saving: 'Сохранение...', loading: 'Загрузка...', error: 'Ошибка' };
-        statusEl.innerHTML = `${icons[type] || '📋'} ${texts[type] || ''}`;
+        const el = document.getElementById('dataStatus');
+        const icons = { loaded:'📂', saved:'💾', saving:'⏳', loading:'📥', error:'❌' };
+        const texts = { loaded:'Загружены', saved:'Сохранены', saving:'Сохранение...', loading:'Загрузка...', error:'Ошибка' };
+        el.innerHTML = `${icons[type] || '📋'} ${texts[type] || ''}`;
     }
     
-    // ==================== ПАРСИНГ CSV ====================
-    function parseCSVToItems(csvText) {
+    // Парсинг CSV - берем только статус "Активен"
+    function parseCSVToItems(csvText){
         const lines = csvText.split(/\r?\n/);
         if(lines.length === 0) return [];
         let header = lines[0];
         if(header.startsWith('\uFEFF')) header = header.substring(1);
         const headers = header.split(';').map(h => h.trim());
         
-        let nameIdx = headers.findIndex(h => h.includes('Наименование') || h.toLowerCase() === 'наименование');
-        let categoryIdx = headers.findIndex(h => h.includes('Категория') || h.toLowerCase() === 'категория');
+        let nameIdx = headers.findIndex(h => h.includes('Наименование') || h === 'Наименование');
+        let categoryIdx = headers.findIndex(h => h.includes('Категория') || h === 'Категория');
         let qtyIdx = headers.findIndex(h => h.includes('Текущее_Количество') || h.includes('Количество'));
-        let statusIdx = headers.findIndex(h => h.includes('Статус') || h.toLowerCase() === 'статус');
+        let statusIdx = headers.findIndex(h => h === 'Статус' || h.includes('Статус'));
         
         const items = [];
-        let skipped = 0;
+        let skippedHidden = 0;
         
         for(let i = 1; i < lines.length; i++){
             if(!lines[i].trim()) continue;
             const cols = lines[i].split(';');
             if(cols.length <= Math.max(nameIdx, categoryIdx, qtyIdx, statusIdx)) continue;
             
+            // Проверка статуса - берем только "Активен"
             let status = statusIdx !== -1 ? (cols[statusIdx] || '').trim() : '';
             if(status !== 'Активен') {
-                skipped++;
+                skippedHidden++;
                 continue;
             }
             
@@ -677,18 +732,21 @@
                 items.push({ name, category, systemQuantity: quantity, factQuantity: quantity });
             }
         }
-        if(skipped > 0 && items.length > 0){
-            showToast(`📊 Загружено ${items.length} активных товаров (${skipped} неактивных пропущено)`, 'success');
+        
+        if(skippedHidden > 0 && items.length > 0){
+            showToast(`📊 Загружено ${items.length} активных (${skippedHidden} скрытых пропущено)`, 'success');
+        } else if(items.length === 0 && skippedHidden > 0){
+            showToast(`⚠️ В CSV только скрытые товары (${skippedHidden} шт), активных нет`, 'error');
         }
         return items;
     }
     
-    function loadCSVAndInit(file) {
+    function loadCSVAndInit(file){
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function(e){
             const parsed = parseCSVToItems(e.target.result);
             if(parsed.length === 0){
-                showToast('❌ Не найдено активных товаров в CSV', 'error');
+                showToast('❌ Нет активных товаров в CSV', 'error');
                 return;
             }
             inventoryItems = parsed.map((item, idx) => ({
@@ -700,13 +758,11 @@
             }));
             saveToLocal();
             renderTable();
-            updateStats();
             showToast(`✅ Загружено ${inventoryItems.length} активных товаров`, 'success');
         };
         reader.readAsText(file, 'UTF-8');
     }
     
-    // ==================== ОСНОВНЫЕ ФУНКЦИИ ====================
     function updateFactQuantity(id, newFact){
         const item = inventoryItems.find(i => i.id === id);
         if(item){
@@ -714,44 +770,47 @@
             if(isNaN(item.factQuantity)) item.factQuantity = 0;
             saveToLocal();
             renderTable();
-            updateStats();
         }
     }
     
     function applyAllFactual(){
         saveToLocal();
         renderTable();
-        updateStats();
-        showToast('✅ Все фактические остатки сохранены', 'success');
+        showToast('✅ Фактические остатки сохранены', 'success');
     }
     
     function getMismatches(){
         return inventoryItems.filter(item => item.factQuantity !== item.systemQuantity);
     }
     
-    function sortItems(items){
-        return [...items].sort((a,b) => {
-            let comparison = 0;
-            if(sortField === 'category') comparison = a.category.localeCompare(b.category);
-            else if(sortField === 'name') comparison = a.name.localeCompare(b.name);
-            else if(sortField === 'systemQuantity') comparison = a.systemQuantity - b.systemQuantity;
-            return sortAscending ? comparison : -comparison;
+    function sortItems(arr){
+        return [...arr].sort((a,b) => {
+            let comp = 0;
+            if(sortField === 'category') comp = a.category.localeCompare(b.category);
+            else if(sortField === 'name') comp = a.name.localeCompare(b.name);
+            else if(sortField === 'systemQuantity') comp = a.systemQuantity - b.systemQuantity;
+            return sortAscending ? comp : -comp;
         });
     }
     
     function renderTable(){
-        let filtered = inventoryItems.filter(i => {
-            if(!searchTerm) return true;
+        let filtered = inventoryItems;
+        if(searchTerm){
             const term = searchTerm.toLowerCase();
-            return i.name.toLowerCase().includes(term) || i.category.toLowerCase().includes(term);
-        });
+            filtered = filtered.filter(i => i.name.toLowerCase().includes(term) || i.category.toLowerCase().includes(term));
+        }
         const sorted = sortItems(filtered);
         const tbody = document.getElementById('inventoryTableBody');
         tbody.innerHTML = '';
+        
         if(sorted.length === 0){
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:40px;">📂 Нет данных. Загрузите CSV или данные из GitHub</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px;">📂 Нет данных. Загрузите CSV (только Активен)</td></tr>';
+            document.getElementById('totalCount').innerText = inventoryItems.length;
+            document.getElementById('mismatchCount').innerText = getMismatches().length;
+            document.getElementById('matchCount').innerText = inventoryItems.length - getMismatches().length;
             return;
         }
+        
         sorted.forEach(item => {
             const isMismatch = item.factQuantity !== item.systemQuantity;
             const row = document.createElement('tr');
@@ -765,15 +824,13 @@
             `;
             tbody.appendChild(row);
         });
-        document.querySelectorAll('.fact-input').forEach(input => {
-            input.addEventListener('change', (e) => {
-                updateFactQuantity(parseInt(input.dataset.id), input.value);
+        
+        document.querySelectorAll('.fact-input').forEach(inp => {
+            inp.addEventListener('change', (e) => {
+                updateFactQuantity(parseInt(inp.dataset.id), inp.value);
             });
         });
-        updateStats();
-    }
-    
-    function updateStats(){
+        
         document.getElementById('totalCount').innerText = inventoryItems.length;
         const mismatches = getMismatches();
         document.getElementById('mismatchCount').innerText = mismatches.length;
@@ -791,7 +848,7 @@
             <div class="mismatch-item">
                 <strong>${escapeHtml(item.name)}</strong> (${escapeHtml(item.category)})<br>
                 📊 Учёт: ${item.systemQuantity} шт | ✏️ Факт: ${item.factQuantity} шт
-                <span style="color:#ef4444;">→ разница: ${item.factQuantity - item.systemQuantity}</span>
+                <span style="color:#ef4444;"> → ${item.factQuantity - item.systemQuantity}</span>
             </div>
         `).join('');
         document.getElementById('mismatchModal').classList.add('active');
@@ -799,13 +856,10 @@
     
     function exportMismatchesToCSV(){
         const mismatches = getMismatches();
-        if(mismatches.length === 0){
-            showToast('Нет расхождений для экспорта', 'error');
-            return;
-        }
-        const headers = ['Наименование', 'Категория', 'Учётный остаток', 'Фактический остаток', 'Разница'];
-        const rows = mismatches.map(item => [item.name, item.category, item.systemQuantity, item.factQuantity, item.factQuantity - item.systemQuantity]);
-        const csv = [headers, ...rows].map(row => row.join(';')).join('\n');
+        if(mismatches.length === 0){ showToast('Нет расхождений', 'error'); return; }
+        const headers = ['Наименование','Категория','Учётный остаток','Фактический остаток','Разница'];
+        const rows = mismatches.map(i => [i.name, i.category, i.systemQuantity, i.factQuantity, i.factQuantity - i.systemQuantity]);
+        const csv = [headers, ...rows].map(r => r.join(';')).join('\n');
         const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
@@ -845,14 +899,11 @@
         renderTable();
     };
     
-    // ==================== ИНИЦИАЛИЗАЦИЯ ====================
     document.addEventListener('DOMContentLoaded', () => {
         updateRepoDisplay();
         loadFromLocal();
         
-        document.getElementById('csvFileInput').addEventListener('change', (e) => {
-            if(e.target.files[0]) loadCSVAndInit(e.target.files[0]);
-        });
+        document.getElementById('csvFileInput').addEventListener('change', (e) => { if(e.target.files[0]) loadCSVAndInit(e.target.files[0]); });
         document.getElementById('loadCsvBtn').addEventListener('click', () => document.getElementById('csvFileInput').click());
         document.getElementById('applyAllBtn').addEventListener('click', applyAllFactual);
         document.getElementById('showMismatchesBtn').addEventListener('click', showMismatchesModal);
@@ -860,19 +911,8 @@
         document.getElementById('searchInput').addEventListener('input', (e) => { searchTerm = e.target.value; renderTable(); });
         document.getElementById('themeToggle').addEventListener('click', () => { isDarkTheme = !isDarkTheme; localStorage.setItem('inventory_dark_theme', isDarkTheme); applyTheme(); });
         
-        document.getElementById('showTokenBtn').addEventListener('click', () => {
-            document.getElementById('githubToken').value = githubToken;
-            document.getElementById('tokenModal').classList.add('active');
-        });
-        document.getElementById('saveTokenBtn').addEventListener('click', () => {
-            const token = document.getElementById('githubToken').value.trim();
-            if(token){
-                githubToken = token;
-                localStorage.setItem('github_token', token);
-                document.getElementById('tokenModal').classList.remove('active');
-                updateRepoDisplay();
-            }
-        });
+        document.getElementById('showTokenBtn').addEventListener('click', () => { document.getElementById('githubToken').value = githubToken; document.getElementById('tokenModal').classList.add('active'); });
+        document.getElementById('saveTokenBtn').addEventListener('click', () => { const t = document.getElementById('githubToken').value.trim(); if(t){ githubToken = t; localStorage.setItem('github_token', t); document.getElementById('tokenModal').classList.remove('active'); updateRepoDisplay(); } });
         document.getElementById('cancelTokenBtn').addEventListener('click', () => document.getElementById('tokenModal').classList.remove('active'));
         document.getElementById('saveToGithubBtn').addEventListener('click', () => saveToGithub(true));
         document.getElementById('loadFromGithubBtn').addEventListener('click', () => loadFromGithub(true));
@@ -880,7 +920,7 @@
         
         applyTheme();
         if(inventoryItems.length === 0){
-            document.getElementById('inventoryTableBody').innerHTML = '<tr><td colspan="5" style="text-align:center; padding:40px;">📂 Нажмите "Загрузить CSV" для импорта активных товаров из 1С<br>💾 Или "Загрузить из GitHub" для восстановления сохранённых данных</td></tr>';
+            document.getElementById('inventoryTableBody').innerHTML = '=<td colspan="5" style="text-align:center; padding:30px;">📁 Нажмите "CSV (1С)" для загрузки активных товаров<br>⚠️ Загружаются только товары со статусом "Активен"</td>--';
         }
     });
 })();
