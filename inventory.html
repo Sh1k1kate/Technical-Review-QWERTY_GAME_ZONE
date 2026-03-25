@@ -221,7 +221,7 @@
             background: #0f172a;
         }
         
-        /* Карточки для мобильных */
+        /* Карточки */
         .cards-container {
             display: flex;
             flex-direction: column;
@@ -356,17 +356,8 @@
             border-color: #475569;
             color: white;
         }
-        .card-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 8px;
-        }
-        .btn-small {
-            padding: 5px 10px;
-            font-size: 0.7rem;
-        }
         
-        /* Скрываем таблицу на мобильных, показываем карточки */
+        /* Таблица для десктопа */
         .table-container {
             display: none;
         }
@@ -392,6 +383,43 @@
             }
             th, td {
                 padding: 10px 8px;
+                text-align: left;
+            }
+            .fact-input {
+                width: 80px;
+                padding: 6px;
+                border-radius: 16px;
+                border: 1px solid #cbd5e1;
+                text-align: center;
+            }
+            .dark-theme .fact-input {
+                background: #0f172a;
+                border-color: #475569;
+                color: white;
+            }
+            .badge {
+                padding: 4px 10px;
+                border-radius: 20px;
+                font-size: 0.7rem;
+                font-weight: 600;
+                display: inline-block;
+            }
+            .badge-match { background: #22c55e; color: white; }
+            .badge-mismatch { background: #ef4444; color: white; }
+            .system-quantity {
+                background: #f1f5f9;
+                padding: 4px 10px;
+                border-radius: 20px;
+                font-weight: 600;
+            }
+            .dark-theme .system-quantity {
+                background: #334155;
+            }
+            tr.mismatch {
+                background: #fee2e2;
+            }
+            .dark-theme tr.mismatch {
+                background: #7f1a1a;
             }
         }
         
@@ -540,40 +568,18 @@
         <div class="data-status" id="dataStatus">💾 Загружены</div>
     </div>
 
-    <!-- Карточки для мобильных -->
     <div id="cardsContainer" class="cards-container"></div>
-    
-    <!-- Таблица для десктопа -->
     <div class="table-container">
-        <table>
-            <thead>
-                <tr><th onclick="window.sortBy('category')">Категория ⬇️⬆️</th><th onclick="window.sortBy('name')">Наименование ⬇️⬆️</th><th onclick="window.sortBy('systemQuantity')">Учёт ⬇️⬆️</th><th>Фактический</th><th>Статус</th></tr>
-            </thead>
-            <tbody id="tableBody"></tbody>
-        </table>
+        <table><thead><tr><th onclick="window.sortBy('category')">Категория</th><th onclick="window.sortBy('name')">Наименование</th><th onclick="window.sortBy('systemQuantity')">Учёт</th><th>Фактический</th><th>Статус</th></tr></thead><tbody id="tableBody"></tbody></table>
     </div>
 </div>
 
 <div class="modal" id="mismatchModal">
-    <div class="modal-content">
-        <h3>⚠️ Товары с расхождениями</h3>
-        <div id="mismatchList" style="max-height:400px; overflow-y:auto;"></div>
-        <button class="btn" id="closeMismatchModal" style="margin-top:20px;">Закрыть</button>
-    </div>
+    <div class="modal-content"><h3>⚠️ Товары с расхождениями</h3><div id="mismatchList"></div><button class="btn" id="closeMismatchModal" style="margin-top:20px;">Закрыть</button></div>
 </div>
-
 <div class="modal" id="tokenModal">
-    <div class="modal-content">
-        <h2>🔑 GitHub Token</h2>
-        <p>Введите токен с правами на запись</p>
-        <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxx" style="width:100%; margin:15px 0; padding:10px; border-radius:16px; border:1px solid #e2e8f0;">
-        <div style="display:flex; gap:10px;">
-            <button class="btn" id="cancelTokenBtn">Отмена</button>
-            <button class="btn btn-primary" id="saveTokenBtn">Сохранить</button>
-        </div>
-    </div>
+    <div class="modal-content"><h2>🔑 GitHub Token</h2><p>Введите токен с правами на запись</p><input type="password" id="githubToken" style="width:100%; margin:15px 0; padding:10px; border-radius:16px;"><div style="display:flex; gap:10px;"><button class="btn" id="cancelTokenBtn">Отмена</button><button class="btn btn-primary" id="saveTokenBtn">Сохранить</button></div></div>
 </div>
-
 <div id="toast" style="display:none;" class="toast"></div>
 <div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"><div class="spinner"></div><span>Загрузка...</span></div></div>
 
@@ -604,11 +610,11 @@
     }
     
     function saveToLocal(){
-        localStorage.setItem('inventory_data_v6', JSON.stringify({ items: inventoryItems, nextId }));
+        localStorage.setItem('inventory_data_v7', JSON.stringify({ items: inventoryItems, nextId }));
     }
     
     function loadFromLocal(){
-        const saved = localStorage.getItem('inventory_data_v6');
+        const saved = localStorage.getItem('inventory_data_v7');
         if(saved){
             try{
                 const data = JSON.parse(saved);
@@ -684,7 +690,8 @@
         return false;
     }
     
-    function parseCSVToItems(csvText){
+    // Парсинг CSV - берем только Активен, сохраняем существующие factQuantity
+    function parseCSVAndMerge(csvText){
         const lines = csvText.split(/\r?\n/);
         if(lines.length === 0) return [];
         let header = lines[0];
@@ -696,7 +703,7 @@
         let qtyIdx = headers.findIndex(h => h.includes('Текущее_Количество') || h.includes('Количество'));
         let statusIdx = headers.findIndex(h => h === 'Статус' || h.includes('Статус'));
         
-        const items = [];
+        const newItemsMap = new Map();
         let skipped = 0;
         
         for(let i = 1; i < lines.length; i++){
@@ -714,33 +721,59 @@
             if(isNaN(quantity)) quantity = 0;
             
             if(name && category){
-                items.push({ name, category, systemQuantity: quantity, factQuantity: quantity });
+                const key = `${category}|${name}`;
+                newItemsMap.set(key, { name, category, systemQuantity: quantity });
             }
         }
-        if(skipped > 0 && items.length > 0){
-            showToast(`📊 Загружено ${items.length} активных (${skipped} скрытых пропущено)`, 'success');
+        
+        // Объединяем с существующими данными
+        const existingMap = new Map();
+        for(const item of inventoryItems){
+            const key = `${item.category}|${item.name}`;
+            existingMap.set(key, item);
         }
-        return items;
+        
+        const merged = [];
+        for(const [key, newItem] of newItemsMap){
+            const existing = existingMap.get(key);
+            if(existing){
+                // Сохраняем фактические остатки из предыдущей инвентаризации
+                merged.push({
+                    id: existing.id,
+                    category: newItem.category,
+                    name: newItem.name,
+                    systemQuantity: newItem.systemQuantity,
+                    factQuantity: existing.factQuantity
+                });
+            } else {
+                merged.push({
+                    id: nextId++,
+                    category: newItem.category,
+                    name: newItem.name,
+                    systemQuantity: newItem.systemQuantity,
+                    factQuantity: newItem.systemQuantity
+                });
+            }
+        }
+        
+        if(skipped > 0 && merged.length > 0){
+            showToast(`📊 Загружено ${merged.length} активных (${skipped} скрытых пропущено). Сохранены предыдущие фактические остатки.`, 'success');
+        }
+        return merged;
     }
     
     function loadCSVAndInit(file){
         const reader = new FileReader();
         reader.onload = function(e){
-            const parsed = parseCSVToItems(e.target.result);
-            if(parsed.length === 0){
+            const merged = parseCSVAndMerge(e.target.result);
+            if(merged.length === 0){
                 showToast('❌ Нет активных товаров в CSV', 'error');
                 return;
             }
-            inventoryItems = parsed.map((item, idx) => ({
-                id: nextId++,
-                category: item.category,
-                name: item.name,
-                systemQuantity: item.systemQuantity,
-                factQuantity: item.factQuantity,
-            }));
+            inventoryItems = merged;
             saveToLocal();
             renderAll();
-            showToast(`✅ Загружено ${inventoryItems.length} активных товаров`, 'success');
+            showToast(`✅ Загружено ${inventoryItems.length} товаров. Фактические остатки сохранены!`, 'success');
         };
         reader.readAsText(file, 'UTF-8');
     }
@@ -812,7 +845,7 @@
     function renderTable(items){
         const tbody = document.getElementById('tableBody');
         if(items.length === 0){
-            tbody.innerHTML = '=<td colspan="5" style="text-align:center; padding:30px;">Нет данных</td>--';
+            tbody.innerHTML = '=<td colspan="5" style="text-align:center; padding:30px;">Нет данных</td></tr>';
             return;
         }
         tbody.innerHTML = items.map(item => {
@@ -822,7 +855,7 @@
                     <td><strong>${escapeHtml(item.category)}</strong></td>
                     <td>${escapeHtml(item.name)}</td>
                     <td><span class="system-quantity">${item.systemQuantity} шт</span></td>
-                    <td><input type="number" class="fact-input" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0" style="width:80px; padding:6px; border-radius:16px;"></td>
+                    <td><input type="number" class="fact-input" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0"></td>
                     <td><span class="badge ${isMismatch ? 'badge-mismatch' : 'badge-match'}">${isMismatch ? '⚠️ Расхождение' : '✅ Совпадает'}</span></td>
                 </tr>
             `;
@@ -919,7 +952,7 @@
         
         document.getElementById('csvFileInput').addEventListener('change', (e) => { if(e.target.files[0]) loadCSVAndInit(e.target.files[0]); });
         document.getElementById('loadCsvBtn').addEventListener('click', () => document.getElementById('csvFileInput').click());
-        document.getElementById('applyAllBtn').addEventListener('click', () => { saveToLocal(); renderAll(); showToast('✅ Сохранено', 'success'); });
+        document.getElementById('applyAllBtn').addEventListener('click', () => { saveToLocal(); renderAll(); showToast('✅ Фактические остатки сохранены', 'success'); });
         document.getElementById('showMismatchesBtn').addEventListener('click', showMismatchesModal);
         document.getElementById('exportMismatchesBtn').addEventListener('click', exportMismatchesToCSV);
         document.getElementById('searchInput').addEventListener('input', (e) => { searchTerm = e.target.value; renderAll(); });
@@ -934,7 +967,7 @@
         
         applyTheme();
         if(inventoryItems.length === 0){
-            document.getElementById('cardsContainer').innerHTML = '<div class="empty-state">📁 Нажмите "CSV" для загрузки активных товаров<br>⚠️ Загружаются только товары со статусом "Активен"</div>';
+            document.getElementById('cardsContainer').innerHTML = '<div class="empty-state">📁 Нажмите "CSV" для загрузки активных товаров<br>⚠️ Загружаются только товары со статусом "Активен"<br>💾 Введённые фактические остатки сохраняются при повторной загрузке CSV</div>';
         }
     });
 })();
