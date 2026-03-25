@@ -100,6 +100,7 @@
             align-items: center;
             gap: 10px;
             font-size: 0.95rem;
+            flex-wrap: wrap;
         }
         .repo-info span {
             background: #f1f5f9;
@@ -205,10 +206,18 @@
             background: #f8fafc;
             font-weight: 600;
             color: #475569;
+            cursor: pointer;
+            user-select: none;
         }
         .dark-theme th {
             background: #0f172a;
             color: #cbd5e1;
+        }
+        th:hover {
+            background: #e2e8f0;
+        }
+        .dark-theme th:hover {
+            background: #334155;
         }
         td {
             padding: 12px 10px;
@@ -229,20 +238,41 @@
             border-radius: 20px;
             border: 1px solid #cbd5e1;
             text-align: center;
+            background: white;
+            color: #1e293b;
         }
         .dark-theme .fact-input {
-            background: #0f172a;
+            background: #1e293b;
             border-color: #475569;
-            color: white;
+            color: #f1f5f9;
+        }
+        .system-quantity {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+        .dark-theme .system-quantity {
+            background: #334155;
+            color: #f1f5f9;
         }
         .badge {
             padding: 4px 10px;
             border-radius: 20px;
             font-weight: 600;
             font-size: 0.85rem;
+            display: inline-block;
         }
-        .badge-match { background: #dcfce7; color: #166534; }
-        .badge-mismatch { background: #fee2e2; color: #991b1b; }
+        .badge-match { 
+            background: #22c55e; 
+            color: white; 
+        }
+        .badge-mismatch { 
+            background: #ef4444; 
+            color: white; 
+        }
         .stats-panel {
             display: flex;
             gap: 20px;
@@ -265,6 +295,19 @@
             background: #8b5cf6;
             color: white;
             border: none;
+        }
+        .data-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 30px;
+            background: #f1f5f9;
+        }
+        .dark-theme .data-status {
+            background: #0f172a;
         }
         .toast {
             position: fixed;
@@ -327,14 +370,37 @@
         }
         .dark-theme .modal-content {
             background: #1e293b;
+            color: #e2e8f0;
         }
-        .mismatch-list {
-            max-height: 400px;
-            overflow-y: auto;
+        .filter-info {
+            background: #fef3c7;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #92400e;
         }
-        .mismatch-item {
-            padding: 10px;
-            border-bottom: 1px solid #e2e8f0;
+        .dark-theme .filter-info {
+            background: #422006;
+            color: #fde047;
+        }
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #e2e8f0;
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .loading-spinner {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
     </style>
 </head>
@@ -351,34 +417,46 @@
 
     <div class="github-panel">
         <div class="repo-info">
-            <span>📦 <strong>Sh1k1kate/Technical-Review-QWERTY_GAME_ZONE</strong></span>
+            <span>📦 <strong id="repoDisplay">Sh1k1kate/Technical-Review-QWERTY_GAME_ZONE</strong></span>
+            <span id="tokenStatus" style="background: #fef3c7;">🔑 Токен не установлен</span>
+            <span class="filter-info">✅ Только активные товары из CSV</span>
         </div>
-        <div class="csv-upload">
-            <input type="file" id="csvFileInput" accept=".csv">
-            <button class="btn btn-primary" id="loadCsvBtn">📂 Загрузить CSV (остатки 1С)</button>
-            <button class="btn btn-warning" id="showMismatchesBtn">⚠️ Показать расхождения</button>
-            <button class="btn export-btn" id="exportMismatchesBtn">📎 Выгрузить расхождения (CSV)</button>
+        <div class="github-buttons">
+            <button class="btn" id="showTokenBtn">🔑 Токен</button>
+            <button class="btn btn-primary" id="saveToGithubBtn">💾 Сохранить в GitHub</button>
+            <button class="btn" id="loadFromGithubBtn">📂 Загрузить из GitHub</button>
+            <button class="btn btn-success" id="loadCsvBtn">📁 Загрузить CSV (1С)</button>
         </div>
+        <input type="file" id="csvFileInput" accept=".csv" style="display: none;">
     </div>
 
     <div class="search-bar">
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Поиск по названию...">
+            <input type="text" id="searchInput" placeholder="Поиск по названию или категории...">
         </div>
         <div class="stats-panel">
             <div class="stat-badge">
-                <span>📦 Всего товаров: <strong id="totalCount">0</strong></span>
+                <span>📦 Активных товаров: <strong id="totalCount">0</strong></span>
                 <span>⚠️ Расхождения: <strong id="mismatchCount">0</strong></span>
                 <span>✅ Совпадают: <strong id="matchCount">0</strong></span>
             </div>
-            <button class="btn btn-success" id="applyAllBtn">💾 Применить все фактические остатки</button>
+            <button class="btn btn-success" id="applyAllBtn">💾 Сохранить все фактические остатки</button>
+            <button class="btn btn-warning" id="showMismatchesBtn">⚠️ Показать расхождения</button>
+            <button class="btn export-btn" id="exportMismatchesBtn">📎 Выгрузить расхождения (CSV)</button>
         </div>
+        <div class="data-status" id="dataStatus">💾 Данные загружены</div>
     </div>
 
     <div class="table-container">
         <table>
             <thead>
-                <tr><th>Категория</th><th>Наименование</th><th>Остаток в CSV (учётный)</th><th>Фактический остаток (вручную)</th><th>Статус</th></tr>
+                <tr>
+                    <th onclick="window.sortBy('category')">Категория ⬇️⬆️</th>
+                    <th onclick="window.sortBy('name')">Наименование ⬇️⬆️</th>
+                    <th onclick="window.sortBy('systemQuantity')">Остаток в CSV (учётный) ⬇️⬆️</th>
+                    <th>Фактический остаток (вручную)</th>
+                    <th>Статус</th>
+                </tr>
             </thead>
             <tbody id="inventoryTableBody"></tbody>
         </table>
@@ -395,25 +473,71 @@
     </div>
 </div>
 
-<div id="toast" style="display: none;" class="toast"></div>
-<div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"><div class="spinner"></div><span>Загрузка...</span></div></div>
+<div class="modal" id="tokenModal">
+    <div class="modal-content">
+        <h2>🔑 GitHub Token</h2>
+        <p>Введите токен с правами на запись в репозиторий</p>
+        <input type="password" class="fact-input" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxx" style="width:100%; margin: 20px 0;">
+        <div class="modal-buttons">
+            <button class="btn" id="cancelTokenBtn">Отмена</button>
+            <button class="btn btn-primary" id="saveTokenBtn">Сохранить</button>
+        </div>
+    </div>
+</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<div id="toast" style="display: none;" class="toast"></div>
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner">
+        <div class="spinner"></div>
+        <span>Загрузка...</span>
+    </div>
+</div>
+
 <script>
 (function(){
+    // ==================== КОНФИГУРАЦИЯ ====================
+    const GITHUB_CONFIG = {
+        owner: 'Sh1k1kate',
+        repo: 'Technical-Review-QWERTY_GAME_ZONE'
+    };
+    const DATA_FILE = 'inventory_data.json';
+    const SECRET_WORD = 'INVENTORY2026';
+    
+    // Проверка доступа
+    const urlParams = new URLSearchParams(window.location.search);
+    if(!urlParams.get('secret') || urlParams.get('secret') !== SECRET_WORD){
+        document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;"><div style="background:white;padding:40px;border-radius:30px;"><h1>🔒 Доступ ограничен</h1><p>Требуется секретный ключ</p><code>?secret=INVENTORY2026</code></div></div>`;
+        return;
+    }
+    
     // ==================== ДАННЫЕ ====================
-    let inventoryItems = []; // { id, category, name, systemQuantity (из CSV), factQuantity (вручную), isMatch? }
+    let inventoryItems = [];
     let nextId = 1;
     let searchTerm = '';
     let isDarkTheme = localStorage.getItem('inventory_dark_theme') === 'true';
+    let githubToken = localStorage.getItem('github_token') || '';
+    let sortField = 'category';
+    let sortAscending = true;
     
-    // Сохраняем в localStorage
+    // ==================== UTF-8 ФУНКЦИИ ====================
+    function utf8ToBase64(str) {
+        try {
+            return btoa(unescape(encodeURIComponent(str)));
+        } catch (e) { return ''; }
+    }
+    function base64ToUtf8(base64) {
+        try {
+            return decodeURIComponent(escape(atob(base64)));
+        } catch (e) { return ''; }
+    }
+    
+    // ==================== ЛОКАЛЬНОЕ ХРАНЕНИЕ ====================
     function saveToLocal() {
-        localStorage.setItem('inventory_data_v2', JSON.stringify({ items: inventoryItems, nextId }));
+        localStorage.setItem('inventory_data_v4', JSON.stringify({ items: inventoryItems, nextId }));
     }
     
     function loadFromLocal() {
-        const saved = localStorage.getItem('inventory_data_v2');
+        const saved = localStorage.getItem('inventory_data_v4');
         if(saved){
             try{
                 const data = JSON.parse(saved);
@@ -427,70 +551,163 @@
         return false;
     }
     
-    // Парсинг CSV (разделитель ;)
+    // ==================== GITHUB ====================
+    function updateRepoDisplay() {
+        document.getElementById('repoDisplay').textContent = `${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`;
+        const tokenStatus = document.getElementById('tokenStatus');
+        if(githubToken){
+            tokenStatus.innerHTML = '✅ Токен установлен';
+            tokenStatus.style.background = '#dcfce7';
+        } else {
+            tokenStatus.innerHTML = '🔑 Токен не установлен';
+            tokenStatus.style.background = '#fef3c7';
+        }
+    }
+    
+    async function saveToGithub(showToastMessage = true) {
+        if(!githubToken){
+            if(showToastMessage) showToast('❌ Сначала установите токен', 'error');
+            return false;
+        }
+        try {
+            updateDataStatus('saving');
+            const data = { items: inventoryItems, lastUpdated: new Date().toISOString() };
+            const content = utf8ToBase64(JSON.stringify(data, null, 2));
+            const getUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
+            const getResponse = await fetch(getUrl, { headers: { 'Authorization': `token ${githubToken}` } });
+            let sha = null;
+            if(getResponse.ok){
+                const fileData = await getResponse.json();
+                sha = fileData.sha;
+            }
+            const putResponse = await fetch(getUrl, {
+                method: 'PUT',
+                headers: { 'Authorization': `token ${githubToken}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: `Обновление от ${new Date().toLocaleString()}`, content: content, branch: 'main', sha: sha })
+            });
+            if(!putResponse.ok) throw new Error('Ошибка сохранения');
+            updateDataStatus('saved');
+            if(showToastMessage) showToast('✅ Сохранено в GitHub');
+            return true;
+        } catch(error){
+            updateDataStatus('error');
+            if(showToastMessage) showToast('❌ Ошибка сохранения', 'error');
+            return false;
+        }
+    }
+    
+    async function loadFromGithub(showToastMessage = true) {
+        if(!githubToken){
+            if(showToastMessage) showToast('❌ Сначала установите токен', 'error');
+            return false;
+        }
+        try {
+            document.getElementById('loadingOverlay').classList.add('active');
+            updateDataStatus('loading');
+            const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
+            const response = await fetch(url, { headers: { 'Authorization': `token ${githubToken}` } });
+            if(!response.ok){
+                if(response.status === 404){
+                    if(showToastMessage) showToast('📭 Файл не найден', 'warning');
+                    return false;
+                }
+                throw new Error('Ошибка загрузки');
+            }
+            const data = await response.json();
+            const jsonData = JSON.parse(base64ToUtf8(data.content));
+            if(jsonData.items){
+                inventoryItems = jsonData.items;
+                nextId = Math.max(...inventoryItems.map(i => i.id), 0) + 1;
+                saveToLocal();
+                renderTable();
+                updateDataStatus('loaded');
+                if(showToastMessage) showToast(`✅ Загружено ${inventoryItems.length} товаров из GitHub`);
+                return true;
+            }
+        } catch(error){
+            updateDataStatus('error');
+            if(showToastMessage) showToast('❌ Ошибка загрузки', 'error');
+        } finally {
+            document.getElementById('loadingOverlay').classList.remove('active');
+        }
+        return false;
+    }
+    
+    function updateDataStatus(type){
+        const statusEl = document.getElementById('dataStatus');
+        const icons = { loaded: '📂', saved: '💾', saving: '⏳', loading: '📥', error: '❌' };
+        const texts = { loaded: 'Данные загружены', saved: 'Данные сохранены', saving: 'Сохранение...', loading: 'Загрузка...', error: 'Ошибка' };
+        statusEl.innerHTML = `${icons[type] || '📋'} ${texts[type] || ''}`;
+    }
+    
+    // ==================== ПАРСИНГ CSV ====================
     function parseCSVToItems(csvText) {
         const lines = csvText.split(/\r?\n/);
         if(lines.length === 0) return [];
-        const header = lines[0].split(';').map(h => h.replace(/^\uFEFF/, '').trim());
-        // ищем колонки: Наименование, Категория, Текущее_Количество
-        let nameIdx = header.findIndex(h => h.includes('Наименование'));
-        let categoryIdx = header.findIndex(h => h.includes('Категория'));
-        let qtyIdx = header.findIndex(h => h.includes('Текущее_Количество') || h.includes('Количество'));
-        if(nameIdx === -1) nameIdx = header.findIndex(h => h.toLowerCase() === 'наименование');
-        if(categoryIdx === -1) categoryIdx = header.findIndex(h => h.toLowerCase() === 'категория');
-        if(qtyIdx === -1) qtyIdx = header.findIndex(h => h.toLowerCase() === 'текущее_количество');
+        let header = lines[0];
+        if(header.startsWith('\uFEFF')) header = header.substring(1);
+        const headers = header.split(';').map(h => h.trim());
+        
+        let nameIdx = headers.findIndex(h => h.includes('Наименование') || h.toLowerCase() === 'наименование');
+        let categoryIdx = headers.findIndex(h => h.includes('Категория') || h.toLowerCase() === 'категория');
+        let qtyIdx = headers.findIndex(h => h.includes('Текущее_Количество') || h.includes('Количество'));
+        let statusIdx = headers.findIndex(h => h.includes('Статус') || h.toLowerCase() === 'статус');
         
         const items = [];
-        for(let i=1; i<lines.length; i++){
+        let skipped = 0;
+        
+        for(let i = 1; i < lines.length; i++){
             if(!lines[i].trim()) continue;
             const cols = lines[i].split(';');
-            if(cols.length <= Math.max(nameIdx, categoryIdx, qtyIdx)) continue;
-            let name = (nameIdx !== -1 ? cols[nameIdx] : '').trim();
-            let category = (categoryIdx !== -1 ? cols[categoryIdx] : '').trim();
-            let qtyRaw = (qtyIdx !== -1 ? cols[qtyIdx] : '').trim();
+            if(cols.length <= Math.max(nameIdx, categoryIdx, qtyIdx, statusIdx)) continue;
+            
+            let status = statusIdx !== -1 ? (cols[statusIdx] || '').trim() : '';
+            if(status !== 'Активен') {
+                skipped++;
+                continue;
+            }
+            
+            let name = nameIdx !== -1 ? cols[nameIdx].trim() : '';
+            let category = categoryIdx !== -1 ? cols[categoryIdx].trim() : '';
+            let qtyRaw = qtyIdx !== -1 ? cols[qtyIdx].trim() : '0';
             let quantity = parseFloat(qtyRaw);
             if(isNaN(quantity)) quantity = 0;
+            
             if(name && category){
-                items.push({
-                    name: name,
-                    category: category,
-                    systemQuantity: quantity,
-                    factQuantity: quantity, // по умолчанию факт = системный
-                });
+                items.push({ name, category, systemQuantity: quantity, factQuantity: quantity });
             }
+        }
+        if(skipped > 0 && items.length > 0){
+            showToast(`📊 Загружено ${items.length} активных товаров (${skipped} неактивных пропущено)`, 'success');
         }
         return items;
     }
     
-    // Загружаем CSV и инициализируем инвентаризацию
     function loadCSVAndInit(file) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            const text = e.target.result;
-            const parsed = parseCSVToItems(text);
+            const parsed = parseCSVToItems(e.target.result);
             if(parsed.length === 0){
-                showToast('❌ Не удалось распознать CSV. Проверьте разделитель (;) и колонки', 'error');
+                showToast('❌ Не найдено активных товаров в CSV', 'error');
                 return;
             }
-            // Преобразуем в формат inventoryItems
-            const newItems = parsed.map((item, idx) => ({
+            inventoryItems = parsed.map((item, idx) => ({
                 id: nextId++,
                 category: item.category,
                 name: item.name,
                 systemQuantity: item.systemQuantity,
                 factQuantity: item.factQuantity,
             }));
-            inventoryItems = newItems;
             saveToLocal();
             renderTable();
             updateStats();
-            showToast(`✅ Загружено ${inventoryItems.length} товаров из CSV`, 'success');
+            showToast(`✅ Загружено ${inventoryItems.length} активных товаров`, 'success');
         };
         reader.readAsText(file, 'UTF-8');
     }
     
-    // Обновление фактического остатка
-    function updateFactQuantity(id, newFact) {
+    // ==================== ОСНОВНЫЕ ФУНКЦИИ ====================
+    function updateFactQuantity(id, newFact){
         const item = inventoryItems.find(i => i.id === id);
         if(item){
             item.factQuantity = parseFloat(newFact);
@@ -501,118 +718,109 @@
         }
     }
     
-    // Применить все фактические (сохранить как есть, просто перерисовать)
-    function applyAllFactual() {
+    function applyAllFactual(){
         saveToLocal();
         renderTable();
         updateStats();
         showToast('✅ Все фактические остатки сохранены', 'success');
     }
     
-    // Получить расхождения (где факт != системный)
-    function getMismatches() {
+    function getMismatches(){
         return inventoryItems.filter(item => item.factQuantity !== item.systemQuantity);
     }
     
-    // Показать модалку с расхождениями
-    function showMismatchesModal() {
-        const mismatches = getMismatches();
-        if(mismatches.length === 0){
-            showToast('✨ Нет расхождений! Все остатки совпадают', 'success');
-            return;
-        }
-        const modal = document.getElementById('mismatchModal');
-        const container = document.getElementById('mismatchList');
-        container.innerHTML = mismatches.map(item => `
-            <div class="mismatch-item">
-                <strong>${item.name}</strong> (${item.category})<br>
-                Учёт: ${item.systemQuantity} шт | Факт: ${item.factQuantity} шт 
-                <span style="color:#ef4444;">→ разница: ${item.factQuantity - item.systemQuantity}</span>
-            </div>
-        `).join('');
-        modal.classList.add('active');
+    function sortItems(items){
+        return [...items].sort((a,b) => {
+            let comparison = 0;
+            if(sortField === 'category') comparison = a.category.localeCompare(b.category);
+            else if(sortField === 'name') comparison = a.name.localeCompare(b.name);
+            else if(sortField === 'systemQuantity') comparison = a.systemQuantity - b.systemQuantity;
+            return sortAscending ? comparison : -comparison;
+        });
     }
     
-    // Экспорт расхождений в CSV
-    function exportMismatchesToCSV() {
-        const mismatches = getMismatches();
-        if(mismatches.length === 0){
-            showToast('Нет расхождений для экспорта', 'error');
-            return;
-        }
-        const headers = ['Наименование', 'Категория', 'Учётный остаток', 'Фактический остаток', 'Разница'];
-        const rows = mismatches.map(item => [
-            item.name,
-            item.category,
-            item.systemQuantity,
-            item.factQuantity,
-            item.factQuantity - item.systemQuantity
-        ]);
-        const csvContent = [headers, ...rows].map(row => row.join(';')).join('\n');
-        const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement('a');
-        const url = URL.createObjectURL(blob);
-        link.href = url;
-        link.setAttribute('download', 'inventory_mismatches.csv');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-        showToast(`📎 Экспортировано ${mismatches.length} расхождений`, 'success');
-    }
-    
-    // Фильтрация и рендер
-    function renderTable() {
-        let filtered = inventoryItems;
-        if(searchTerm){
+    function renderTable(){
+        let filtered = inventoryItems.filter(i => {
+            if(!searchTerm) return true;
             const term = searchTerm.toLowerCase();
-            filtered = filtered.filter(i => i.name.toLowerCase().includes(term) || i.category.toLowerCase().includes(term));
-        }
+            return i.name.toLowerCase().includes(term) || i.category.toLowerCase().includes(term);
+        });
+        const sorted = sortItems(filtered);
         const tbody = document.getElementById('inventoryTableBody');
         tbody.innerHTML = '';
-        filtered.forEach(item => {
+        if(sorted.length === 0){
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:40px;">📂 Нет данных. Загрузите CSV или данные из GitHub</td></tr>';
+            return;
+        }
+        sorted.forEach(item => {
             const isMismatch = item.factQuantity !== item.systemQuantity;
             const row = document.createElement('tr');
             if(isMismatch) row.classList.add('mismatch');
-            const statusHtml = isMismatch ? '<span class="badge badge-mismatch">⚠️ Расхождение</span>' : '<span class="badge badge-match">✅ Совпадает</span>';
             row.innerHTML = `
                 <td><strong>${escapeHtml(item.category)}</strong></td>
                 <td>${escapeHtml(item.name)}</td>
-                <td><span class="badge" style="background:#e2e3e5;">${item.systemQuantity} шт</span></td>
-                <td><input type="number" class="fact-input" data-id="${item.id}" value="${item.factQuantity}" step="1"></td>
-                <td>${statusHtml}</td>
+                <td><span class="system-quantity">${item.systemQuantity} шт</span></td>
+                <td><input type="number" class="fact-input" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0"></td>
+                <td><span class="badge ${isMismatch ? 'badge-mismatch' : 'badge-match'}">${isMismatch ? '⚠️ Расхождение' : '✅ Совпадает'}</span></td>
             `;
             tbody.appendChild(row);
         });
-        // добавим обработчики на инпуты
         document.querySelectorAll('.fact-input').forEach(input => {
-            input.addEventListener('change', function(e) {
-                const id = parseInt(this.dataset.id);
-                const val = parseFloat(this.value);
-                updateFactQuantity(id, isNaN(val) ? 0 : val);
+            input.addEventListener('change', (e) => {
+                updateFactQuantity(parseInt(input.dataset.id), input.value);
             });
         });
         updateStats();
     }
     
-    function updateStats() {
+    function updateStats(){
         document.getElementById('totalCount').innerText = inventoryItems.length;
         const mismatches = getMismatches();
         document.getElementById('mismatchCount').innerText = mismatches.length;
         document.getElementById('matchCount').innerText = inventoryItems.length - mismatches.length;
     }
     
-    function escapeHtml(str) {
-        if(!str) return '';
-        return str.replace(/[&<>]/g, function(m){
-            if(m === '&') return '&amp;';
-            if(m === '<') return '&lt;';
-            if(m === '>') return '&gt;';
-            return m;
-        });
+    function showMismatchesModal(){
+        const mismatches = getMismatches();
+        if(mismatches.length === 0){
+            showToast('✨ Нет расхождений!', 'success');
+            return;
+        }
+        const container = document.getElementById('mismatchList');
+        container.innerHTML = mismatches.map(item => `
+            <div class="mismatch-item">
+                <strong>${escapeHtml(item.name)}</strong> (${escapeHtml(item.category)})<br>
+                📊 Учёт: ${item.systemQuantity} шт | ✏️ Факт: ${item.factQuantity} шт
+                <span style="color:#ef4444;">→ разница: ${item.factQuantity - item.systemQuantity}</span>
+            </div>
+        `).join('');
+        document.getElementById('mismatchModal').classList.add('active');
     }
     
-    function showToast(text, type = 'success') {
+    function exportMismatchesToCSV(){
+        const mismatches = getMismatches();
+        if(mismatches.length === 0){
+            showToast('Нет расхождений для экспорта', 'error');
+            return;
+        }
+        const headers = ['Наименование', 'Категория', 'Учётный остаток', 'Фактический остаток', 'Разница'];
+        const rows = mismatches.map(item => [item.name, item.category, item.systemQuantity, item.factQuantity, item.factQuantity - item.systemQuantity]);
+        const csv = [headers, ...rows].map(row => row.join(';')).join('\n');
+        const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `mismatches_${new Date().toISOString().slice(0,19)}.csv`;
+        link.click();
+        URL.revokeObjectURL(link.href);
+        showToast(`📎 Экспортировано ${mismatches.length} расхождений`, 'success');
+    }
+    
+    function escapeHtml(str){
+        if(!str) return '';
+        return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m]));
+    }
+    
+    function showToast(text, type = 'success'){
         const toast = document.getElementById('toast');
         toast.className = 'toast';
         if(type === 'error') toast.classList.add('error');
@@ -621,8 +829,7 @@
         setTimeout(() => toast.style.display = 'none', 3000);
     }
     
-    // ==================== ТЕМА ====================
-    function applyTheme() {
+    function applyTheme(){
         if(isDarkTheme){
             document.body.classList.add('dark-theme');
             document.getElementById('themeToggle').innerHTML = '☀️ Светлая';
@@ -632,65 +839,48 @@
         }
     }
     
+    window.sortBy = (field) => {
+        if(sortField === field) sortAscending = !sortAscending;
+        else { sortField = field; sortAscending = true; }
+        renderTable();
+    };
+    
     // ==================== ИНИЦИАЛИЗАЦИЯ ====================
-    document.addEventListener('DOMContentLoaded', function() {
-        // проверка секретного ключа
-        const urlParams = new URLSearchParams(window.location.search);
-        const keyParam = urlParams.get('secret');
-        if(!keyParam || keyParam !== 'INVENTORY2026'){
-            document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;"><div style="background:white;padding:40px;border-radius:30px;"><h1>🔒 Доступ ограничен</h1><p>Требуется секретный ключ</p><code>?secret=INVENTORY2026</code></div></div>`;
-            return;
-        }
+    document.addEventListener('DOMContentLoaded', () => {
+        updateRepoDisplay();
+        loadFromLocal();
         
-        const loaded = loadFromLocal();
-        if(!loaded || inventoryItems.length === 0){
-            // демо-данные пустые, чтобы не было пустоты
-            inventoryItems = [];
-            nextId = 1;
-            saveToLocal();
-            renderTable();
-        } else {
-            renderTable();
-        }
-        
-        // Загрузка CSV
-        document.getElementById('csvFileInput').addEventListener('change', function(e){
-            const file = e.target.files[0];
-            if(file){
-                loadCSVAndInit(file);
-            }
+        document.getElementById('csvFileInput').addEventListener('change', (e) => {
+            if(e.target.files[0]) loadCSVAndInit(e.target.files[0]);
         });
-        document.getElementById('loadCsvBtn').addEventListener('click', function(){
-            document.getElementById('csvFileInput').click();
-        });
+        document.getElementById('loadCsvBtn').addEventListener('click', () => document.getElementById('csvFileInput').click());
         document.getElementById('applyAllBtn').addEventListener('click', applyAllFactual);
         document.getElementById('showMismatchesBtn').addEventListener('click', showMismatchesModal);
         document.getElementById('exportMismatchesBtn').addEventListener('click', exportMismatchesToCSV);
-        document.getElementById('closeMismatchModal').addEventListener('click', function(){
-            document.getElementById('mismatchModal').classList.remove('active');
-        });
-        document.getElementById('mismatchModal').addEventListener('click', function(e){
-            if(e.target === this) this.classList.remove('active');
-        });
+        document.getElementById('searchInput').addEventListener('input', (e) => { searchTerm = e.target.value; renderTable(); });
+        document.getElementById('themeToggle').addEventListener('click', () => { isDarkTheme = !isDarkTheme; localStorage.setItem('inventory_dark_theme', isDarkTheme); applyTheme(); });
         
-        // поиск
-        document.getElementById('searchInput').addEventListener('input', function(e){
-            searchTerm = e.target.value;
-            renderTable();
+        document.getElementById('showTokenBtn').addEventListener('click', () => {
+            document.getElementById('githubToken').value = githubToken;
+            document.getElementById('tokenModal').classList.add('active');
         });
+        document.getElementById('saveTokenBtn').addEventListener('click', () => {
+            const token = document.getElementById('githubToken').value.trim();
+            if(token){
+                githubToken = token;
+                localStorage.setItem('github_token', token);
+                document.getElementById('tokenModal').classList.remove('active');
+                updateRepoDisplay();
+            }
+        });
+        document.getElementById('cancelTokenBtn').addEventListener('click', () => document.getElementById('tokenModal').classList.remove('active'));
+        document.getElementById('saveToGithubBtn').addEventListener('click', () => saveToGithub(true));
+        document.getElementById('loadFromGithubBtn').addEventListener('click', () => loadFromGithub(true));
+        document.getElementById('closeMismatchModal').addEventListener('click', () => document.getElementById('mismatchModal').classList.remove('active'));
         
-        // тема
-        document.getElementById('themeToggle').addEventListener('click', function(){
-            isDarkTheme = !isDarkTheme;
-            localStorage.setItem('inventory_dark_theme', isDarkTheme);
-            applyTheme();
-        });
         applyTheme();
-        
-        // если нет данных, показываем подсказку
         if(inventoryItems.length === 0){
-            const tbody = document.getElementById('inventoryTableBody');
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">📂 Загрузите CSV-файл с остатками из 1С, чтобы начать инвентаризацию</td></tr>';
+            document.getElementById('inventoryTableBody').innerHTML = '<tr><td colspan="5" style="text-align:center; padding:40px;">📂 Нажмите "Загрузить CSV" для импорта активных товаров из 1С<br>💾 Или "Загрузить из GitHub" для восстановления сохранённых данных</td></tr>';
         }
     });
 })();
