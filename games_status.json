@@ -1,1 +1,18 @@
-{}
+{
+  "1": {
+    "missing": [
+      "Counter-Strike 2",
+      "Dota 2",
+      "Grand Theft Auto V",
+      "PUBG: BATTLEGROUNDS",
+      "Apex Legends",
+      "Destiny 2",
+      "Rocket League",
+      "Team Fortress 2",
+      "Tom Clancy's Rainbow Six Siege",
+      "Dead by Daylight"
+    ],
+    "total": 10,
+    "last_check": "2026-04-12T03:26:33.724198"
+  }
+}
