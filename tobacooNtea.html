@@ -65,7 +65,6 @@
     
     .modal-buttons { display: flex; gap: 10px; justify-content: flex-end; margin-top: 25px; }
     .loading { text-align: center; padding: 40px; color: #666; }
-    .error-message { color: #dc3545; font-size: 13px; margin-top: 5px; }
   </style>
 </head>
 <body>
@@ -169,11 +168,11 @@
       </div>
       <div class="form-group">
         <label>Ед. измерения</label>
-        <input type="text" name="Unit" value="шт" placeholder="шт, кг, пачка">
+        <input type="text" name="Unit" value="шт">
       </div>
       <div class="form-group">
         <label>URL картинки</label>
-        <input type="text" name="ImageURL" placeholder="https://...">
+        <input type="text" name="ImageURL">
       </div>
       <div class="modal-buttons">
         <button type="button" class="btn" data-close-modal>Отмена</button>
@@ -220,11 +219,84 @@
 
 <script>
 // ================== НАСТРОЙКИ ==================
-// ЗАМЕНИТЕ ЭТОТ URL НА СВОЙ!
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwhehFTxKPxJJIG6smEzl1zCNweiafeRcwYWM0z6qNdWu2THM3SiZAotp5Tt1Z5B9attw/exec';
+// ЗАМЕНИТЕ НА СВОЙ URL ПОСЛЕ РАЗВЁРТЫВАНИЯ
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx_eAd-tsivEjycIWJ4d-dZTggGj5Z2ayVQ_Dw79yUYifawFR_akft1jt_5vbvWO16k6g/exec';
 
 // ================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==================
 let allProducts = [];
+
+// ================== ОБХОД CORS ДЛЯ GET-ЗАПРОСОВ (JSONP) ==================
+function jsonpRequest(url, callbackName) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    const callbackId = 'jsonp_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+    
+    window[callbackId] = (data) => {
+      delete window[callbackId];
+      document.body.removeChild(script);
+      resolve(data);
+    };
+    
+    script.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + callbackId;
+    script.onerror = () => {
+      delete window[callbackId];
+      document.body.removeChild(script);
+      reject(new Error('JSONP request failed'));
+    };
+    
+    document.body.appendChild(script);
+  });
+}
+
+// ================== API ЗАПРОСЫ ==================
+async function apiCall(action, method = 'GET', body = null) {
+  const url = SCRIPT_URL + '?action=' + action;
+  
+  if (method === 'GET') {
+    // Используем JSONP для обхода CORS
+    const response = await jsonpRequest(url);
+    if (!response.success) {
+      throw new Error(response.data?.error || 'Ошибка сервера');
+    }
+    return response.data;
+  } else {
+    // POST-запрос с mode: 'no-cors' — мы не читаем ответ, просто отправляем
+    const formData = new FormData();
+    formData.append('payload', JSON.stringify(body));
+    
+    // Отправляем через форму (обходит CORS)
+    return new Promise((resolve, reject) => {
+      const iframe = document.createElement('iframe');
+      iframe.name = 'hidden_iframe_' + Date.now();
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+      
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = url;
+      form.target = iframe.name;
+      form.style.display = 'none';
+      
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'payload';
+      input.value = JSON.stringify(body);
+      form.appendChild(input);
+      
+      document.body.appendChild(form);
+      
+      iframe.onload = () => {
+        setTimeout(() => {
+          document.body.removeChild(form);
+          document.body.removeChild(iframe);
+          resolve({ success: true, data: { message: 'OK' } });
+        }, 500);
+      };
+      
+      form.submit();
+    });
+  }
+}
 
 // ================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==================
 function getStatusText(status) {
@@ -232,38 +304,17 @@ function getStatusText(status) {
   return map[status] || status;
 }
 
-function showLoading(show) {
-  document.getElementById('productsLoading').style.display = show ? 'block' : 'none';
-}
-
-async function apiCall(action, method = 'GET', body = null) {
-  let url = SCRIPT_URL + '?action=' + action;
-  const options = { method };
-  
-  if (body && method === 'POST') {
-    options.body = JSON.stringify(body);
-  }
-  
-  const response = await fetch(url, options);
-  const result = await response.json();
-  
-  if (!result.success) {
-    throw new Error(result.data?.error || 'Ошибка сервера');
-  }
-  
-  return result.data;
-}
-
 // ================== ЗАГРУЗКА ТОВАРОВ ==================
 async function loadProducts() {
-  showLoading(true);
+  document.getElementById('productsLoading').style.display = 'block';
   try {
     allProducts = await apiCall('getProducts');
     filterProducts();
   } catch (error) {
-    alert('Ошибка загрузки товаров: ' + error.message);
+    console.error('Ошибка загрузки:', error);
+    alert('Ошибка загрузки товаров. Проверьте консоль.');
   }
-  showLoading(false);
+  document.getElementById('productsLoading').style.display = 'none';
 }
 
 function filterProducts() {
@@ -306,7 +357,7 @@ async function loadMovements() {
     const movements = await apiCall('getMovements' + (productId !== 'all' ? '&productId=' + productId : ''));
     renderMovements(movements);
   } catch (error) {
-    alert('Ошибка загрузки движений: ' + error.message);
+    console.error('Ошибка загрузки движений:', error);
   }
 }
 
@@ -342,7 +393,7 @@ async function loadLowStock() {
       </tr>
     `).join('');
   } catch (error) {
-    alert('Ошибка загрузки списка закупок: ' + error.message);
+    console.error('Ошибка загрузки закупок:', error);
   }
 }
 
@@ -372,9 +423,13 @@ async function addProduct(formData) {
   };
   
   await apiCall('addProduct', 'POST', product);
-  await loadProducts();
-  updateProductSelects();
   closeModal('addProductModal');
+  
+  // Ждём немного и перезагружаем товары
+  setTimeout(async () => {
+    await loadProducts();
+    updateProductSelects();
+  }, 500);
 }
 
 // ================== ДОБАВЛЕНИЕ ДВИЖЕНИЯ ==================
@@ -386,15 +441,16 @@ async function addMovement(formData) {
     notes: formData.get('notes') || ''
   };
   
-  const result = await apiCall('addMovement', 'POST', movement);
-  await loadProducts();
-  updateProductSelects();
+  await apiCall('addMovement', 'POST', movement);
   closeModal('addMovementModal');
   
-  // Если вкладка движений активна - обновить
-  if (document.getElementById('movements').classList.contains('active')) {
-    loadMovements();
-  }
+  setTimeout(async () => {
+    await loadProducts();
+    updateProductSelects();
+    if (document.getElementById('movements').classList.contains('active')) {
+      loadMovements();
+    }
+  }, 500);
 }
 
 // ================== МОДАЛЬНЫЕ ОКНА ==================
@@ -440,22 +496,18 @@ async function init() {
 document.addEventListener('DOMContentLoaded', () => {
   init();
   
-  // Переключение вкладок
   document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => switchTab(tab.dataset.tab));
   });
   
-  // Фильтры
   document.getElementById('categoryFilter').addEventListener('change', filterProducts);
   document.getElementById('statusFilter').addEventListener('change', filterProducts);
   document.getElementById('movementProductFilter').addEventListener('change', loadMovements);
   
-  // Кнопки
   document.getElementById('addProductBtn').addEventListener('click', () => openModal('addProductModal'));
   document.getElementById('addMovementBtn').addEventListener('click', () => openModal('addMovementModal'));
   document.getElementById('refreshOrdersBtn').addEventListener('click', loadLowStock);
   
-  // Формы
   document.getElementById('addProductForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     try {
@@ -474,15 +526,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
-  // Закрытие модалок
   document.querySelectorAll('[data-close-modal]').forEach(btn => {
     btn.addEventListener('click', () => {
-      const modal = btn.closest('.modal');
-      if (modal) modal.classList.remove('show');
+      btn.closest('.modal').classList.remove('show');
     });
   });
   
-  // Клик вне модалки
   document.querySelectorAll('.modal').forEach(modal => {
     modal.addEventListener('click', (e) => {
       if (e.target === modal) modal.classList.remove('show');
