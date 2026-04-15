@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Учёт чая и табака</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 { margin-bottom: 20px; color: #1a1a1a; }
+    
+    .tabs { display: flex; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
+    .tab { padding: 12px 24px; background: white; border: none; border-radius: 8px 8px 0 0; 
+           cursor: pointer; font-size: 16px; font-weight: 500; color: #666; 
+           transition: all 0.2s; box-shadow: 0 -2px 5px rgba(0,0,0,0.02); }
+    .tab:hover { background: #e8e8e8; }
+    .tab.active { background: #fff; color: #0066cc; box-shadow: 0 -2px 5px rgba(0,102,204,0.1); }
+    
+    .content { background: white; padding: 25px; border-radius: 0 12px 12px 12px; 
+               box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: none; }
+    .content.active { display: block; }
+    
+    .filters { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+    .filter-group { display: flex; align-items: center; gap: 8px; }
+    .filter-group label { font-weight: 500; color: #444; }
+    .filter-group select { padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; 
+                           font-size: 14px; background: white; cursor: pointer; }
+    
+    .btn { padding: 10px 18px; border: none; border-radius: 8px; cursor: pointer; 
+           font-size: 14px; font-weight: 500; transition: all 0.2s; }
+    .btn-primary { background: #0066cc; color: white; }
+    .btn-primary:hover { background: #0052a3; }
+    .btn-success { background: #28a745; color: white; }
+    .btn-success:hover { background: #1e8737; }
+    .btn-warning { background: #ffc107; color: #333; }
+    .btn-warning:hover { background: #e0a800; }
+    .btn-sm { padding: 5px 12px; font-size: 13px; }
+    
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
+    th { background: #f8f9fa; font-weight: 600; color: #333; font-size: 14px; }
+    tr:hover { background: #fafafa; }
+    
+    .status { display: inline-block; padding: 5px 12px; border-radius: 20px; 
+              font-size: 12px; font-weight: 600; }
+    .status.normal { background: #d4edda; color: #155724; }
+    .status.low { background: #fff3cd; color: #856404; }
+    .status.need_order { background: #f8d7da; color: #721c24; }
+    
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; 
+             width: 100%; height: 100%; background: rgba(0,0,0,0.5); 
+             align-items: center; justify-content: center; }
+    .modal.show { display: flex; }
+    .modal-content { background: white; padding: 25px; border-radius: 12px; 
+                     width: 90%; max-width: 450px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    .modal-content h3 { margin-bottom: 20px; color: #1a1a1a; }
+    
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; margin-bottom: 6px; font-weight: 500; color: #444; }
+    .form-group input, .form-group select { width: 100%; padding: 10px 12px; 
+        border: 1px solid #ddd; border-radius: 8px; font-size: 14px; 
+        transition: border 0.2s; }
+    .form-group input:focus, .form-group select:focus { outline: none; border-color: #0066cc; }
+    
+    .modal-buttons { display: flex; gap: 10px; justify-content: flex-end; margin-top: 25px; }
+    .loading { text-align: center; padding: 40px; color: #666; }
+    .error-message { color: #dc3545; font-size: 13px; margin-top: 5px; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>📦 Учёт чая и табаков</h1>
+  
+  <div class="tabs">
+    <button class="tab active" data-tab="inventory">📋 Товары</button>
+    <button class="tab" data-tab="movements">📊 Движения</button>
+    <button class="tab" data-tab="orders">🛒 На закупку</button>
+  </div>
+  
+  <!-- Вкладка ТОВАРЫ -->
+  <div id="inventory" class="content active">
+    <div class="filters">
+      <div class="filter-group">
+        <label>Категория:</label>
+        <select id="categoryFilter">
+          <option value="all">Все</option>
+          <option value="Чай">Чай</option>
+          <option value="Табак">Табак</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Статус:</label>
+        <select id="statusFilter">
+          <option value="all">Все</option>
+          <option value="normal">✅ В норме</option>
+          <option value="low">⚠️ Мало</option>
+          <option value="need_order">❌ Заказать</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" id="addProductBtn">➕ Добавить товар</button>
+    </div>
+    <div id="productsLoading" class="loading" style="display:none;">Загрузка...</div>
+    <table id="productsTable">
+      <thead>
+        <tr><th>ID</th><th>Название</th><th>Категория</th><th>Остаток</th>
+            <th>Мин.</th><th>Статус</th><th>Действия</th></tr>
+      </thead>
+      <tbody id="productsTbody"></tbody>
+    </table>
+  </div>
+  
+  <!-- Вкладка ДВИЖЕНИЯ -->
+  <div id="movements" class="content">
+    <div class="filters">
+      <div class="filter-group">
+        <label>Товар:</label>
+        <select id="movementProductFilter">
+          <option value="all">Все</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" id="addMovementBtn">➕ Добавить движение</button>
+    </div>
+    <table id="movementsTable">
+      <thead>
+        <tr><th>Дата</th><th>Товар</th><th>Тип</th><th>Кол-во</th><th>Примечание</th></tr>
+      </thead>
+      <tbody id="movementsTbody"></tbody>
+    </table>
+  </div>
+  
+  <!-- Вкладка ЗАКУПКИ -->
+  <div id="orders" class="content">
+    <button class="btn btn-primary" id="refreshOrdersBtn" style="margin-bottom:15px;">🔄 Обновить</button>
+    <table id="ordersTable">
+      <thead>
+        <tr><th>ID</th><th>Название</th><th>Категория</th><th>Остаток</th>
+            <th>Мин.</th><th>Заказать</th></tr>
+      </thead>
+      <tbody id="ordersTbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Модалка добавления товара -->
+<div id="addProductModal" class="modal">
+  <div class="modal-content">
+    <h3>➕ Новый товар</h3>
+    <form id="addProductForm">
+      <div class="form-group">
+        <label>Название *</label>
+        <input type="text" name="Name" required>
+      </div>
+      <div class="form-group">
+        <label>Категория *</label>
+        <select name="Category" required>
+          <option value="">Выберите</option>
+          <option value="Чай">Чай</option>
+          <option value="Табак">Табак</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Мин. остаток *</label>
+        <input type="number" name="MinStock" value="5" min="0" required>
+      </div>
+      <div class="form-group">
+        <label>Текущий остаток</label>
+        <input type="number" name="CurrentStock" value="0" min="0">
+      </div>
+      <div class="form-group">
+        <label>Ед. измерения</label>
+        <input type="text" name="Unit" value="шт" placeholder="шт, кг, пачка">
+      </div>
+      <div class="form-group">
+        <label>URL картинки</label>
+        <input type="text" name="ImageURL" placeholder="https://...">
+      </div>
+      <div class="modal-buttons">
+        <button type="button" class="btn" data-close-modal>Отмена</button>
+        <button type="submit" class="btn btn-success">Сохранить</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Модалка добавления движения -->
+<div id="addMovementModal" class="modal">
+  <div class="modal-content">
+    <h3>📝 Движение товара</h3>
+    <form id="addMovementForm">
+      <div class="form-group">
+        <label>Товар *</label>
+        <select name="productId" required>
+          <option value="">Выберите товар</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Тип операции *</label>
+        <select name="type" required>
+          <option value="">Выберите</option>
+          <option value="in">📈 Приход (+)</option>
+          <option value="out">📉 Расход (-)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Количество *</label>
+        <input type="number" name="quantity" step="0.1" min="0.1" required>
+      </div>
+      <div class="form-group">
+        <label>Примечание</label>
+        <input type="text" name="notes">
+      </div>
+      <div class="modal-buttons">
+        <button type="button" class="btn" data-close-modal>Отмена</button>
+        <button type="submit" class="btn btn-success">Сохранить</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+// ================== НАСТРОЙКИ ==================
+// ЗАМЕНИТЕ ЭТОТ URL НА СВОЙ!
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzdccIO8TzbN_JsOiBdRr6xtu7kZwF_FYVfL2foj0OHRqnEOk1rolfk7tbftZ0PNRRF6Q/exec';
+
+// ================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==================
+let allProducts = [];
+
+// ================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==================
+function getStatusText(status) {
+  const map = { normal: '✅ В норме', low: '⚠️ Мало', need_order: '❌ Заказать' };
+  return map[status] || status;
+}
+
+function showLoading(show) {
+  document.getElementById('productsLoading').style.display = show ? 'block' : 'none';
+}
+
+async function apiCall(action, method = 'GET', body = null) {
+  let url = SCRIPT_URL + '?action=' + action;
+  const options = { method };
+  
+  if (body && method === 'POST') {
+    options.body = JSON.stringify(body);
+  }
+  
+  const response = await fetch(url, options);
+  const result = await response.json();
+  
+  if (!result.success) {
+    throw new Error(result.data?.error || 'Ошибка сервера');
+  }
+  
+  return result.data;
+}
+
+// ================== ЗАГРУЗКА ТОВАРОВ ==================
+async function loadProducts() {
+  showLoading(true);
+  try {
+    allProducts = await apiCall('getProducts');
+    filterProducts();
+  } catch (error) {
+    alert('Ошибка загрузки товаров: ' + error.message);
+  }
+  showLoading(false);
+}
+
+function filterProducts() {
+  const category = document.getElementById('categoryFilter').value;
+  const status = document.getElementById('statusFilter').value;
+  
+  const filtered = allProducts.filter(p => 
+    (category === 'all' || p.Category === category) && 
+    (status === 'all' || p.Status === status)
+  );
+  
+  renderProducts(filtered);
+}
+
+function renderProducts(products) {
+  const tbody = document.getElementById('productsTbody');
+  tbody.innerHTML = products.map(p => `
+    <tr>
+      <td>${p.ProductID || ''}</td>
+      <td>${p.Name || ''}</td>
+      <td>${p.Category || ''}</td>
+      <td>${p.CurrentStock || 0} ${p.Unit || ''}</td>
+      <td>${p.MinStock || 0}</td>
+      <td><span class="status ${p.Status}">${getStatusText(p.Status)}</span></td>
+      <td>
+        <button class="btn btn-sm btn-warning" data-movement-for="${p.ProductID}">±</button>
+      </td>
+    </tr>
+  `).join('');
+  
+  document.querySelectorAll('[data-movement-for]').forEach(btn => {
+    btn.addEventListener('click', () => openMovementModal(btn.dataset.movementFor));
+  });
+}
+
+// ================== ЗАГРУЗКА ДВИЖЕНИЙ ==================
+async function loadMovements() {
+  const productId = document.getElementById('movementProductFilter').value;
+  try {
+    const movements = await apiCall('getMovements' + (productId !== 'all' ? '&productId=' + productId : ''));
+    renderMovements(movements);
+  } catch (error) {
+    alert('Ошибка загрузки движений: ' + error.message);
+  }
+}
+
+function renderMovements(movements) {
+  const tbody = document.getElementById('movementsTbody');
+  tbody.innerHTML = movements.map(m => {
+    const product = allProducts.find(p => p.ProductID == m.ProductID);
+    return `
+      <tr>
+        <td>${new Date(m.Timestamp).toLocaleString('ru-RU')}</td>
+        <td>${product ? product.Name : '—'}</td>
+        <td>${m.Type === 'in' ? '📈 Приход' : '📉 Расход'}</td>
+        <td>${m.Quantity}</td>
+        <td>${m.Notes || ''}</td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// ================== ЗАГРУЗКА ЗАКУПОК ==================
+async function loadLowStock() {
+  try {
+    const items = await apiCall('getLowStock');
+    const tbody = document.getElementById('ordersTbody');
+    tbody.innerHTML = items.map(item => `
+      <tr>
+        <td>${item.productId}</td>
+        <td>${item.name}</td>
+        <td>${item.category}</td>
+        <td>${item.currentStock}</td>
+        <td>${item.minStock}</td>
+        <td><strong>${item.suggestedOrder}</strong></td>
+      </tr>
+    `).join('');
+  } catch (error) {
+    alert('Ошибка загрузки списка закупок: ' + error.message);
+  }
+}
+
+// ================== ОБНОВЛЕНИЕ СПИСКА ТОВАРОВ В СЕЛЕКТАХ ==================
+function updateProductSelects() {
+  const movementFilter = document.getElementById('movementProductFilter');
+  const movementSelect = document.querySelector('#addMovementForm select[name="productId"]');
+  
+  const options = '<option value="all">Все</option>' + 
+    allProducts.map(p => `<option value="${p.ProductID}">${p.Name}</option>`).join('');
+  
+  movementFilter.innerHTML = options;
+  movementSelect.innerHTML = '<option value="">Выберите товар</option>' + 
+    allProducts.map(p => `<option value="${p.ProductID}">${p.Name}</option>`).join('');
+}
+
+// ================== ДОБАВЛЕНИЕ ТОВАРА ==================
+async function addProduct(formData) {
+  const product = {
+    ProductID: Date.now(),
+    Name: formData.get('Name'),
+    Category: formData.get('Category'),
+    MinStock: parseInt(formData.get('MinStock')) || 0,
+    CurrentStock: parseInt(formData.get('CurrentStock')) || 0,
+    Unit: formData.get('Unit') || 'шт',
+    ImageURL: formData.get('ImageURL') || ''
+  };
+  
+  await apiCall('addProduct', 'POST', product);
+  await loadProducts();
+  updateProductSelects();
+  closeModal('addProductModal');
+}
+
+// ================== ДОБАВЛЕНИЕ ДВИЖЕНИЯ ==================
+async function addMovement(formData) {
+  const movement = {
+    productId: parseInt(formData.get('productId')),
+    type: formData.get('type'),
+    quantity: parseFloat(formData.get('quantity')),
+    notes: formData.get('notes') || ''
+  };
+  
+  const result = await apiCall('addMovement', 'POST', movement);
+  await loadProducts();
+  updateProductSelects();
+  closeModal('addMovementModal');
+  
+  // Если вкладка движений активна - обновить
+  if (document.getElementById('movements').classList.contains('active')) {
+    loadMovements();
+  }
+}
+
+// ================== МОДАЛЬНЫЕ ОКНА ==================
+function openModal(modalId) {
+  document.getElementById(modalId).classList.add('show');
+}
+
+function closeModal(modalId) {
+  document.getElementById(modalId).classList.remove('show');
+  if (modalId === 'addProductModal') {
+    document.getElementById('addProductForm').reset();
+  }
+  if (modalId === 'addMovementModal') {
+    document.getElementById('addMovementForm').reset();
+  }
+}
+
+function openMovementModal(productId) {
+  document.querySelector('#addMovementForm select[name="productId"]').value = productId;
+  openModal('addMovementModal');
+}
+
+// ================== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ==================
+function switchTab(tabId) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+  
+  document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  
+  if (tabId === 'inventory') loadProducts();
+  else if (tabId === 'movements') loadMovements();
+  else if (tabId === 'orders') loadLowStock();
+}
+
+// ================== ИНИЦИАЛИЗАЦИЯ ==================
+async function init() {
+  await loadProducts();
+  updateProductSelects();
+}
+
+// ================== ОБРАБОТЧИКИ СОБЫТИЙ ==================
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  
+  // Переключение вкладок
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+  });
+  
+  // Фильтры
+  document.getElementById('categoryFilter').addEventListener('change', filterProducts);
+  document.getElementById('statusFilter').addEventListener('change', filterProducts);
+  document.getElementById('movementProductFilter').addEventListener('change', loadMovements);
+  
+  // Кнопки
+  document.getElementById('addProductBtn').addEventListener('click', () => openModal('addProductModal'));
+  document.getElementById('addMovementBtn').addEventListener('click', () => openModal('addMovementModal'));
+  document.getElementById('refreshOrdersBtn').addEventListener('click', loadLowStock);
+  
+  // Формы
+  document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    try {
+      await addProduct(new FormData(e.target));
+    } catch (error) {
+      alert('Ошибка: ' + error.message);
+    }
+  });
+  
+  document.getElementById('addMovementForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    try {
+      await addMovement(new FormData(e.target));
+    } catch (error) {
+      alert('Ошибка: ' + error.message);
+    }
+  });
+  
+  // Закрытие модалок
+  document.querySelectorAll('[data-close-modal]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const modal = btn.closest('.modal');
+      if (modal) modal.classList.remove('show');
+    });
+  });
+  
+  // Клик вне модалки
+  document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('show');
+    });
+  });
+});
+</script>
+</body>
+</html>
