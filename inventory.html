@@ -6,6 +6,7 @@
     <title>Инвентаризация со сверкой остатков</title>
     <link rel="icon" type="image/png" sizes="32x32" href="free-icon-food-and-drink-9290087.png">
     <style>
+        /* Стили (оставлены как в вашей версии, добавлены кнопки удаления) */
         * {
             box-sizing: border-box;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
@@ -152,19 +153,6 @@
             color: white;
             border: none;
         }
-        .btn-outline-warning {
-            background: transparent;
-            border: 1px solid #f59e0b;
-            color: #f59e0b;
-        }
-        .dark-theme .btn-outline-warning {
-            border-color: #f59e0b;
-            color: #f59e0b;
-        }
-        .btn-outline-warning.active {
-            background: #f59e0b;
-            color: white;
-        }
         .search-bar {
             background: white;
             border-radius: 20px;
@@ -284,6 +272,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             transition: all 0.2s;
             border-left: 4px solid #22c55e;
+            position: relative;
         }
         .dark-theme .inventory-card {
             background: #1e293b;
@@ -406,6 +395,23 @@
             border-color: #475569;
             color: white;
         }
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 6px 12px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .delete-btn:hover {
+            opacity: 0.8;
+        }
         
         /* Таблица для десктопа */
         .table-container {
@@ -428,7 +434,7 @@
             table {
                 width: 100%;
                 border-collapse: collapse;
-                min-width: 600px;
+                min-width: 700px;
                 font-size: 0.85rem;
             }
             th, td {
@@ -470,6 +476,15 @@
             }
             .dark-theme tr.mismatch {
                 background: #7f1a1a;
+            }
+            .delete-table-btn {
+                background: #ef4444;
+                border: none;
+                color: white;
+                padding: 4px 8px;
+                border-radius: 20px;
+                cursor: pointer;
+                font-size: 0.7rem;
             }
         }
         
@@ -531,6 +546,56 @@
             gap: 6px;
             flex-wrap: wrap;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 20px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .dark-theme .modal-content {
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+        .form-input, .form-select {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 16px;
+            border: 1px solid #cbd5e1;
+            font-size: 0.9rem;
+        }
+        .dark-theme .form-input, .dark-theme .form-select {
+            background: #0f172a;
+            border-color: #475569;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -538,7 +603,8 @@
     <div class="nav-links">
         <a href="index.html" class="nav-link">🖥️ Технический отчёт</a>
         <a href="inventory.html?secret=INVENTORY2026" class="nav-link primary">📦 Инвентаризация</a>
-         <a href="games.html" class="nav-link">👾 Статус Игр </a>
+        <a href="games.html" class="nav-link">👾 Статус Игр</a>
+        <a href="mismatches.html?secret=INVENTORY2026" class="nav-link">📋 Все расхождения</a>
     </div>
     <div class="header">
         <h1>📊 Сверка остатков</h1>
@@ -580,6 +646,7 @@
                 <button class="btn btn-success btn-small" id="applyAllBtn">💾 Сохранить</button>
                 <button class="btn" id="exportMismatchesBtn" style="background:#8b5cf6; color:white;">📎 Выгрузить расхождения</button>
                 <button class="btn btn-purple" id="loadMismatchesBtn">📥 Загрузить расхождения</button>
+                <button class="btn btn-primary" id="addItemBtn">➕ Добавить товар</button>
             </div>
         </div>
         <div class="data-status" id="dataStatus">💾 Загружены</div>
@@ -587,9 +654,47 @@
 
     <div id="cardsContainer" class="cards-container"></div>
     <div class="table-container">
-        <table><thead><tr><th onclick="window.sortBy('category')">Категория</th><th onclick="window.sortBy('name')">Наименование</th><th onclick="window.sortBy('systemQuantity')">Учёт</th><th>Фактический</th><th>Статус</th></tr></thead><tbody id="tableBody"></tbody></table>
+        <table>
+            <thead>
+                <tr><th onclick="window.sortBy('category')">Категория</th><th onclick="window.sortBy('name')">Наименование</th><th onclick="window.sortBy('systemQuantity')">Учёт</th><th>Фактический</th><th>Статус</th><th></th></tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
     </div>
     <input type="file" id="mismatchesFileInput" accept=".csv" style="display: none;">
+</div>
+
+<!-- Модальное окно добавления/редактирования товара -->
+<div class="modal" id="itemModal">
+    <div class="modal-content">
+        <h3 id="modalTitle">➕ Добавить товар</h3>
+        <div class="form-group">
+            <label class="form-label">Категория</label>
+            <select id="modalCategory" class="form-select">
+                <option value="Готовая Еда">Готовая Еда</option>
+                <option value="Напитки">Напитки</option>
+                <option value="Снэки">Снэки</option>
+                <option value="Шоколад">Шоколад</option>
+                <option value="Энергетические напитки">Энергетические напитки</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Наименование *</label>
+            <input type="text" id="modalName" class="form-input" placeholder="Введите название">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Учётный остаток (из системы)</label>
+            <input type="number" id="modalSystemQty" class="form-input" value="0" step="1" min="0">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Фактический остаток</label>
+            <input type="number" id="modalFactQty" class="form-input" value="0" step="1" min="0">
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+            <button class="btn" id="cancelModalBtn">Отмена</button>
+            <button class="btn btn-primary" id="saveModalBtn">Сохранить</button>
+        </div>
+    </div>
 </div>
 
 <div class="modal" id="tokenModal">
@@ -616,7 +721,7 @@
     let githubToken = localStorage.getItem('github_token') || '';
     let sortField = 'category';
     let sortAscending = true;
-    let viewFilter = 'all'; // all, mismatch, match
+    let viewFilter = 'all';
     
     function utf8ToBase64(str){
         try { return btoa(unescape(encodeURIComponent(str))); } catch(e){ return ''; }
@@ -626,11 +731,11 @@
     }
     
     function saveToLocal(){
-        localStorage.setItem('inventory_data_v9', JSON.stringify({ items: inventoryItems, nextId }));
+        localStorage.setItem('inventory_data_v10', JSON.stringify({ items: inventoryItems, nextId }));
     }
     
     function loadFromLocal(){
-        const saved = localStorage.getItem('inventory_data_v9');
+        const saved = localStorage.getItem('inventory_data_v10');
         if(saved){
             try{
                 const data = JSON.parse(saved);
@@ -869,17 +974,92 @@
         }
     }
     
+    function deleteItem(id){
+        if(confirm('Удалить товар?')){
+            inventoryItems = inventoryItems.filter(i => i.id !== id);
+            saveToLocal();
+            renderAll();
+            showToast('🗑️ Товар удалён', 'success');
+        }
+    }
+    
+    function addOrEditItem(editId = null){
+        const modal = document.getElementById('itemModal');
+        const title = document.getElementById('modalTitle');
+        const categorySelect = document.getElementById('modalCategory');
+        const nameInput = document.getElementById('modalName');
+        const systemQty = document.getElementById('modalSystemQty');
+        const factQty = document.getElementById('modalFactQty');
+        
+        if(editId){
+            const item = inventoryItems.find(i => i.id === editId);
+            if(item){
+                title.innerText = '✏️ Редактировать товар';
+                categorySelect.value = item.category;
+                nameInput.value = item.name;
+                systemQty.value = item.systemQuantity;
+                factQty.value = item.factQuantity;
+            } else {
+                return;
+            }
+        } else {
+            title.innerText = '➕ Добавить товар';
+            categorySelect.value = 'Готовая Еда';
+            nameInput.value = '';
+            systemQty.value = 0;
+            factQty.value = 0;
+        }
+        
+        const saveBtn = document.getElementById('saveModalBtn');
+        const newSaveHandler = () => {
+            const name = nameInput.value.trim();
+            if(!name){
+                showToast('Введите наименование', 'error');
+                return;
+            }
+            const category = categorySelect.value;
+            const systemQuantity = parseInt(systemQty.value) || 0;
+            const factQuantity = parseInt(factQty.value) || 0;
+            
+            if(editId){
+                const index = inventoryItems.findIndex(i => i.id === editId);
+                if(index !== -1){
+                    inventoryItems[index] = { ...inventoryItems[index], category, name, systemQuantity, factQuantity };
+                    showToast(`✅ Товар "${name}" обновлён`, 'success');
+                }
+            } else {
+                const newId = nextId++;
+                inventoryItems.push({
+                    id: newId,
+                    category,
+                    name,
+                    systemQuantity,
+                    factQuantity
+                });
+                showToast(`✅ Добавлен "${name}"`, 'success');
+            }
+            saveToLocal();
+            renderAll();
+            modal.classList.remove('active');
+            saveBtn.removeEventListener('click', newSaveHandler);
+        };
+        saveBtn.removeEventListener('click', newSaveHandler);
+        saveBtn.addEventListener('click', newSaveHandler);
+        
+        modal.classList.add('active');
+        document.getElementById('cancelModalBtn').onclick = () => {
+            modal.classList.remove('active');
+            saveBtn.removeEventListener('click', newSaveHandler);
+        };
+    }
+    
     function getMismatches(){
         return inventoryItems.filter(item => item.factQuantity !== item.systemQuantity);
     }
     
     function applyFilter(items){
-        if(viewFilter === 'mismatch'){
-            return items.filter(item => item.factQuantity !== item.systemQuantity);
-        }
-        if(viewFilter === 'match'){
-            return items.filter(item => item.factQuantity === item.systemQuantity);
-        }
+        if(viewFilter === 'mismatch') return items.filter(item => item.factQuantity !== item.systemQuantity);
+        if(viewFilter === 'match') return items.filter(item => item.factQuantity === item.systemQuantity);
         return items;
     }
     
@@ -896,7 +1076,7 @@
     function renderCards(items){
         const container = document.getElementById('cardsContainer');
         if(items.length === 0){
-            let msg = '📭 Нет данных. Загрузите CSV';
+            let msg = '📭 Нет данных. Загрузите CSV или добавьте товар вручную';
             if(viewFilter === 'mismatch') msg = '✨ Нет товаров с расхождениями';
             if(viewFilter === 'match') msg = '📦 Нет товаров без расхождений';
             container.innerHTML = `<div class="empty-state">${msg}</div>`;
@@ -925,6 +1105,7 @@
                             </div>
                         </div>
                     </div>
+                    <button class="delete-btn" data-id="${item.id}">🗑️ Удалить</button>
                 </div>
             `;
         }).join('');
@@ -932,6 +1113,12 @@
         document.querySelectorAll('.fact-input-card').forEach(inp => {
             inp.addEventListener('change', (e) => {
                 updateFactQuantity(parseInt(inp.dataset.id), inp.value);
+            });
+        });
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteItem(parseInt(btn.dataset.id));
             });
         });
     }
@@ -942,7 +1129,7 @@
             let msg = 'Нет данных';
             if(viewFilter === 'mismatch') msg = 'Нет товаров с расхождениями';
             if(viewFilter === 'match') msg = 'Нет товаров без расхождений';
-            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px;">${msg}</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:30px;">${msg}</td></tr>`;
             return;
         }
         tbody.innerHTML = items.map(item => {
@@ -954,6 +1141,7 @@
                     <td><span class="system-quantity">${item.systemQuantity} шт</span></td>
                     <td><input type="number" class="fact-input" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0"></td>
                     <td><span class="badge ${isMismatch ? 'badge-mismatch' : 'badge-match'}">${isMismatch ? '⚠️ Расхождение' : '✅ Совпадает'}</span></td>
+                    <td><button class="delete-table-btn" data-id="${item.id}">🗑️</button></td>
                 </tr>
             `;
         }).join('');
@@ -961,6 +1149,12 @@
         document.querySelectorAll('.fact-input').forEach(inp => {
             inp.addEventListener('change', (e) => {
                 updateFactQuantity(parseInt(inp.dataset.id), inp.value);
+            });
+        });
+        document.querySelectorAll('.delete-table-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteItem(parseInt(btn.dataset.id));
             });
         });
     }
@@ -981,13 +1175,9 @@
         document.getElementById('mismatchCount').innerText = mismatches.length;
         document.getElementById('matchCount').innerText = inventoryItems.length - mismatches.length;
         
-        // Обновляем активный класс кнопок фильтра
         document.querySelectorAll('.filter-btn').forEach(btn => {
-            if(btn.dataset.filter === viewFilter){
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
+            if(btn.dataset.filter === viewFilter) btn.classList.add('active');
+            else btn.classList.remove('active');
         });
     }
     
@@ -1048,8 +1238,8 @@
         document.getElementById('mismatchesFileInput').addEventListener('change', (e) => { if(e.target.files[0]) loadMismatchesFile(e.target.files[0]); });
         document.getElementById('searchInput').addEventListener('input', (e) => { searchTerm = e.target.value; renderAll(); });
         document.getElementById('themeToggle').addEventListener('click', () => { isDarkTheme = !isDarkTheme; localStorage.setItem('inventory_dark_theme', isDarkTheme); applyTheme(); });
+        document.getElementById('addItemBtn').addEventListener('click', () => addOrEditItem(null));
         
-        // Фильтры
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 viewFilter = btn.dataset.filter;
@@ -1065,7 +1255,7 @@
         
         applyTheme();
         if(inventoryItems.length === 0){
-            document.getElementById('cardsContainer').innerHTML = '<div class="empty-state">📁 Нажмите "CSV (1С)" для загрузки активных товаров<br>⚠️ Загружаются только товары со статусом "Активен"<br>🔍 Используйте фильтр "Только расхождения" для просмотра несовпадающих остатков</div>';
+            document.getElementById('cardsContainer').innerHTML = '<div class="empty-state">📁 Нажмите "CSV (1С)" для загрузки активных товаров, или "➕ Добавить товар" вручную<br>⚠️ Загружаются только товары со статусом "Активен"<br>🔍 Используйте фильтр "Только расхождения" для просмотра несовпадающих остатков</div>';
         }
     });
 })();
