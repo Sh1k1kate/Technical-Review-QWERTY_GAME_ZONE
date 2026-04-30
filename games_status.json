@@ -14,5 +14,63 @@
     ],
     "total": 10,
     "last_check": "2026-04-30T10:40:40.475380"
+  },
+  "MSI": {
+    "missing": [
+      "Counter-Strike 2",
+      "Dota 2",
+      "Grand Theft Auto V",
+      "PUBG: BATTLEGROUNDS",
+      "Apex Legends",
+      "Destiny 2",
+      "Rocket League",
+      "Team Fortress 2",
+      "Tom Clancy's Rainbow Six Siege",
+      "Dead by Daylight"
+    ],
+    "total": 10,
+    "last_check": "2026-04-30T11:27:34.615203",
+    "games": {
+      "Counter-Strike 2": {
+        "installed": false,
+        "update_available": false
+      },
+      "Dota 2": {
+        "installed": false,
+        "update_available": false
+      },
+      "Grand Theft Auto V": {
+        "installed": false,
+        "update_available": false
+      },
+      "PUBG: BATTLEGROUNDS": {
+        "installed": false,
+        "update_available": false
+      },
+      "Apex Legends": {
+        "installed": false,
+        "update_available": false
+      },
+      "Destiny 2": {
+        "installed": false,
+        "update_available": false
+      },
+      "Rocket League": {
+        "installed": false,
+        "update_available": false
+      },
+      "Team Fortress 2": {
+        "installed": false,
+        "update_available": false
+      },
+      "Tom Clancy's Rainbow Six Siege": {
+        "installed": false,
+        "update_available": false
+      },
+      "Dead by Daylight": {
+        "installed": false,
+        "update_available": false
+      }
+    }
   }
 }
