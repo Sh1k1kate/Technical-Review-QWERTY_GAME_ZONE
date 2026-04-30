@@ -12,13 +12,14 @@
       "Delta Force",
       "Valorant",
       "Roblox",
+      "Minecraft",
       "Fortnite",
       "Warface",
       "Мир танков",
       "League of Legends"
     ],
-    "total": 16,
-    "last_check": "2026-04-30T12:42:33.729052",
+    "total": 17,
+    "last_check": "2026-04-30T13:20:01.827256",
     "games": {
       "CS2": {
         "installed": false,
@@ -65,6 +66,10 @@
         "update_available": false
       },
       "Roblox": {
+        "installed": false,
+        "update_available": false
+      },
+      "Minecraft": {
         "installed": false,
         "update_available": false
       },
