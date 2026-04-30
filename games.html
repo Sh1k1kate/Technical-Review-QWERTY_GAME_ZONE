@@ -30,7 +30,7 @@
         .filter-chip.active { background: #3b82f6; color: white; border-color: #3b82f6; }
         .game-filter-select { padding: 8px 10px; border-radius: 40px; border: 1px solid #e2e8f0; background: white; font-size: 0.9rem; }
         .dark-theme .game-filter-select { background: #1e293b; color: #e2e8f0; border-color: #334155; }
-        .computers-map { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 8px; margin-bottom: 20px; max-height: 450px; overflow-y: auto; background: white; border-radius: 32px; padding: 16px; }
+        .computers-map { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 8px; margin-bottom: 20px; background: white; border-radius: 32px; padding: 16px; }
         .dark-theme .computers-map { background: #1e293b; }
         .map-item { background: white; border: 2px solid #e2e8f0; border-radius: 18px; padding: 8px 4px; text-align: center; cursor: pointer; aspect-ratio: 1/1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .dark-theme .map-item { background: #0f172a; border-color: #334155; color: #e2e8f0; }
@@ -98,14 +98,14 @@
     <div class="computers-map" id="computersMap" style="display: none;"></div>
     <div id="lastUpdateTime" class="last-update"></div>
 
-    <!-- Блок статистики -->
+    <!-- Статистика -->
     <div class="stats-section">
         <h2>📊 Статистика</h2>
         <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-            <div style="flex: 1; min-width: 250px; background: white; border-radius: 32px; padding: 20px;" class="dark-theme:bg-gray-800">
+            <div style="flex: 1; min-width: 250px; background: white; border-radius: 32px; padding: 20px;">
                 <canvas id="statusPieChart"></canvas>
             </div>
-            <div style="flex: 2; min-width: 400px; background: white; border-radius: 32px; padding: 20px;" class="dark-theme:bg-gray-800">
+            <div style="flex: 2; min-width: 400px; background: white; border-radius: 32px; padding: 20px;">
                 <canvas id="missingBarChart"></canvas>
             </div>
         </div>
@@ -234,10 +234,14 @@
             });
         }
 
+        function pcHasUpdate(pcData) {
+            return pcData && pcData.games && Object.values(pcData.games).some(g => g.update_available);
+        }
+
         function getPcStatus(pcData) {
             if (!pcData) return 'unknown';
             const missing = pcData.missing && pcData.missing.length > 0;
-            const hasUpdate = pcData.games && Object.values(pcData.games).some(g => g.update_available);
+            const hasUpdate = pcHasUpdate(pcData);
             if (missing) return 'bad';
             if (hasUpdate) return 'update';
             return 'good';
@@ -250,7 +254,7 @@
                 const pcKey = num.toString();
                 const pcData = gamesStatus[pcKey];
                 
-                // Поиск по игре
+                // Фильтр по конкретной игре
                 if (selectedGame) {
                     if (!pcData) continue;
                     const inMissing = pcData.missing && pcData.missing.includes(selectedGame);
@@ -258,24 +262,29 @@
                     if (!inMissing && !hasUpdate) continue;
                 }
                 
-                // Остальные фильтры
-                if (activeFilter !== 'all' && !selectedGame) {
-                    const st = getPcStatus(pcData);
-                    if (activeFilter !== st) continue;
+                // Основные фильтры
+                if (activeFilter === 'good' && getPcStatus(pcData) !== 'good') continue;
+                if (activeFilter === 'bad' && getPcStatus(pcData) !== 'bad') continue;
+                if (activeFilter === 'update') {
+                    // Для фильтра update показываем все ПК, где есть любое обновление, даже если есть missing
+                    if (!pcHasUpdate(pcData)) continue;
                 }
                 
                 if (searchQuery && !pcKey.includes(searchQuery)) continue;
                 
-                const item = document.createElement('div');
+                // Определяем итоговый статус для цвета ячейки
                 let displayStatus = getPcStatus(pcData);
-                // Если выбрана игра, переопределяем цвет
                 if (selectedGame && pcData) {
                     const inMissing = pcData.missing && pcData.missing.includes(selectedGame);
                     const hasUpdate = pcData.games?.[selectedGame]?.update_available;
                     if (inMissing) displayStatus = 'bad';
                     else if (hasUpdate) displayStatus = 'update';
+                } else if (activeFilter === 'update') {
+                    // Когда фильтр update активен, красим все показанные ячейки как update
+                    displayStatus = 'update';
                 }
                 
+                const item = document.createElement('div');
                 item.className = `map-item ${displayStatus}`;
                 item.setAttribute('data-pc', pcKey);
                 
@@ -294,7 +303,6 @@
         }
 
         function updateCharts() {
-            // Круговая диаграмма статусов
             const counts = { good: 0, bad: 0, update: 0, unknown: 0 };
             const gameMissingCounts = {};
             for (let num = 1; num <= TOTAL_PCS; num++) {
@@ -313,7 +321,6 @@
                 }
             }
 
-            // Pie Chart
             const pieCtx = document.getElementById('statusPieChart')?.getContext('2d');
             if (pieCtx) {
                 if (window.pieChart) window.pieChart.destroy();
@@ -330,7 +337,6 @@
                 });
             }
 
-            // Bar Chart
             const barCtx = document.getElementById('missingBarChart')?.getContext('2d');
             if (barCtx) {
                 if (window.barChart) window.barChart.destroy();
@@ -398,12 +404,12 @@
             modal.classList.add('active');
         }
 
-        // Обработчики фильтров
         document.querySelectorAll('.filter-chip').forEach(chip => {
             chip.addEventListener('click', function() {
                 document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
                 this.classList.add('active');
                 activeFilter = this.dataset.filter;
+                gameFilterSelect.value = ''; // Сбрасываем фильтр по игре
                 renderMap();
             });
         });
@@ -414,8 +420,8 @@
         });
 
         gameFilterSelect.addEventListener('change', () => {
-            // При выборе конкретной игры сбрасываем основной фильтр на "Все"
             if (gameFilterSelect.value) {
+                // Сбрасываем основные фильтры
                 document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
                 document.querySelector('.filter-chip[data-filter="all"]').classList.add('active');
                 activeFilter = 'all';
