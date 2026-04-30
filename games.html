@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Мониторинг игр — QWERTY Game Zone</title>
-    <!-- favicon (подставьте свои файлы) -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" type="image/png" sizes="32x32" href="free-icon-computer-hardware-9379073.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        /* стили оставлены без изменений, как в предыдущем ответе */
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; }
         body { background: #f4f7fb; color: #1e293b; padding: 10px; min-height: 100vh; }
         body.dark-theme { background: #0f172a; color: #e2e8f0; }
@@ -29,6 +28,8 @@
         .filter-chip { background: white; border: 1px solid #e2e8f0; border-radius: 40px; padding: 8px 14px; font-size: 0.9rem; cursor: pointer; }
         .dark-theme .filter-chip { background: #1e293b; border-color: #334155; color: #cbd5e1; }
         .filter-chip.active { background: #3b82f6; color: white; border-color: #3b82f6; }
+        .game-filter-select { padding: 8px 10px; border-radius: 40px; border: 1px solid #e2e8f0; background: white; font-size: 0.9rem; }
+        .dark-theme .game-filter-select { background: #1e293b; color: #e2e8f0; border-color: #334155; }
         .computers-map { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 8px; margin-bottom: 20px; max-height: 450px; overflow-y: auto; background: white; border-radius: 32px; padding: 16px; }
         .dark-theme .computers-map { background: #1e293b; }
         .map-item { background: white; border: 2px solid #e2e8f0; border-radius: 18px; padding: 8px 4px; text-align: center; cursor: pointer; aspect-ratio: 1/1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
@@ -60,6 +61,8 @@
         .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #22c55e; color: white; padding: 12px 20px; border-radius: 60px; font-weight: 500; animation: fade 3s; z-index: 1000; }
         .toast.error { background: #ef4444; }
         @keyframes fade { 0% { opacity: 0; transform: translateX(-50%) translateY(20px); } 10% { opacity: 1; transform: translateX(-50%) translateY(0); } 90% { opacity: 1; } 100% { opacity: 0; } }
+        .stats-section { margin-top: 30px; }
+        .stats-section h2 { margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -81,6 +84,9 @@
         <div class="map-search">
             <input type="text" id="mapSearch" placeholder="Поиск по номеру ПК...">
         </div>
+        <select id="gameFilter" class="game-filter-select">
+            <option value="">🎮 Все игры</option>
+        </select>
         <div class="filter-chip active" data-filter="all">Все</div>
         <div class="filter-chip" data-filter="good">✅ Игры на месте</div>
         <div class="filter-chip" data-filter="bad">❌ Есть удалённые</div>
@@ -91,6 +97,19 @@
 
     <div class="computers-map" id="computersMap" style="display: none;"></div>
     <div id="lastUpdateTime" class="last-update"></div>
+
+    <!-- Блок статистики -->
+    <div class="stats-section">
+        <h2>📊 Статистика</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+            <div style="flex: 1; min-width: 250px; background: white; border-radius: 32px; padding: 20px;" class="dark-theme:bg-gray-800">
+                <canvas id="statusPieChart"></canvas>
+            </div>
+            <div style="flex: 2; min-width: 400px; background: white; border-radius: 32px; padding: 20px;" class="dark-theme:bg-gray-800">
+                <canvas id="missingBarChart"></canvas>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Модальное окно с деталями игр -->
@@ -129,6 +148,7 @@
         const modalTotalInfo = document.getElementById('modalTotalInfo');
         const themeToggle = document.getElementById('themeToggle');
         const toastEl = document.getElementById('toastMessage');
+        const gameFilterSelect = document.getElementById('gameFilter');
 
         if (isDarkTheme) {
             document.body.classList.add('dark-theme');
@@ -157,10 +177,10 @@
                 const response = await fetch(url);
                 if (!response.ok) {
                     if (response.status === 404) {
-                        // Файл ещё не создан – показываем пустую карту
                         gamesStatus = {};
                         allGameNames = [];
                         renderMap();
+                        updateCharts();
                         loadingEl.style.display = 'none';
                         mapEl.style.display = 'grid';
                         lastUpdateEl.textContent = 'Нет данных (файл не найден)';
@@ -171,12 +191,10 @@
                 
                 const text = await response.text();
                 if (!text.trim()) {
-                    // Пустой ответ – файл существует, но пустой
                     gamesStatus = {};
                     allGameNames = [];
                 } else {
                     gamesStatus = JSON.parse(text);
-                    // Собираем названия игр
                     const namesSet = new Set();
                     for (const pcData of Object.values(gamesStatus)) {
                         if (pcData.games) {
@@ -186,7 +204,9 @@
                     allGameNames = Array.from(namesSet).sort();
                 }
                 
+                populateGameFilter();
                 renderMap();
+                updateCharts();
                 loadingEl.style.display = 'none';
                 mapEl.style.display = 'grid';
                 
@@ -204,6 +224,16 @@
             }
         }
 
+        function populateGameFilter() {
+            gameFilterSelect.innerHTML = '<option value="">🎮 Все игры</option>';
+            allGameNames.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.textContent = name;
+                gameFilterSelect.appendChild(opt);
+            });
+        }
+
         function getPcStatus(pcData) {
             if (!pcData) return 'unknown';
             const missing = pcData.missing && pcData.missing.length > 0;
@@ -215,24 +245,37 @@
 
         function renderMap() {
             mapEl.innerHTML = '';
+            const selectedGame = gameFilterSelect.value;
             for (let num = 1; num <= TOTAL_PCS; num++) {
                 const pcKey = num.toString();
                 const pcData = gamesStatus[pcKey];
-                const status = getPcStatus(pcData);
                 
-                // Фильтрация
-                if (activeFilter === 'good' && status !== 'good') continue;
-                if (activeFilter === 'bad' && status !== 'bad') continue;
-                if (activeFilter === 'update') {
-                    if (!pcData || !pcData.games || !Object.values(pcData.games).some(g => g.update_available)) continue;
+                // Поиск по игре
+                if (selectedGame) {
+                    if (!pcData) continue;
+                    const inMissing = pcData.missing && pcData.missing.includes(selectedGame);
+                    const hasUpdate = pcData.games?.[selectedGame]?.update_available;
+                    if (!inMissing && !hasUpdate) continue;
                 }
+                
+                // Остальные фильтры
+                if (activeFilter !== 'all' && !selectedGame) {
+                    const st = getPcStatus(pcData);
+                    if (activeFilter !== st) continue;
+                }
+                
                 if (searchQuery && !pcKey.includes(searchQuery)) continue;
                 
                 const item = document.createElement('div');
-                let displayStatus = status;
-                if (activeFilter === 'update' && pcData && pcData.games && Object.values(pcData.games).some(g => g.update_available)) {
-                    displayStatus = 'update';
+                let displayStatus = getPcStatus(pcData);
+                // Если выбрана игра, переопределяем цвет
+                if (selectedGame && pcData) {
+                    const inMissing = pcData.missing && pcData.missing.includes(selectedGame);
+                    const hasUpdate = pcData.games?.[selectedGame]?.update_available;
+                    if (inMissing) displayStatus = 'bad';
+                    else if (hasUpdate) displayStatus = 'update';
                 }
+                
                 item.className = `map-item ${displayStatus}`;
                 item.setAttribute('data-pc', pcKey);
                 
@@ -247,6 +290,64 @@
                 `;
                 item.addEventListener('click', () => showDetails(pcKey));
                 mapEl.appendChild(item);
+            }
+        }
+
+        function updateCharts() {
+            // Круговая диаграмма статусов
+            const counts = { good: 0, bad: 0, update: 0, unknown: 0 };
+            const gameMissingCounts = {};
+            for (let num = 1; num <= TOTAL_PCS; num++) {
+                const pcData = gamesStatus[num.toString()];
+                if (!pcData) { counts.unknown++; continue; }
+                const st = getPcStatus(pcData);
+                if (st === 'good') counts.good++;
+                else if (st === 'bad') counts.bad++;
+                else if (st === 'update') counts.update++;
+                else counts.unknown++;
+                
+                if (pcData.missing) {
+                    pcData.missing.forEach(game => {
+                        gameMissingCounts[game] = (gameMissingCounts[game] || 0) + 1;
+                    });
+                }
+            }
+
+            // Pie Chart
+            const pieCtx = document.getElementById('statusPieChart')?.getContext('2d');
+            if (pieCtx) {
+                if (window.pieChart) window.pieChart.destroy();
+                window.pieChart = new Chart(pieCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['✅ В порядке', '❌ Проблемы', '🔄 Обновления', '❓ Нет данных'],
+                        datasets: [{
+                            data: [counts.good, counts.bad, counts.update, counts.unknown],
+                            backgroundColor: ['#22c55e', '#ef4444', '#eab308', '#94a3b8']
+                        }]
+                    },
+                    options: { responsive: true }
+                });
+            }
+
+            // Bar Chart
+            const barCtx = document.getElementById('missingBarChart')?.getContext('2d');
+            if (barCtx) {
+                if (window.barChart) window.barChart.destroy();
+                const labels = Object.keys(gameMissingCounts).sort((a,b) => gameMissingCounts[b] - gameMissingCounts[a]);
+                const values = labels.map(l => gameMissingCounts[l]);
+                window.barChart = new Chart(barCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'На скольких ПК отсутствует',
+                            data: values,
+                            backgroundColor: '#3b82f6'
+                        }]
+                    },
+                    options: { responsive: true, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+                });
             }
         }
 
@@ -297,6 +398,7 @@
             modal.classList.add('active');
         }
 
+        // Обработчики фильтров
         document.querySelectorAll('.filter-chip').forEach(chip => {
             chip.addEventListener('click', function() {
                 document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
@@ -308,6 +410,16 @@
 
         document.getElementById('mapSearch').addEventListener('input', (e) => {
             searchQuery = e.target.value.trim();
+            renderMap();
+        });
+
+        gameFilterSelect.addEventListener('change', () => {
+            // При выборе конкретной игры сбрасываем основной фильтр на "Все"
+            if (gameFilterSelect.value) {
+                document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                document.querySelector('.filter-chip[data-filter="all"]').classList.add('active');
+                activeFilter = 'all';
+            }
             renderMap();
         });
 
