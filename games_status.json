@@ -1,21 +1,26 @@
 {
   "1": {
     "missing": [
-      "Counter-Strike 2",
+      "CS2",
       "Dota 2",
-      "Grand Theft Auto V",
-      "PUBG: BATTLEGROUNDS",
+      "PUBG",
+      "Deadlock",
       "Apex Legends",
-      "Destiny 2",
-      "Rocket League",
-      "Team Fortress 2",
-      "Tom Clancy's Rainbow Six Siege",
-      "Dead by Daylight"
+      "DayZ",
+      "Arc Raiders",
+      "Marvel Rivals",
+      "Delta Force",
+      "Valorant",
+      "Roblox",
+      "Fortnite",
+      "Warface",
+      "Мир танков",
+      "League of Legends"
     ],
-    "total": 10,
-    "last_check": "2026-04-30T12:12:29.971426",
+    "total": 16,
+    "last_check": "2026-04-30T12:42:33.729052",
     "games": {
-      "Counter-Strike 2": {
+      "CS2": {
         "installed": false,
         "update_available": false
       },
@@ -23,11 +28,15 @@
         "installed": false,
         "update_available": false
       },
-      "Grand Theft Auto V": {
+      "PUBG": {
         "installed": false,
         "update_available": false
       },
-      "PUBG: BATTLEGROUNDS": {
+      "RUST": {
+        "installed": true,
+        "update_available": true
+      },
+      "Deadlock": {
         "installed": false,
         "update_available": false
       },
@@ -35,23 +44,43 @@
         "installed": false,
         "update_available": false
       },
-      "Destiny 2": {
+      "DayZ": {
         "installed": false,
         "update_available": false
       },
-      "Rocket League": {
+      "Arc Raiders": {
         "installed": false,
         "update_available": false
       },
-      "Team Fortress 2": {
+      "Marvel Rivals": {
         "installed": false,
         "update_available": false
       },
-      "Tom Clancy's Rainbow Six Siege": {
+      "Delta Force": {
         "installed": false,
         "update_available": false
       },
-      "Dead by Daylight": {
+      "Valorant": {
+        "installed": false,
+        "update_available": false
+      },
+      "Roblox": {
+        "installed": false,
+        "update_available": false
+      },
+      "Fortnite": {
+        "installed": false,
+        "update_available": false
+      },
+      "Warface": {
+        "installed": false,
+        "update_available": false
+      },
+      "Мир танков": {
+        "installed": false,
+        "update_available": false
+      },
+      "League of Legends": {
         "installed": false,
         "update_available": false
       }
