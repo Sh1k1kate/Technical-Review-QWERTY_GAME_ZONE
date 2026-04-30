@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Все расхождения</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #f4f7fb;
+            color: #1e293b;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        body.dark-theme {
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ef4444, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .theme-toggle {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 40px;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+        .dark-theme .theme-toggle {
+            background: #1e293b;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+        .stats {
+            background: white;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .dark-theme .stats {
+            background: #1e293b;
+        }
+        .stats span {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .btn {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 30px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .dark-theme .btn {
+            background: #0f172a;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+            border: none;
+        }
+        .cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .mismatch-card {
+            background: white;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-left: 6px solid #ef4444;
+            transition: 0.2s;
+        }
+        .dark-theme .mismatch-card {
+            background: #1e293b;
+            border-left-color: #ef4444;
+        }
+        .card-category {
+            background: #fee2e2;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #991b1b;
+            margin-bottom: 8px;
+        }
+        .dark-theme .card-category {
+            background: #7f1a1a;
+            color: #fecaca;
+        }
+        .card-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .quantities {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .qty-box {
+            background: #f1f5f9;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+        .dark-theme .qty-box {
+            background: #0f172a;
+        }
+        .qty-label {
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+        .qty-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        .diff {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #ef4444;
+        }
+        .fact-input {
+            width: 100px;
+            padding: 8px;
+            border-radius: 16px;
+            border: 1px solid #cbd5e1;
+            text-align: center;
+            font-size: 1rem;
+            margin-top: 8px;
+        }
+        .dark-theme .fact-input {
+            background: #0f172a;
+            border-color: #475569;
+            color: white;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+        .nav-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="inventory.html?secret=INVENTORY2026" class="nav-link">← Вернуться к инвентаризации</a>
+    <div class="header">
+        <h1>⚠️ Все расхождения</h1>
+        <div class="theme-toggle" id="themeToggle">🌙 Тёмная</div>
+    </div>
+    <div class="stats">
+        <span>📦 Товаров с расхождениями: <strong id="mismatchCount">0</strong></span>
+        <button class="btn btn-primary" id="refreshBtn">🔄 Обновить</button>
+    </div>
+    <div id="cardsContainer" class="cards-container"></div>
+</div>
+<script>
+    const SECRET_WORD = 'INVENTORY2026';
+    if(!window.location.search.includes(`secret=${SECRET_WORD}`)){
+        document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;"><div style="background:white;padding:30px;border-radius:24px;"><h1>🔒 Доступ ограничен</h1><p>Требуется секретный ключ</p><code>?secret=${SECRET_WORD}</code></div></div>`;
+    } else {
+        let isDarkTheme = localStorage.getItem('inventory_dark_theme') === 'true';
+        function applyTheme(){
+            if(isDarkTheme) document.body.classList.add('dark-theme');
+            else document.body.classList.remove('dark-theme');
+            document.getElementById('themeToggle').innerHTML = isDarkTheme ? '☀️ Светлая' : '🌙 Тёмная';
+        }
+        applyTheme();
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            isDarkTheme = !isDarkTheme;
+            localStorage.setItem('inventory_dark_theme', isDarkTheme);
+            applyTheme();
+        });
+        
+        function loadMismatches(){
+            const saved = localStorage.getItem('inventory_data_v10');
+            let items = [];
+            if(saved){
+                try{
+                    const data = JSON.parse(saved);
+                    items = data.items || [];
+                }catch(e){}
+            }
+            const mismatches = items.filter(i => i.factQuantity !== i.systemQuantity);
+            document.getElementById('mismatchCount').innerText = mismatches.length;
+            const container = document.getElementById('cardsContainer');
+            if(mismatches.length === 0){
+                container.innerHTML = '<div class="empty-state">✨ Отлично! Нет расхождений.</div>';
+                return;
+            }
+            container.innerHTML = mismatches.map(item => {
+                const diff = item.factQuantity - item.systemQuantity;
+                return `
+                    <div class="mismatch-card">
+                        <div class="card-category">${escapeHtml(item.category)}</div>
+                        <div class="card-name">${escapeHtml(item.name)}</div>
+                        <div class="quantities">
+                            <div class="qty-box"><div class="qty-label">Учётный остаток</div><div class="qty-value">${item.systemQuantity} шт</div></div>
+                            <div class="qty-box"><div class="qty-label">Фактический остаток</div><div class="qty-value"><input type="number" class="fact-input" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0"></div></div>
+                        </div>
+                        <div class="diff">Разница: ${diff > 0 ? '+' : ''}${diff} шт</div>
+                    </div>
+                `;
+            }).join('');
+            document.querySelectorAll('.fact-input').forEach(inp => {
+                inp.addEventListener('change', (e) => {
+                    const id = parseInt(inp.dataset.id);
+                    const newVal = parseFloat(inp.value);
+                    if(!isNaN(newVal)){
+                        const savedData = localStorage.getItem('inventory_data_v10');
+                        if(savedData){
+                            const data = JSON.parse(savedData);
+                            const idx = data.items.findIndex(i => i.id === id);
+                            if(idx !== -1){
+                                data.items[idx].factQuantity = newVal;
+                                localStorage.setItem('inventory_data_v10', JSON.stringify(data));
+                                loadMismatches(); // перезагрузить
+                            }
+                        }
+                    }
+                });
+            });
+        }
+        function escapeHtml(str){
+            if(!str) return '';
+            return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m]));
+        }
+        loadMismatches();
+        document.getElementById('refreshBtn').addEventListener('click', loadMismatches);
+    }
+</script>
+</body>
+</html>
