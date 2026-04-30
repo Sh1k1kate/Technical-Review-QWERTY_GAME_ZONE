@@ -14,24 +14,31 @@
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         h1 { font-size: 1.4rem; font-weight: 600; }
         .theme-toggle { background: white; border: 1px solid #e2e8f0; border-radius: 40px; padding: 8px 14px; font-size: 0.9rem; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+        .dark-theme .theme-toggle { background: #1e293b; border-color: #334155; color: #f1f5f9; }
         .nav-links { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
         .nav-link { background: white; border: 1px solid #e2e8f0; border-radius: 40px; padding: 12px 20px; text-decoration: none; color: #1e293b; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; }
+        .dark-theme .nav-link { background: #1e293b; color: #f1f5f9; border-color: #334155; }
         .nav-link.primary { background: #3b82f6; color: white; border: none; }
         .map-controls { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
         .map-search { flex: 1; min-width: 160px; position: relative; }
         .map-search input { width: 100%; padding: 12px 12px 12px 38px; border: 1px solid #e2e8f0; border-radius: 40px; font-size: 0.95rem; background: white; }
+        .dark-theme .map-search input { background: #1e293b; border-color: #334155; color: #f1f5f9; }
         .map-search:before { content: "🔍"; position: absolute; left: 14px; top: 12px; color: #94a3b8; font-size: 1rem; }
         .filter-chip { background: white; border: 1px solid #e2e8f0; border-radius: 40px; padding: 8px 14px; font-size: 0.9rem; cursor: pointer; }
+        .dark-theme .filter-chip { background: #1e293b; border-color: #334155; color: #cbd5e1; }
         .filter-chip.active { background: #3b82f6; color: white; border-color: #3b82f6; }
         .computers-map { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 8px; margin-bottom: 20px; max-height: 450px; overflow-y: auto; background: white; border-radius: 32px; padding: 16px; }
         .dark-theme .computers-map { background: #1e293b; }
         .map-item { background: white; border: 2px solid #e2e8f0; border-radius: 18px; padding: 8px 4px; text-align: center; cursor: pointer; aspect-ratio: 1/1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .dark-theme .map-item { background: #0f172a; border-color: #334155; color: #e2e8f0; }
         .map-item.good { border-color: #22c55e; background: #f0fdf4; }
+        .dark-theme .map-item.good { background: #14532d; border-color: #22c55e; color: #bbf7d0; }
         .map-item.bad { border-color: #ef4444; background: #fef2f2; }
-        .dark-theme .map-item.good { background: #14532d; border-color: #22c55e; }
-        .dark-theme .map-item.bad { background: #7f1d1d; border-color: #ef4444; }
+        .dark-theme .map-item.bad { background: #7f1d1d; border-color: #ef4444; color: #fecaca; }
         .map-item.update { border-color: #eab308; background: #fefce8; }
-        .dark-theme .map-item.update { background: #854d0e; border-color: #eab308; }
+        .dark-theme .map-item.update { background: #854d0e; border-color: #eab308; color: #fef08a; }
+        .map-item.unknown { border-color: #94a3b8; background: #f8fafc; color: #64748b; }
+        .dark-theme .map-item.unknown { background: #334155; border-color: #475569; color: #94a3b8; }
         .map-number { font-weight: 800; font-size: 1.3rem; margin-bottom: 4px; }
         .map-status-icon { font-size: 1.2rem; }
         .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; padding: 16px; }
@@ -47,6 +54,7 @@
         .close-btn { background: #3b82f6; color: white; border: none; border-radius: 40px; padding: 12px; width: 100%; font-weight: 600; cursor: pointer; margin-top: 20px; }
         .loading { text-align: center; padding: 20px; }
         .last-update { font-size: 0.8rem; color: #64748b; text-align: right; margin-top: 10px; }
+        .dark-theme .last-update { color: #94a3b8; }
         .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #22c55e; color: white; padding: 12px 20px; border-radius: 60px; font-weight: 500; animation: fade 3s; z-index: 1000; }
         .toast.error { background: #ef4444; }
         @keyframes fade { 0% { opacity: 0; transform: translateX(-50%) translateY(20px); } 10% { opacity: 1; transform: translateX(-50%) translateY(0); } 90% { opacity: 1; } 100% { opacity: 0; } }
@@ -98,19 +106,17 @@
 
 <script>
     (function() {
-        // ========== КОНФИГУРАЦИЯ ==========
         const GITHUB_OWNER = 'Sh1k1kate';
         const GITHUB_REPO = 'Technical-Review-QWERTY_GAME_ZONE';
         const STATUS_FILE = 'games_status.json';
+        const TOTAL_PCS = 61;  // общее количество компьютеров в клубе
         
-        // Состояние
         let gamesStatus = {};
-        let allGameNames = []; // будет заполнен автоматически
+        let allGameNames = [];
         let isDarkTheme = localStorage.getItem('dark_theme') === 'true';
         let activeFilter = 'all';
         let searchQuery = '';
 
-        // DOM
         const mapEl = document.getElementById('computersMap');
         const loadingEl = document.getElementById('loadingIndicator');
         const lastUpdateEl = document.getElementById('lastUpdateTime');
@@ -122,7 +128,6 @@
         const themeToggle = document.getElementById('themeToggle');
         const toastEl = document.getElementById('toastMessage');
 
-        // Тема
         if (isDarkTheme) {
             document.body.classList.add('dark-theme');
             themeToggle.innerHTML = '☀️ Светлая';
@@ -141,7 +146,6 @@
             setTimeout(() => toastEl.style.display = 'none', 3000);
         }
 
-        // Загрузка данных с GitHub
         async function loadStatus() {
             try {
                 loadingEl.style.display = 'block';
@@ -152,13 +156,12 @@
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 gamesStatus = await response.json();
                 
-                // Собираем все уникальные названия игр из всех ПК
+                // Собираем уникальные названия игр
                 const namesSet = new Set();
                 for (const pcData of Object.values(gamesStatus)) {
                     if (pcData.games) {
                         Object.keys(pcData.games).forEach(name => namesSet.add(name));
                     }
-                    // также можно учесть missing, но games более точно
                 }
                 allGameNames = Array.from(namesSet).sort();
                 
@@ -178,7 +181,6 @@
             }
         }
 
-        // Определение статуса ПК с учётом обновлений
         function getPcStatus(pcData) {
             if (!pcData) return 'unknown';
             const missing = pcData.missing && pcData.missing.length > 0;
@@ -190,23 +192,33 @@
 
         function renderMap() {
             mapEl.innerHTML = '';
-            const pcKeys = Object.keys(gamesStatus).sort((a,b) => parseInt(a)-parseInt(b));
-            for (const pcKey of pcKeys) {
+            for (let num = 1; num <= TOTAL_PCS; num++) {
+                const pcKey = num.toString();
                 const pcData = gamesStatus[pcKey];
-                if (!pcData) continue;
                 const status = getPcStatus(pcData);
                 
-                if (activeFilter !== 'all' && status !== activeFilter) continue;
+                // Фильтрация
+                if (activeFilter === 'good' && status !== 'good') continue;
+                if (activeFilter === 'bad' && status !== 'bad') continue;
+                if (activeFilter === 'update') {
+                    // Показываем, если есть хотя бы одно обновление, независимо от missing
+                    if (!pcData || !pcData.games || !Object.values(pcData.games).some(g => g.update_available)) continue;
+                }
                 if (searchQuery && !pcKey.includes(searchQuery)) continue;
                 
                 const item = document.createElement('div');
-                item.className = `map-item ${status}`;
+                let displayStatus = status;
+                // Если фильтр update, то всегда показываем как update (жёлтый), даже если есть missing
+                if (activeFilter === 'update' && pcData && pcData.games && Object.values(pcData.games).some(g => g.update_available)) {
+                    displayStatus = 'update';
+                }
+                item.className = `map-item ${displayStatus}`;
                 item.setAttribute('data-pc', pcKey);
                 
                 let icon = '❓';
-                if (status === 'good') icon = '✅';
-                else if (status === 'bad') icon = '❌';
-                else if (status === 'update') icon = '🔄';
+                if (displayStatus === 'good') icon = '✅';
+                else if (displayStatus === 'bad') icon = '❌';
+                else if (displayStatus === 'update') icon = '🔄';
                 
                 item.innerHTML = `
                     <div class="map-number">${pcKey}</div>
@@ -231,11 +243,8 @@
             let missingCount = 0;
             let updateCount = 0;
 
-            // Перебираем все игры, которые известны системе
             for (const name of allGameNames) {
                 const info = gamesInfo[name] || null;
-                // Если игра есть в gamesInfo и installed == true, то смотрим update_available
-                // иначе если она в missing – отсутствует, иначе считаем отсутствующей (на всякий случай)
                 let icon = '❓';
                 if (info && info.installed) {
                     if (info.update_available) {
@@ -248,7 +257,6 @@
                     icon = '❌';
                     missingCount++;
                 } else {
-                    // Если нет ни в installed, ни в missing, считаем отсутствующей
                     icon = '❌';
                     missingCount++;
                 }
@@ -268,7 +276,6 @@
             modal.classList.add('active');
         }
 
-        // Фильтры
         document.querySelectorAll('.filter-chip').forEach(chip => {
             chip.addEventListener('click', function() {
                 document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
