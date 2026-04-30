@@ -7,8 +7,6 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" type="image/png" sizes="32x32" href="free-icon-computer-hardware-9379073.png">
     <style>
-        /* Скопируйте все стили из index.html (те, что используются) */
-        /* Для краткости приведу только ключевые, но в реальном файле нужно вставить весь блок <style> из index.html */
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; }
         body { background: #f4f7fb; color: #1e293b; padding: 10px; min-height: 100vh; }
         body.dark-theme { background: #0f172a; color: #e2e8f0; }
@@ -32,6 +30,8 @@
         .map-item.bad { border-color: #ef4444; background: #fef2f2; }
         .dark-theme .map-item.good { background: #14532d; border-color: #22c55e; }
         .dark-theme .map-item.bad { background: #7f1d1d; border-color: #ef4444; }
+        .map-item.update { border-color: #eab308; background: #fefce8; }
+        .dark-theme .map-item.update { background: #854d0e; border-color: #eab308; }
         .map-number { font-weight: 800; font-size: 1.3rem; margin-bottom: 4px; }
         .map-status-icon { font-size: 1.2rem; }
         .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; padding: 16px; }
@@ -47,7 +47,7 @@
         .close-btn { background: #3b82f6; color: white; border: none; border-radius: 40px; padding: 12px; width: 100%; font-weight: 600; cursor: pointer; margin-top: 20px; }
         .loading { text-align: center; padding: 20px; }
         .last-update { font-size: 0.8rem; color: #64748b; text-align: right; margin-top: 10px; }
-        .toast { /* как в index.html */ position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #22c55e; color: white; padding: 12px 20px; border-radius: 60px; font-weight: 500; animation: fade 3s; z-index: 1000; }
+        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #22c55e; color: white; padding: 12px 20px; border-radius: 60px; font-weight: 500; animation: fade 3s; z-index: 1000; }
         .toast.error { background: #ef4444; }
         @keyframes fade { 0% { opacity: 0; transform: translateX(-50%) translateY(20px); } 10% { opacity: 1; transform: translateX(-50%) translateY(0); } 90% { opacity: 1; } 100% { opacity: 0; } }
     </style>
@@ -61,7 +61,7 @@
     </div>
 
     <div class="header">
-        <h1>🎮 Статус игр на компьютерах</h1>
+        <h1>🎮 Статус игр и обновлений</h1>
         <div class="theme-toggle" id="themeToggle">
             <span>🌙</span> Тёмная
         </div>
@@ -74,6 +74,7 @@
         <div class="filter-chip active" data-filter="all">Все</div>
         <div class="filter-chip" data-filter="good">✅ Игры на месте</div>
         <div class="filter-chip" data-filter="bad">❌ Есть удалённые</div>
+        <div class="filter-chip" data-filter="update">🔄 Есть обновления</div>
     </div>
 
     <div id="loadingIndicator" class="loading">Загрузка данных с GitHub...</div>
@@ -102,27 +103,14 @@
         const GITHUB_REPO = 'Technical-Review-QWERTY_GAME_ZONE';
         const STATUS_FILE = 'games_status.json';
         
-        // Список всех отслеживаемых игр (должен совпадать с монитором)
-        const TRACKED_GAMES = {
-            730: "Counter-Strike 2",
-            570: "Dota 2",
-            271590: "Grand Theft Auto V",
-            578080: "PUBG: BATTLEGROUNDS",
-            1172470: "Apex Legends",
-            1085660: "Destiny 2",
-            252950: "Rocket League",
-            440: "Team Fortress 2",
-            359550: "Tom Clancy's Rainbow Six Siege",
-            381210: "Dead by Daylight"
-        };
-
         // Состояние
         let gamesStatus = {};
+        let allGameNames = []; // будет заполнен автоматически
         let isDarkTheme = localStorage.getItem('dark_theme') === 'true';
         let activeFilter = 'all';
         let searchQuery = '';
 
-        // DOM элементы
+        // DOM
         const mapEl = document.getElementById('computersMap');
         const loadingEl = document.getElementById('loadingIndicator');
         const lastUpdateEl = document.getElementById('lastUpdateTime');
@@ -134,13 +122,11 @@
         const themeToggle = document.getElementById('themeToggle');
         const toastEl = document.getElementById('toastMessage');
 
-        // Инициализация темы
+        // Тема
         if (isDarkTheme) {
             document.body.classList.add('dark-theme');
             themeToggle.innerHTML = '☀️ Светлая';
         }
-
-        // Переключение темы
         themeToggle.addEventListener('click', () => {
             isDarkTheme = !isDarkTheme;
             document.body.classList.toggle('dark-theme');
@@ -148,7 +134,6 @@
             localStorage.setItem('dark_theme', isDarkTheme);
         });
 
-        // Показ уведомления
         function showToast(text, type = 'success') {
             toastEl.className = 'toast' + (type === 'error' ? ' error' : '');
             toastEl.style.display = 'block';
@@ -164,16 +149,23 @@
                 
                 const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${STATUS_FILE}`;
                 const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 gamesStatus = await response.json();
+                
+                // Собираем все уникальные названия игр из всех ПК
+                const namesSet = new Set();
+                for (const pcData of Object.values(gamesStatus)) {
+                    if (pcData.games) {
+                        Object.keys(pcData.games).forEach(name => namesSet.add(name));
+                    }
+                    // также можно учесть missing, но games более точно
+                }
+                allGameNames = Array.from(namesSet).sort();
                 
                 renderMap();
                 loadingEl.style.display = 'none';
                 mapEl.style.display = 'grid';
                 
-                // Находим самую свежую дату проверки
                 const times = Object.values(gamesStatus).map(s => s.last_check).filter(t => t);
                 if (times.length > 0) {
                     const latest = times.sort().reverse()[0];
@@ -181,87 +173,102 @@
                 }
             } catch (error) {
                 console.error('Ошибка загрузки:', error);
-                loadingEl.innerHTML = '❌ Не удалось загрузить данные. Проверьте подключение или наличие файла в репозитории.';
+                loadingEl.innerHTML = '❌ Не удалось загрузить данные.';
                 showToast('Ошибка загрузки данных', 'error');
             }
         }
 
-        // Определение статуса ПК (good - нет отсутствующих игр, bad - есть)
-        function getPcStatus(pcNum) {
-            const data = gamesStatus[pcNum];
-            if (!data) return 'unknown';
-            return data.missing && data.missing.length > 0 ? 'bad' : 'good';
+        // Определение статуса ПК с учётом обновлений
+        function getPcStatus(pcData) {
+            if (!pcData) return 'unknown';
+            const missing = pcData.missing && pcData.missing.length > 0;
+            const hasUpdate = pcData.games && Object.values(pcData.games).some(g => g.update_available);
+            if (missing) return 'bad';
+            if (hasUpdate) return 'update';
+            return 'good';
         }
 
-        // Рендер карты
         function renderMap() {
             mapEl.innerHTML = '';
-            // Предполагаем, что номера ПК от 1 до 61 (как в техотчёте)
-            for (let num = 1; num <= 61; num++) {
-                const pcKey = num.toString(); // или "PC-01" - зависит от того, как монитор сохраняет
-                const status = getPcStatus(pcKey);
-                const data = gamesStatus[pcKey];
+            const pcKeys = Object.keys(gamesStatus).sort((a,b) => parseInt(a)-parseInt(b));
+            for (const pcKey of pcKeys) {
+                const pcData = gamesStatus[pcKey];
+                if (!pcData) continue;
+                const status = getPcStatus(pcData);
                 
-                // Фильтрация
                 if (activeFilter !== 'all' && status !== activeFilter) continue;
                 if (searchQuery && !pcKey.includes(searchQuery)) continue;
                 
                 const item = document.createElement('div');
-                item.className = `map-item ${status === 'good' ? 'good' : 'bad'}`;
+                item.className = `map-item ${status}`;
                 item.setAttribute('data-pc', pcKey);
                 
-                let statusIcon = '❓';
-                if (status === 'good') statusIcon = '✅';
-                else if (status === 'bad') statusIcon = '❌';
+                let icon = '❓';
+                if (status === 'good') icon = '✅';
+                else if (status === 'bad') icon = '❌';
+                else if (status === 'update') icon = '🔄';
                 
                 item.innerHTML = `
                     <div class="map-number">${pcKey}</div>
-                    <div class="map-status-icon">${statusIcon}</div>
+                    <div class="map-status-icon">${icon}</div>
                 `;
-                
                 item.addEventListener('click', () => showDetails(pcKey));
                 mapEl.appendChild(item);
             }
         }
 
-        // Показ модального окна с деталями
         function showDetails(pcNum) {
-            const data = gamesStatus[pcNum];
-            if (!data) {
+            const pcData = gamesStatus[pcNum];
+            if (!pcData) {
                 showToast(`Нет данных о ПК ${pcNum}`, 'error');
                 return;
             }
-            
             modalPcNumber.textContent = pcNum;
-            const missingSet = new Set(data.missing || []);
-            
-            // Формируем список игр
             gameListEl.innerHTML = '';
-            for (const [appid, name] of Object.entries(TRACKED_GAMES)) {
-                const isMissing = missingSet.has(name);
+
+            const gamesInfo = pcData.games || {};
+            const missingSet = new Set(pcData.missing || []);
+            let missingCount = 0;
+            let updateCount = 0;
+
+            // Перебираем все игры, которые известны системе
+            for (const name of allGameNames) {
+                const info = gamesInfo[name] || null;
+                // Если игра есть в gamesInfo и installed == true, то смотрим update_available
+                // иначе если она в missing – отсутствует, иначе считаем отсутствующей (на всякий случай)
+                let icon = '❓';
+                if (info && info.installed) {
+                    if (info.update_available) {
+                        icon = '🔄';
+                        updateCount++;
+                    } else {
+                        icon = '✅';
+                    }
+                } else if (missingSet.has(name)) {
+                    icon = '❌';
+                    missingCount++;
+                } else {
+                    // Если нет ни в installed, ни в missing, считаем отсутствующей
+                    icon = '❌';
+                    missingCount++;
+                }
+
                 const li = document.createElement('li');
                 li.className = 'game-item';
-                li.innerHTML = `
-                    <span class="game-status">${isMissing ? '❌' : '✅'}</span>
-                    <span class="game-name">${name}</span>
-                `;
+                li.innerHTML = `<span class="game-status">${icon}</span><span class="game-name">${name}</span>`;
                 gameListEl.appendChild(li);
             }
-            
-            const missingCount = data.missing?.length || 0;
-            const total = data.total || Object.keys(TRACKED_GAMES).length;
-            modalTotalInfo.textContent = `Отсутствует: ${missingCount} из ${total}`;
-            
-            if (data.last_check) {
-                modalLastCheck.textContent = `Проверено: ${new Date(data.last_check).toLocaleString('ru')}`;
+
+            modalTotalInfo.textContent = `Отсутствует: ${missingCount} | Обновлений: ${updateCount}`;
+            if (pcData.last_check) {
+                modalLastCheck.textContent = `Проверено: ${new Date(pcData.last_check).toLocaleString('ru')}`;
             } else {
                 modalLastCheck.textContent = '';
             }
-            
             modal.classList.add('active');
         }
 
-        // Обработчики фильтров
+        // Фильтры
         document.querySelectorAll('.filter-chip').forEach(chip => {
             chip.addEventListener('click', function() {
                 document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
@@ -271,13 +278,11 @@
             });
         });
 
-        // Поиск
         document.getElementById('mapSearch').addEventListener('input', (e) => {
             searchQuery = e.target.value.trim();
             renderMap();
         });
 
-        // Закрытие модалки
         document.getElementById('closeModalBtn').addEventListener('click', () => {
             modal.classList.remove('active');
         });
@@ -285,10 +290,7 @@
             if (e.target === modal) modal.classList.remove('active');
         });
 
-        // Автообновление каждые 5 минут
         setInterval(loadStatus, 300000);
-
-        // Запуск
         loadStatus();
     })();
 </script>
