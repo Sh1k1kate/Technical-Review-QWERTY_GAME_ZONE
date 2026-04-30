@@ -1,1 +1,147 @@
-
+{
+  "1": {
+    "missing": [
+      "CS2",
+      "Dota 2",
+      "PUBG",
+      "Deadlock",
+      "Apex Legends",
+      "DayZ",
+      "Arc Raiders",
+      "Marvel Rivals",
+      "Delta Force",
+      "Valorant",
+      "Roblox",
+      "Fortnite",
+      "Warface",
+      "Мир танков",
+      "League of Legends"
+    ],
+    "total": 16,
+    "last_check": "2026-04-30T12:42:33.729052",
+    "games": {
+      "CS2": {
+        "installed": false,
+        "update_available": false
+      },
+      "Dota 2": {
+        "installed": false,
+        "update_available": false
+      },
+      "PUBG": {
+        "installed": false,
+        "update_available": false
+      },
+      "RUST": {
+        "installed": true,
+        "update_available": true
+      },
+      "Deadlock": {
+        "installed": false,
+        "update_available": false
+      },
+      "Apex Legends": {
+        "installed": false,
+        "update_available": false
+      },
+      "DayZ": {
+        "installed": false,
+        "update_available": false
+      },
+      "Arc Raiders": {
+        "installed": false,
+        "update_available": false
+      },
+      "Marvel Rivals": {
+        "installed": false,
+        "update_available": false
+      },
+      "Delta Force": {
+        "installed": false,
+        "update_available": false
+      },
+      "Valorant": {
+        "installed": false,
+        "update_available": false
+      },
+      "Roblox": {
+        "installed": false,
+        "update_available": false
+      },
+      "Fortnite": {
+        "installed": false,
+        "update_available": false
+      },
+      "Warface": {
+        "installed": false,
+        "update_available": false
+      },
+      "Мир танков": {
+        "installed": false,
+        "update_available": false
+      },
+      "League of Legends": {
+        "installed": false,
+        "update_available": false
+      }
+    }
+  },
+  "MSI": {
+    "missing": [
+      "Counter-Strike 2",
+      "Dota 2",
+      "Grand Theft Auto V",
+      "PUBG: BATTLEGROUNDS",
+      "Apex Legends",
+      "Destiny 2",
+      "Rocket League",
+      "Team Fortress 2",
+      "Tom Clancy's Rainbow Six Siege",
+      "Dead by Daylight"
+    ],
+    "total": 10,
+    "last_check": "2026-04-30T12:20:25.558906",
+    "games": {
+      "Counter-Strike 2": {
+        "installed": false,
+        "update_available": false
+      },
+      "Dota 2": {
+        "installed": false,
+        "update_available": false
+      },
+      "Grand Theft Auto V": {
+        "installed": false,
+        "update_available": false
+      },
+      "PUBG: BATTLEGROUNDS": {
+        "installed": false,
+        "update_available": false
+      },
+      "Apex Legends": {
+        "installed": false,
+        "update_available": false
+      },
+      "Destiny 2": {
+        "installed": false,
+        "update_available": false
+      },
+      "Rocket League": {
+        "installed": false,
+        "update_available": false
+      },
+      "Team Fortress 2": {
+        "installed": false,
+        "update_available": false
+      },
+      "Tom Clancy's Rainbow Six Siege": {
+        "installed": false,
+        "update_available": false
+      },
+      "Dead by Daylight": {
+        "installed": false,
+        "update_available": false
+      }
+    }
+  }
+}
