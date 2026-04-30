@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Мониторинг игр — QWERTY Game Zone</title>
+    <!-- favicon (подставьте свои файлы) -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" type="image/png" sizes="32x32" href="free-icon-computer-hardware-9379073.png">
     <style>
+        /* стили оставлены без изменений, как в предыдущем ответе */
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; }
         body { background: #f4f7fb; color: #1e293b; padding: 10px; min-height: 100vh; }
         body.dark-theme { background: #0f172a; color: #e2e8f0; }
@@ -109,7 +111,7 @@
         const GITHUB_OWNER = 'Sh1k1kate';
         const GITHUB_REPO = 'Technical-Review-QWERTY_GAME_ZONE';
         const STATUS_FILE = 'games_status.json';
-        const TOTAL_PCS = 61;  // общее количество компьютеров в клубе
+        const TOTAL_PCS = 61;
         
         let gamesStatus = {};
         let allGameNames = [];
@@ -153,17 +155,36 @@
                 
                 const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${STATUS_FILE}`;
                 const response = await fetch(url);
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                gamesStatus = await response.json();
-                
-                // Собираем уникальные названия игр
-                const namesSet = new Set();
-                for (const pcData of Object.values(gamesStatus)) {
-                    if (pcData.games) {
-                        Object.keys(pcData.games).forEach(name => namesSet.add(name));
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        // Файл ещё не создан – показываем пустую карту
+                        gamesStatus = {};
+                        allGameNames = [];
+                        renderMap();
+                        loadingEl.style.display = 'none';
+                        mapEl.style.display = 'grid';
+                        lastUpdateEl.textContent = 'Нет данных (файл не найден)';
+                        return;
                     }
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
-                allGameNames = Array.from(namesSet).sort();
+                
+                const text = await response.text();
+                if (!text.trim()) {
+                    // Пустой ответ – файл существует, но пустой
+                    gamesStatus = {};
+                    allGameNames = [];
+                } else {
+                    gamesStatus = JSON.parse(text);
+                    // Собираем названия игр
+                    const namesSet = new Set();
+                    for (const pcData of Object.values(gamesStatus)) {
+                        if (pcData.games) {
+                            Object.keys(pcData.games).forEach(name => namesSet.add(name));
+                        }
+                    }
+                    allGameNames = Array.from(namesSet).sort();
+                }
                 
                 renderMap();
                 loadingEl.style.display = 'none';
@@ -173,6 +194,8 @@
                 if (times.length > 0) {
                     const latest = times.sort().reverse()[0];
                     lastUpdateEl.textContent = `Последнее обновление: ${new Date(latest).toLocaleString('ru')}`;
+                } else {
+                    lastUpdateEl.textContent = '';
                 }
             } catch (error) {
                 console.error('Ошибка загрузки:', error);
@@ -201,14 +224,12 @@
                 if (activeFilter === 'good' && status !== 'good') continue;
                 if (activeFilter === 'bad' && status !== 'bad') continue;
                 if (activeFilter === 'update') {
-                    // Показываем, если есть хотя бы одно обновление, независимо от missing
                     if (!pcData || !pcData.games || !Object.values(pcData.games).some(g => g.update_available)) continue;
                 }
                 if (searchQuery && !pcKey.includes(searchQuery)) continue;
                 
                 const item = document.createElement('div');
                 let displayStatus = status;
-                // Если фильтр update, то всегда показываем как update (жёлтый), даже если есть missing
                 if (activeFilter === 'update' && pcData && pcData.games && Object.values(pcData.games).some(g => g.update_available)) {
                     displayStatus = 'update';
                 }
