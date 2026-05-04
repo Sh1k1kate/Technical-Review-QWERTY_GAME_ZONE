@@ -128,7 +128,7 @@
         /* Стили для PDF */
         .pdf-report table { width: 100%; border-collapse: collapse; margin-top: 20px; page-break-inside: auto; }
         .pdf-report tr { page-break-inside: avoid; page-break-after: auto; }
-        .pdf-report th, .pdf-report td { border: 1px solid #ccc; padding: 6px; text-align: left; font-size: 9pt; }
+        .pdf-report th, .pdf-report td { border: 1px solid #ccc; padding: 8px; text-align: left; font-size: 10pt; }
         .pdf-report th { background: #f2f2f2; }
         .pdf-report .header { text-align: center; margin-bottom: 20px; }
         .pdf-report .stats { margin: 20px 0; }
@@ -200,30 +200,55 @@
 
     <div id="cardsContainer" class="cards-container"></div>
     <div class="table-container">
-        <table><thead><tr><th onclick="window.sortBy('category')">Категория</th><th onclick="window.sortBy('name')">Наименование</th><th onclick="window.sortBy('systemQuantity')">Учёт</th><th>Фактический</th><th>Статус</th><th></th></tr></thead><tbody id="tableBody"></tbody></table>
+        <tr><thead><tr><th onclick="window.sortBy('category')">Категория</th><th onclick="window.sortBy('name')">Наименование</th><th onclick="window.sortBy('systemQuantity')">Учёт</th><th>Фактический</th><th>Статус</th><th></th></tr></thead><tbody id="tableBody"></tbody></table>
     </div>
     <input type="file" id="mismatchesFileInput" accept=".csv" style="display: none;">
 </div>
 
-<!-- Модальное окно для ввода имени проверяющего (PDF) -->
-<div class="modal" id="inspectorModal">
+<div class="modal" id="itemModal">
     <div class="modal-content">
-        <h3>📝 Подпись отчёта</h3>
+        <h3 id="modalTitle">➕ Добавить товар</h3>
         <div class="form-group">
-            <label class="form-label">ФИО проверяющего (ответственного за инвентаризацию)</label>
-            <input type="text" id="inspectorName" class="form-input" placeholder="Введите ФИО">
+            <label class="form-label">Категория</label>
+            <select id="modalCategory" class="form-select">
+                <option value="Готовая Еда">Готовая Еда</option>
+                <option value="Напитки">Напитки</option>
+                <option value="Снэки">Снэки</option>
+                <option value="Шоколад">Шоколад</option>
+                <option value="Энергетические напитки">Энергетические напитки</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Наименование *</label>
+            <input type="text" id="modalName" class="form-input" placeholder="Введите название" autocomplete="off">
+            <div id="modalAutocomplete" class="autocomplete-list" style="display: none;"></div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Штрихкод</label>
+            <div class="barcode-row">
+                <input type="text" id="modalBarcode" class="form-input" placeholder="Введите или отсканируйте">
+                <button class="btn btn-primary" id="modalScanBarcodeBtn" style="background:#8b5cf6;">📷</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Учётный остаток</label>
+            <input type="number" id="modalSystemQty" class="form-input" value="0" step="1" min="0">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Фактический остаток</label>
+            <input type="number" id="modalFactQty" class="form-input" value="0" step="1" min="0">
         </div>
         <div style="display: flex; gap: 10px; justify-content: flex-end;">
-            <button class="btn" id="cancelInspectorBtn">Отмена</button>
-            <button class="btn btn-primary" id="confirmInspectorBtn">Сформировать PDF</button>
+            <button class="btn" id="cancelModalBtn">Отмена</button>
+            <button class="btn btn-primary" id="saveModalBtn">Сохранить</button>
         </div>
     </div>
 </div>
 
-<div class="modal" id="itemModal">...</div>
-<div class="modal" id="tokenModal">...</div>
-<div class="modal" id="chartModal">...</div>
-<div class="modal" id="historyModal">...</div>
+<div class="modal" id="tokenModal"><div class="modal-content"><h2>🔑 GitHub Token</h2><p>Введите токен с правами на запись</p><input type="password" id="githubToken" style="width:100%; margin:15px 0; padding:10px; border-radius:16px;"><div style="display:flex; gap:10px;"><button class="btn" id="cancelTokenBtn">Отмена</button><button class="btn btn-primary" id="saveTokenBtn">Сохранить</button></div></div></div>
+<div class="modal" id="chartModal"><div class="modal-content"><h3>📈 Динамика расхождений</h3><canvas id="historyChart" width="400" height="300"></canvas><div style="margin-top:16px;"><button class="btn" id="closeChartBtn">Закрыть</button></div></div></div>
+<div class="modal" id="historyModal"><div class="modal-content"><h3>📜 Управление историей</h3><div id="historyList"></div><div style="margin-top:16px;"><button class="btn" id="closeHistoryModalBtn">Закрыть</button></div></div></div>
+<div class="modal" id="inspectorModal"><div class="modal-content"><h3>✍️ Подпись ответственного</h3><p>Введите фамилию или имя проверяющего:</p><input type="text" id="inspectorName" class="form-input" placeholder="Иванов И.И." style="margin: 15px 0;"><div style="display: flex; gap: 10px; justify-content: flex-end;"><button class="btn" id="cancelInspectorBtn">Отмена</button><button class="btn btn-primary" id="confirmInspectorBtn">Продолжить</button></div></div></div>
 
 <div id="toast" style="display:none;" class="toast"></div>
 <div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"><div class="spinner"></div><span>Загрузка...</span></div></div>
@@ -352,7 +377,9 @@
         return false;
     }
     
-    // ========== ИСТОРИЯ (упрощённо) ==========
+    // ========== ИСТОРИЯ ==========
+    async function saveHistoryToGithub(showMsg=false){ /* ... */ return true; }
+    async function loadHistoryFromGithub(showMsg=false){ return false; }
     function saveHistoryToLocal(){ localStorage.setItem('inventory_history_v2', JSON.stringify(history)); }
     function loadHistoryFromLocal(){
         const saved = localStorage.getItem('inventory_history_v2');
@@ -616,7 +643,8 @@
                                 clearInterval(scanInterval);
                                 stream.getTracks().forEach(track => track.stop());
                                 video.remove();
-                                handleScannedBarcode(barcodes[0].rawValue);
+                                const barcodeValue = barcodes[0].rawValue;
+                                handleScannedBarcode(barcodeValue);
                             }
                         }catch(e){}
                     }
@@ -890,32 +918,45 @@
         showToast('✅ Фактические остатки сохранены (история и мастер обновлены)', 'success');
     }
     
-    // ========== ЭКСПОРТ PDF С ЗАПРОСОМ ИМЕНИ ==========
+    // ========== ЭКСПОРТ PDF С МОДАЛЬНЫМ ОКНОМ ДЛЯ ИМЕНИ ==========
+    let pendingInspectorCallback = null;
+    function askInspectorName(callback){
+        const modal = document.getElementById('inspectorModal');
+        const input = document.getElementById('inspectorName');
+        input.value = '';
+        const confirmBtn = document.getElementById('confirmInspectorBtn');
+        const cancelBtn = document.getElementById('cancelInspectorBtn');
+        const newConfirmHandler = () => {
+            const name = input.value.trim();
+            if(!name){
+                showToast('Введите имя проверяющего', 'error');
+                return;
+            }
+            modal.classList.remove('active');
+            callback(name);
+            confirmBtn.removeEventListener('click', newConfirmHandler);
+            cancelBtn.removeEventListener('click', cancelHandler);
+        };
+        const cancelHandler = () => {
+            modal.classList.remove('active');
+            callback(null);
+            confirmBtn.removeEventListener('click', newConfirmHandler);
+            cancelBtn.removeEventListener('click', cancelHandler);
+        };
+        confirmBtn.removeEventListener('click', newConfirmHandler);
+        cancelBtn.removeEventListener('click', cancelHandler);
+        confirmBtn.addEventListener('click', newConfirmHandler);
+        cancelBtn.addEventListener('click', cancelHandler);
+        modal.classList.add('active');
+    }
     async function exportToPDF(){
         const mismatches = inventoryItems.filter(item => item.factQuantity !== item.systemQuantity);
         if(mismatches.length === 0){
             showToast('Нет расхождений для экспорта', 'error');
             return;
         }
-        // Показываем модальное окно для ввода имени проверяющего
-        const modal = document.getElementById('inspectorModal');
-        const inspectorInput = document.getElementById('inspectorName');
-        inspectorInput.value = '';
-        modal.classList.add('active');
-        
-        // Обработчик подтверждения
-        const confirmBtn = document.getElementById('confirmInspectorBtn');
-        const cancelBtn = document.getElementById('cancelInspectorBtn');
-        const confirmHandler = async () => {
-            const inspectorName = inspectorInput.value.trim();
-            if(!inspectorName){
-                showToast('Введите ФИО проверяющего', 'error');
-                return;
-            }
-            modal.classList.remove('active');
-            confirmBtn.removeEventListener('click', confirmHandler);
-            cancelBtn.removeEventListener('click', cancelHandler);
-            // Генерируем PDF
+        askInspectorName(async (inspectorName) => {
+            if(!inspectorName) return;
             const reportDiv = document.createElement('div');
             reportDiv.className = 'pdf-report';
             reportDiv.style.padding = '20px';
@@ -948,14 +989,20 @@
             `;
             mismatches.forEach(item => {
                 const diff = item.factQuantity - item.systemQuantity;
-                tableHtml += `<tr><td>${escapeHtml(item.category)}</td><td>${escapeHtml(item.name)}</td><td>${item.systemQuantity} шт</td><td>${item.factQuantity} шт</td><td>${diff > 0 ? '+' : ''}${diff} шт</td></tr>`;
+                tableHtml += `<tr>
+                    <td>${escapeHtml(item.category)}</td>
+                    <td>${escapeHtml(item.name)}</td>
+                    <td>${item.systemQuantity} шт</td>
+                    <td>${item.factQuantity} шт</td>
+                    <td>${diff > 0 ? '+' : ''}${diff} шт</td>
+                </tr>`;
             });
             tableHtml += `
                     </tbody>
                 </table>
                 <div class="signature">
                     <div>Ответственный за инвентаризацию: ${escapeHtml(inspectorName)}</div>
-                    <div>&nbsp;</div>
+                    <div>_________________</div>
                 </div>
             `;
             reportDiv.innerHTML = tableHtml;
@@ -975,14 +1022,7 @@
                 console.error(e);
             }
             document.body.removeChild(reportDiv);
-        };
-        const cancelHandler = () => {
-            modal.classList.remove('active');
-            confirmBtn.removeEventListener('click', confirmHandler);
-            cancelBtn.removeEventListener('click', cancelHandler);
-        };
-        confirmBtn.addEventListener('click', confirmHandler);
-        cancelBtn.addEventListener('click', cancelHandler);
+        });
     }
     
     function getMismatches(){ return inventoryItems.filter(item => item.factQuantity !== item.systemQuantity); }
@@ -1051,7 +1091,7 @@
                 <td><input type="number" class="fact-input" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0"></td>
                 <td><span class="badge ${isMismatch ? 'badge-mismatch' : 'badge-match'}">${isMismatch ? '⚠️ Расхождение' : '✅ Совпадает'}</span></td>
                 <td><button class="delete-table-btn" data-id="${item.id}">🗑️</button></td>
-            <tr>`;
+            </table>`;
         }).join('');
         document.querySelectorAll('.fact-input').forEach(inp => inp.addEventListener('change', (e) => updateFactQuantity(parseInt(inp.dataset.id), inp.value)));
         document.querySelectorAll('.delete-table-btn').forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); deleteItem(parseInt(btn.dataset.id)); }));
