@@ -1383,8 +1383,9 @@
       "id": 198,
       "category": "Шоколад",
       "name": "KitKat Chunky 40г",
-      "barcode": "",
-      "systemQuantity": 12
+      "barcode": "3800020432259",
+      "systemQuantity": 12,
+      "lastFactQuantity": 12
     },
     {
       "id": 199,
@@ -1441,7 +1442,55 @@
       "name": "Lays Рифленые Стейк Рибай 140г",
       "barcode": "",
       "systemQuantity": 3
+    },
+    {
+      "id": 1,
+      "category": "Шоколад",
+      "name": "KitKat Chunky 40г",
+      "barcode": "",
+      "systemQuantity": 12,
+      "lastFactQuantity": 12
+    },
+    {
+      "id": 2,
+      "category": "Шоколад",
+      "name": "KitKat Chunky 40г",
+      "barcode": "3800020432259",
+      "systemQuantity": 12,
+      "lastFactQuantity": 12
+    },
+    {
+      "id": 3,
+      "category": "Шоколад",
+      "name": "Kinder Bueno 43г",
+      "barcode": "80052760",
+      "systemQuantity": 38,
+      "lastFactQuantity": 38
+    },
+    {
+      "id": 4,
+      "category": "Шоколад",
+      "name": "Kinder Bueno White 39г",
+      "barcode": "80761761",
+      "systemQuantity": 27,
+      "lastFactQuantity": 27
+    },
+    {
+      "id": 5,
+      "category": "Шоколад",
+      "name": "Twix XTRA соленая карамель",
+      "barcode": "4660085519758",
+      "systemQuantity": 14,
+      "lastFactQuantity": 14
+    },
+    {
+      "id": 6,
+      "category": "Шоколад",
+      "name": "Twix Extra 82г",
+      "barcode": "5000159390729",
+      "systemQuantity": 17,
+      "lastFactQuantity": 17
     }
   ],
-  "lastUpdated": "2026-05-04T18:19:53.440Z"
+  "lastUpdated": "2026-05-04T18:56:42.145Z"
 }
