@@ -1,52 +1,52 @@
 [
   {
-    "timestamp": 1777931944333,
+    "timestamp": 1777934347507,
     "items": [
       {
         "id": 1,
-        "factQuantity": 22,
+        "factQuantity": 12,
         "systemQuantity": 22,
         "name": "Adrenaline Energy Power Game Fuel 0,45л",
         "category": "Энергетические напитки"
       },
       {
         "id": 2,
-        "factQuantity": 59,
+        "factQuantity": 12,
         "systemQuantity": 58,
         "name": "Adrenaline Rush 0.45л",
         "category": "Энергетические напитки"
       },
       {
         "id": 3,
-        "factQuantity": 24,
+        "factQuantity": 38,
         "systemQuantity": 24,
         "name": "Adrenaline Ягодный Микс 0,45л",
         "category": "Энергетические напитки"
       },
       {
         "id": 4,
-        "factQuantity": 52,
+        "factQuantity": 27,
         "systemQuantity": 52,
         "name": "Adrenaline Zero Sugar 0.45л",
         "category": "Энергетические напитки"
       },
       {
         "id": 5,
-        "factQuantity": 10,
+        "factQuantity": 14,
         "systemQuantity": 70,
         "name": "Adrenaline Zero Sugar 0.25л",
         "category": "Энергетические напитки"
       },
       {
         "id": 6,
-        "factQuantity": 60,
+        "factQuantity": 17,
         "systemQuantity": 61,
         "name": "Adrenaline Rush 0.25л",
         "category": "Энергетические напитки"
       },
       {
         "id": 7,
-        "factQuantity": 56,
+        "factQuantity": 16,
         "systemQuantity": 56,
         "name": "Aqua Minerale Негазированная 0.5л",
         "category": "Напитки"
@@ -144,7 +144,7 @@
       },
       {
         "id": 21,
-        "factQuantity": 19,
+        "factQuantity": 16,
         "systemQuantity": 16,
         "name": "Lays Из Печи Нежный сыр с зеленью  85г",
         "category": "Снэки"
@@ -158,7 +158,7 @@
       },
       {
         "id": 23,
-        "factQuantity": 37,
+        "factQuantity": 38,
         "systemQuantity": 38,
         "name": "Kinder Bueno 43г",
         "category": "Шоколад"
@@ -270,7 +270,7 @@
       },
       {
         "id": 39,
-        "factQuantity": 33,
+        "factQuantity": 36,
         "systemQuantity": 36,
         "name": "Липтон Лимон 0.5л",
         "category": "Напитки"
@@ -284,7 +284,7 @@
       },
       {
         "id": 41,
-        "factQuantity": 32,
+        "factQuantity": 35,
         "systemQuantity": 35,
         "name": "Липтон Малина 0.5л",
         "category": "Напитки"
@@ -389,7 +389,7 @@
       },
       {
         "id": 56,
-        "factQuantity": 10,
+        "factQuantity": 9,
         "systemQuantity": 9,
         "name": "Monster Monarch 0,5л",
         "category": "Энергетические напитки"
@@ -550,7 +550,7 @@
       },
       {
         "id": 79,
-        "factQuantity": 3,
+        "factQuantity": 0,
         "systemQuantity": 0,
         "name": "Бургер №15 ''Италиано'' 190г",
         "category": "Готовая Еда"
@@ -627,7 +627,7 @@
       },
       {
         "id": 90,
-        "factQuantity": 28,
+        "factQuantity": 40,
         "systemQuantity": 40,
         "name": "Хрустим Багет Королевский Краб 60г",
         "category": "Снэки"
@@ -648,7 +648,7 @@
       },
       {
         "id": 93,
-        "factQuantity": 19,
+        "factQuantity": 31,
         "systemQuantity": 31,
         "name": "Хрустим Багет Сырное Ассорти 60г",
         "category": "Снэки"
@@ -1180,7 +1180,7 @@
       },
       {
         "id": 169,
-        "factQuantity": 30,
+        "factQuantity": 32,
         "systemQuantity": 32,
         "name": "Red Bull Тропический микс 0,355л",
         "category": "Энергетические напитки"
@@ -1194,14 +1194,14 @@
       },
       {
         "id": 171,
-        "factQuantity": 12,
+        "factQuantity": 13,
         "systemQuantity": 13,
         "name": "Lays Рифлёные Лобстер 70г",
         "category": "Снэки"
       },
       {
         "id": 172,
-        "factQuantity": 4,
+        "factQuantity": 6,
         "systemQuantity": 6,
         "name": "Сухарики шашлык с кетчупом 60г",
         "category": "Снэки"
@@ -1229,7 +1229,7 @@
       },
       {
         "id": 176,
-        "factQuantity": 8,
+        "factQuantity": 9,
         "systemQuantity": 9,
         "name": "Monster Ultra Violet 0.5л",
         "category": "Энергетические напитки"
@@ -1257,7 +1257,7 @@
       },
       {
         "id": 180,
-        "factQuantity": 12,
+        "factQuantity": 14,
         "systemQuantity": 14,
         "name": "Twix XTRA соленая карамель",
         "category": "Шоколад"
@@ -1383,7 +1383,7 @@
       },
       {
         "id": 198,
-        "factQuantity": 11,
+        "factQuantity": 12,
         "systemQuantity": 12,
         "name": "KitKat Chunky 40г",
         "category": "Шоколад"
@@ -1432,7 +1432,7 @@
       },
       {
         "id": 205,
-        "factQuantity": 4,
+        "factQuantity": 8,
         "systemQuantity": 8,
         "name": "Lays Рифлёные Лобстер 140г",
         "category": "Снэки"
@@ -1442,6 +1442,55 @@
         "factQuantity": 3,
         "systemQuantity": 3,
         "name": "Lays Рифленые Стейк Рибай 140г",
+        "category": "Снэки"
+      },
+      {
+        "id": 1,
+        "factQuantity": 12,
+        "systemQuantity": 12,
+        "name": "KitKat Chunky 40г",
+        "category": "Шоколад"
+      },
+      {
+        "id": 2,
+        "factQuantity": 12,
+        "systemQuantity": 12,
+        "name": "KitKat Chunky 40г",
+        "category": "Шоколад"
+      },
+      {
+        "id": 3,
+        "factQuantity": 38,
+        "systemQuantity": 38,
+        "name": "Kinder Bueno 43г",
+        "category": "Шоколад"
+      },
+      {
+        "id": 4,
+        "factQuantity": 27,
+        "systemQuantity": 27,
+        "name": "Kinder Bueno White 39г",
+        "category": "Шоколад"
+      },
+      {
+        "id": 5,
+        "factQuantity": 14,
+        "systemQuantity": 14,
+        "name": "Twix XTRA соленая карамель",
+        "category": "Шоколад"
+      },
+      {
+        "id": 6,
+        "factQuantity": 17,
+        "systemQuantity": 17,
+        "name": "Twix Extra 82г",
+        "category": "Шоколад"
+      },
+      {
+        "id": 7,
+        "factQuantity": 16,
+        "systemQuantity": 16,
+        "name": "Lays Из Печи Нежный сыр с зеленью  85г",
         "category": "Снэки"
       }
     ]
