@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="free-icon-food-and-drink-9290087.png">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        /* (стили остаются как в предыдущей версии, добавим небольшой стиль для инлайн-кнопки) */
+        /* (стили остаются как в предыдущей версии, они уже адаптированы) */
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; margin: 0; padding: 0; }
         body { background: #f4f7fb; color: #1e293b; padding: 12px; min-height: 100vh; }
         body.dark-theme { background: #0f172a; color: #e2e8f0; }
@@ -112,11 +112,11 @@
         .dark-theme .modal-content { background: #1e293b; color: #e2e8f0; }
         .form-group { margin-bottom: 16px; position: relative; }
         .form-label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 0.85rem; }
-        .barcode-group { display: flex; gap: 8px; align-items: center; }
-        .barcode-group .form-input { flex: 1; }
-        .barcode-group .btn { flex-shrink: 0; }
         .form-input, .form-select { width: 100%; padding: 8px 12px; border-radius: 16px; border: 1px solid #cbd5e1; font-size: 0.9rem; }
         .dark-theme .form-input, .dark-theme .form-select { background: #0f172a; border-color: #475569; color: white; }
+        .barcode-row { display: flex; gap: 8px; align-items: center; }
+        .barcode-row .form-input { flex: 1; }
+        .barcode-row .btn { flex-shrink: 0; }
         .autocomplete-list { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #e2e8f0; border-radius: 16px; margin-top: 4px; max-height: 200px; overflow-y: auto; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .dark-theme .autocomplete-list { background: #1e293b; border-color: #334155; }
         .autocomplete-item { padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; }
@@ -214,10 +214,10 @@
             <div id="modalAutocomplete" class="autocomplete-list" style="display: none;"></div>
         </div>
         <div class="form-group">
-            <label class="form-label">Штрихкод (необязательно)</label>
-            <div class="barcode-group">
+            <label class="form-label">Штрихкод</label>
+            <div class="barcode-row">
                 <input type="text" id="modalBarcode" class="form-input" placeholder="Введите или отсканируйте">
-                <button class="btn btn-primary" id="modalScanBarcodeBtn" style="background:#8b5cf6;">📷 Сканировать</button>
+                <button class="btn btn-primary" id="modalScanBarcodeBtn" style="background:#8b5cf6;">📷</button>
             </div>
         </div>
         <div class="form-group">
@@ -264,7 +264,9 @@
     let history = [];
     const TWO_HOURS = 2 * 60 * 60 * 1000;
     
-    // ---- Функции работы с мастером и инвентаризацией (как в предыдущей версии) ----
+    // Флаги для модального окна (режим привязки штрихкода)
+    let pendingBarcode = null; // если не null, значит открыто окно для привязки этого штрихкода
+    
     function loadMasterFromLocal(){
         const saved = localStorage.getItem('products_master_v2');
         if(saved){
@@ -362,6 +364,7 @@
         }
         return false;
     }
+    
     function loadHistory(){
         const saved = localStorage.getItem('inventory_history_v2');
         if(saved){
@@ -429,6 +432,7 @@
         renderAll();
         showToast(`✅ Восстановлена инвентаризация от ${new Date(record.timestamp).toLocaleString()}`, 'success');
     }
+    
     function parseCSVAndMergeMaster(csvText){
         const lines = csvText.split(/\r?\n/);
         if(lines.length === 0) return;
@@ -496,155 +500,11 @@
         reader.readAsText(file, 'UTF-8');
     }
     
-    // ---- Универсальная функция сканирования (возвращает Promise со штрихкодом) ----
-    async function scanBarcodeOnce(){
-        return new Promise(async (resolve, reject) => {
-            if('BarcodeDetector' in window){
-                try{
-                    const detector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e', 'code_128', 'code_39', 'qr_code'] });
-                    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-                    const video = document.createElement('video');
-                    video.srcObject = stream;
-                    video.setAttribute('playsinline', true);
-                    video.style.position = 'fixed';
-                    video.style.top = '0';
-                    video.style.left = '0';
-                    video.style.width = '100%';
-                    video.style.height = '100%';
-                    video.style.objectFit = 'cover';
-                    video.style.zIndex = '10000';
-                    document.body.appendChild(video);
-                    await video.play();
-                    const scanInterval = setInterval(async () => {
-                        if(video.readyState === video.HAVE_ENOUGH_DATA){
-                            try{
-                                const barcodes = await detector.detect(video);
-                                if(barcodes.length > 0){
-                                    clearInterval(scanInterval);
-                                    stream.getTracks().forEach(track => track.stop());
-                                    video.remove();
-                                    resolve(barcodes[0].rawValue);
-                                }
-                            }catch(e){}
-                        }
-                    }, 200);
-                    setTimeout(() => {
-                        clearInterval(scanInterval);
-                        if(stream.active){
-                            stream.getTracks().forEach(track => track.stop());
-                            video.remove();
-                            reject('timeout');
-                        }
-                    }, 30000);
-                } catch(err){
-                    reject(err);
-                }
-            } else {
-                reject('no-api');
-            }
-        });
-    }
-    
-    // Сканирование из основной кнопки (вне модалки) – открывает модалку с результатом
-    async function startBarcodeScan(){
-        try{
-            const barcode = await scanBarcodeOnce();
-            const masterItem = masterProducts.find(p => p.barcode === barcode);
-            if(masterItem){
-                addOrEditItem(masterItem.id);
-                showToast(`🔍 Найден товар: ${masterItem.name}`, 'success');
-            } else {
-                openAddItemWithBarcode(barcode);
-            }
-        } catch(e){
-            if(e === 'timeout') showToast('Сканирование отменено', 'error');
-            else if(e === 'no-api') manualBarcodeInput();
-            else showToast('Ошибка камеры', 'error');
-        }
-    }
-    function manualBarcodeInput(){
-        const code = prompt('Введите штрихкод вручную:');
-        if(code){
-            const masterItem = masterProducts.find(p => p.barcode === code);
-            if(masterItem) addOrEditItem(masterItem.id);
-            else openAddItemWithBarcode(code);
-        }
-    }
-    function openAddItemWithBarcode(barcode){
-        // Закрываем возможное открытое модальное окно
-        const modal = document.getElementById('itemModal');
-        modal.classList.remove('active');
-        // Устанавливаем значения для нового товара
-        document.getElementById('modalTitle').innerText = '➕ Добавить товар (из штрихкода)';
-        document.getElementById('modalCategory').value = 'Напитки';
-        document.getElementById('modalName').value = '';
-        document.getElementById('modalBarcode').value = barcode;
-        document.getElementById('modalSystemQty').value = 0;
-        document.getElementById('modalFactQty').value = 0;
-        // Устанавливаем обработчик сохранения для нового товара
-        const saveBtn = document.getElementById('saveModalBtn');
-        const oldHandler = saveBtn.onclick;
-        const newSaveHandler = () => {
-            const name = document.getElementById('modalName').value.trim();
-            if(!name){ showToast('Введите наименование', 'error'); return; }
-            const category = document.getElementById('modalCategory').value;
-            const newBarcode = document.getElementById('modalBarcode').value.trim();
-            const systemQuantity = parseInt(document.getElementById('modalSystemQty').value) || 0;
-            const factQuantity = parseInt(document.getElementById('modalFactQty').value) || 0;
-            const newId = nextMasterId++;
-            masterProducts.push({
-                id: newId,
-                category,
-                name,
-                barcode: newBarcode,
-                systemQuantity,
-                lastFactQuantity: factQuantity
-            });
-            inventoryItems.push({
-                id: newId,
-                category,
-                name,
-                systemQuantity,
-                factQuantity
-            });
-            saveMasterToLocal();
-            saveInventoryToLocal();
-            renderAll();
-            modal.classList.remove('active');
-            showToast(`✅ Добавлен "${name}"`, 'success');
-            saveBtn.onclick = oldHandler;
-        };
-        saveBtn.onclick = newSaveHandler;
-        document.getElementById('cancelModalBtn').onclick = () => {
-            modal.classList.remove('active');
-            saveBtn.onclick = oldHandler;
-        };
-        modal.classList.add('active');
-        setupAutocomplete(); // обновляем автокомплит
-    }
-    
-    // Сканирование из модального окна – просто вставляет штрихкод в поле, не открывая новое окно
-    async function scanBarcodeForModal(){
-        try{
-            const barcode = await scanBarcodeOnce();
-            const barcodeInput = document.getElementById('modalBarcode');
-            barcodeInput.value = barcode;
-            showToast(`Штрихкод ${barcode} вставлен`, 'success');
-        } catch(e){
-            if(e === 'timeout') showToast('Сканирование отменено', 'error');
-            else if(e === 'no-api'){
-                const code = prompt('Введите штрихкод вручную:');
-                if(code) document.getElementById('modalBarcode').value = code;
-            } else showToast('Ошибка камеры', 'error');
-        }
-    }
-    
-    // Автокомплит с сохранением уже введённого штрихкода
+    // Автокомплит в модальном окне
     function setupAutocomplete(){
         const nameInput = document.getElementById('modalName');
         const autocompleteDiv = document.getElementById('modalAutocomplete');
         if(!nameInput) return;
-        // Удаляем старые обработчики
         nameInput.removeEventListener('input', window._autocompleteInputHandler);
         const inputHandler = function(){
             const value = this.value.toLowerCase().trim();
@@ -674,15 +534,17 @@
             if(item){
                 const name = item.dataset.name;
                 const category = item.dataset.category;
-                const barcodeFromMaster = item.dataset.barcode;
+                const barcode = item.dataset.barcode;
                 const systemQty = parseInt(item.dataset.system);
                 const factQty = parseInt(item.dataset.fact);
                 nameInput.value = name;
                 document.getElementById('modalCategory').value = category;
-                // НЕ перезаписываем штрихкод, если он уже непустой (пользователь мог отсканировать)
-                const currentBarcode = document.getElementById('modalBarcode').value.trim();
-                if(!currentBarcode && barcodeFromMaster){
-                    document.getElementById('modalBarcode').value = barcodeFromMaster;
+                const barcodeField = document.getElementById('modalBarcode');
+                // Если есть pendingBarcode (режим привязки) – не затираем его, иначе используем barcode из подсказки
+                if(pendingBarcode !== null){
+                    barcodeField.value = pendingBarcode;
+                } else {
+                    barcodeField.value = barcode;
                 }
                 document.getElementById('modalSystemQty').value = systemQty;
                 document.getElementById('modalFactQty').value = factQty;
@@ -703,7 +565,215 @@
         window._autocompleteOutsideHandler = outsideHandler;
     }
     
-    // Остальные функции (updateFactQuantity, deleteItem, addOrEditItem, render...)
+    // Сканирование штрихкода (главная кнопка)
+    async function startBarcodeScan(){
+        if('BarcodeDetector' in window){
+            try{
+                const detector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e', 'code_128', 'code_39', 'qr_code'] });
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.setAttribute('playsinline', true);
+                video.style.position = 'fixed';
+                video.style.top = '0';
+                video.style.left = '0';
+                video.style.width = '100%';
+                video.style.height = '100%';
+                video.style.objectFit = 'cover';
+                video.style.zIndex = '10000';
+                document.body.appendChild(video);
+                await video.play();
+                const scanInterval = setInterval(async () => {
+                    if(video.readyState === video.HAVE_ENOUGH_DATA){
+                        try{
+                            const barcodes = await detector.detect(video);
+                            if(barcodes.length > 0){
+                                clearInterval(scanInterval);
+                                stream.getTracks().forEach(track => track.stop());
+                                video.remove();
+                                const barcodeValue = barcodes[0].rawValue;
+                                handleScannedBarcode(barcodeValue);
+                            }
+                        }catch(e){}
+                    }
+                }, 200);
+                setTimeout(() => {
+                    clearInterval(scanInterval);
+                    if(stream.active){
+                        stream.getTracks().forEach(track => track.stop());
+                        video.remove();
+                        showToast('Сканирование отменено', 'error');
+                    }
+                }, 30000);
+            } catch(err){
+                showToast('Не удалось открыть камеру', 'error');
+                manualBarcodeInput();
+            }
+        } else {
+            manualBarcodeInput();
+        }
+    }
+    function manualBarcodeInput(){
+        const code = prompt('Введите штрихкод вручную:');
+        if(code) handleScannedBarcode(code);
+    }
+    function handleScannedBarcode(barcode){
+        // Ищем товар с таким штрихкодом
+        const existing = masterProducts.find(p => p.barcode === barcode);
+        if(existing){
+            // Открываем редактирование существующего товара
+            addOrEditItem(existing.id);
+            showToast(`🔍 Найден товар: ${existing.name}`, 'success');
+        } else {
+            // Открываем режим привязки штрихкода к существующему или новому товару
+            pendingBarcode = barcode;
+            openBarcodeAssignmentModal(barcode);
+        }
+    }
+    function openBarcodeAssignmentModal(barcode){
+        const modal = document.getElementById('itemModal');
+        const title = document.getElementById('modalTitle');
+        title.innerText = '🔗 Привязка штрихкода';
+        document.getElementById('modalCategory').value = 'Напитки';
+        document.getElementById('modalName').value = '';
+        const barcodeField = document.getElementById('modalBarcode');
+        barcodeField.value = barcode;
+        barcodeField.readOnly = true;
+        document.getElementById('modalSystemQty').value = 0;
+        document.getElementById('modalFactQty').value = 0;
+        // Сохраняем оригинальный обработчик, чтобы восстановить после закрытия
+        const saveBtn = document.getElementById('saveModalBtn');
+        const oldHandler = saveBtn.onclick;
+        const newHandler = () => {
+            const name = document.getElementById('modalName').value.trim();
+            if(!name){
+                showToast('Выберите или введите название товара', 'error');
+                return;
+            }
+            const category = document.getElementById('modalCategory').value;
+            const systemQuantity = parseInt(document.getElementById('modalSystemQty').value) || 0;
+            const factQuantity = parseInt(document.getElementById('modalFactQty').value) || 0;
+            const scannedBarcode = document.getElementById('modalBarcode').value;
+            // Ищем товар в мастере по имени и категории (существующий)
+            let existingProduct = masterProducts.find(p => p.name === name && p.category === category);
+            if(existingProduct){
+                // Обновляем штрихкод у существующего товара
+                existingProduct.barcode = scannedBarcode;
+                saveMasterToLocal();
+                // Обновляем инвентаризацию: если товар уже есть в inventoryItems, то обновляем его данные
+                const invItem = inventoryItems.find(i => i.id === existingProduct.id);
+                if(invItem){
+                    invItem.systemQuantity = existingProduct.systemQuantity;
+                    invItem.factQuantity = (existingProduct.lastFactQuantity !== undefined) ? existingProduct.lastFactQuantity : existingProduct.systemQuantity;
+                    invItem.category = existingProduct.category;
+                    invItem.name = existingProduct.name;
+                } else {
+                    // Добавляем товар в инвентаризацию
+                    inventoryItems.push({
+                        id: existingProduct.id,
+                        category: existingProduct.category,
+                        name: existingProduct.name,
+                        systemQuantity: existingProduct.systemQuantity,
+                        factQuantity: (existingProduct.lastFactQuantity !== undefined) ? existingProduct.lastFactQuantity : existingProduct.systemQuantity
+                    });
+                }
+                saveInventoryToLocal();
+                renderAll();
+                showToast(`✅ Штрихкод добавлен к товару "${name}"`, 'success');
+            } else {
+                // Создаём новый товар
+                const newId = nextMasterId++;
+                masterProducts.push({
+                    id: newId,
+                    category: category,
+                    name: name,
+                    barcode: scannedBarcode,
+                    systemQuantity: systemQuantity,
+                    lastFactQuantity: factQuantity
+                });
+                inventoryItems.push({
+                    id: newId,
+                    category: category,
+                    name: name,
+                    systemQuantity: systemQuantity,
+                    factQuantity: factQuantity
+                });
+                saveMasterToLocal();
+                saveInventoryToLocal();
+                renderAll();
+                showToast(`✅ Новый товар "${name}" добавлен со штрихкодом`, 'success');
+            }
+            modal.classList.remove('active');
+            saveBtn.onclick = oldHandler;
+            pendingBarcode = null;
+            // Возвращаем поле barcode в обычный режим
+            barcodeField.readOnly = false;
+        };
+        saveBtn.onclick = newHandler;
+        document.getElementById('cancelModalBtn').onclick = () => {
+            modal.classList.remove('active');
+            saveBtn.onclick = oldHandler;
+            pendingBarcode = null;
+            barcodeField.readOnly = false;
+        };
+        modal.classList.add('active');
+        setupAutocomplete(); // чтобы подсказки работали
+        // Дополнительно: кнопка сканирования внутри модального окна должна работать
+    }
+    
+    // Вспомогательное сканирование внутри модального окна
+    async function modalStartBarcodeScan(){
+        if('BarcodeDetector' in window){
+            try{
+                const detector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e', 'code_128', 'code_39', 'qr_code'] });
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.setAttribute('playsinline', true);
+                video.style.position = 'fixed';
+                video.style.top = '0';
+                video.style.left = '0';
+                video.style.width = '100%';
+                video.style.height = '100%';
+                video.style.objectFit = 'cover';
+                video.style.zIndex = '10000';
+                document.body.appendChild(video);
+                await video.play();
+                const scanInterval = setInterval(async () => {
+                    if(video.readyState === video.HAVE_ENOUGH_DATA){
+                        try{
+                            const barcodes = await detector.detect(video);
+                            if(barcodes.length > 0){
+                                clearInterval(scanInterval);
+                                stream.getTracks().forEach(track => track.stop());
+                                video.remove();
+                                const barcodeValue = barcodes[0].rawValue;
+                                // Вставляем штрихкод в поле
+                                document.getElementById('modalBarcode').value = barcodeValue;
+                                showToast(`Штрихкод ${barcodeValue} вставлен`, 'success');
+                            }
+                        }catch(e){}
+                    }
+                }, 200);
+                setTimeout(() => {
+                    clearInterval(scanInterval);
+                    if(stream.active){
+                        stream.getTracks().forEach(track => track.stop());
+                        video.remove();
+                        showToast('Сканирование отменено', 'error');
+                    }
+                }, 30000);
+            } catch(err){
+                showToast('Не удалось открыть камеру', 'error');
+                const code = prompt('Введите штрихкод вручную:');
+                if(code) document.getElementById('modalBarcode').value = code;
+            }
+        } else {
+            const code = prompt('Введите штрихкод вручную:');
+            if(code) document.getElementById('modalBarcode').value = code;
+        }
+    }
+    
     function updateFactQuantity(id, newFact){
         const item = inventoryItems.find(i => i.id === id);
         if(item){
@@ -732,6 +802,9 @@
         const barcodeInput = document.getElementById('modalBarcode');
         const systemQty = document.getElementById('modalSystemQty');
         const factQty = document.getElementById('modalFactQty');
+        // Сбрасываем pendingBarcode, если он был (чтобы не мешал)
+        pendingBarcode = null;
+        barcodeInput.readOnly = false;
         document.getElementById('modalAutocomplete').style.display = 'none';
         if(editId){
             const item = inventoryItems.find(i => i.id === editId);
@@ -788,9 +861,6 @@
             saveBtn.onclick = oldHandler;
         };
         setupAutocomplete();
-        // Привязываем кнопку сканирования внутри модалки
-        const modalScanBtn = document.getElementById('modalScanBarcodeBtn');
-        modalScanBtn.onclick = scanBarcodeForModal;
     }
     
     function applyAllFactual(){
@@ -1019,6 +1089,9 @@
         document.getElementById('closeChartBtn').addEventListener('click', () => document.getElementById('chartModal').classList.remove('active'));
         document.getElementById('saveMasterToGithubBtn').addEventListener('click', () => saveMasterToGithub(true));
         document.getElementById('loadMasterFromGithubBtn').addEventListener('click', () => loadMasterFromGithub(true));
+        
+        // Кнопка сканирования внутри модального окна
+        document.getElementById('modalScanBarcodeBtn').addEventListener('click', modalStartBarcodeScan);
         
         const stockCheck = document.getElementById('onlyWithStockCheckbox');
         stockCheck.addEventListener('change', e => { onlyWithStock = e.target.checked; localStorage.setItem('only_with_stock', onlyWithStock); renderAll(); });
