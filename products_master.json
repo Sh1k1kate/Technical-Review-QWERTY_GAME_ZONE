@@ -137,29 +137,32 @@
       "id": 20,
       "category": "Снэки",
       "name": "Lays Из Печи Лисички 85г",
-      "barcode": "",
+      "barcode": "4690388124441",
       "systemQuantity": 13
     },
     {
       "id": 21,
       "category": "Снэки",
       "name": "Lays Из Печи Нежный сыр с зеленью  85г",
-      "barcode": "",
-      "systemQuantity": 16
+      "barcode": "4690388124465",
+      "systemQuantity": 16,
+      "lastFactQuantity": 16
     },
     {
       "id": 22,
       "category": "Шоколад",
       "name": "Kinder Bueno White 39г",
-      "barcode": "",
-      "systemQuantity": 27
+      "barcode": "80761761",
+      "systemQuantity": 27,
+      "lastFactQuantity": 27
     },
     {
       "id": 23,
       "category": "Шоколад",
       "name": "Kinder Bueno 43г",
-      "barcode": "",
-      "systemQuantity": 38
+      "barcode": "80052760",
+      "systemQuantity": 38,
+      "lastFactQuantity": 38
     },
     {
       "id": 24,
@@ -963,8 +966,9 @@
       "id": 138,
       "category": "Шоколад",
       "name": "Twix Extra 82г",
-      "barcode": "",
-      "systemQuantity": 17
+      "barcode": "5000159390729",
+      "systemQuantity": 17,
+      "lastFactQuantity": 17
     },
     {
       "id": 139,
@@ -1257,8 +1261,9 @@
       "id": 180,
       "category": "Шоколад",
       "name": "Twix XTRA соленая карамель",
-      "barcode": "",
-      "systemQuantity": 14
+      "barcode": "4660085519758",
+      "systemQuantity": 14,
+      "lastFactQuantity": 14
     },
     {
       "id": 181,
@@ -1299,8 +1304,9 @@
       "id": 186,
       "category": "Снэки",
       "name": "Lays ИЗ Печи Мусс из Лосося 85г",
-      "barcode": "",
-      "systemQuantity": 5
+      "barcode": "4690388123574",
+      "systemQuantity": 5,
+      "lastFactQuantity": 5
     },
     {
       "id": 187,
@@ -1490,7 +1496,15 @@
       "barcode": "5000159390729",
       "systemQuantity": 17,
       "lastFactQuantity": 17
+    },
+    {
+      "id": 7,
+      "category": "Снэки",
+      "name": "Lays Из Печи Нежный сыр с зеленью  85г",
+      "barcode": "4690388124465",
+      "systemQuantity": 16,
+      "lastFactQuantity": 16
     }
   ],
-  "lastUpdated": "2026-05-04T18:56:42.145Z"
+  "lastUpdated": "2026-05-04T19:25:19.314Z"
 }
