@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="free-icon-food-and-drink-9290087.png">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        /* Стили (оставляем как в последней стабильной версии) */
+        /* Стили (полностью как в предыдущей стабильной версии) */
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; margin: 0; padding: 0; }
         body { background: #f4f7fb; color: #1e293b; padding: 12px; min-height: 100vh; }
         body.dark-theme { background: #0f172a; color: #e2e8f0; }
@@ -371,7 +371,7 @@
         return false;
     }
     
-    // ========== ИСТОРИЯ с синхронизацией GitHub и select ==========
+    // ========== ИСТОРИЯ ==========
     async function saveHistoryToGithub(showMsg=false){
         if(!githubToken) return false;
         try {
@@ -435,7 +435,6 @@
         }
         select.style.display = 'inline-flex';
         if(manageBtn) manageBtn.style.display = 'inline-flex';
-        // Очищаем select и заполняем опциями
         select.innerHTML = '<option value="">📜 История</option>';
         history.forEach((h, idx) => {
             const date = new Date(h.timestamp).toLocaleString();
@@ -468,9 +467,8 @@
     function showHistoryModal(){
         const modal = document.getElementById('historyModal');
         const container = document.getElementById('historyList');
-        if(history.length === 0){
-            container.innerHTML = '<div class="empty-state">Нет записей</div>';
-        } else {
+        if(history.length === 0) container.innerHTML = '<div class="empty-state">Нет записей</div>';
+        else {
             container.innerHTML = history.map((h, idx) => {
                 const date = new Date(h.timestamp).toLocaleString();
                 const count = h.items.length;
@@ -488,7 +486,7 @@
                     saveHistoryToLocal();
                     await saveHistoryToGithub(true);
                     updateHistorySelect();
-                    showHistoryModal(); // обновить модалку
+                    showHistoryModal();
                     showToast('Запись удалена', 'success');
                 }
             });
@@ -658,7 +656,7 @@
         window._autocompleteOutsideHandler = outsideHandler;
     }
     
-    // ========== СКАНИРОВАНИЕ ==========
+    // ========== СКАНИРОВАНИЕ (ИЗМЕНЁННАЯ ЛОГИКА) ==========
     async function startBarcodeScan(){
         if('BarcodeDetector' in window){
             try{
@@ -713,9 +711,26 @@
     function handleScannedBarcode(barcode){
         const existing = masterProducts.find(p => p.barcode === barcode);
         if(existing){
-            addOrEditItem(existing.id);
-            showToast(`🔍 Найден товар: ${existing.name}`, 'success');
+            // Найден товар – выполняем поиск по названию, без открытия модального окна
+            const searchInput = document.getElementById('searchInput');
+            searchInput.value = existing.name;
+            // Триггер события input для применения поиска
+            searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+            // Небольшая задержка для рендера
+            setTimeout(() => {
+                const card = document.querySelector(`.inventory-card[data-id="${existing.id}"]`);
+                if(card){
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    card.classList.add('highlight');
+                    setTimeout(() => card.classList.remove('highlight'), 2000);
+                    showToast(`🔍 Товар "${existing.name}" найден и подсвечен`, 'success');
+                } else {
+                    // Возможно, скрыт фильтрами
+                    showToast(`⚠️ Товар "${existing.name}" есть в системе, но не отображается из-за активных фильтров. Проверьте фильтры.`, 'error');
+                }
+            }, 300);
         } else {
+            // Новый штрихкод – привязываем
             pendingBarcode = barcode;
             openBarcodeAssignmentModal(barcode);
         }
@@ -1165,7 +1180,7 @@
         document.getElementById('modalScanBarcodeBtn').addEventListener('click', modalStartBarcodeScan);
         document.getElementById('historySelect').addEventListener('change', (e) => {
             if(e.target.value !== '') restoreHistoryItem(parseInt(e.target.value));
-            e.target.value = ''; // сбросить выбор
+            e.target.value = '';
         });
         document.getElementById('historyManageBtn').addEventListener('click', showHistoryModal);
         document.getElementById('closeHistoryModalBtn').addEventListener('click', () => document.getElementById('historyModal').classList.remove('active'));
