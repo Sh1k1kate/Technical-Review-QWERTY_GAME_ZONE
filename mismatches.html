@@ -96,11 +96,6 @@
             color: white;
             border: none;
         }
-        .btn-warning {
-            background: #ef4444;
-            color: white;
-            border: none;
-        }
         .nav-link {
             display: inline-block;
             margin-bottom: 20px;
@@ -111,8 +106,18 @@
         .dark-theme .nav-link {
             color: #60a5fa;
         }
-        
-        /* Таблица для десктопа */
+        .stock-filter {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f1f5f9;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+        .dark-theme .stock-filter {
+            background: #0f172a;
+        }
         .table-container {
             background: white;
             border-radius: 24px;
@@ -190,8 +195,6 @@
             font-weight: 600;
             color: #ef4444;
         }
-        
-        /* Карточки для мобильных */
         .cards-container {
             display: none;
             flex-direction: column;
@@ -254,7 +257,6 @@
             border: 1px solid #cbd5e1;
             text-align: center;
         }
-        
         @media (max-width: 768px) {
             .table-container {
                 display: none;
@@ -269,7 +271,6 @@
                 gap: 12px;
             }
         }
-        
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -310,13 +311,16 @@
             <span>📦 Товаров с расхождениями: <strong id="mismatchCount">0</strong></span>
             <span>📊 Общая разница: <strong id="totalDiff">0</strong> шт</span>
         </div>
-        <div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <div class="stock-filter">
+                <input type="checkbox" id="onlyWithStockCheckbox" checked>
+                <label for="onlyWithStockCheckbox">📦 Только с остатком (учёт > 0)</label>
+            </div>
             <button class="btn" id="exportBtn">📎 Выгрузить CSV</button>
             <button class="btn btn-primary" id="refreshBtn">🔄 Обновить</button>
         </div>
     </div>
 
-    <!-- Таблица для десктопа -->
     <div class="table-container">
         <table id="mismatchTable">
             <thead>
@@ -333,7 +337,6 @@
         </table>
     </div>
 
-    <!-- Карточки для мобильных -->
     <div id="cardsContainer" class="cards-container"></div>
 </div>
 
@@ -345,7 +348,8 @@
         document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;"><div style="background:white;padding:30px;border-radius:24px;"><h1>🔒 Доступ ограничен</h1><p>Требуется секретный ключ</p><code>?secret=${SECRET_WORD}</code></div></div>`;
     } else {
         let isDarkTheme = localStorage.getItem('inventory_dark_theme') === 'true';
-        let mismatches = [];
+        let allItems = [];
+        let onlyWithStock = localStorage.getItem('mismatches_only_with_stock') !== 'false';
         let sortField = 'category';
         let sortAscending = true;
         
@@ -364,19 +368,21 @@
         
         function loadData(){
             const saved = localStorage.getItem('inventory_data_v10');
-            let items = [];
             if(saved){
                 try{
                     const data = JSON.parse(saved);
-                    items = data.items || [];
+                    allItems = data.items || [];
                 }catch(e){}
             }
-            mismatches = items.filter(i => i.factQuantity !== i.systemQuantity);
-            document.getElementById('mismatchCount').innerText = mismatches.length;
-            const totalDiff = mismatches.reduce((sum, i) => sum + (i.factQuantity - i.systemQuantity), 0);
-            document.getElementById('totalDiff').innerText = totalDiff;
-            renderTable();
-            renderCards();
+            renderAll();
+        }
+        
+        function getFilteredMismatches(){
+            let mismatches = allItems.filter(i => i.factQuantity !== i.systemQuantity);
+            if(onlyWithStock){
+                mismatches = mismatches.filter(i => i.systemQuantity > 0);
+            }
+            return mismatches;
         }
         
         function sortItems(arr){
@@ -390,13 +396,19 @@
         }
         
         function renderTable(){
+            const mismatches = sortItems(getFilteredMismatches());
             const tbody = document.getElementById('tableBody');
-            const sorted = sortItems(mismatches);
-            if(sorted.length === 0){
-                tbody.innerHTML = '<tr><td colspan="6" class="empty-state" style="text-align:center;">✨ Отлично! Нет расхождений.</td></tr>';
+            if(mismatches.length === 0){
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state" style="text-align:center;">✨ Нет расхождений (или все товары с нулевым учётом скрыты)</td></tr>';
+                document.getElementById('mismatchCount').innerText = '0';
+                document.getElementById('totalDiff').innerText = '0';
                 return;
             }
-            tbody.innerHTML = sorted.map(item => {
+            const totalDiff = mismatches.reduce((s,i) => s + (i.factQuantity - i.systemQuantity), 0);
+            document.getElementById('mismatchCount').innerText = mismatches.length;
+            document.getElementById('totalDiff').innerText = totalDiff;
+            
+            tbody.innerHTML = mismatches.map(item => {
                 const diff = item.factQuantity - item.systemQuantity;
                 return `
                     <tr>
@@ -422,7 +434,7 @@
                             if(idx !== -1){
                                 data.items[idx].factQuantity = newVal;
                                 localStorage.setItem('inventory_data_v10', JSON.stringify(data));
-                                loadData(); // перезагружаем
+                                loadData();
                                 showToast('✅ Фактический остаток обновлён', 'success');
                             }
                         }
@@ -432,13 +444,13 @@
         }
         
         function renderCards(){
+            const mismatches = sortItems(getFilteredMismatches());
             const container = document.getElementById('cardsContainer');
-            const sorted = sortItems(mismatches);
-            if(sorted.length === 0){
-                container.innerHTML = '<div class="empty-state">✨ Отлично! Нет расхождений.</div>';
+            if(mismatches.length === 0){
+                container.innerHTML = '<div class="empty-state">✨ Нет расхождений (или все товары с нулевым учётом скрыты)</div>';
                 return;
             }
-            container.innerHTML = sorted.map(item => {
+            container.innerHTML = mismatches.map(item => {
                 const diff = item.factQuantity - item.systemQuantity;
                 return `
                     <div class="mismatch-card">
@@ -477,7 +489,13 @@
             });
         }
         
+        function renderAll(){
+            renderTable();
+            renderCards();
+        }
+        
         function exportMismatchesCSV(){
+            const mismatches = getFilteredMismatches();
             if(mismatches.length === 0){
                 showToast('Нет расхождений для экспорта', 'error');
                 return;
@@ -511,12 +529,18 @@
         window.sortTable = (field) => {
             if(sortField === field) sortAscending = !sortAscending;
             else { sortField = field; sortAscending = true; }
-            renderTable();
-            renderCards();
+            renderAll();
         };
         
         document.getElementById('refreshBtn').addEventListener('click', loadData);
         document.getElementById('exportBtn').addEventListener('click', exportMismatchesCSV);
+        const stockCheck = document.getElementById('onlyWithStockCheckbox');
+        stockCheck.checked = onlyWithStock;
+        stockCheck.addEventListener('change', (e) => {
+            onlyWithStock = e.target.checked;
+            localStorage.setItem('mismatches_only_with_stock', onlyWithStock);
+            renderAll();
+        });
         
         loadData();
     }
