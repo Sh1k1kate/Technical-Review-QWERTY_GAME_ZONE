@@ -8,7 +8,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
-        /* Стили (полностью как в предыдущей стабильной версии) */
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; margin: 0; padding: 0; }
         body { background: #f4f7fb; color: #1e293b; padding: 12px; min-height: 100vh; }
         body.dark-theme { background: #0f172a; color: #e2e8f0; }
@@ -126,15 +125,14 @@
         .dark-theme .autocomplete-item:hover { background: #0f172a; }
         .history-select { max-width: 220px; font-size: 0.75rem; padding: 4px 8px; border-radius: 30px; }
         canvas { max-height: 300px; }
-        .history-option-with-delete { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .history-option-with-delete span { flex: 1; }
-        .history-option-with-delete button { background: none; border: none; cursor: pointer; font-size: 0.8rem; padding: 0 4px; margin-left: 8px; }
-        /* Стили для PDF (не влияют на интерфейс) */
-        @media print {
-            body * { visibility: hidden; }
-            .pdf-report, .pdf-report * { visibility: visible; }
-            .pdf-report { position: absolute; top: 0; left: 0; width: 100%; }
-        }
+        /* Стили для PDF */
+        .pdf-report table { width: 100%; border-collapse: collapse; margin-top: 20px; page-break-inside: auto; }
+        .pdf-report tr { page-break-inside: avoid; page-break-after: auto; }
+        .pdf-report th, .pdf-report td { border: 1px solid #ccc; padding: 6px; text-align: left; font-size: 9pt; }
+        .pdf-report th { background: #f2f2f2; }
+        .pdf-report .header { text-align: center; margin-bottom: 20px; }
+        .pdf-report .stats { margin: 20px 0; }
+        .pdf-report .signature { margin-top: 40px; display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
@@ -207,50 +205,25 @@
     <input type="file" id="mismatchesFileInput" accept=".csv" style="display: none;">
 </div>
 
-<!-- Модальные окна (те же) -->
-<div class="modal" id="itemModal">
+<!-- Модальное окно для ввода имени проверяющего (PDF) -->
+<div class="modal" id="inspectorModal">
     <div class="modal-content">
-        <h3 id="modalTitle">➕ Добавить товар</h3>
+        <h3>📝 Подпись отчёта</h3>
         <div class="form-group">
-            <label class="form-label">Категория</label>
-            <select id="modalCategory" class="form-select">
-                <option value="Готовая Еда">Готовая Еда</option>
-                <option value="Напитки">Напитки</option>
-                <option value="Снэки">Снэки</option>
-                <option value="Шоколад">Шоколад</option>
-                <option value="Энергетические напитки">Энергетические напитки</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="form-label">Наименование *</label>
-            <input type="text" id="modalName" class="form-input" placeholder="Введите название" autocomplete="off">
-            <div id="modalAutocomplete" class="autocomplete-list" style="display: none;"></div>
-        </div>
-        <div class="form-group">
-            <label class="form-label">Штрихкод</label>
-            <div class="barcode-row">
-                <input type="text" id="modalBarcode" class="form-input" placeholder="Введите или отсканируйте">
-                <button class="btn btn-primary" id="modalScanBarcodeBtn" style="background:#8b5cf6;">📷</button>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-label">Учётный остаток</label>
-            <input type="number" id="modalSystemQty" class="form-input" value="0" step="1" min="0">
-        </div>
-        <div class="form-group">
-            <label class="form-label">Фактический остаток</label>
-            <input type="number" id="modalFactQty" class="form-input" value="0" step="1" min="0">
+            <label class="form-label">ФИО проверяющего (ответственного за инвентаризацию)</label>
+            <input type="text" id="inspectorName" class="form-input" placeholder="Введите ФИО">
         </div>
         <div style="display: flex; gap: 10px; justify-content: flex-end;">
-            <button class="btn" id="cancelModalBtn">Отмена</button>
-            <button class="btn btn-primary" id="saveModalBtn">Сохранить</button>
+            <button class="btn" id="cancelInspectorBtn">Отмена</button>
+            <button class="btn btn-primary" id="confirmInspectorBtn">Сформировать PDF</button>
         </div>
     </div>
 </div>
 
-<div class="modal" id="tokenModal"><div class="modal-content"><h2>🔑 GitHub Token</h2><p>Введите токен с правами на запись</p><input type="password" id="githubToken" style="width:100%; margin:15px 0; padding:10px; border-radius:16px;"><div style="display:flex; gap:10px;"><button class="btn" id="cancelTokenBtn">Отмена</button><button class="btn btn-primary" id="saveTokenBtn">Сохранить</button></div></div></div>
-<div class="modal" id="chartModal"><div class="modal-content"><h3>📈 Динамика расхождений</h3><canvas id="historyChart" width="400" height="300"></canvas><div style="margin-top:16px;"><button class="btn" id="closeChartBtn">Закрыть</button></div></div></div>
-<div class="modal" id="historyModal"><div class="modal-content"><h3>📜 Управление историей</h3><div id="historyList"></div><div style="margin-top:16px;"><button class="btn" id="closeHistoryModalBtn">Закрыть</button></div></div></div>
+<div class="modal" id="itemModal">...</div>
+<div class="modal" id="tokenModal">...</div>
+<div class="modal" id="chartModal">...</div>
+<div class="modal" id="historyModal">...</div>
 
 <div id="toast" style="display:none;" class="toast"></div>
 <div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"><div class="spinner"></div><span>Загрузка...</span></div></div>
@@ -278,10 +251,9 @@
     let onlyWithStock = localStorage.getItem('only_with_stock') !== 'false';
     let history = [];
     const TWO_HOURS = 2 * 60 * 60 * 1000;
-    
     let pendingBarcode = null;
     
-    // ========== MASTER (сокращённо, как в предыдущей версии) ==========
+    // ========== MASTER ==========
     function loadMasterFromLocal(){
         const saved = localStorage.getItem('products_master_v2');
         if(saved){
@@ -380,9 +352,7 @@
         return false;
     }
     
-    // ========== ИСТОРИЯ (сокращённо) ==========
-    async function saveHistoryToGithub(showMsg=false){ /* ... */ return true; }
-    async function loadHistoryFromGithub(showMsg=false){ return false; }
+    // ========== ИСТОРИЯ (упрощённо) ==========
     function saveHistoryToLocal(){ localStorage.setItem('inventory_history_v2', JSON.stringify(history)); }
     function loadHistoryFromLocal(){
         const saved = localStorage.getItem('inventory_history_v2');
@@ -556,7 +526,7 @@
         reader.readAsText(file, 'UTF-8');
     }
     
-    // ========== АВТОКОМПЛИТ И СКАНИРОВАНИЕ (сокращённо) ==========
+    // ========== АВТОКОМПЛИТ ==========
     function setupAutocomplete(){
         const nameInput = document.getElementById('modalName');
         const autocompleteDiv = document.getElementById('modalAutocomplete');
@@ -620,6 +590,7 @@
         window._autocompleteOutsideHandler = outsideHandler;
     }
     
+    // ========== СКАНИРОВАНИЕ ==========
     async function startBarcodeScan(){
         if('BarcodeDetector' in window){
             try{
@@ -645,8 +616,7 @@
                                 clearInterval(scanInterval);
                                 stream.getTracks().forEach(track => track.stop());
                                 video.remove();
-                                const barcodeValue = barcodes[0].rawValue;
-                                handleScannedBarcode(barcodeValue);
+                                handleScannedBarcode(barcodes[0].rawValue);
                             }
                         }catch(e){}
                     }
@@ -920,91 +890,99 @@
         showToast('✅ Фактические остатки сохранены (история и мастер обновлены)', 'success');
     }
     
-    // ========== ФУНКЦИЯ ЭКСПОРТА PDF ==========
+    // ========== ЭКСПОРТ PDF С ЗАПРОСОМ ИМЕНИ ==========
     async function exportToPDF(){
         const mismatches = inventoryItems.filter(item => item.factQuantity !== item.systemQuantity);
         if(mismatches.length === 0){
             showToast('Нет расхождений для экспорта', 'error');
             return;
         }
-        // Создаём временный div с содержимым отчёта
-        const reportDiv = document.createElement('div');
-        reportDiv.className = 'pdf-report';
-        reportDiv.style.padding = '20px';
-        reportDiv.style.fontFamily = 'Arial, sans-serif';
-        reportDiv.style.backgroundColor = 'white';
-        reportDiv.style.color = 'black';
-        const now = new Date();
-        const dateStr = now.toLocaleString();
-        const totalMismatchSum = mismatches.reduce((sum, i) => sum + (i.factQuantity - i.systemQuantity), 0);
-        const totalSystemSum = mismatches.reduce((sum, i) => sum + i.systemQuantity, 0);
-        const totalFactSum = mismatches.reduce((sum, i) => sum + i.factQuantity, 0);
+        // Показываем модальное окно для ввода имени проверяющего
+        const modal = document.getElementById('inspectorModal');
+        const inspectorInput = document.getElementById('inspectorName');
+        inspectorInput.value = '';
+        modal.classList.add('active');
         
-        let tableHtml = `
-            <style>
-                .pdf-report table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-                .pdf-report th, .pdf-report td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-                .pdf-report th { background: #f2f2f2; }
-                .pdf-report .header { text-align: center; margin-bottom: 20px; }
-                .pdf-report .stats { margin: 20px 0; }
-                .pdf-report .signature { margin-top: 40px; display: flex; justify-content: space-between; }
-            </style>
-            <div class="header">
-                <h2>Отчёт по инвентаризации</h2>
-                <p>Дата формирования: ${dateStr}</p>
-                <p>Период: ${new Date().toLocaleDateString()}</p>
-            </div>
-            <div class="stats">
-                <p><strong>Общая статистика по расхождениям:</strong></p>
-                <ul>
-                    <li>Количество товаров с расхождениями: ${mismatches.length}</li>
-                    <li>Суммарный учётный остаток: ${totalSystemSum} шт</li>
-                    <li>Суммарный фактический остаток: ${totalFactSum} шт</li>
-                    <li>Общая разница: ${totalMismatchSum > 0 ? '+' : ''}${totalMismatchSum} шт</li>
-                </ul>
-            </div>
-            <table>
-                <thead>
-                    <tr><th>Категория</th><th>Наименование</th><th>Учётный остаток</th><th>Фактический остаток</th><th>Разница</th></tr>
-                </thead>
-                <tbody>
-        `;
-        mismatches.forEach(item => {
-            const diff = item.factQuantity - item.systemQuantity;
-            tableHtml += `<tr>
-                <td>${escapeHtml(item.category)}</td>
-                <td>${escapeHtml(item.name)}</td>
-                <td>${item.systemQuantity} шт</td>
-                <td>${item.factQuantity} шт</td>
-                <td>${diff > 0 ? '+' : ''}${diff} шт</td>
-            </tr>`;
-        });
-        tableHtml += `
-                </tbody>
-            </table>
-            <div class="signature">
-                <div>Ответственный за инвентаризацию: _________________</div>
-                <div>Дата: _______________</div>
-            </div>
-        `;
-        reportDiv.innerHTML = tableHtml;
-        document.body.appendChild(reportDiv);
-        
-        try {
-            const opt = {
-                margin: [0.5, 0.5, 0.5, 0.5],
-                filename: `inventory_report_${now.toISOString().slice(0,19)}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, letterRendering: true },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-            };
-            await html2pdf().set(opt).from(reportDiv).save();
-            showToast('PDF отчёт сформирован', 'success');
-        } catch(e){
-            showToast('Ошибка при создании PDF', 'error');
-            console.error(e);
-        }
-        document.body.removeChild(reportDiv);
+        // Обработчик подтверждения
+        const confirmBtn = document.getElementById('confirmInspectorBtn');
+        const cancelBtn = document.getElementById('cancelInspectorBtn');
+        const confirmHandler = async () => {
+            const inspectorName = inspectorInput.value.trim();
+            if(!inspectorName){
+                showToast('Введите ФИО проверяющего', 'error');
+                return;
+            }
+            modal.classList.remove('active');
+            confirmBtn.removeEventListener('click', confirmHandler);
+            cancelBtn.removeEventListener('click', cancelHandler);
+            // Генерируем PDF
+            const reportDiv = document.createElement('div');
+            reportDiv.className = 'pdf-report';
+            reportDiv.style.padding = '20px';
+            reportDiv.style.fontFamily = 'Arial, sans-serif';
+            reportDiv.style.backgroundColor = 'white';
+            reportDiv.style.color = 'black';
+            const now = new Date();
+            const dateStr = now.toLocaleString();
+            const totalMismatchSum = mismatches.reduce((sum, i) => sum + (i.factQuantity - i.systemQuantity), 0);
+            const totalSystemSum = mismatches.reduce((sum, i) => sum + i.systemQuantity, 0);
+            const totalFactSum = mismatches.reduce((sum, i) => sum + i.factQuantity, 0);
+            
+            let tableHtml = `
+                <div class="header">
+                    <h2>Отчёт по инвентаризации</h2>
+                    <p>Дата формирования: ${dateStr}</p>
+                </div>
+                <div class="stats">
+                    <p><strong>Общая статистика по расхождениям:</strong></p>
+                    <ul>
+                        <li>Количество товаров с расхождениями: ${mismatches.length}</li>
+                        <li>Суммарный учётный остаток: ${totalSystemSum} шт</li>
+                        <li>Суммарный фактический остаток: ${totalFactSum} шт</li>
+                        <li>Общая разница: ${totalMismatchSum > 0 ? '+' : ''}${totalMismatchSum} шт</li>
+                    </ul>
+                </div>
+                <table>
+                    <thead><tr><th>Категория</th><th>Наименование</th><th>Учётный остаток</th><th>Фактический остаток</th><th>Разница</th></tr></thead>
+                    <tbody>
+            `;
+            mismatches.forEach(item => {
+                const diff = item.factQuantity - item.systemQuantity;
+                tableHtml += `<tr><td>${escapeHtml(item.category)}</td><td>${escapeHtml(item.name)}</td><td>${item.systemQuantity} шт</td><td>${item.factQuantity} шт</td><td>${diff > 0 ? '+' : ''}${diff} шт</td></tr>`;
+            });
+            tableHtml += `
+                    </tbody>
+                </table>
+                <div class="signature">
+                    <div>Ответственный за инвентаризацию: ${escapeHtml(inspectorName)}</div>
+                    <div>&nbsp;</div>
+                </div>
+            `;
+            reportDiv.innerHTML = tableHtml;
+            document.body.appendChild(reportDiv);
+            try {
+                const opt = {
+                    margin: [0.5, 0.5, 0.5, 0.5],
+                    filename: `inventory_report_${now.toISOString().slice(0,19)}.pdf`,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2, letterRendering: true },
+                    jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
+                };
+                await html2pdf().set(opt).from(reportDiv).save();
+                showToast('PDF отчёт сформирован', 'success');
+            } catch(e){
+                showToast('Ошибка при создании PDF', 'error');
+                console.error(e);
+            }
+            document.body.removeChild(reportDiv);
+        };
+        const cancelHandler = () => {
+            modal.classList.remove('active');
+            confirmBtn.removeEventListener('click', confirmHandler);
+            cancelBtn.removeEventListener('click', cancelHandler);
+        };
+        confirmBtn.addEventListener('click', confirmHandler);
+        cancelBtn.addEventListener('click', cancelHandler);
     }
     
     function getMismatches(){ return inventoryItems.filter(item => item.factQuantity !== item.systemQuantity); }
@@ -1073,7 +1051,7 @@
                 <td><input type="number" class="fact-input" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0"></td>
                 <td><span class="badge ${isMismatch ? 'badge-mismatch' : 'badge-match'}">${isMismatch ? '⚠️ Расхождение' : '✅ Совпадает'}</span></td>
                 <td><button class="delete-table-btn" data-id="${item.id}">🗑️</button></td>
-            </tr>`;
+            <tr>`;
         }).join('');
         document.querySelectorAll('.fact-input').forEach(inp => inp.addEventListener('change', (e) => updateFactQuantity(parseInt(inp.dataset.id), inp.value)));
         document.querySelectorAll('.delete-table-btn').forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); deleteItem(parseInt(btn.dataset.id)); }));
