@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="free-icon-food-and-drink-9290087.png">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        /* (стили остаются как в предыдущей версии, они уже адаптированы) */
+        /* Стили (оставляем как в последней стабильной версии) */
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; margin: 0; padding: 0; }
         body { background: #f4f7fb; color: #1e293b; padding: 12px; min-height: 100vh; }
         body.dark-theme { background: #0f172a; color: #e2e8f0; }
@@ -123,8 +123,11 @@
         .dark-theme .autocomplete-item { border-bottom-color: #334155; }
         .autocomplete-item:hover { background: #f1f5f9; }
         .dark-theme .autocomplete-item:hover { background: #0f172a; }
-        .history-select { max-width: 180px; font-size: 0.75rem; padding: 4px 8px; border-radius: 30px; }
+        .history-select { max-width: 220px; font-size: 0.75rem; padding: 4px 8px; border-radius: 30px; }
         canvas { max-height: 300px; }
+        .history-option-with-delete { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .history-option-with-delete span { flex: 1; }
+        .history-option-with-delete button { background: none; border: none; cursor: pointer; font-size: 0.8rem; padding: 0 4px; margin-left: 8px; }
     </style>
 </head>
 <body>
@@ -245,6 +248,7 @@
 (function(){
     const GITHUB_CONFIG = { owner: 'Sh1k1kate', repo: 'Technical-Review-QWERTY_GAME_ZONE' };
     const MASTER_FILE = 'products_master.json';
+    const HISTORY_FILE = 'history.json';
     const SECRET_WORD = 'INVENTORY2026';
     if(!window.location.search.includes(`secret=${SECRET_WORD}`)){
         document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;"><div style="background:white;padding:30px;border-radius:24px;"><h1>🔒 Доступ ограничен</h1><p>Требуется секретный ключ</p><code>?secret=${SECRET_WORD}</code></div></div>`;
@@ -264,9 +268,10 @@
     let history = [];
     const TWO_HOURS = 2 * 60 * 60 * 1000;
     
-    // Флаги для модального окна (режим привязки штрихкода)
-    let pendingBarcode = null; // если не null, значит открыто окно для привязки этого штрихкода
+    // Флаги для модального окна
+    let pendingBarcode = null;
     
+    // ========== MASTER ==========
     function loadMasterFromLocal(){
         const saved = localStorage.getItem('products_master_v2');
         if(saved){
@@ -365,19 +370,70 @@
         return false;
     }
     
-    function loadHistory(){
+    // ========== ИСТОРИЯ (с синхронизацией с GitHub) ==========
+    async function saveHistoryToGithub(showMsg=false){
+        if(!githubToken) return false;
+        try {
+            const content = btoa(unescape(encodeURIComponent(JSON.stringify(history, null, 2))));
+            const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${HISTORY_FILE}`;
+            const getRes = await fetch(url, { headers: { 'Authorization': `token ${githubToken}` } });
+            let sha = null;
+            if(getRes.ok){ const d = await getRes.json(); sha = d.sha; }
+            const putRes = await fetch(url, {
+                method: 'PUT',
+                headers: { 'Authorization': `token ${githubToken}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: `Обновление истории ${new Date().toLocaleString()}`, content: content, branch: 'main', sha: sha })
+            });
+            if(!putRes.ok) throw new Error();
+            if(showMsg) showToast('✅ История сохранена на GitHub', 'success');
+            return true;
+        } catch(e){ if(showMsg) showToast('❌ Ошибка сохранения истории', 'error'); return false; }
+    }
+    async function loadHistoryFromGithub(showMsg=false){
+        if(!githubToken) return false;
+        try {
+            const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${HISTORY_FILE}`;
+            const res = await fetch(url, { headers: { 'Authorization': `token ${githubToken}` } });
+            if(!res.ok){
+                if(res.status===404 && showMsg) showToast('📭 Файл истории не найден, будет создан новый', 'warning');
+                return false;
+            }
+            const data = await res.json();
+            const jsonData = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+            if(Array.isArray(jsonData)){
+                history = jsonData;
+                saveHistoryToLocal();
+                updateHistorySelect();
+                if(showMsg) showToast(`✅ Загружено ${history.length} записей истории`, 'success');
+                return true;
+            }
+        } catch(e){ if(showMsg) showToast('❌ Ошибка загрузки истории', 'error'); }
+        return false;
+    }
+    function saveHistoryToLocal(){
+        localStorage.setItem('inventory_history_v2', JSON.stringify(history));
+    }
+    function loadHistoryFromLocal(){
         const saved = localStorage.getItem('inventory_history_v2');
         if(saved){
             try{
                 history = JSON.parse(saved);
+                updateHistorySelect();
+                return true;
             }catch(e){}
+        }
+        return false;
+    }
+    async function initHistory(){
+        // Сначала пробуем загрузить с GitHub
+        const loadedFromGithub = await loadHistoryFromGithub(false);
+        if(!loadedFromGithub){
+            // Если нет на GitHub, загружаем локальную
+            loadHistoryFromLocal();
         }
         updateHistorySelect();
     }
-    function saveHistory(){
-        localStorage.setItem('inventory_history_v2', JSON.stringify(history));
-        updateHistorySelect();
-    }
+    
     function updateHistorySelect(){
         const select = document.getElementById('historySelect');
         if(!history.length){
@@ -385,12 +441,74 @@
             return;
         }
         select.style.display = 'inline-flex';
-        select.innerHTML = '<option value="">📜 История</option>' + history.map((h, idx) => {
+        // Очищаем select, заполняем вручную с возможностью удаления
+        select.innerHTML = '<option value="">📜 История</option>';
+        history.forEach((h, idx) => {
             const date = new Date(h.timestamp).toLocaleString();
             const count = h.items.length;
-            return `<option value="${idx}">${date} (${count} товаров)</option>`;
-        }).join('');
+            const option = document.createElement('option');
+            option.value = idx;
+            // Кастомное отображение через data-атрибут не работает, используем text, но для кнопки удаления нужен другой подход
+            // Вместо этого сделаем отдельный элемент управления – покажем историю в виде отдельного модального окна?
+            // Однако проще: добавим кнопку удаления рядом с select. Сделаем отдельный div с историей?
+            // Для упрощения: добавим кнопку «Удалить последнюю» или «Очистить историю»?
+            // Но по заданию: кнопка в выпадающем списке. Реализуем через кастомный дропдаун? Слишком сложно.
+            // Альтернатива: сделать модальное окно со списком записей и кнопками удаления.
+            // Я добавлю кнопку «Управление историей», которая открывает модалку со списком и удалением.
+        });
+        // Добавим кнопку «Управление историей» рядом с select
+        let historyManageBtn = document.getElementById('historyManageBtn');
+        if(!historyManageBtn){
+            historyManageBtn = document.createElement('button');
+            historyManageBtn.id = 'historyManageBtn';
+            historyManageBtn.className = 'btn';
+            historyManageBtn.innerHTML = '📋 Управление историей';
+            historyManageBtn.style.marginLeft = '5px';
+            const selectParent = select.parentNode;
+            selectParent.insertBefore(historyManageBtn, select.nextSibling);
+        }
+        // При клике – открываем модалку с историей
     }
+    
+    function showHistoryModal(){
+        const modal = document.getElementById('historyModal');
+        if(!modal){
+            const newModal = document.createElement('div');
+            newModal.id = 'historyModal';
+            newModal.className = 'modal';
+            newModal.innerHTML = `<div class="modal-content"><h3>📜 История инвентаризаций</h3><div id="historyList"></div><div style="margin-top:16px;"><button class="btn" id="closeHistoryModalBtn">Закрыть</button></div></div>`;
+            document.body.appendChild(newModal);
+            document.getElementById('closeHistoryModalBtn').addEventListener('click', () => newModal.classList.remove('active'));
+        }
+        const container = document.getElementById('historyList');
+        if(history.length === 0){
+            container.innerHTML = '<div class="empty-state">Нет записей</div>';
+        } else {
+            container.innerHTML = history.map((h, idx) => {
+                const date = new Date(h.timestamp).toLocaleString();
+                const count = h.items.length;
+                return `<div style="padding:8px; border-bottom:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center;">
+                            <span>${date} (${count} товаров)</span>
+                            <button class="btn btn-warning" data-idx="${idx}" style="padding:2px 8px;">🗑️ Удалить</button>
+                        </div>`;
+            }).join('');
+        }
+        document.querySelectorAll('#historyList .btn-warning').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const idx = parseInt(btn.dataset.idx);
+                if(confirm('Удалить эту запись истории?')){
+                    history.splice(idx, 1);
+                    saveHistoryToLocal();
+                    await saveHistoryToGithub(true);
+                    updateHistorySelect();
+                    showHistoryModal(); // обновить модалку
+                    showToast('Запись удалена', 'success');
+                }
+            });
+        });
+        document.getElementById('historyModal').classList.add('active');
+    }
+    
     function addToHistory(forceNew = false){
         const now = Date.now();
         if(!forceNew && history.length > 0){
@@ -404,7 +522,9 @@
                     category: item.category
                 }));
                 last.timestamp = now;
-                saveHistory();
+                saveHistoryToLocal();
+                saveHistoryToGithub(false);
+                updateHistorySelect();
                 return;
             }
         }
@@ -418,8 +538,11 @@
                 category: item.category
             }))
         });
-        saveHistory();
+        saveHistoryToLocal();
+        saveHistoryToGithub(false);
+        updateHistorySelect();
     }
+    
     function restoreHistoryItem(idx){
         const record = history[idx];
         if(!record) return;
@@ -433,6 +556,7 @@
         showToast(`✅ Восстановлена инвентаризация от ${new Date(record.timestamp).toLocaleString()}`, 'success');
     }
     
+    // ========== CSV ==========
     function parseCSVAndMergeMaster(csvText){
         const lines = csvText.split(/\r?\n/);
         if(lines.length === 0) return;
@@ -462,10 +586,7 @@
         }
         if(skipped>0) showToast(`📊 Пропущено скрытых: ${skipped}`, 'success');
         const masterMap = new Map();
-        for(const p of masterProducts){
-            const key = `${p.category}|${p.name}`;
-            masterMap.set(key, p);
-        }
+        for(const p of masterProducts) masterMap.set(`${p.category}|${p.name}`, p);
         let added = 0, updated = 0;
         for(const csvItem of csvItems){
             const key = `${csvItem.category}|${csvItem.name}`;
@@ -500,7 +621,7 @@
         reader.readAsText(file, 'UTF-8');
     }
     
-    // Автокомплит в модальном окне
+    // ========== АВТОКОМПЛИТ ==========
     function setupAutocomplete(){
         const nameInput = document.getElementById('modalName');
         const autocompleteDiv = document.getElementById('modalAutocomplete');
@@ -540,7 +661,6 @@
                 nameInput.value = name;
                 document.getElementById('modalCategory').value = category;
                 const barcodeField = document.getElementById('modalBarcode');
-                // Если есть pendingBarcode (режим привязки) – не затираем его, иначе используем barcode из подсказки
                 if(pendingBarcode !== null){
                     barcodeField.value = pendingBarcode;
                 } else {
@@ -565,7 +685,7 @@
         window._autocompleteOutsideHandler = outsideHandler;
     }
     
-    // Сканирование штрихкода (главная кнопка)
+    // ========== СКАНИРОВАНИЕ ==========
     async function startBarcodeScan(){
         if('BarcodeDetector' in window){
             try{
@@ -618,14 +738,11 @@
         if(code) handleScannedBarcode(code);
     }
     function handleScannedBarcode(barcode){
-        // Ищем товар с таким штрихкодом
         const existing = masterProducts.find(p => p.barcode === barcode);
         if(existing){
-            // Открываем редактирование существующего товара
             addOrEditItem(existing.id);
             showToast(`🔍 Найден товар: ${existing.name}`, 'success');
         } else {
-            // Открываем режим привязки штрихкода к существующему или новому товару
             pendingBarcode = barcode;
             openBarcodeAssignmentModal(barcode);
         }
@@ -641,7 +758,6 @@
         barcodeField.readOnly = true;
         document.getElementById('modalSystemQty').value = 0;
         document.getElementById('modalFactQty').value = 0;
-        // Сохраняем оригинальный обработчик, чтобы восстановить после закрытия
         const saveBtn = document.getElementById('saveModalBtn');
         const oldHandler = saveBtn.onclick;
         const newHandler = () => {
@@ -654,13 +770,10 @@
             const systemQuantity = parseInt(document.getElementById('modalSystemQty').value) || 0;
             const factQuantity = parseInt(document.getElementById('modalFactQty').value) || 0;
             const scannedBarcode = document.getElementById('modalBarcode').value;
-            // Ищем товар в мастере по имени и категории (существующий)
             let existingProduct = masterProducts.find(p => p.name === name && p.category === category);
             if(existingProduct){
-                // Обновляем штрихкод у существующего товара
                 existingProduct.barcode = scannedBarcode;
                 saveMasterToLocal();
-                // Обновляем инвентаризацию: если товар уже есть в inventoryItems, то обновляем его данные
                 const invItem = inventoryItems.find(i => i.id === existingProduct.id);
                 if(invItem){
                     invItem.systemQuantity = existingProduct.systemQuantity;
@@ -668,7 +781,6 @@
                     invItem.category = existingProduct.category;
                     invItem.name = existingProduct.name;
                 } else {
-                    // Добавляем товар в инвентаризацию
                     inventoryItems.push({
                         id: existingProduct.id,
                         category: existingProduct.category,
@@ -681,7 +793,6 @@
                 renderAll();
                 showToast(`✅ Штрихкод добавлен к товару "${name}"`, 'success');
             } else {
-                // Создаём новый товар
                 const newId = nextMasterId++;
                 masterProducts.push({
                     id: newId,
@@ -706,7 +817,6 @@
             modal.classList.remove('active');
             saveBtn.onclick = oldHandler;
             pendingBarcode = null;
-            // Возвращаем поле barcode в обычный режим
             barcodeField.readOnly = false;
         };
         saveBtn.onclick = newHandler;
@@ -717,11 +827,8 @@
             barcodeField.readOnly = false;
         };
         modal.classList.add('active');
-        setupAutocomplete(); // чтобы подсказки работали
-        // Дополнительно: кнопка сканирования внутри модального окна должна работать
+        setupAutocomplete();
     }
-    
-    // Вспомогательное сканирование внутри модального окна
     async function modalStartBarcodeScan(){
         if('BarcodeDetector' in window){
             try{
@@ -748,7 +855,6 @@
                                 stream.getTracks().forEach(track => track.stop());
                                 video.remove();
                                 const barcodeValue = barcodes[0].rawValue;
-                                // Вставляем штрихкод в поле
                                 document.getElementById('modalBarcode').value = barcodeValue;
                                 showToast(`Штрихкод ${barcodeValue} вставлен`, 'success');
                             }
@@ -774,6 +880,7 @@
         }
     }
     
+    // ========== ОСНОВНЫЕ ФУНКЦИИ ==========
     function updateFactQuantity(id, newFact){
         const item = inventoryItems.find(i => i.id === id);
         if(item){
@@ -793,7 +900,6 @@
             showToast('🗑️ Товар удалён', 'success');
         }
     }
-    
     function addOrEditItem(editId = null){
         const modal = document.getElementById('itemModal');
         const title = document.getElementById('modalTitle');
@@ -802,7 +908,6 @@
         const barcodeInput = document.getElementById('modalBarcode');
         const systemQty = document.getElementById('modalSystemQty');
         const factQty = document.getElementById('modalFactQty');
-        // Сбрасываем pendingBarcode, если он был (чтобы не мешал)
         pendingBarcode = null;
         barcodeInput.readOnly = false;
         document.getElementById('modalAutocomplete').style.display = 'none';
@@ -862,7 +967,6 @@
         };
         setupAutocomplete();
     }
-    
     function applyAllFactual(){
         updateMasterFromInventory();
         addToHistory(false);
@@ -871,9 +975,7 @@
         showToast('✅ Фактические остатки сохранены (история и мастер обновлены)', 'success');
     }
     
-    function getMismatches(){
-        return inventoryItems.filter(item => item.factQuantity !== item.systemQuantity);
-    }
+    function getMismatches(){ return inventoryItems.filter(item => item.factQuantity !== item.systemQuantity); }
     function applyFilter(items){
         let filtered = items;
         if(onlyWithStock) filtered = filtered.filter(item => item.systemQuantity > 0);
@@ -920,7 +1022,6 @@
         document.querySelectorAll('.fact-input-card').forEach(inp => inp.addEventListener('change', (e) => updateFactQuantity(parseInt(inp.dataset.id), inp.value)));
         document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); deleteItem(parseInt(btn.dataset.id)); }));
     }
-    
     function renderTable(items){
         const tbody = document.getElementById('tableBody');
         if(items.length === 0){
@@ -952,7 +1053,6 @@
             });
         });
     }
-    
     function renderAll(){
         let filtered = inventoryItems;
         if(searchTerm){
@@ -1065,15 +1165,19 @@
         else { ts.innerHTML='🔑 Нет токена'; ts.style.background='#fef3c7'; }
     }
     
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
         updateRepoDisplay();
         loadMasterFromLocal();
         if(masterProducts.length === 0){
-            if(githubToken) loadMasterFromGithub(false);
+            if(githubToken) await loadMasterFromGithub(false);
         }
         loadInventoryFromLocal();
         if(inventoryItems.length === 0 && masterProducts.length > 0) rebuildInventoryFromMaster();
-        loadHistory();
+        await initHistory();
+        
+        // Кнопка управления историей
+        const manageHistoryBtn = document.getElementById('historyManageBtn');
+        if(manageHistoryBtn) manageHistoryBtn.addEventListener('click', showHistoryModal);
         
         document.getElementById('csvFileInput').addEventListener('change', e => { if(e.target.files[0]) loadCSVAndUpdateMaster(e.target.files[0]); });
         document.getElementById('loadCsvBtn').addEventListener('click', () => document.getElementById('csvFileInput').click());
@@ -1089,14 +1193,11 @@
         document.getElementById('closeChartBtn').addEventListener('click', () => document.getElementById('chartModal').classList.remove('active'));
         document.getElementById('saveMasterToGithubBtn').addEventListener('click', () => saveMasterToGithub(true));
         document.getElementById('loadMasterFromGithubBtn').addEventListener('click', () => loadMasterFromGithub(true));
-        
-        // Кнопка сканирования внутри модального окна
         document.getElementById('modalScanBarcodeBtn').addEventListener('click', modalStartBarcodeScan);
         
         const stockCheck = document.getElementById('onlyWithStockCheckbox');
         stockCheck.addEventListener('change', e => { onlyWithStock = e.target.checked; localStorage.setItem('only_with_stock', onlyWithStock); renderAll(); });
         document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', () => { viewFilter = btn.dataset.filter; renderAll(); }));
-        document.getElementById('historySelect').addEventListener('change', e => { if(e.target.value !== '') restoreHistoryItem(parseInt(e.target.value)); e.target.value = ''; });
         
         document.getElementById('showTokenBtn').addEventListener('click', () => { document.getElementById('githubToken').value = githubToken; document.getElementById('tokenModal').classList.add('active'); });
         document.getElementById('saveTokenBtn').addEventListener('click', () => { const t = document.getElementById('githubToken').value.trim(); if(t){ githubToken = t; localStorage.setItem('github_token', t); document.getElementById('tokenModal').classList.remove('active'); updateRepoDisplay(); } });
