@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>Инвентаризация со сверкой остатков</title>
     <link rel="icon" type="image/png" sizes="32x32" href="free-icon-food-and-drink-9290087.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
+        /* Стили (те же, что в предыдущей версии, только добавлены небольшие правки) */
         * {
             box-sizing: border-box;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
@@ -258,12 +260,6 @@
         .dark-theme .stock-filter {
             background: #0f172a;
         }
-        .stock-filter input {
-            margin: 0;
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-        }
         .data-status {
             display: flex;
             align-items: center;
@@ -276,8 +272,6 @@
         .dark-theme .data-status {
             background: #0f172a;
         }
-        
-        /* Карточки */
         .cards-container {
             display: flex;
             flex-direction: column;
@@ -288,9 +282,16 @@
             border-radius: 20px;
             padding: 16px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: all 0.2s;
             border-left: 4px solid #22c55e;
             position: relative;
+            transition: background 0.2s;
+        }
+        .inventory-card.highlight {
+            background: #fef08a !important;
+            transition: 0.3s;
+        }
+        .dark-theme .inventory-card.highlight {
+            background: #854d0e !important;
         }
         .dark-theme .inventory-card {
             background: #1e293b;
@@ -341,14 +342,8 @@
             font-weight: 600;
             white-space: nowrap;
         }
-        .badge-match-card {
-            background: #22c55e;
-            color: white;
-        }
-        .badge-mismatch-card {
-            background: #ef4444;
-            color: white;
-        }
+        .badge-match-card { background: #22c55e; color: white; }
+        .badge-mismatch-card { background: #ef4444; color: white; }
         .card-details {
             display: flex;
             flex-direction: column;
@@ -421,199 +416,51 @@
             padding: 6px 12px;
             font-size: 0.7rem;
             cursor: pointer;
-            transition: 0.2s;
             margin-top: 8px;
             display: inline-flex;
             align-items: center;
             gap: 4px;
         }
-        .delete-btn:hover {
-            opacity: 0.8;
-        }
-        
-        /* Таблица для десктопа */
         .table-container {
             display: none;
         }
         @media (min-width: 768px) {
-            .cards-container {
-                display: none;
-            }
-            .table-container {
-                display: block;
-                background: white;
-                border-radius: 20px;
-                padding: 12px;
-                overflow-x: auto;
-            }
-            .dark-theme .table-container {
-                background: #1e293b;
-            }
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                min-width: 700px;
-                font-size: 0.85rem;
-            }
-            th, td {
-                padding: 10px 8px;
-                text-align: left;
-            }
-            .fact-input {
-                width: 80px;
-                padding: 6px;
-                border-radius: 16px;
-                border: 1px solid #cbd5e1;
-                text-align: center;
-            }
-            .dark-theme .fact-input {
-                background: #0f172a;
-                border-color: #475569;
-                color: white;
-            }
-            .badge {
-                padding: 4px 10px;
-                border-radius: 20px;
-                font-size: 0.7rem;
-                font-weight: 600;
-                display: inline-block;
-            }
+            .cards-container { display: none; }
+            .table-container { display: block; background: white; border-radius: 20px; padding: 12px; overflow-x: auto; }
+            .dark-theme .table-container { background: #1e293b; }
+            table { width: 100%; border-collapse: collapse; min-width: 700px; font-size: 0.85rem; }
+            th, td { padding: 10px 8px; text-align: left; }
+            .fact-input { width: 80px; padding: 6px; border-radius: 16px; border: 1px solid #cbd5e1; text-align: center; }
+            .dark-theme .fact-input { background: #0f172a; border-color: #475569; color: white; }
+            .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; display: inline-block; }
             .badge-match { background: #22c55e; color: white; }
             .badge-mismatch { background: #ef4444; color: white; }
-            .system-quantity {
-                background: #f1f5f9;
-                padding: 4px 10px;
-                border-radius: 20px;
-                font-weight: 600;
-            }
-            .dark-theme .system-quantity {
-                background: #334155;
-            }
-            tr.mismatch {
-                background: #fee2e2;
-            }
-            .dark-theme tr.mismatch {
-                background: #7f1a1a;
-            }
-            .delete-table-btn {
-                background: #ef4444;
-                border: none;
-                color: white;
-                padding: 4px 8px;
-                border-radius: 20px;
-                cursor: pointer;
-                font-size: 0.7rem;
-            }
+            .system-quantity { background: #f1f5f9; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+            .dark-theme .system-quantity { background: #334155; }
+            tr.mismatch { background: #fee2e2; }
+            .dark-theme tr.mismatch { background: #7f1a1a; }
+            .delete-table-btn { background: #ef4444; border: none; color: white; padding: 4px 8px; border-radius: 20px; cursor: pointer; font-size: 0.7rem; }
+            .highlight-row { background: #fef08a !important; }
         }
-        
-        .filter-info {
-            background: #fef3c7;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            color: #92400e;
-        }
-        .dark-theme .filter-info {
-            background: #422006;
-            color: #fde047;
-        }
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #22c55e;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 40px;
-            animation: fade 3s;
-            z-index: 3000;
-            font-size: 0.85rem;
-            max-width: 90%;
-            text-align: center;
-        }
+        .filter-info { background: #fef3c7; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; color: #92400e; }
+        .dark-theme .filter-info { background: #422006; color: #fde047; }
+        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #22c55e; color: white; padding: 10px 20px; border-radius: 40px; animation: fade 3s; z-index: 3000; font-size: 0.85rem; max-width: 90%; text-align: center; }
         .toast.error { background: #ef4444; }
-        @keyframes fade {
-            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
-            10% { opacity: 1; transform: translateX(-50%) translateY(0); }
-            90% { opacity: 1; transform: translateX(-50%) translateY(0); }
-            100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
-        }
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 4000;
-            align-items: center;
-            justify-content: center;
-        }
-        .loading-overlay.active {
-            display: flex;
-        }
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #64748b;
-        }
-        .github-buttons {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-        .modal.active {
-            display: flex;
-        }
-        .modal-content {
-            background: white;
-            border-radius: 24px;
-            padding: 20px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        .dark-theme .modal-content {
-            background: #1e293b;
-            color: #e2e8f0;
-        }
-        .form-group {
-            margin-bottom: 16px;
-        }
-        .form-label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 500;
-            font-size: 0.85rem;
-        }
-        .form-input, .form-select {
-            width: 100%;
-            padding: 8px 12px;
-            border-radius: 16px;
-            border: 1px solid #cbd5e1;
-            font-size: 0.9rem;
-        }
-        .dark-theme .form-input, .dark-theme .form-select {
-            background: #0f172a;
-            border-color: #475569;
-            color: white;
-        }
+        @keyframes fade { 0% { opacity: 0; transform: translateX(-50%) translateY(20px); } 10% { opacity: 1; transform: translateX(-50%) translateY(0); } 90% { opacity: 1; } 100% { opacity: 0; transform: translateX(-50%) translateY(20px); } }
+        .loading-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 4000; align-items: center; justify-content: center; }
+        .loading-overlay.active { display: flex; }
+        .empty-state { text-align: center; padding: 40px 20px; color: #64748b; }
+        .github-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; padding: 16px; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; border-radius: 24px; padding: 20px; max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto; }
+        .dark-theme .modal-content { background: #1e293b; color: #e2e8f0; }
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 0.85rem; }
+        .form-input, .form-select { width: 100%; padding: 8px 12px; border-radius: 16px; border: 1px solid #cbd5e1; font-size: 0.9rem; }
+        .dark-theme .form-input, .dark-theme .form-select { background: #0f172a; border-color: #475569; color: white; }
+        .history-select { max-width: 180px; font-size: 0.75rem; padding: 4px 8px; border-radius: 30px; }
+        canvas { max-height: 300px; }
     </style>
 </head>
 <body>
@@ -637,8 +484,8 @@
         </div>
         <div class="github-buttons">
             <button class="btn" id="showTokenBtn">🔑 Токен</button>
-            <button class="btn btn-primary" id="saveToGithubBtn">💾 GitHub</button>
-            <button class="btn" id="loadFromGithubBtn">📂 GitHub</button>
+            <button class="btn btn-primary" id="saveMasterToGithubBtn">💾 Сохранить мастер</button>
+            <button class="btn" id="loadMasterFromGithubBtn">📂 Загрузить мастер</button>
             <button class="btn btn-success" id="loadCsvBtn">📁 CSV (1С)</button>
         </div>
         <input type="file" id="csvFileInput" accept=".csv" style="display: none;">
@@ -648,6 +495,7 @@
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="Поиск по названию или категории...">
         </div>
+        <button class="btn btn-primary" id="scanBarcodeBtn" style="background:#8b5cf6;">📷 Сканировать</button>
         <div class="stats-panel">
             <div class="stat-badge">
                 <span>📦 <strong id="totalCount">0</strong></span>
@@ -662,13 +510,15 @@
             </div>
             <div class="stock-filter">
                 <input type="checkbox" id="onlyWithStockCheckbox" checked>
-                <label for="onlyWithStockCheckbox">📦 Только с остатком (учёт > 0)</label>
+                <label for="onlyWithStockCheckbox">📦 Только с остатком</label>
             </div>
             <div class="btn-group">
                 <button class="btn btn-success btn-small" id="applyAllBtn">💾 Сохранить</button>
                 <button class="btn" id="exportMismatchesBtn" style="background:#8b5cf6; color:white;">📎 Выгрузить расхождения</button>
                 <button class="btn btn-purple" id="loadMismatchesBtn">📥 Загрузить расхождения</button>
                 <button class="btn btn-primary" id="addItemBtn">➕ Добавить товар</button>
+                <select id="historySelect" class="history-select" style="display:none;"><option>📜 История</option></select>
+                <button class="btn" id="showChartBtn">📈 График</button>
             </div>
         </div>
         <div class="data-status" id="dataStatus">💾 Загружены</div>
@@ -676,171 +526,222 @@
 
     <div id="cardsContainer" class="cards-container"></div>
     <div class="table-container">
-        <table>
-            <thead>
-                <tr><th onclick="window.sortBy('category')">Категория</th><th onclick="window.sortBy('name')">Наименование</th><th onclick="window.sortBy('systemQuantity')">Учёт</th><th>Фактический</th><th>Статус</th><th></th></tr>
-            </thead>
-            <tbody id="tableBody"></tbody>
-        </table>
+        <table><thead><tr><th onclick="window.sortBy('category')">Категория</th><th onclick="window.sortBy('name')">Наименование</th><th onclick="window.sortBy('systemQuantity')">Учёт</th><th>Фактический</th><th>Статус</th><th></th></tr></thead><tbody id="tableBody"></tbody></table>
     </div>
     <input type="file" id="mismatchesFileInput" accept=".csv" style="display: none;">
 </div>
 
-<!-- Модальное окно добавления/редактирования товара -->
-<div class="modal" id="itemModal">
-    <div class="modal-content">
-        <h3 id="modalTitle">➕ Добавить товар</h3>
-        <div class="form-group">
-            <label class="form-label">Категория</label>
-            <select id="modalCategory" class="form-select">
-                <option value="Готовая Еда">Готовая Еда</option>
-                <option value="Напитки">Напитки</option>
-                <option value="Снэки">Снэки</option>
-                <option value="Шоколад">Шоколад</option>
-                <option value="Энергетические напитки">Энергетические напитки</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="form-label">Наименование *</label>
-            <input type="text" id="modalName" class="form-input" placeholder="Введите название">
-        </div>
-        <div class="form-group">
-            <label class="form-label">Учётный остаток (из системы)</label>
-            <input type="number" id="modalSystemQty" class="form-input" value="0" step="1" min="0">
-        </div>
-        <div class="form-group">
-            <label class="form-label">Фактический остаток</label>
-            <input type="number" id="modalFactQty" class="form-input" value="0" step="1" min="0">
-        </div>
-        <div style="display: flex; gap: 10px; justify-content: flex-end;">
-            <button class="btn" id="cancelModalBtn">Отмена</button>
-            <button class="btn btn-primary" id="saveModalBtn">Сохранить</button>
-        </div>
-    </div>
-</div>
+<!-- Модалки -->
+<div class="modal" id="itemModal"><div class="modal-content"><h3 id="modalTitle">➕ Добавить товар</h3><div class="form-group"><label class="form-label">Категория</label><select id="modalCategory" class="form-select"><option value="Готовая Еда">Готовая Еда</option><option value="Напитки">Напитки</option><option value="Снэки">Снэки</option><option value="Шоколад">Шоколад</option><option value="Энергетические напитки">Энергетические напитки</option></select></div><div class="form-group"><label class="form-label">Наименование *</label><input type="text" id="modalName" class="form-input" placeholder="Введите название"></div><div class="form-group"><label class="form-label">Штрихкод (необязательно)</label><input type="text" id="modalBarcode" class="form-input" placeholder="Введите или отсканируйте"></div><div class="form-group"><label class="form-label">Учётный остаток</label><input type="number" id="modalSystemQty" class="form-input" value="0" step="1" min="0"></div><div class="form-group"><label class="form-label">Фактический остаток</label><input type="number" id="modalFactQty" class="form-input" value="0" step="1" min="0"></div><div style="display: flex; gap: 10px; justify-content: flex-end;"><button class="btn" id="cancelModalBtn">Отмена</button><button class="btn btn-primary" id="saveModalBtn">Сохранить</button></div></div></div>
+<div class="modal" id="tokenModal"><div class="modal-content"><h2>🔑 GitHub Token</h2><p>Введите токен с правами на запись</p><input type="password" id="githubToken" style="width:100%; margin:15px 0; padding:10px; border-radius:16px;"><div style="display:flex; gap:10px;"><button class="btn" id="cancelTokenBtn">Отмена</button><button class="btn btn-primary" id="saveTokenBtn">Сохранить</button></div></div></div>
+<div class="modal" id="chartModal"><div class="modal-content"><h3>📈 Динамика расхождений</h3><canvas id="historyChart" width="400" height="300"></canvas><div style="margin-top:16px;"><button class="btn" id="closeChartBtn">Закрыть</button></div></div></div>
 
-<div class="modal" id="tokenModal">
-    <div class="modal-content"><h2>🔑 GitHub Token</h2><p>Введите токен с правами на запись</p><input type="password" id="githubToken" style="width:100%; margin:15px 0; padding:10px; border-radius:16px;"><div style="display:flex; gap:10px;"><button class="btn" id="cancelTokenBtn">Отмена</button><button class="btn btn-primary" id="saveTokenBtn">Сохранить</button></div></div>
-</div>
 <div id="toast" style="display:none;" class="toast"></div>
 <div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"><div class="spinner"></div><span>Загрузка...</span></div></div>
 
 <script>
 (function(){
     const GITHUB_CONFIG = { owner: 'Sh1k1kate', repo: 'Technical-Review-QWERTY_GAME_ZONE' };
-    const DATA_FILE = 'inventory_data.json';
+    const MASTER_FILE = 'products_master.json';
+    const INVENTORY_FILE = 'inventory_data.json';
     const SECRET_WORD = 'INVENTORY2026';
-    
     if(!window.location.search.includes(`secret=${SECRET_WORD}`)){
         document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;"><div style="background:white;padding:30px;border-radius:24px;"><h1>🔒 Доступ ограничен</h1><p>Требуется секретный ключ</p><code>?secret=${SECRET_WORD}</code></div></div>`;
         return;
     }
     
-    let inventoryItems = [];
-    let nextId = 1;
+    // Основные данные
+    let masterProducts = [];     // массив { id, category, name, barcode, systemQuantity }
+    let inventoryItems = [];     // массив { id, category, name, systemQuantity, factQuantity }
+    let nextMasterId = 1;
+    let nextInventoryId = 1;
+    
     let searchTerm = '';
     let isDarkTheme = localStorage.getItem('inventory_dark_theme') === 'true';
     let githubToken = localStorage.getItem('github_token') || '';
     let sortField = 'category';
     let sortAscending = true;
-    let viewFilter = 'all'; // all, mismatch, match
-    let onlyWithStock = localStorage.getItem('only_with_stock') !== 'false'; // по умолчанию true
+    let viewFilter = 'all';
+    let onlyWithStock = localStorage.getItem('only_with_stock') !== 'false';
     
-    function utf8ToBase64(str){
-        try { return btoa(unescape(encodeURIComponent(str))); } catch(e){ return ''; }
-    }
-    function base64ToUtf8(base64){
-        try { return decodeURIComponent(escape(atob(base64))); } catch(e){ return ''; }
-    }
+    // История инвентаризаций
+    let history = [];
+    const TWO_HOURS = 2 * 60 * 60 * 1000;
     
-    function saveToLocal(){
-        localStorage.setItem('inventory_data_v10', JSON.stringify({ items: inventoryItems, nextId }));
-        localStorage.setItem('only_with_stock', onlyWithStock);
-    }
-    
-    function loadFromLocal(){
-        const saved = localStorage.getItem('inventory_data_v10');
+    // ========== РАБОТА С MASTER ==========
+    function loadMasterFromLocal(){
+        const saved = localStorage.getItem('products_master_v1');
         if(saved){
             try{
                 const data = JSON.parse(saved);
-                inventoryItems = data.items || [];
-                nextId = data.nextId || 1;
-                renderAll();
+                masterProducts = data.products || [];
+                nextMasterId = data.nextId || 1;
                 return true;
             }catch(e){}
         }
-        const stockPref = localStorage.getItem('only_with_stock');
-        if(stockPref !== null) onlyWithStock = stockPref === 'true';
-        document.getElementById('onlyWithStockCheckbox').checked = onlyWithStock;
         return false;
     }
-    
-    function updateRepoDisplay(){
-        document.getElementById('repoDisplay').textContent = `${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`;
-        const ts = document.getElementById('tokenStatus');
-        if(githubToken){
-            ts.innerHTML = '✅ Токен есть';
-            ts.style.background = '#dcfce7';
-        } else {
-            ts.innerHTML = '🔑 Нет токена';
-            ts.style.background = '#fef3c7';
-        }
+    function saveMasterToLocal(){
+        localStorage.setItem('products_master_v1', JSON.stringify({ products: masterProducts, nextId: nextMasterId }));
     }
     
-    async function saveToGithub(showMsg = true){
+    async function saveMasterToGithub(showMsg=true){
         if(!githubToken){ showToast('❌ Установите токен', 'error'); return false; }
         try {
-            const data = { items: inventoryItems, lastUpdated: new Date().toISOString() };
-            const content = utf8ToBase64(JSON.stringify(data, null, 2));
-            const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
+            const data = { products: masterProducts, lastUpdated: new Date().toISOString() };
+            const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+            const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${MASTER_FILE}`;
             const getRes = await fetch(url, { headers: { 'Authorization': `token ${githubToken}` } });
             let sha = null;
             if(getRes.ok){ const d = await getRes.json(); sha = d.sha; }
             const putRes = await fetch(url, {
                 method: 'PUT',
                 headers: { 'Authorization': `token ${githubToken}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: `Обновление ${new Date().toLocaleString()}`, content: content, branch: 'main', sha: sha })
+                body: JSON.stringify({ message: `Обновление мастер-файла ${new Date().toLocaleString()}`, content: content, branch: 'main', sha: sha })
             });
             if(!putRes.ok) throw new Error();
-            if(showMsg) showToast('✅ Сохранено в GitHub');
+            if(showMsg) showToast('✅ Мастер сохранён в GitHub', 'success');
             return true;
-        } catch(e){
-            if(showMsg) showToast('❌ Ошибка сохранения', 'error');
-            return false;
-        }
+        } catch(e){ if(showMsg) showToast('❌ Ошибка сохранения мастера', 'error'); return false; }
     }
     
-    async function loadFromGithub(showMsg = true){
+    async function loadMasterFromGithub(showMsg=true){
         if(!githubToken){ showToast('❌ Установите токен', 'error'); return false; }
         try {
             document.getElementById('loadingOverlay').classList.add('active');
-            const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${DATA_FILE}`;
+            const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${MASTER_FILE}`;
             const res = await fetch(url, { headers: { 'Authorization': `token ${githubToken}` } });
             if(!res.ok){
-                if(res.status === 404 && showMsg) showToast('📭 Файл не найден', 'warning');
-                return false;
-            }
-            const data = await res.json();
-            const jsonData = JSON.parse(base64ToUtf8(data.content));
-            if(jsonData.items){
-                inventoryItems = jsonData.items;
-                nextId = Math.max(...inventoryItems.map(i => i.id), 0) + 1;
-                saveToLocal();
-                renderAll();
-                if(showMsg) showToast(`✅ Загружено ${inventoryItems.length} товаров`);
+                if(res.status===404 && showMsg) showToast('📭 Мастер-файл не найден, будет создан новый', 'warning');
+                // если файла нет, инициализируем пустой мастер
+                masterProducts = [];
+                nextMasterId = 1;
+                saveMasterToLocal();
+                if(showMsg) showToast('Создан пустой мастер', 'success');
                 return true;
             }
-        } catch(e){
-            if(showMsg) showToast('❌ Ошибка загрузки', 'error');
-        } finally {
-            document.getElementById('loadingOverlay').classList.remove('active');
+            const data = await res.json();
+            const jsonData = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+            if(jsonData.products){
+                masterProducts = jsonData.products;
+                nextMasterId = jsonData.nextId || 1;
+                saveMasterToLocal();
+                if(showMsg) showToast(`✅ Загружено ${masterProducts.length} товаров из мастера`, 'success');
+                // После загрузки мастера пересоздаём инвентаризацию (сброс фактов)
+                rebuildInventoryFromMaster();
+                return true;
+            }
+        } catch(e){ if(showMsg) showToast('❌ Ошибка загрузки мастера', 'error'); }
+        finally { document.getElementById('loadingOverlay').classList.remove('active'); }
+        return false;
+    }
+    
+    // Создаёт inventoryItems на основе masterProducts, фактические = системные
+    function rebuildInventoryFromMaster(){
+        inventoryItems = masterProducts.map(p => ({
+            id: p.id,
+            category: p.category,
+            name: p.name,
+            systemQuantity: p.systemQuantity,
+            factQuantity: p.systemQuantity
+        }));
+        nextInventoryId = Math.max(...inventoryItems.map(i=>i.id), 0) + 1;
+        saveInventoryToLocal();
+        renderAll();
+        showToast('🔄 Инвентаризация обновлена из мастер-файла', 'success');
+    }
+    
+    // ========== РАБОТА С ИНВЕНТАРИЗАЦИЕЙ ==========
+    function saveInventoryToLocal(){
+        localStorage.setItem('inventory_data_v11', JSON.stringify({ items: inventoryItems, nextId: nextInventoryId }));
+    }
+    function loadInventoryFromLocal(){
+        const saved = localStorage.getItem('inventory_data_v11');
+        if(saved){
+            try{
+                const data = JSON.parse(saved);
+                inventoryItems = data.items || [];
+                nextInventoryId = data.nextId || 1;
+                renderAll();
+                return true;
+            }catch(e){}
         }
         return false;
     }
     
-    function parseCSVAndMerge(csvText){
+    // История
+    function loadHistory(){
+        const saved = localStorage.getItem('inventory_history_v1');
+        if(saved){
+            try{
+                history = JSON.parse(saved);
+            }catch(e){}
+        }
+        updateHistorySelect();
+    }
+    function saveHistory(){
+        localStorage.setItem('inventory_history_v1', JSON.stringify(history));
+        updateHistorySelect();
+    }
+    function updateHistorySelect(){
+        const select = document.getElementById('historySelect');
+        if(!history.length){
+            select.style.display = 'none';
+            return;
+        }
+        select.style.display = 'inline-flex';
+        select.innerHTML = '<option value="">📜 История</option>' + history.map((h, idx) => {
+            const date = new Date(h.timestamp).toLocaleString();
+            const count = h.items.length;
+            return `<option value="${idx}">${date} (${count} товаров)</option>`;
+        }).join('');
+    }
+    function addToHistory(forceNew = false){
+        const now = Date.now();
+        if(!forceNew && history.length > 0){
+            const last = history[history.length-1];
+            if(now - last.timestamp < TWO_HOURS){
+                last.items = inventoryItems.map(item => ({
+                    id: item.id,
+                    factQuantity: item.factQuantity,
+                    systemQuantity: item.systemQuantity,
+                    name: item.name,
+                    category: item.category
+                }));
+                last.timestamp = now;
+                saveHistory();
+                return;
+            }
+        }
+        history.push({
+            timestamp: now,
+            items: inventoryItems.map(item => ({
+                id: item.id,
+                factQuantity: item.factQuantity,
+                systemQuantity: item.systemQuantity,
+                name: item.name,
+                category: item.category
+            }))
+        });
+        saveHistory();
+    }
+    function restoreHistoryItem(idx){
+        const record = history[idx];
+        if(!record) return;
+        const restoredFact = new Map();
+        for(const it of record.items) restoredFact.set(it.id, it.factQuantity);
+        for(const item of inventoryItems){
+            if(restoredFact.has(item.id)) item.factQuantity = restoredFact.get(item.id);
+        }
+        saveInventoryToLocal();
+        renderAll();
+        showToast(`✅ Восстановлена инвентаризация от ${new Date(record.timestamp).toLocaleString()}`, 'success');
+    }
+    
+    // ========== ЗАГРУЗКА CSV (ОБНОВЛЕНИЕ МАСТЕРА) ==========
+    function parseCSVAndMergeMaster(csvText){
         const lines = csvText.split(/\r?\n/);
-        if(lines.length === 0) return [];
+        if(lines.length === 0) return;
         let header = lines[0];
         if(header.startsWith('\uFEFF')) header = header.substring(1);
         const headers = header.split(';').map(h => h.trim());
@@ -849,162 +750,217 @@
         let categoryIdx = headers.findIndex(h => h.includes('Категория'));
         let qtyIdx = headers.findIndex(h => h.includes('Текущее_Количество') || h.includes('Количество'));
         let statusIdx = headers.findIndex(h => h === 'Статус' || h.includes('Статус'));
+        let barcodeIdx = headers.findIndex(h => h === 'Штрихкод' || h === 'Barcode' || h.includes('штрихкод'));
         
-        const newItemsMap = new Map();
+        const csvItems = [];
         let skipped = 0;
-        
-        for(let i = 1; i < lines.length; i++){
+        for(let i=1; i<lines.length; i++){
             if(!lines[i].trim()) continue;
             const cols = lines[i].split(';');
-            if(cols.length <= Math.max(nameIdx, categoryIdx, qtyIdx, statusIdx)) continue;
-            
+            if(cols.length <= Math.max(nameIdx, categoryIdx, qtyIdx, statusIdx, barcodeIdx)) continue;
             let status = statusIdx !== -1 ? (cols[statusIdx] || '').trim() : '';
             if(status !== 'Активен') { skipped++; continue; }
-            
             let name = nameIdx !== -1 ? cols[nameIdx].trim() : '';
             let category = categoryIdx !== -1 ? cols[categoryIdx].trim() : '';
             let qtyRaw = qtyIdx !== -1 ? cols[qtyIdx].trim() : '0';
             let quantity = parseFloat(qtyRaw);
             if(isNaN(quantity)) quantity = 0;
-            
+            let barcode = (barcodeIdx !== -1 && cols[barcodeIdx]) ? cols[barcodeIdx].trim() : '';
             if(name && category){
-                const key = `${category}|${name}`;
-                newItemsMap.set(key, { name, category, systemQuantity: quantity });
+                csvItems.push({ name, category, systemQuantity: quantity, barcode });
             }
         }
+        if(skipped>0) showToast(`📊 Пропущено скрытых: ${skipped}`, 'success');
         
-        const existingMap = new Map();
-        for(const item of inventoryItems){
-            const key = `${item.category}|${item.name}`;
-            existingMap.set(key, item);
+        // Обновляем мастер
+        const masterMap = new Map();
+        for(const p of masterProducts){
+            const key = `${p.category}|${p.name}`;
+            masterMap.set(key, p);
         }
-        
-        const merged = [];
-        for(const [key, newItem] of newItemsMap){
-            const existing = existingMap.get(key);
+        let added = 0, updated = 0;
+        for(const csvItem of csvItems){
+            const key = `${csvItem.category}|${csvItem.name}`;
+            const existing = masterMap.get(key);
             if(existing){
-                merged.push({
-                    id: existing.id,
-                    category: newItem.category,
-                    name: newItem.name,
-                    systemQuantity: newItem.systemQuantity,
-                    factQuantity: existing.factQuantity
-                });
+                if(existing.systemQuantity !== csvItem.systemQuantity){
+                    existing.systemQuantity = csvItem.systemQuantity;
+                    updated++;
+                }
+                // Если в CSV есть штрихкод и у существующего его нет, обновляем
+                if(csvItem.barcode && !existing.barcode){
+                    existing.barcode = csvItem.barcode;
+                }
             } else {
-                merged.push({
-                    id: nextId++,
-                    category: newItem.category,
-                    name: newItem.name,
-                    systemQuantity: newItem.systemQuantity,
-                    factQuantity: newItem.systemQuantity
+                const newId = nextMasterId++;
+                masterProducts.push({
+                    id: newId,
+                    category: csvItem.category,
+                    name: csvItem.name,
+                    barcode: csvItem.barcode || '',
+                    systemQuantity: csvItem.systemQuantity
                 });
+                added++;
             }
         }
-        
-        if(skipped > 0 && merged.length > 0){
-            showToast(`📊 Загружено ${merged.length} активных (${skipped} скрытых пропущено)`, 'success');
-        }
-        return merged;
+        saveMasterToLocal();
+        showToast(`✅ Мастер обновлён: добавлено ${added}, обновлено ${updated} товаров`, 'success');
+        // Пересоздаём инвентаризацию из обновлённого мастера
+        rebuildInventoryFromMaster();
+        // Добавляем новую запись в историю
+        addToHistory(true);
     }
     
-    function loadMismatchesFromCSV(csvText){
-        const lines = csvText.split(/\r?\n/);
-        if(lines.length === 0) return [];
-        let header = lines[0];
-        if(header.startsWith('\uFEFF')) header = header.substring(1);
-        const headers = header.split(';').map(h => h.trim().toLowerCase());
-        
-        let nameIdx = headers.findIndex(h => h.includes('наименование') || h === 'наименование');
-        let categoryIdx = headers.findIndex(h => h.includes('категория') || h === 'категория');
-        let factIdx = headers.findIndex(h => h.includes('фактический') || h.includes('факт') || h === 'фактический остаток');
-        
-        if(nameIdx === -1 || factIdx === -1){
-            showToast('❌ CSV должен содержать колонки: Наименование, Фактический остаток', 'error');
-            return [];
-        }
-        
-        let updatedCount = 0;
-        let notFoundCount = 0;
-        
-        for(let i = 1; i < lines.length; i++){
-            if(!lines[i].trim()) continue;
-            const cols = lines[i].split(';');
-            if(cols.length <= Math.max(nameIdx, categoryIdx, factIdx)) continue;
-            
-            let name = cols[nameIdx].trim();
-            let category = categoryIdx !== -1 ? cols[categoryIdx].trim() : '';
-            let factRaw = cols[factIdx].trim();
-            let factQuantity = parseFloat(factRaw);
-            if(isNaN(factQuantity)) factQuantity = 0;
-            
-            if(!name) continue;
-            
-            let found = null;
-            if(category){
-                found = inventoryItems.find(item => 
-                    item.name.toLowerCase() === name.toLowerCase() && 
-                    item.category.toLowerCase() === category.toLowerCase()
-                );
+    function loadCSVAndUpdateMaster(file){
+        const reader = new FileReader();
+        reader.onload = function(e){
+            parseCSVAndMergeMaster(e.target.result);
+        };
+        reader.readAsText(file, 'UTF-8');
+    }
+    
+    // ========== СКАНИРОВАНИЕ ШТРИХКОДА ==========
+    async function startBarcodeScan(){
+        if('BarcodeDetector' in window){
+            try{
+                const detector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e', 'code_128', 'code_39', 'qr_code'] });
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.setAttribute('playsinline', true);
+                video.style.position = 'fixed';
+                video.style.top = '0';
+                video.style.left = '0';
+                video.style.width = '100%';
+                video.style.height = '100%';
+                video.style.objectFit = 'cover';
+                video.style.zIndex = '10000';
+                document.body.appendChild(video);
+                await video.play();
+                const scanInterval = setInterval(async () => {
+                    if(video.readyState === video.HAVE_ENOUGH_DATA){
+                        try{
+                            const barcodes = await detector.detect(video);
+                            if(barcodes.length > 0){
+                                clearInterval(scanInterval);
+                                stream.getTracks().forEach(track => track.stop());
+                                video.remove();
+                                const barcodeValue = barcodes[0].rawValue;
+                                handleScannedBarcode(barcodeValue);
+                            }
+                        }catch(e){}
+                    }
+                }, 200);
+                setTimeout(() => {
+                    clearInterval(scanInterval);
+                    if(stream.active){
+                        stream.getTracks().forEach(track => track.stop());
+                        video.remove();
+                        showToast('Сканирование отменено', 'error');
+                    }
+                }, 30000);
+            } catch(err){
+                showToast('Не удалось открыть камеру', 'error');
+                manualBarcodeInput();
             }
-            if(!found){
-                found = inventoryItems.find(item => item.name.toLowerCase() === name.toLowerCase());
-            }
-            
-            if(found){
-                found.factQuantity = factQuantity;
-                updatedCount++;
-            } else {
-                notFoundCount++;
-            }
-        }
-        
-        if(updatedCount > 0){
-            saveToLocal();
-            renderAll();
-            showToast(`✅ Обновлено ${updatedCount} товаров${notFoundCount > 0 ? ` (${notFoundCount} не найдено)` : ''}`, 'success');
         } else {
-            showToast(`❌ Товары не найдены. Проверьте названия в CSV`, 'error');
+            manualBarcodeInput();
         }
     }
     
-    function loadCSVAndInit(file){
-        const reader = new FileReader();
-        reader.onload = function(e){
-            const merged = parseCSVAndMerge(e.target.result);
-            if(merged.length === 0){
-                showToast('❌ Нет активных товаров в CSV', 'error');
-                return;
+    function manualBarcodeInput(){
+        const code = prompt('Введите штрихкод вручную:');
+        if(code) handleScannedBarcode(code);
+    }
+    
+    function handleScannedBarcode(barcode){
+        // Ищем в мастере
+        const masterItem = masterProducts.find(p => p.barcode === barcode);
+        if(masterItem){
+            // Ищем в текущей инвентаризации
+            let invItem = inventoryItems.find(i => i.id === masterItem.id);
+            if(!invItem){
+                // Добавляем товар в инвентаризацию из мастера
+                invItem = {
+                    id: masterItem.id,
+                    category: masterItem.category,
+                    name: masterItem.name,
+                    systemQuantity: masterItem.systemQuantity,
+                    factQuantity: masterItem.systemQuantity
+                };
+                inventoryItems.push(invItem);
+                saveInventoryToLocal();
+                renderAll();
+                showToast(`✅ Товар "${masterItem.name}" добавлен в инвентаризацию`, 'success');
             }
-            inventoryItems = merged;
-            saveToLocal();
-            renderAll();
-            showToast(`✅ Загружено ${inventoryItems.length} товаров`, 'success');
-        };
-        reader.readAsText(file, 'UTF-8');
+            highlightItem(invItem.id);
+            showToast(`✅ Найден: ${masterItem.name}`, 'success');
+        } else {
+            // Не найден в мастере – предлагаем создать новый товар
+            const newName = prompt('Штрихкод не распознан. Введите название нового товара:');
+            if(newName){
+                const newCategory = prompt('Введите категорию (Готовая Еда, Напитки, Снэки, Шоколад, Энергетические напитки):', 'Напитки');
+                if(newCategory){
+                    const newId = nextMasterId++;
+                    const newProduct = {
+                        id: newId,
+                        category: newCategory,
+                        name: newName,
+                        barcode: barcode,
+                        systemQuantity: 0
+                    };
+                    masterProducts.push(newProduct);
+                    saveMasterToLocal();
+                    // Добавляем в инвентаризацию
+                    inventoryItems.push({
+                        id: newId,
+                        category: newCategory,
+                        name: newName,
+                        systemQuantity: 0,
+                        factQuantity: 0
+                    });
+                    saveInventoryToLocal();
+                    renderAll();
+                    highlightItem(newId);
+                    showToast(`✅ Новый товар "${newName}" добавлен со штрихкодом`, 'success');
+                }
+            }
+        }
     }
     
-    function loadMismatchesFile(file){
-        const reader = new FileReader();
-        reader.onload = function(e){
-            loadMismatchesFromCSV(e.target.result);
-        };
-        reader.readAsText(file, 'UTF-8');
+    function highlightItem(id){
+        const card = document.querySelector(`.inventory-card[data-id="${id}"]`);
+        if(card){
+            card.classList.add('highlight');
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => card.classList.remove('highlight'), 2000);
+        } else {
+            const row = document.querySelector(`tr[data-id="${id}"]`);
+            if(row){
+                row.classList.add('highlight-row');
+                row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => row.classList.remove('highlight-row'), 2000);
+            }
+        }
     }
     
+    // ========== ОБЩИЕ ФУНКЦИИ ==========
     function updateFactQuantity(id, newFact){
         const item = inventoryItems.find(i => i.id === id);
         if(item){
             item.factQuantity = parseFloat(newFact);
             if(isNaN(item.factQuantity)) item.factQuantity = 0;
-            saveToLocal();
+            saveInventoryToLocal();
             renderAll();
         }
     }
     
     function deleteItem(id){
-        if(confirm('Удалить товар?')){
+        if(confirm('Удалить товар из инвентаризации и мастер-файла?')){
             inventoryItems = inventoryItems.filter(i => i.id !== id);
-            saveToLocal();
+            masterProducts = masterProducts.filter(p => p.id !== id);
+            saveMasterToLocal();
+            saveInventoryToLocal();
             renderAll();
             showToast('🗑️ Товар удалён', 'success');
         }
@@ -1015,69 +971,70 @@
         const title = document.getElementById('modalTitle');
         const categorySelect = document.getElementById('modalCategory');
         const nameInput = document.getElementById('modalName');
+        const barcodeInput = document.getElementById('modalBarcode');
         const systemQty = document.getElementById('modalSystemQty');
         const factQty = document.getElementById('modalFactQty');
-        
         if(editId){
             const item = inventoryItems.find(i => i.id === editId);
-            if(item){
+            const master = masterProducts.find(p => p.id === editId);
+            if(item && master){
                 title.innerText = '✏️ Редактировать товар';
                 categorySelect.value = item.category;
                 nameInput.value = item.name;
+                barcodeInput.value = master.barcode || '';
                 systemQty.value = item.systemQuantity;
                 factQty.value = item.factQuantity;
-            } else {
-                return;
-            }
+            } else { return; }
         } else {
             title.innerText = '➕ Добавить товар';
             categorySelect.value = 'Готовая Еда';
             nameInput.value = '';
+            barcodeInput.value = '';
             systemQty.value = 0;
             factQty.value = 0;
         }
-        
         const saveBtn = document.getElementById('saveModalBtn');
         const newSaveHandler = () => {
             const name = nameInput.value.trim();
-            if(!name){
-                showToast('Введите наименование', 'error');
-                return;
-            }
+            if(!name){ showToast('Введите наименование', 'error'); return; }
             const category = categorySelect.value;
+            const barcode = barcodeInput.value.trim();
             const systemQuantity = parseInt(systemQty.value) || 0;
             const factQuantity = parseInt(factQty.value) || 0;
-            
             if(editId){
-                const index = inventoryItems.findIndex(i => i.id === editId);
-                if(index !== -1){
-                    inventoryItems[index] = { ...inventoryItems[index], category, name, systemQuantity, factQuantity };
+                const idxInv = inventoryItems.findIndex(i => i.id === editId);
+                const idxMast = masterProducts.findIndex(p => p.id === editId);
+                if(idxInv !== -1 && idxMast !== -1){
+                    inventoryItems[idxInv] = { ...inventoryItems[idxInv], category, name, systemQuantity, factQuantity };
+                    masterProducts[idxMast] = { ...masterProducts[idxMast], category, name, systemQuantity, barcode };
                     showToast(`✅ Товар "${name}" обновлён`, 'success');
                 }
             } else {
-                const newId = nextId++;
-                inventoryItems.push({
-                    id: newId,
-                    category,
-                    name,
-                    systemQuantity,
-                    factQuantity
-                });
+                const newId = nextMasterId++;
+                masterProducts.push({ id: newId, category, name, barcode, systemQuantity });
+                inventoryItems.push({ id: newId, category, name, systemQuantity, factQuantity });
                 showToast(`✅ Добавлен "${name}"`, 'success');
             }
-            saveToLocal();
+            saveMasterToLocal();
+            saveInventoryToLocal();
             renderAll();
             modal.classList.remove('active');
             saveBtn.removeEventListener('click', newSaveHandler);
         };
         saveBtn.removeEventListener('click', newSaveHandler);
         saveBtn.addEventListener('click', newSaveHandler);
-        
         modal.classList.add('active');
         document.getElementById('cancelModalBtn').onclick = () => {
             modal.classList.remove('active');
             saveBtn.removeEventListener('click', newSaveHandler);
         };
+    }
+    
+    function applyAllFactual(){
+        addToHistory(false);
+        saveInventoryToLocal();
+        renderAll();
+        showToast('✅ Фактические остатки сохранены (история обновлена)', 'success');
     }
     
     function getMismatches(){
@@ -1086,16 +1043,9 @@
     
     function applyFilter(items){
         let filtered = items;
-        // Фильтр по учётному остатку (только ненулевые)
-        if(onlyWithStock){
-            filtered = filtered.filter(item => item.systemQuantity > 0);
-        }
-        // Фильтр по статусу расхождения
-        if(viewFilter === 'mismatch'){
-            filtered = filtered.filter(item => item.factQuantity !== item.systemQuantity);
-        } else if(viewFilter === 'match'){
-            filtered = filtered.filter(item => item.factQuantity === item.systemQuantity);
-        }
+        if(onlyWithStock) filtered = filtered.filter(item => item.systemQuantity > 0);
+        if(viewFilter === 'mismatch') filtered = filtered.filter(item => item.factQuantity !== item.systemQuantity);
+        else if(viewFilter === 'match') filtered = filtered.filter(item => item.factQuantity === item.systemQuantity);
         return filtered;
     }
     
@@ -1112,52 +1062,24 @@
     function renderCards(items){
         const container = document.getElementById('cardsContainer');
         if(items.length === 0){
-            let msg = '📭 Нет данных. Загрузите CSV или добавьте товар вручную';
+            let msg = '📭 Нет данных';
             if(viewFilter === 'mismatch') msg = '✨ Нет товаров с расхождениями';
             if(viewFilter === 'match') msg = '📦 Нет товаров без расхождений';
-            if(onlyWithStock && items.length === 0 && inventoryItems.length > 0) msg = '📦 Нет товаров с ненулевым остатком (включите фильтр "Все товары")';
+            if(onlyWithStock && items.length === 0 && inventoryItems.length > 0) msg = '📦 Нет товаров с ненулевым остатком';
             container.innerHTML = `<div class="empty-state">${msg}</div>`;
             return;
         }
         container.innerHTML = items.map(item => {
             const isMismatch = item.factQuantity !== item.systemQuantity;
-            return `
-                <div class="inventory-card ${isMismatch ? 'mismatch' : ''}">
-                    <div class="card-header">
-                        <span class="card-category">${escapeHtml(item.category)}</span>
-                        <span class="card-badge ${isMismatch ? 'badge-mismatch-card' : 'badge-match-card'}">
-                            ${isMismatch ? '⚠️ Расхождение' : '✅ Совпадает'}
-                        </span>
-                    </div>
-                    <div class="card-name">${escapeHtml(item.name)}</div>
-                    <div class="card-details">
-                        <div class="quantity-row">
-                            <div class="system-qty">
-                                <span class="system-qty-label">Учётный остаток</span>
-                                <span class="system-qty-value">${item.systemQuantity} шт</span>
-                            </div>
-                            <div class="fact-qty">
-                                <span class="fact-qty-label">Фактический:</span>
-                                <input type="number" class="fact-input-card" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0">
-                            </div>
-                        </div>
-                    </div>
-                    <button class="delete-btn" data-id="${item.id}">🗑️ Удалить</button>
-                </div>
-            `;
+            return `<div class="inventory-card ${isMismatch ? 'mismatch' : ''}" data-id="${item.id}">
+                <div class="card-header"><span class="card-category">${escapeHtml(item.category)}</span><span class="card-badge ${isMismatch ? 'badge-mismatch-card' : 'badge-match-card'}">${isMismatch ? '⚠️ Расхождение' : '✅ Совпадает'}</span></div>
+                <div class="card-name">${escapeHtml(item.name)}</div>
+                <div class="card-details"><div class="quantity-row"><div class="system-qty"><span class="system-qty-label">Учётный остаток</span><span class="system-qty-value">${item.systemQuantity} шт</span></div><div class="fact-qty"><span class="fact-qty-label">Фактический:</span><input type="number" class="fact-input-card" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0"></div></div></div>
+                <button class="delete-btn" data-id="${item.id}">🗑️ Удалить</button>
+            </div>`;
         }).join('');
-        
-        document.querySelectorAll('.fact-input-card').forEach(inp => {
-            inp.addEventListener('change', (e) => {
-                updateFactQuantity(parseInt(inp.dataset.id), inp.value);
-            });
-        });
-        document.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                deleteItem(parseInt(btn.dataset.id));
-            });
-        });
+        document.querySelectorAll('.fact-input-card').forEach(inp => inp.addEventListener('change', (e) => updateFactQuantity(parseInt(inp.dataset.id), inp.value)));
+        document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); deleteItem(parseInt(btn.dataset.id)); }));
     }
     
     function renderTable(items){
@@ -1166,35 +1088,23 @@
             let msg = 'Нет данных';
             if(viewFilter === 'mismatch') msg = 'Нет товаров с расхождениями';
             if(viewFilter === 'match') msg = 'Нет товаров без расхождений';
-            if(onlyWithStock && items.length === 0 && inventoryItems.length > 0) msg = 'Нет товаров с ненулевым остатком (снимите галочку "Только с остатком")';
-            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:30px;">${msg}</td></tr>`;
+            if(onlyWithStock && items.length === 0 && inventoryItems.length > 0) msg = 'Нет товаров с ненулевым остатком';
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:30px;">${msg}<table></tr>`;
             return;
         }
         tbody.innerHTML = items.map(item => {
             const isMismatch = item.factQuantity !== item.systemQuantity;
-            return `
-                <tr class="${isMismatch ? 'mismatch' : ''}">
-                    <td><strong>${escapeHtml(item.category)}</strong></td>
-                    <td>${escapeHtml(item.name)}</td>
-                    <td><span class="system-quantity">${item.systemQuantity} шт</span></td>
-                    <td><input type="number" class="fact-input" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0"></td>
-                    <td><span class="badge ${isMismatch ? 'badge-mismatch' : 'badge-match'}">${isMismatch ? '⚠️ Расхождение' : '✅ Совпадает'}</span></td>
-                    <td><button class="delete-table-btn" data-id="${item.id}">🗑️</button></td>
-                </tr>
-            `;
+            return `<tr class="${isMismatch ? 'mismatch' : ''}" data-id="${item.id}">
+                <td><strong>${escapeHtml(item.category)}</strong></td>
+                <td>${escapeHtml(item.name)}</td>
+                <td><span class="system-quantity">${item.systemQuantity} шт</span></td>
+                <td><input type="number" class="fact-input" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0"></td>
+                <td><span class="badge ${isMismatch ? 'badge-mismatch' : 'badge-match'}">${isMismatch ? '⚠️ Расхождение' : '✅ Совпадает'}</span></td>
+                <td><button class="delete-table-btn" data-id="${item.id}">🗑️</button></td>
+            </tr>`;
         }).join('');
-        
-        document.querySelectorAll('.fact-input').forEach(inp => {
-            inp.addEventListener('change', (e) => {
-                updateFactQuantity(parseInt(inp.dataset.id), inp.value);
-            });
-        });
-        document.querySelectorAll('.delete-table-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                deleteItem(parseInt(btn.dataset.id));
-            });
-        });
+        document.querySelectorAll('.fact-input').forEach(inp => inp.addEventListener('change', (e) => updateFactQuantity(parseInt(inp.dataset.id), inp.value)));
+        document.querySelectorAll('.delete-table-btn').forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); deleteItem(parseInt(btn.dataset.id)); }));
     }
     
     function renderAll(){
@@ -1207,18 +1117,11 @@
         const sorted = sortItems(filtered);
         renderCards(sorted);
         renderTable(sorted);
-        
         document.getElementById('totalCount').innerText = inventoryItems.length;
         const mismatches = getMismatches();
         document.getElementById('mismatchCount').innerText = mismatches.length;
         document.getElementById('matchCount').innerText = inventoryItems.length - mismatches.length;
-        
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            if(btn.dataset.filter === viewFilter) btn.classList.add('active');
-            else btn.classList.remove('active');
-        });
-        
-        // Синхронизация чекбокса
+        document.querySelectorAll('.filter-btn').forEach(btn => { if(btn.dataset.filter === viewFilter) btn.classList.add('active'); else btn.classList.remove('active'); });
         const chk = document.getElementById('onlyWithStockCheckbox');
         if(chk.checked !== onlyWithStock) chk.checked = onlyWithStock;
     }
@@ -1238,74 +1141,127 @@
         showToast(`📎 Экспортировано ${mismatches.length} расхождений`, 'success');
     }
     
-    function escapeHtml(str){
-        if(!str) return '';
-        return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m]));
-    }
-    
-    function showToast(text, type = 'success'){
-        const toast = document.getElementById('toast');
-        toast.className = 'toast';
-        if(type === 'error') toast.classList.add('error');
-        toast.style.display = 'block';
-        toast.innerText = text;
-        setTimeout(() => toast.style.display = 'none', 3000);
-    }
-    
-    function applyTheme(){
-        if(isDarkTheme){
-            document.body.classList.add('dark-theme');
-            document.getElementById('themeToggle').innerHTML = '☀️ Светлая';
-        } else {
-            document.body.classList.remove('dark-theme');
-            document.getElementById('themeToggle').innerHTML = '🌙 Тёмная';
+    function loadMismatchesFromCSV(csvText){
+        const lines = csvText.split(/\r?\n/);
+        if(lines.length === 0) return;
+        let header = lines[0];
+        if(header.startsWith('\uFEFF')) header = header.substring(1);
+        const headers = header.split(';').map(h => h.trim().toLowerCase());
+        let nameIdx = headers.findIndex(h => h.includes('наименование'));
+        let factIdx = headers.findIndex(h => h.includes('фактический') || h.includes('факт'));
+        if(nameIdx === -1 || factIdx === -1){ showToast('❌ CSV должен содержать Наименование и Фактический остаток', 'error'); return; }
+        let updated = 0, notFound = 0;
+        for(let i=1;i<lines.length;i++){
+            if(!lines[i].trim()) continue;
+            const cols = lines[i].split(';');
+            if(cols.length <= Math.max(nameIdx, factIdx)) continue;
+            let name = cols[nameIdx].trim();
+            let fact = parseFloat(cols[factIdx]);
+            if(isNaN(fact)) fact = 0;
+            if(!name) continue;
+            const found = inventoryItems.find(item => item.name.toLowerCase() === name.toLowerCase());
+            if(found){ found.factQuantity = fact; updated++; }
+            else notFound++;
         }
+        if(updated){
+            saveInventoryToLocal();
+            renderAll();
+            showToast(`✅ Обновлено ${updated} товаров${notFound?` (${notFound} не найдено)`:''}`, 'success');
+        } else showToast('❌ Товары не найдены', 'error');
     }
     
-    window.sortBy = (field) => {
-        if(sortField === field) sortAscending = !sortAscending;
-        else { sortField = field; sortAscending = true; }
-        renderAll();
-    };
+    function loadMismatchesFile(file){
+        const reader = new FileReader();
+        reader.onload = e => loadMismatchesFromCSV(e.target.result);
+        reader.readAsText(file, 'UTF-8');
+    }
+    
+    function showChart(){
+        if(history.length === 0){
+            showToast('Нет сохранённых инвентаризаций', 'error');
+            return;
+        }
+        const labels = [];
+        const mismatchCounts = [];
+        const totalDiff = [];
+        for(const rec of history){
+            const date = new Date(rec.timestamp).toLocaleDateString();
+            labels.push(date);
+            let mismatches = 0, diffSum = 0;
+            for(const it of rec.items){
+                if(it.factQuantity !== it.systemQuantity){
+                    mismatches++;
+                    diffSum += (it.factQuantity - it.systemQuantity);
+                }
+            }
+            mismatchCounts.push(mismatches);
+            totalDiff.push(diffSum);
+        }
+        const ctx = document.getElementById('historyChart').getContext('2d');
+        if(window.myChart) window.myChart.destroy();
+        window.myChart = new Chart(ctx, {
+            type: 'line',
+            data: { labels, datasets: [
+                { label: 'Количество расхождений', data: mismatchCounts, borderColor: '#ef4444', tension: 0.1, fill: false, yAxisID: 'y' },
+                { label: 'Суммарная разница (шт)', data: totalDiff, borderColor: '#3b82f6', tension: 0.1, fill: false, yAxisID: 'y1' }
+            ]},
+            options: { responsive: true, interaction: { mode: 'index', intersect: false }, scales: { y: { title: { display: true, text: 'Кол-во расхождений' } }, y1: { position: 'right', title: { display: true, text: 'Разница (шт)' } } } }
+        });
+        document.getElementById('chartModal').classList.add('active');
+    }
+    
+    function escapeHtml(str){ if(!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
+    function showToast(text, type='success'){ const toast=document.getElementById('toast'); toast.className='toast'; if(type==='error') toast.classList.add('error'); toast.style.display='block'; toast.innerText=text; setTimeout(()=>toast.style.display='none',3000); }
+    function applyTheme(){ if(isDarkTheme){ document.body.classList.add('dark-theme'); document.getElementById('themeToggle').innerHTML='☀️ Светлая'; } else { document.body.classList.remove('dark-theme'); document.getElementById('themeToggle').innerHTML='🌙 Тёмная'; } }
+    window.sortBy = (field) => { if(sortField===field) sortAscending=!sortAscending; else{ sortField=field; sortAscending=true; } renderAll(); };
+    
+    function updateRepoDisplay(){
+        document.getElementById('repoDisplay').textContent = `${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`;
+        const ts = document.getElementById('tokenStatus');
+        if(githubToken){ ts.innerHTML='✅ Токен есть'; ts.style.background='#dcfce7'; }
+        else { ts.innerHTML='🔑 Нет токена'; ts.style.background='#fef3c7'; }
+    }
     
     document.addEventListener('DOMContentLoaded', () => {
         updateRepoDisplay();
-        loadFromLocal();
+        loadMasterFromLocal();
+        if(masterProducts.length === 0){
+            // пробуем загрузить мастер из GitHub при первом запуске, если есть токен
+            if(githubToken) loadMasterFromGithub(false);
+        }
+        loadInventoryFromLocal();
+        if(inventoryItems.length === 0 && masterProducts.length > 0){
+            rebuildInventoryFromMaster();
+        }
+        loadHistory();
         
-        document.getElementById('csvFileInput').addEventListener('change', (e) => { if(e.target.files[0]) loadCSVAndInit(e.target.files[0]); });
+        document.getElementById('csvFileInput').addEventListener('change', e => { if(e.target.files[0]) loadCSVAndUpdateMaster(e.target.files[0]); });
         document.getElementById('loadCsvBtn').addEventListener('click', () => document.getElementById('csvFileInput').click());
-        document.getElementById('applyAllBtn').addEventListener('click', () => { saveToLocal(); renderAll(); showToast('✅ Фактические остатки сохранены', 'success'); });
+        document.getElementById('applyAllBtn').addEventListener('click', applyAllFactual);
         document.getElementById('exportMismatchesBtn').addEventListener('click', exportMismatchesToCSV);
         document.getElementById('loadMismatchesBtn').addEventListener('click', () => document.getElementById('mismatchesFileInput').click());
-        document.getElementById('mismatchesFileInput').addEventListener('change', (e) => { if(e.target.files[0]) loadMismatchesFile(e.target.files[0]); });
-        document.getElementById('searchInput').addEventListener('input', (e) => { searchTerm = e.target.value; renderAll(); });
+        document.getElementById('mismatchesFileInput').addEventListener('change', e => { if(e.target.files[0]) loadMismatchesFile(e.target.files[0]); });
+        document.getElementById('searchInput').addEventListener('input', e => { searchTerm = e.target.value; renderAll(); });
         document.getElementById('themeToggle').addEventListener('click', () => { isDarkTheme = !isDarkTheme; localStorage.setItem('inventory_dark_theme', isDarkTheme); applyTheme(); });
         document.getElementById('addItemBtn').addEventListener('click', () => addOrEditItem(null));
+        document.getElementById('scanBarcodeBtn').addEventListener('click', startBarcodeScan);
+        document.getElementById('showChartBtn').addEventListener('click', showChart);
+        document.getElementById('closeChartBtn').addEventListener('click', () => document.getElementById('chartModal').classList.remove('active'));
+        document.getElementById('saveMasterToGithubBtn').addEventListener('click', () => saveMasterToGithub(true));
+        document.getElementById('loadMasterFromGithubBtn').addEventListener('click', () => loadMasterFromGithub(true));
         
-        // Чекбокс "Только с остатком"
         const stockCheck = document.getElementById('onlyWithStockCheckbox');
-        stockCheck.addEventListener('change', (e) => {
-            onlyWithStock = e.target.checked;
-            localStorage.setItem('only_with_stock', onlyWithStock);
-            renderAll();
-        });
-        
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                viewFilter = btn.dataset.filter;
-                renderAll();
-            });
-        });
+        stockCheck.addEventListener('change', e => { onlyWithStock = e.target.checked; localStorage.setItem('only_with_stock', onlyWithStock); renderAll(); });
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', () => { viewFilter = btn.dataset.filter; renderAll(); }));
+        document.getElementById('historySelect').addEventListener('change', e => { if(e.target.value !== '') restoreHistoryItem(parseInt(e.target.value)); e.target.value = ''; });
         
         document.getElementById('showTokenBtn').addEventListener('click', () => { document.getElementById('githubToken').value = githubToken; document.getElementById('tokenModal').classList.add('active'); });
         document.getElementById('saveTokenBtn').addEventListener('click', () => { const t = document.getElementById('githubToken').value.trim(); if(t){ githubToken = t; localStorage.setItem('github_token', t); document.getElementById('tokenModal').classList.remove('active'); updateRepoDisplay(); } });
         document.getElementById('cancelTokenBtn').addEventListener('click', () => document.getElementById('tokenModal').classList.remove('active'));
-        document.getElementById('saveToGithubBtn').addEventListener('click', () => saveToGithub(true));
-        document.getElementById('loadFromGithubBtn').addEventListener('click', () => loadFromGithub(true));
         
         applyTheme();
-        if(inventoryItems.length === 0){
-            document.getElementById('cardsContainer').innerHTML = '<div class="empty-state">📁 Нажмите "CSV (1С)" для загрузки активных товаров, или "➕ Добавить товар" вручную<br>⚠️ Загружаются только товары со статусом "Активен"<br>🔍 Фильтр "Только с остатком" включён по умолчанию</div>';
+        if(masterProducts.length === 0 && inventoryItems.length === 0){
+            document.getElementById('cardsContainer').innerHTML = '<div class="empty-state">📁 Загрузите CSV (1С) для создания мастер-файла, или используйте кнопку "📂 Загрузить мастер" из GitHub</div>';
         }
     });
 })();
