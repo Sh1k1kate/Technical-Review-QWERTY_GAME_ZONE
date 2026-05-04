@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="free-icon-food-and-drink-9290087.png">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        /* (стили без изменений, как в предыдущем сообщении) */
+        /* (стили остаются как в предыдущей версии, они уже адаптированы) */
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; margin: 0; padding: 0; }
         body { background: #f4f7fb; color: #1e293b; padding: 12px; min-height: 100vh; }
         body.dark-theme { background: #0f172a; color: #e2e8f0; }
@@ -491,12 +491,14 @@
         reader.readAsText(file, 'UTF-8');
     }
     
-    // Автокомплит
+    // Автокомплит в модальном окне (исправленная версия)
     function setupAutocomplete(){
         const nameInput = document.getElementById('modalName');
         const autocompleteDiv = document.getElementById('modalAutocomplete');
         if(!nameInput) return;
-        const handler = function(){
+        // Удаляем старые обработчики, чтобы не дублировать
+        nameInput.removeEventListener('input', window._autocompleteInputHandler);
+        const inputHandler = function(){
             const value = this.value.toLowerCase().trim();
             if(value.length < 2){
                 autocompleteDiv.style.display = 'none';
@@ -515,9 +517,12 @@
             `).join('');
             autocompleteDiv.style.display = 'block';
         };
-        nameInput.removeEventListener('input', handler);
-        nameInput.addEventListener('input', handler);
-        autocompleteDiv.addEventListener('click', (e) => {
+        nameInput.addEventListener('input', inputHandler);
+        window._autocompleteInputHandler = inputHandler;
+        
+        // Обработчик клика по подсказке
+        autocompleteDiv.removeEventListener('click', window._autocompleteClickHandler);
+        const clickHandler = (e) => {
             const item = e.target.closest('.autocomplete-item');
             if(item){
                 const name = item.dataset.name;
@@ -533,15 +538,22 @@
                 autocompleteDiv.style.display = 'none';
                 showToast(`✅ Выбран товар "${name}"`, 'success');
             }
-        });
-        document.addEventListener('click', function(e){
+        };
+        autocompleteDiv.addEventListener('click', clickHandler);
+        window._autocompleteClickHandler = clickHandler;
+        
+        // Закрытие при клике вне
+        document.removeEventListener('click', window._autocompleteOutsideHandler);
+        const outsideHandler = (e) => {
             if(!nameInput.contains(e.target) && !autocompleteDiv.contains(e.target)){
                 autocompleteDiv.style.display = 'none';
             }
-        });
+        };
+        document.addEventListener('click', outsideHandler);
+        window._autocompleteOutsideHandler = outsideHandler;
     }
     
-    // Сканирование
+    // Сканирование с открытием модального окна
     async function startBarcodeScan(){
         if('BarcodeDetector' in window){
             try{
@@ -567,7 +579,17 @@
                                 clearInterval(scanInterval);
                                 stream.getTracks().forEach(track => track.stop());
                                 video.remove();
-                                handleScannedBarcode(barcodes[0].rawValue);
+                                const barcodeValue = barcodes[0].rawValue;
+                                // Ищем товар в мастер-файле
+                                const masterItem = masterProducts.find(p => p.barcode === barcodeValue);
+                                if(masterItem){
+                                    // Открываем модальное окно редактирования существующего товара
+                                    addOrEditItem(masterItem.id);
+                                    showToast(`🔍 Найден товар: ${masterItem.name}`, 'success');
+                                } else {
+                                    // Открываем модальное окно добавления нового товара с предзаполненным штрихкодом
+                                    openAddItemWithBarcode(barcodeValue);
+                                }
                             }
                         }catch(e){}
                     }
@@ -590,71 +612,63 @@
     }
     function manualBarcodeInput(){
         const code = prompt('Введите штрихкод вручную:');
-        if(code) handleScannedBarcode(code);
-    }
-    function handleScannedBarcode(barcode){
-        const masterItem = masterProducts.find(p => p.barcode === barcode);
-        if(masterItem){
-            let invItem = inventoryItems.find(i => i.id === masterItem.id);
-            if(!invItem){
-                invItem = {
-                    id: masterItem.id,
-                    category: masterItem.category,
-                    name: masterItem.name,
-                    systemQuantity: masterItem.systemQuantity,
-                    factQuantity: (masterItem.lastFactQuantity !== undefined) ? masterItem.lastFactQuantity : masterItem.systemQuantity
-                };
-                inventoryItems.push(invItem);
-                saveInventoryToLocal();
-                renderAll();
-                showToast(`✅ Товар "${masterItem.name}" добавлен в инвентаризацию`, 'success');
-            }
-            highlightItem(invItem.id);
-            showToast(`✅ Найден: ${masterItem.name}`, 'success');
-        } else {
-            const newName = prompt('Штрихкод не распознан. Введите название нового товара:');
-            if(newName){
-                const newCategory = prompt('Введите категорию (Готовая Еда, Напитки, Снэки, Шоколад, Энергетические напитки):', 'Напитки');
-                if(newCategory){
-                    const newId = nextMasterId++;
-                    masterProducts.push({
-                        id: newId,
-                        category: newCategory,
-                        name: newName,
-                        barcode: barcode,
-                        systemQuantity: 0,
-                        lastFactQuantity: 0
-                    });
-                    saveMasterToLocal();
-                    inventoryItems.push({
-                        id: newId,
-                        category: newCategory,
-                        name: newName,
-                        systemQuantity: 0,
-                        factQuantity: 0
-                    });
-                    saveInventoryToLocal();
-                    renderAll();
-                    highlightItem(newId);
-                    showToast(`✅ Новый товар "${newName}" добавлен со штрихкодом`, 'success');
-                }
-            }
+        if(code){
+            const masterItem = masterProducts.find(p => p.barcode === code);
+            if(masterItem) addOrEditItem(masterItem.id);
+            else openAddItemWithBarcode(code);
         }
     }
-    function highlightItem(id){
-        const card = document.querySelector(`.inventory-card[data-id="${id}"]`);
-        if(card){
-            card.classList.add('highlight');
-            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            setTimeout(() => card.classList.remove('highlight'), 2000);
-        } else {
-            const row = document.querySelector(`tr[data-id="${id}"]`);
-            if(row){
-                row.classList.add('highlight-row');
-                row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                setTimeout(() => row.classList.remove('highlight-row'), 2000);
-            }
-        }
+    function openAddItemWithBarcode(barcode){
+        // Закрываем возможное открытое модальное окно
+        const modal = document.getElementById('itemModal');
+        modal.classList.remove('active');
+        // Устанавливаем значения для нового товара
+        document.getElementById('modalTitle').innerText = '➕ Добавить товар (из штрихкода)';
+        document.getElementById('modalCategory').value = 'Напитки';
+        document.getElementById('modalName').value = '';
+        document.getElementById('modalBarcode').value = barcode;
+        document.getElementById('modalSystemQty').value = 0;
+        document.getElementById('modalFactQty').value = 0;
+        // Устанавливаем обработчик сохранения для нового товара
+        const saveBtn = document.getElementById('saveModalBtn');
+        const oldHandler = saveBtn.onclick;
+        const newSaveHandler = () => {
+            const name = document.getElementById('modalName').value.trim();
+            if(!name){ showToast('Введите наименование', 'error'); return; }
+            const category = document.getElementById('modalCategory').value;
+            const newBarcode = document.getElementById('modalBarcode').value.trim();
+            const systemQuantity = parseInt(document.getElementById('modalSystemQty').value) || 0;
+            const factQuantity = parseInt(document.getElementById('modalFactQty').value) || 0;
+            const newId = nextMasterId++;
+            masterProducts.push({
+                id: newId,
+                category,
+                name,
+                barcode: newBarcode,
+                systemQuantity,
+                lastFactQuantity: factQuantity
+            });
+            inventoryItems.push({
+                id: newId,
+                category,
+                name,
+                systemQuantity,
+                factQuantity
+            });
+            saveMasterToLocal();
+            saveInventoryToLocal();
+            renderAll();
+            modal.classList.remove('active');
+            showToast(`✅ Добавлен "${name}"`, 'success');
+            saveBtn.onclick = oldHandler;
+        };
+        saveBtn.onclick = newSaveHandler;
+        document.getElementById('cancelModalBtn').onclick = () => {
+            modal.classList.remove('active');
+            saveBtn.onclick = oldHandler;
+        };
+        modal.classList.add('active');
+        setupAutocomplete(); // обновляем автокомплит
     }
     
     function updateFactQuantity(id, newFact){
@@ -685,7 +699,7 @@
         const barcodeInput = document.getElementById('modalBarcode');
         const systemQty = document.getElementById('modalSystemQty');
         const factQty = document.getElementById('modalFactQty');
-        // Обнуляем автокомплит перед открытием
+        // Очищаем автокомплит
         document.getElementById('modalAutocomplete').style.display = 'none';
         if(editId){
             const item = inventoryItems.find(i => i.id === editId);
@@ -706,9 +720,9 @@
             systemQty.value = 0;
             factQty.value = 0;
         }
-        // Настройка автокомплита
-        setupAutocomplete();
+        // Сохраняем оригинальный обработчик, чтобы потом восстановить (для нового товара он другой)
         const saveBtn = document.getElementById('saveModalBtn');
+        const oldHandler = saveBtn.onclick;
         const newSaveHandler = () => {
             const name = nameInput.value.trim();
             if(!name){ showToast('Введите наименование', 'error'); return; }
@@ -734,15 +748,15 @@
             saveInventoryToLocal();
             renderAll();
             modal.classList.remove('active');
-            saveBtn.removeEventListener('click', newSaveHandler);
+            saveBtn.onclick = oldHandler;
         };
-        saveBtn.removeEventListener('click', newSaveHandler);
-        saveBtn.addEventListener('click', newSaveHandler);
+        saveBtn.onclick = newSaveHandler;
         modal.classList.add('active');
         document.getElementById('cancelModalBtn').onclick = () => {
             modal.classList.remove('active');
-            saveBtn.removeEventListener('click', newSaveHandler);
+            saveBtn.onclick = oldHandler;
         };
+        setupAutocomplete(); // переинициализируем автокомплит
     }
     
     function applyAllFactual(){
@@ -811,14 +825,14 @@
             if(viewFilter === 'mismatch') msg = 'Нет товаров с расхождениями';
             if(viewFilter === 'match') msg = 'Нет товаров без расхождений';
             if(onlyWithStock && items.length === 0 && inventoryItems.length > 0) msg = 'Нет товаров с ненулевым остатком';
-            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:30px;">${msg}</td></tr>`;
+            tbody.innerHTML = `<td><td colspan="6" style="text-align:center; padding:30px;">${msg}</td></tr>`;
             return;
         }
         tbody.innerHTML = items.map(item => {
             const isMismatch = item.factQuantity !== item.systemQuantity;
             return `<tr class="${isMismatch ? 'mismatch' : ''}" data-id="${item.id}">
                 <td><strong>${escapeHtml(item.category)}</strong></td>
-                <td>${escapeHtml(item.name)}</strong></td>
+                <td>${escapeHtml(item.name)}</td>
                 <td><span class="system-quantity">${item.systemQuantity} шт</span></td>
                 <td><input type="number" class="fact-input" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0"></td>
                 <td><span class="badge ${isMismatch ? 'badge-mismatch' : 'badge-match'}">${isMismatch ? '⚠️ Расхождение' : '✅ Совпадает'}</span></td>
