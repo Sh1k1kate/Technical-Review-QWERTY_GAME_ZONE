@@ -7,422 +7,78 @@
     <link rel="icon" type="image/png" sizes="32x32" href="free-icon-food-and-drink-9290087.png">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            background: #f4f7fb;
-            color: #1e293b;
-            padding: 12px;
-            min-height: 100vh;
-        }
-        body.dark-theme {
-            background: #0f172a;
-            color: #e2e8f0;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        h1 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .theme-toggle {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 40px;
-            padding: 8px 16px;
-            cursor: pointer;
-            font-size: 0.85rem;
-        }
-        .dark-theme .theme-toggle {
-            background: #1e293b;
-            border-color: #334155;
-            color: #f1f5f9;
-        }
-        .nav-links {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-        }
-        .nav-link {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 40px;
-            padding: 8px 16px;
-            text-decoration: none;
-            color: #1e293b;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.85rem;
-        }
-        .dark-theme .nav-link {
-            background: #1e293b;
-            color: #f1f5f9;
-            border-color: #334155;
-        }
-        .nav-link.primary {
-            background: #3b82f6;
-            color: white;
-            border: none;
-        }
-        .github-panel {
-            background: white;
-            border-radius: 20px;
-            padding: 12px 16px;
-            margin-bottom: 16px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .dark-theme .github-panel {
-            background: #1e293b;
-        }
-        .repo-info {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.75rem;
-            flex-wrap: wrap;
-        }
-        .repo-info span {
-            background: #f1f5f9;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-        }
-        .dark-theme .repo-info span {
-            background: #0f172a;
-        }
-        .btn {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 30px;
-            padding: 6px 12px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .dark-theme .btn {
-            background: #0f172a;
-            border-color: #334155;
-            color: #f1f5f9;
-        }
-        .btn-primary {
-            background: #3b82f6;
-            color: white;
-            border: none;
-        }
-        .btn-success {
-            background: #22c55e;
-            color: white;
-            border: none;
-        }
-        .btn-warning {
-            background: #f59e0b;
-            color: white;
-            border: none;
-        }
-        .btn-purple {
-            background: #8b5cf6;
-            color: white;
-            border: none;
-        }
-        .search-bar {
-            background: white;
-            border-radius: 20px;
-            padding: 12px 16px;
-            margin-bottom: 16px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .dark-theme .search-bar {
-            background: #1e293b;
-        }
-        .search-box {
-            flex: 1;
-            position: relative;
-        }
-        .search-box input {
-            width: 100%;
-            padding: 10px 12px 10px 36px;
-            border: 1px solid #e2e8f0;
-            border-radius: 30px;
-            font-size: 0.9rem;
-        }
-        .dark-theme .search-box input {
-            background: #0f172a;
-            border-color: #334155;
-            color: white;
-        }
-        .search-box::before {
-            content: "🔍";
-            position: absolute;
-            left: 12px;
-            top: 9px;
-            font-size: 0.9rem;
-        }
-        .stats-panel {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-        }
-        .stat-badge {
-            background: #f1f5f9;
-            border-radius: 30px;
-            padding: 6px 12px;
-            display: flex;
-            gap: 12px;
-            font-size: 0.75rem;
-        }
-        .dark-theme .stat-badge {
-            background: #0f172a;
-        }
-        .btn-group {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-        .filter-group {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            background: #f1f5f9;
-            padding: 4px 12px;
-            border-radius: 30px;
-            flex-wrap: wrap;
-        }
-        .dark-theme .filter-group {
-            background: #0f172a;
-        }
-        .filter-label {
-            font-size: 0.7rem;
-            color: #64748b;
-        }
-        .filter-btn {
-            background: transparent;
-            border: none;
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: 0.2s;
-            color: #64748b;
-        }
-        .filter-btn.active {
-            background: #3b82f6;
-            color: white;
-        }
-        .dark-theme .filter-btn.active {
-            background: #3b82f6;
-        }
-        .stock-filter {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: #f1f5f9;
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 0.75rem;
-        }
-        .dark-theme .stock-filter {
-            background: #0f172a;
-        }
-        .data-status {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 0.7rem;
-            padding: 4px 10px;
-            border-radius: 30px;
-            background: #f1f5f9;
-        }
-        .dark-theme .data-status {
-            background: #0f172a;
-        }
-        .cards-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .inventory-card {
-            background: white;
-            border-radius: 20px;
-            padding: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            border-left: 4px solid #22c55e;
-            position: relative;
-            transition: background 0.2s;
-        }
-        .inventory-card.highlight {
-            background: #fef08a !important;
-            transition: 0.3s;
-        }
-        .dark-theme .inventory-card.highlight {
-            background: #854d0e !important;
-        }
-        .dark-theme .inventory-card {
-            background: #1e293b;
-            border-left-color: #22c55e;
-        }
-        .inventory-card.mismatch {
-            border-left-color: #ef4444;
-            background: #fff5f5;
-        }
-        .dark-theme .inventory-card.mismatch {
-            background: #2d1a1a;
-            border-left-color: #ef4444;
-        }
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .card-category {
-            background: #e2e8f0;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #475569;
-        }
-        .dark-theme .card-category {
-            background: #334155;
-            color: #cbd5e1;
-        }
-        .card-name {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #1e293b;
-            word-break: break-word;
-            flex: 1;
-        }
-        .dark-theme .card-name {
-            color: #f1f5f9;
-        }
-        .card-badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            white-space: nowrap;
-        }
+        /* (стили без изменений, как в предыдущем сообщении) */
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; margin: 0; padding: 0; }
+        body { background: #f4f7fb; color: #1e293b; padding: 12px; min-height: 100vh; }
+        body.dark-theme { background: #0f172a; color: #e2e8f0; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+        h1 { font-size: 1.4rem; font-weight: 600; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .theme-toggle { background: white; border: 1px solid #e2e8f0; border-radius: 40px; padding: 8px 16px; cursor: pointer; font-size: 0.85rem; }
+        .dark-theme .theme-toggle { background: #1e293b; border-color: #334155; color: #f1f5f9; }
+        .nav-links { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+        .nav-link { background: white; border: 1px solid #e2e8f0; border-radius: 40px; padding: 8px 16px; text-decoration: none; color: #1e293b; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; }
+        .dark-theme .nav-link { background: #1e293b; color: #f1f5f9; border-color: #334155; }
+        .nav-link.primary { background: #3b82f6; color: white; border: none; }
+        .github-panel { background: white; border-radius: 20px; padding: 12px 16px; margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .dark-theme .github-panel { background: #1e293b; }
+        .repo-info { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; flex-wrap: wrap; }
+        .repo-info span { background: #f1f5f9; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; }
+        .dark-theme .repo-info span { background: #0f172a; }
+        .btn { background: white; border: 1px solid #e2e8f0; border-radius: 30px; padding: 6px 12px; font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 4px; }
+        .dark-theme .btn { background: #0f172a; border-color: #334155; color: #f1f5f9; }
+        .btn-primary { background: #3b82f6; color: white; border: none; }
+        .btn-success { background: #22c55e; color: white; border: none; }
+        .btn-warning { background: #f59e0b; color: white; border: none; }
+        .btn-purple { background: #8b5cf6; color: white; border: none; }
+        .search-bar { background: white; border-radius: 20px; padding: 12px 16px; margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .dark-theme .search-bar { background: #1e293b; }
+        .search-box { flex: 1; position: relative; }
+        .search-box input { width: 100%; padding: 10px 12px 10px 36px; border: 1px solid #e2e8f0; border-radius: 30px; font-size: 0.9rem; }
+        .dark-theme .search-box input { background: #0f172a; border-color: #334155; color: white; }
+        .search-box::before { content: "🔍"; position: absolute; left: 12px; top: 9px; font-size: 0.9rem; }
+        .stats-panel { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: space-between; width: 100%; }
+        .stat-badge { background: #f1f5f9; border-radius: 30px; padding: 6px 12px; display: flex; gap: 12px; font-size: 0.75rem; }
+        .dark-theme .stat-badge { background: #0f172a; }
+        .btn-group { display: flex; gap: 6px; flex-wrap: wrap; }
+        .filter-group { display: flex; gap: 8px; align-items: center; background: #f1f5f9; padding: 4px 12px; border-radius: 30px; flex-wrap: wrap; }
+        .dark-theme .filter-group { background: #0f172a; }
+        .filter-label { font-size: 0.7rem; color: #64748b; }
+        .filter-btn { background: transparent; border: none; padding: 4px 12px; border-radius: 30px; font-size: 0.75rem; cursor: pointer; transition: 0.2s; color: #64748b; }
+        .filter-btn.active { background: #3b82f6; color: white; }
+        .dark-theme .filter-btn.active { background: #3b82f6; }
+        .stock-filter { display: inline-flex; align-items: center; gap: 6px; background: #f1f5f9; padding: 4px 12px; border-radius: 30px; font-size: 0.75rem; }
+        .dark-theme .stock-filter { background: #0f172a; }
+        .data-status { display: flex; align-items: center; gap: 4px; font-size: 0.7rem; padding: 4px 10px; border-radius: 30px; background: #f1f5f9; }
+        .dark-theme .data-status { background: #0f172a; }
+        .cards-container { display: flex; flex-direction: column; gap: 12px; }
+        .inventory-card { background: white; border-radius: 20px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 4px solid #22c55e; position: relative; transition: background 0.2s; cursor: pointer; }
+        .inventory-card.highlight { background: #fef08a !important; transition: 0.3s; }
+        .dark-theme .inventory-card.highlight { background: #854d0e !important; }
+        .dark-theme .inventory-card { background: #1e293b; border-left-color: #22c55e; }
+        .inventory-card.mismatch { border-left-color: #ef4444; background: #fff5f5; }
+        .dark-theme .inventory-card.mismatch { background: #2d1a1a; border-left-color: #ef4444; }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+        .card-category { background: #e2e8f0; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; color: #475569; }
+        .dark-theme .card-category { background: #334155; color: #cbd5e1; }
+        .card-name { font-size: 1rem; font-weight: 600; color: #1e293b; word-break: break-word; flex: 1; }
+        .dark-theme .card-name { color: #f1f5f9; }
+        .card-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; white-space: nowrap; }
         .badge-match-card { background: #22c55e; color: white; }
         .badge-mismatch-card { background: #ef4444; color: white; }
-        .card-details {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 12px;
-        }
-        .quantity-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            padding: 10px 0;
-            border-top: 1px solid #e2e8f0;
-        }
-        .dark-theme .quantity-row {
-            border-top-color: #334155;
-        }
-        .system-qty {
-            display: flex;
-            align-items: baseline;
-            gap: 6px;
-            background: #f1f5f9;
-            padding: 6px 12px;
-            border-radius: 16px;
-        }
-        .dark-theme .system-qty {
-            background: #0f172a;
-        }
-        .system-qty-label {
-            font-size: 0.7rem;
-            color: #64748b;
-        }
-        .system-qty-value {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #3b82f6;
-        }
-        .fact-qty {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex: 1;
-            flex-wrap: wrap;
-        }
-        .fact-qty-label {
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: #64748b;
-        }
-        .fact-input-card {
-            width: 90px;
-            padding: 8px 10px;
-            border-radius: 16px;
-            border: 1px solid #cbd5e1;
-            text-align: center;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        .dark-theme .fact-input-card {
-            background: #0f172a;
-            border-color: #475569;
-            color: white;
-        }
-        .delete-btn {
-            background: #ef4444;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            padding: 6px 12px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            margin-top: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .table-container {
-            display: none;
-        }
+        .card-details { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+        .quantity-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding: 10px 0; border-top: 1px solid #e2e8f0; }
+        .dark-theme .quantity-row { border-top-color: #334155; }
+        .system-qty { display: flex; align-items: baseline; gap: 6px; background: #f1f5f9; padding: 6px 12px; border-radius: 16px; }
+        .dark-theme .system-qty { background: #0f172a; }
+        .system-qty-label { font-size: 0.7rem; color: #64748b; }
+        .system-qty-value { font-size: 1.1rem; font-weight: 700; color: #3b82f6; }
+        .fact-qty { display: flex; align-items: center; gap: 8px; flex: 1; flex-wrap: wrap; }
+        .fact-qty-label { font-size: 0.8rem; font-weight: 500; color: #64748b; }
+        .fact-input-card { width: 90px; padding: 8px 10px; border-radius: 16px; border: 1px solid #cbd5e1; text-align: center; font-size: 0.9rem; font-weight: 500; cursor: text; }
+        .dark-theme .fact-input-card { background: #0f172a; border-color: #475569; color: white; }
+        .delete-btn { background: #ef4444; color: white; border: none; border-radius: 30px; padding: 6px 12px; font-size: 0.7rem; cursor: pointer; margin-top: 8px; display: inline-flex; align-items: center; gap: 4px; pointer-events: auto; }
+        .table-container { display: none; }
         @media (min-width: 768px) {
             .cards-container { display: none; }
             .table-container { display: block; background: white; border-radius: 20px; padding: 12px; overflow-x: auto; }
@@ -443,137 +99,27 @@
         }
         .filter-info { background: #fef3c7; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; color: #92400e; }
         .dark-theme .filter-info { background: #422006; color: #fde047; }
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #22c55e;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 40px;
-            animation: fade 3s;
-            z-index: 3000;
-            font-size: 0.85rem;
-            max-width: 90%;
-            text-align: center;
-        }
+        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #22c55e; color: white; padding: 10px 20px; border-radius: 40px; animation: fade 3s; z-index: 3000; font-size: 0.85rem; max-width: 90%; text-align: center; }
         .toast.error { background: #ef4444; }
-        @keyframes fade {
-            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
-            10% { opacity: 1; transform: translateX(-50%) translateY(0); }
-            90% { opacity: 1; }
-            100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
-        }
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 4000;
-            align-items: center;
-            justify-content: center;
-        }
-        .loading-overlay.active {
-            display: flex;
-        }
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #64748b;
-        }
-        .github-buttons {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-        .modal.active {
-            display: flex;
-        }
-        .modal-content {
-            background: white;
-            border-radius: 24px;
-            padding: 20px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        .dark-theme .modal-content {
-            background: #1e293b;
-            color: #e2e8f0;
-        }
-        .form-group {
-            margin-bottom: 16px;
-            position: relative;
-        }
-        .form-label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 500;
-            font-size: 0.85rem;
-        }
-        .form-input, .form-select {
-            width: 100%;
-            padding: 8px 12px;
-            border-radius: 16px;
-            border: 1px solid #cbd5e1;
-            font-size: 0.9rem;
-        }
-        .dark-theme .form-input, .dark-theme .form-select {
-            background: #0f172a;
-            border-color: #475569;
-            color: white;
-        }
-        .autocomplete-list {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            margin-top: 4px;
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 100;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .dark-theme .autocomplete-list {
-            background: #1e293b;
-            border-color: #334155;
-        }
-        .autocomplete-item {
-            padding: 8px 12px;
-            cursor: pointer;
-            border-bottom: 1px solid #f1f5f9;
-            font-size: 0.85rem;
-        }
-        .dark-theme .autocomplete-item {
-            border-bottom-color: #334155;
-        }
-        .autocomplete-item:hover {
-            background: #f1f5f9;
-        }
-        .dark-theme .autocomplete-item:hover {
-            background: #0f172a;
-        }
+        @keyframes fade { 0% { opacity: 0; transform: translateX(-50%) translateY(20px); } 10% { opacity: 1; transform: translateX(-50%) translateY(0); } 90% { opacity: 1; } 100% { opacity: 0; transform: translateX(-50%) translateY(20px); } }
+        .loading-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 4000; align-items: center; justify-content: center; }
+        .loading-overlay.active { display: flex; }
+        .empty-state { text-align: center; padding: 40px 20px; color: #64748b; }
+        .github-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; padding: 16px; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; border-radius: 24px; padding: 20px; max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto; }
+        .dark-theme .modal-content { background: #1e293b; color: #e2e8f0; }
+        .form-group { margin-bottom: 16px; position: relative; }
+        .form-label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 0.85rem; }
+        .form-input, .form-select { width: 100%; padding: 8px 12px; border-radius: 16px; border: 1px solid #cbd5e1; font-size: 0.9rem; }
+        .dark-theme .form-input, .dark-theme .form-select { background: #0f172a; border-color: #475569; color: white; }
+        .autocomplete-list { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #e2e8f0; border-radius: 16px; margin-top: 4px; max-height: 200px; overflow-y: auto; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .dark-theme .autocomplete-list { background: #1e293b; border-color: #334155; }
+        .autocomplete-item { padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; }
+        .dark-theme .autocomplete-item { border-bottom-color: #334155; }
+        .autocomplete-item:hover { background: #f1f5f9; }
+        .dark-theme .autocomplete-item:hover { background: #0f172a; }
         .history-select { max-width: 180px; font-size: 0.75rem; padding: 4px 8px; border-radius: 30px; }
         canvas { max-height: 300px; }
     </style>
@@ -646,7 +192,6 @@
     <input type="file" id="mismatchesFileInput" accept=".csv" style="display: none;">
 </div>
 
-<!-- Модалка добавления/редактирования -->
 <div class="modal" id="itemModal">
     <div class="modal-content">
         <h3 id="modalTitle">➕ Добавить товар</h3>
@@ -694,19 +239,15 @@
 (function(){
     const GITHUB_CONFIG = { owner: 'Sh1k1kate', repo: 'Technical-Review-QWERTY_GAME_ZONE' };
     const MASTER_FILE = 'products_master.json';
-    const INVENTORY_FILE = 'inventory_data.json';
     const SECRET_WORD = 'INVENTORY2026';
     if(!window.location.search.includes(`secret=${SECRET_WORD}`)){
         document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;"><div style="background:white;padding:30px;border-radius:24px;"><h1>🔒 Доступ ограничен</h1><p>Требуется секретный ключ</p><code>?secret=${SECRET_WORD}</code></div></div>`;
         return;
     }
     
-    // Мастер и инвентаризация
-    let masterProducts = [];     // { id, category, name, barcode, systemQuantity, lastFactQuantity }
-    let inventoryItems = [];     // { id, category, name, systemQuantity, factQuantity }
+    let masterProducts = [];
+    let inventoryItems = [];
     let nextMasterId = 1;
-    let nextInventoryId = 1;
-    
     let searchTerm = '';
     let isDarkTheme = localStorage.getItem('inventory_dark_theme') === 'true';
     let githubToken = localStorage.getItem('github_token') || '';
@@ -714,12 +255,9 @@
     let sortAscending = true;
     let viewFilter = 'all';
     let onlyWithStock = localStorage.getItem('only_with_stock') !== 'false';
-    
-    // История инвентаризаций (только для фактических остатков)
     let history = [];
     const TWO_HOURS = 2 * 60 * 60 * 1000;
     
-    // ========== РАБОТА С MASTER ==========
     function loadMasterFromLocal(){
         const saved = localStorage.getItem('products_master_v2');
         if(saved){
@@ -735,7 +273,6 @@
     function saveMasterToLocal(){
         localStorage.setItem('products_master_v2', JSON.stringify({ products: masterProducts, nextId: nextMasterId }));
     }
-    
     async function saveMasterToGithub(showMsg=true){
         if(!githubToken){ showToast('❌ Установите токен', 'error'); return false; }
         try {
@@ -755,7 +292,6 @@
             return true;
         } catch(e){ if(showMsg) showToast('❌ Ошибка сохранения мастера', 'error'); return false; }
     }
-    
     async function loadMasterFromGithub(showMsg=true){
         if(!githubToken){ showToast('❌ Установите токен', 'error'); return false; }
         try {
@@ -777,7 +313,6 @@
                 nextMasterId = jsonData.nextId || 1;
                 saveMasterToLocal();
                 if(showMsg) showToast(`✅ Загружено ${masterProducts.length} товаров из мастера`, 'success');
-                // Пересоздаём инвентаризацию из мастера, используя lastFactQuantity
                 rebuildInventoryFromMaster();
                 return true;
             }
@@ -785,8 +320,6 @@
         finally { document.getElementById('loadingOverlay').classList.remove('active'); }
         return false;
     }
-    
-    // Создаёт inventoryItems на основе masterProducts, фактические = lastFactQuantity (если есть) иначе systemQuantity
     function rebuildInventoryFromMaster(){
         inventoryItems = masterProducts.map(p => ({
             id: p.id,
@@ -795,37 +328,27 @@
             systemQuantity: p.systemQuantity,
             factQuantity: (p.lastFactQuantity !== undefined && p.lastFactQuantity !== null) ? p.lastFactQuantity : p.systemQuantity
         }));
-        nextInventoryId = Math.max(...inventoryItems.map(i=>i.id), 0) + 1;
         saveInventoryToLocal();
         renderAll();
         showToast('🔄 Инвентаризация обновлена из мастер-файла', 'success');
     }
-    
-    // Сохранить последние фактические остатки в мастер
     function updateMasterFromInventory(){
         const factMap = new Map();
-        for(const inv of inventoryItems){
-            factMap.set(inv.id, inv.factQuantity);
-        }
+        for(const inv of inventoryItems) factMap.set(inv.id, inv.factQuantity);
         for(const prod of masterProducts){
-            if(factMap.has(prod.id)){
-                prod.lastFactQuantity = factMap.get(prod.id);
-            }
+            if(factMap.has(prod.id)) prod.lastFactQuantity = factMap.get(prod.id);
         }
         saveMasterToLocal();
     }
-    
-    // ========== РАБОТА С ИНВЕНТАРИЗАЦИЕЙ ==========
     function saveInventoryToLocal(){
-        localStorage.setItem('inventory_data_v12', JSON.stringify({ items: inventoryItems, nextId: nextInventoryId }));
+        localStorage.setItem('inventory_data_v13', JSON.stringify({ items: inventoryItems }));
     }
     function loadInventoryFromLocal(){
-        const saved = localStorage.getItem('inventory_data_v12');
+        const saved = localStorage.getItem('inventory_data_v13');
         if(saved){
             try{
                 const data = JSON.parse(saved);
                 inventoryItems = data.items || [];
-                nextInventoryId = data.nextId || 1;
                 renderAll();
                 return true;
             }catch(e){}
@@ -833,7 +356,6 @@
         return false;
     }
     
-    // История
     function loadHistory(){
         const saved = localStorage.getItem('inventory_history_v2');
         if(saved){
@@ -902,20 +424,17 @@
         showToast(`✅ Восстановлена инвентаризация от ${new Date(record.timestamp).toLocaleString()}`, 'success');
     }
     
-    // ========== ЗАГРУЗКА CSV (ОБНОВЛЕНИЕ МАСТЕРА С СОХРАНЕНИЕМ ФАКТОВ) ==========
     function parseCSVAndMergeMaster(csvText){
         const lines = csvText.split(/\r?\n/);
         if(lines.length === 0) return;
         let header = lines[0];
         if(header.startsWith('\uFEFF')) header = header.substring(1);
         const headers = header.split(';').map(h => h.trim());
-        
         let nameIdx = headers.findIndex(h => h.includes('Наименование'));
         let categoryIdx = headers.findIndex(h => h.includes('Категория'));
         let qtyIdx = headers.findIndex(h => h.includes('Текущее_Количество') || h.includes('Количество'));
         let statusIdx = headers.findIndex(h => h === 'Статус' || h.includes('Статус'));
         let barcodeIdx = headers.findIndex(h => h === 'Штрихкод' || h === 'Barcode' || h.includes('штрихкод'));
-        
         const csvItems = [];
         let skipped = 0;
         for(let i=1; i<lines.length; i++){
@@ -930,13 +449,9 @@
             let quantity = parseFloat(qtyRaw);
             if(isNaN(quantity)) quantity = 0;
             let barcode = (barcodeIdx !== -1 && cols[barcodeIdx]) ? cols[barcodeIdx].trim() : '';
-            if(name && category){
-                csvItems.push({ name, category, systemQuantity: quantity, barcode });
-            }
+            if(name && category) csvItems.push({ name, category, systemQuantity: quantity, barcode });
         }
         if(skipped>0) showToast(`📊 Пропущено скрытых: ${skipped}`, 'success');
-        
-        // Обновляем мастер
         const masterMap = new Map();
         for(const p of masterProducts){
             const key = `${p.category}|${p.name}`;
@@ -951,9 +466,7 @@
                     existing.systemQuantity = csvItem.systemQuantity;
                     updated++;
                 }
-                if(csvItem.barcode && !existing.barcode){
-                    existing.barcode = csvItem.barcode;
-                }
+                if(csvItem.barcode && !existing.barcode) existing.barcode = csvItem.barcode;
             } else {
                 const newId = nextMasterId++;
                 masterProducts.push({
@@ -962,33 +475,28 @@
                     name: csvItem.name,
                     barcode: csvItem.barcode || '',
                     systemQuantity: csvItem.systemQuantity,
-                    lastFactQuantity: csvItem.systemQuantity // новый товар, факт = учёт
+                    lastFactQuantity: csvItem.systemQuantity
                 });
                 added++;
             }
         }
         saveMasterToLocal();
         showToast(`✅ Мастер обновлён: добавлено ${added}, обновлено ${updated} товаров`, 'success');
-        // Пересоздаём инвентаризацию, используя lastFactQuantity из мастера
         rebuildInventoryFromMaster();
-        // Добавляем новую запись в историю
         addToHistory(true);
     }
-    
     function loadCSVAndUpdateMaster(file){
         const reader = new FileReader();
-        reader.onload = function(e){
-            parseCSVAndMergeMaster(e.target.result);
-        };
+        reader.onload = function(e){ parseCSVAndMergeMaster(e.target.result); };
         reader.readAsText(file, 'UTF-8');
     }
     
-    // ========== АВТОКОМПЛИТ В МОДАЛКЕ ==========
+    // Автокомплит
     function setupAutocomplete(){
         const nameInput = document.getElementById('modalName');
         const autocompleteDiv = document.getElementById('modalAutocomplete');
-        
-        nameInput.addEventListener('input', function(){
+        if(!nameInput) return;
+        const handler = function(){
             const value = this.value.toLowerCase().trim();
             if(value.length < 2){
                 autocompleteDiv.style.display = 'none';
@@ -1006,8 +514,9 @@
                 </div>
             `).join('');
             autocompleteDiv.style.display = 'block';
-        });
-        
+        };
+        nameInput.removeEventListener('input', handler);
+        nameInput.addEventListener('input', handler);
         autocompleteDiv.addEventListener('click', (e) => {
             const item = e.target.closest('.autocomplete-item');
             if(item){
@@ -1025,7 +534,6 @@
                 showToast(`✅ Выбран товар "${name}"`, 'success');
             }
         });
-        
         document.addEventListener('click', function(e){
             if(!nameInput.contains(e.target) && !autocompleteDiv.contains(e.target)){
                 autocompleteDiv.style.display = 'none';
@@ -1033,7 +541,7 @@
         });
     }
     
-    // ========== СКАНИРОВАНИЕ ШТРИХКОДА ==========
+    // Сканирование
     async function startBarcodeScan(){
         if('BarcodeDetector' in window){
             try{
@@ -1059,8 +567,7 @@
                                 clearInterval(scanInterval);
                                 stream.getTracks().forEach(track => track.stop());
                                 video.remove();
-                                const barcodeValue = barcodes[0].rawValue;
-                                handleScannedBarcode(barcodeValue);
+                                handleScannedBarcode(barcodes[0].rawValue);
                             }
                         }catch(e){}
                     }
@@ -1081,12 +588,10 @@
             manualBarcodeInput();
         }
     }
-    
     function manualBarcodeInput(){
         const code = prompt('Введите штрихкод вручную:');
         if(code) handleScannedBarcode(code);
     }
-    
     function handleScannedBarcode(barcode){
         const masterItem = masterProducts.find(p => p.barcode === barcode);
         if(masterItem){
@@ -1112,15 +617,14 @@
                 const newCategory = prompt('Введите категорию (Готовая Еда, Напитки, Снэки, Шоколад, Энергетические напитки):', 'Напитки');
                 if(newCategory){
                     const newId = nextMasterId++;
-                    const newProduct = {
+                    masterProducts.push({
                         id: newId,
                         category: newCategory,
                         name: newName,
                         barcode: barcode,
                         systemQuantity: 0,
                         lastFactQuantity: 0
-                    };
-                    masterProducts.push(newProduct);
+                    });
                     saveMasterToLocal();
                     inventoryItems.push({
                         id: newId,
@@ -1137,7 +641,6 @@
             }
         }
     }
-    
     function highlightItem(id){
         const card = document.querySelector(`.inventory-card[data-id="${id}"]`);
         if(card){
@@ -1154,7 +657,6 @@
         }
     }
     
-    // ========== ОБЩИЕ ФУНКЦИИ ==========
     function updateFactQuantity(id, newFact){
         const item = inventoryItems.find(i => i.id === id);
         if(item){
@@ -1164,7 +666,6 @@
             renderAll();
         }
     }
-    
     function deleteItem(id){
         if(confirm('Удалить товар из инвентаризации и мастер-файла?')){
             inventoryItems = inventoryItems.filter(i => i.id !== id);
@@ -1184,6 +685,8 @@
         const barcodeInput = document.getElementById('modalBarcode');
         const systemQty = document.getElementById('modalSystemQty');
         const factQty = document.getElementById('modalFactQty');
+        // Обнуляем автокомплит перед открытием
+        document.getElementById('modalAutocomplete').style.display = 'none';
         if(editId){
             const item = inventoryItems.find(i => i.id === editId);
             const master = masterProducts.find(p => p.id === editId);
@@ -1203,6 +706,8 @@
             systemQty.value = 0;
             factQty.value = 0;
         }
+        // Настройка автокомплита
+        setupAutocomplete();
         const saveBtn = document.getElementById('saveModalBtn');
         const newSaveHandler = () => {
             const name = nameInput.value.trim();
@@ -1238,14 +743,9 @@
             modal.classList.remove('active');
             saveBtn.removeEventListener('click', newSaveHandler);
         };
-        // Автокомплит активен всегда
-        setupAutocomplete();
-        // Очистим автокомплит при открытии
-        document.getElementById('modalAutocomplete').style.display = 'none';
     }
     
     function applyAllFactual(){
-        // Сохраняем фактические остатки в мастер
         updateMasterFromInventory();
         addToHistory(false);
         saveInventoryToLocal();
@@ -1256,7 +756,6 @@
     function getMismatches(){
         return inventoryItems.filter(item => item.factQuantity !== item.systemQuantity);
     }
-    
     function applyFilter(items){
         let filtered = items;
         if(onlyWithStock) filtered = filtered.filter(item => item.systemQuantity > 0);
@@ -1264,7 +763,6 @@
         else if(viewFilter === 'match') filtered = filtered.filter(item => item.factQuantity === item.systemQuantity);
         return filtered;
     }
-    
     function sortItems(arr){
         return [...arr].sort((a,b) => {
             let comp = 0;
@@ -1294,6 +792,14 @@
                 <button class="delete-btn" data-id="${item.id}">🗑️ Удалить</button>
             </div>`;
         }).join('');
+        // Клик по карточке для редактирования
+        document.querySelectorAll('.inventory-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if(e.target.classList.contains('delete-btn') || e.target.classList.contains('fact-input-card')) return;
+                const id = parseInt(card.dataset.id);
+                if(id) addOrEditItem(id);
+            });
+        });
         document.querySelectorAll('.fact-input-card').forEach(inp => inp.addEventListener('change', (e) => updateFactQuantity(parseInt(inp.dataset.id), inp.value)));
         document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); deleteItem(parseInt(btn.dataset.id)); }));
     }
@@ -1321,6 +827,14 @@
         }).join('');
         document.querySelectorAll('.fact-input').forEach(inp => inp.addEventListener('change', (e) => updateFactQuantity(parseInt(inp.dataset.id), inp.value)));
         document.querySelectorAll('.delete-table-btn').forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); deleteItem(parseInt(btn.dataset.id)); }));
+        // Клик по строке таблицы для редактирования
+        document.querySelectorAll('#tableBody tr').forEach(row => {
+            row.addEventListener('click', (e) => {
+                if(e.target.tagName === 'INPUT' || e.target.classList.contains('delete-table-btn')) return;
+                const id = parseInt(row.dataset.id);
+                if(id) addOrEditItem(id);
+            });
+        });
     }
     
     function renderAll(){
@@ -1356,7 +870,6 @@
         URL.revokeObjectURL(link.href);
         showToast(`📎 Экспортировано ${mismatches.length} расхождений`, 'success');
     }
-    
     function loadMismatchesFromCSV(csvText){
         const lines = csvText.split(/\r?\n/);
         if(lines.length === 0) return;
@@ -1385,7 +898,6 @@
             showToast(`✅ Обновлено ${updated} товаров${notFound?` (${notFound} не найдено)`:''}`, 'success');
         } else showToast('❌ Товары не найдены', 'error');
     }
-    
     function loadMismatchesFile(file){
         const reader = new FileReader();
         reader.onload = e => loadMismatchesFromCSV(e.target.result);
@@ -1430,7 +942,6 @@
     function showToast(text, type='success'){ const toast=document.getElementById('toast'); toast.className='toast'; if(type==='error') toast.classList.add('error'); toast.style.display='block'; toast.innerText=text; setTimeout(()=>toast.style.display='none',3000); }
     function applyTheme(){ if(isDarkTheme){ document.body.classList.add('dark-theme'); document.getElementById('themeToggle').innerHTML='☀️ Светлая'; } else { document.body.classList.remove('dark-theme'); document.getElementById('themeToggle').innerHTML='🌙 Тёмная'; } }
     window.sortBy = (field) => { if(sortField===field) sortAscending=!sortAscending; else{ sortField=field; sortAscending=true; } renderAll(); };
-    
     function updateRepoDisplay(){
         document.getElementById('repoDisplay').textContent = `${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`;
         const ts = document.getElementById('tokenStatus');
@@ -1445,9 +956,7 @@
             if(githubToken) loadMasterFromGithub(false);
         }
         loadInventoryFromLocal();
-        if(inventoryItems.length === 0 && masterProducts.length > 0){
-            rebuildInventoryFromMaster();
-        }
+        if(inventoryItems.length === 0 && masterProducts.length > 0) rebuildInventoryFromMaster();
         loadHistory();
         
         document.getElementById('csvFileInput').addEventListener('change', e => { if(e.target.files[0]) loadCSVAndUpdateMaster(e.target.files[0]); });
