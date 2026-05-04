@@ -184,7 +184,8 @@
                 <button class="btn" id="exportMismatchesBtn" style="background:#8b5cf6; color:white;">📎 Выгрузить расхождения</button>
                 <button class="btn btn-purple" id="loadMismatchesBtn">📥 Загрузить расхождения</button>
                 <button class="btn btn-primary" id="addItemBtn">➕ Добавить товар</button>
-                <select id="historySelect" class="history-select" style="display:none;"><option>📜 История</option></select>
+                <select id="historySelect" class="history-select" style="display:none;"><option value="">📜 История</option></select>
+                <button class="btn" id="historyManageBtn" style="display:none;">📋 Управление историей</button>
                 <button class="btn" id="showChartBtn">📈 График</button>
             </div>
         </div>
@@ -240,6 +241,7 @@
 
 <div class="modal" id="tokenModal"><div class="modal-content"><h2>🔑 GitHub Token</h2><p>Введите токен с правами на запись</p><input type="password" id="githubToken" style="width:100%; margin:15px 0; padding:10px; border-radius:16px;"><div style="display:flex; gap:10px;"><button class="btn" id="cancelTokenBtn">Отмена</button><button class="btn btn-primary" id="saveTokenBtn">Сохранить</button></div></div></div>
 <div class="modal" id="chartModal"><div class="modal-content"><h3>📈 Динамика расхождений</h3><canvas id="historyChart" width="400" height="300"></canvas><div style="margin-top:16px;"><button class="btn" id="closeChartBtn">Закрыть</button></div></div></div>
+<div class="modal" id="historyModal"><div class="modal-content"><h3>📜 Управление историей</h3><div id="historyList"></div><div style="margin-top:16px;"><button class="btn" id="closeHistoryModalBtn">Закрыть</button></div></div></div>
 
 <div id="toast" style="display:none;" class="toast"></div>
 <div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"><div class="spinner"></div><span>Загрузка...</span></div></div>
@@ -268,7 +270,6 @@
     let history = [];
     const TWO_HOURS = 2 * 60 * 60 * 1000;
     
-    // Флаги для модального окна
     let pendingBarcode = null;
     
     // ========== MASTER ==========
@@ -370,7 +371,7 @@
         return false;
     }
     
-    // ========== ИСТОРИЯ (с синхронизацией с GitHub) ==========
+    // ========== ИСТОРИЯ с синхронизацией GitHub и select ==========
     async function saveHistoryToGithub(showMsg=false){
         if(!githubToken) return false;
         try {
@@ -424,62 +425,48 @@
         }
         return false;
     }
-    async function initHistory(){
-        // Сначала пробуем загрузить с GitHub
-        const loadedFromGithub = await loadHistoryFromGithub(false);
-        if(!loadedFromGithub){
-            // Если нет на GitHub, загружаем локальную
-            loadHistoryFromLocal();
-        }
-        updateHistorySelect();
-    }
-    
     function updateHistorySelect(){
         const select = document.getElementById('historySelect');
+        const manageBtn = document.getElementById('historyManageBtn');
         if(!history.length){
             select.style.display = 'none';
+            if(manageBtn) manageBtn.style.display = 'none';
             return;
         }
         select.style.display = 'inline-flex';
-        // Очищаем select, заполняем вручную с возможностью удаления
+        if(manageBtn) manageBtn.style.display = 'inline-flex';
+        // Очищаем select и заполняем опциями
         select.innerHTML = '<option value="">📜 История</option>';
         history.forEach((h, idx) => {
             const date = new Date(h.timestamp).toLocaleString();
             const count = h.items.length;
             const option = document.createElement('option');
             option.value = idx;
-            // Кастомное отображение через data-атрибут не работает, используем text, но для кнопки удаления нужен другой подход
-            // Вместо этого сделаем отдельный элемент управления – покажем историю в виде отдельного модального окна?
-            // Однако проще: добавим кнопку удаления рядом с select. Сделаем отдельный div с историей?
-            // Для упрощения: добавим кнопку «Удалить последнюю» или «Очистить историю»?
-            // Но по заданию: кнопка в выпадающем списке. Реализуем через кастомный дропдаун? Слишком сложно.
-            // Альтернатива: сделать модальное окно со списком записей и кнопками удаления.
-            // Я добавлю кнопку «Управление историей», которая открывает модалку со списком и удалением.
+            option.textContent = `${date} (${count} товаров)`;
+            select.appendChild(option);
         });
-        // Добавим кнопку «Управление историей» рядом с select
-        let historyManageBtn = document.getElementById('historyManageBtn');
-        if(!historyManageBtn){
-            historyManageBtn = document.createElement('button');
-            historyManageBtn.id = 'historyManageBtn';
-            historyManageBtn.className = 'btn';
-            historyManageBtn.innerHTML = '📋 Управление историей';
-            historyManageBtn.style.marginLeft = '5px';
-            const selectParent = select.parentNode;
-            selectParent.insertBefore(historyManageBtn, select.nextSibling);
-        }
-        // При клике – открываем модалку с историей
     }
-    
+    async function initHistory(){
+        const loadedFromGithub = await loadHistoryFromGithub(false);
+        if(!loadedFromGithub){
+            loadHistoryFromLocal();
+        }
+        updateHistorySelect();
+    }
+    function restoreHistoryItem(idx){
+        const record = history[idx];
+        if(!record) return;
+        const restoredFact = new Map();
+        for(const it of record.items) restoredFact.set(it.id, it.factQuantity);
+        for(const item of inventoryItems){
+            if(restoredFact.has(item.id)) item.factQuantity = restoredFact.get(item.id);
+        }
+        saveInventoryToLocal();
+        renderAll();
+        showToast(`✅ Восстановлена инвентаризация от ${new Date(record.timestamp).toLocaleString()}`, 'success');
+    }
     function showHistoryModal(){
         const modal = document.getElementById('historyModal');
-        if(!modal){
-            const newModal = document.createElement('div');
-            newModal.id = 'historyModal';
-            newModal.className = 'modal';
-            newModal.innerHTML = `<div class="modal-content"><h3>📜 История инвентаризаций</h3><div id="historyList"></div><div style="margin-top:16px;"><button class="btn" id="closeHistoryModalBtn">Закрыть</button></div></div>`;
-            document.body.appendChild(newModal);
-            document.getElementById('closeHistoryModalBtn').addEventListener('click', () => newModal.classList.remove('active'));
-        }
         const container = document.getElementById('historyList');
         if(history.length === 0){
             container.innerHTML = '<div class="empty-state">Нет записей</div>';
@@ -506,9 +493,8 @@
                 }
             });
         });
-        document.getElementById('historyModal').classList.add('active');
+        modal.classList.add('active');
     }
-    
     function addToHistory(forceNew = false){
         const now = Date.now();
         if(!forceNew && history.length > 0){
@@ -541,19 +527,6 @@
         saveHistoryToLocal();
         saveHistoryToGithub(false);
         updateHistorySelect();
-    }
-    
-    function restoreHistoryItem(idx){
-        const record = history[idx];
-        if(!record) return;
-        const restoredFact = new Map();
-        for(const it of record.items) restoredFact.set(it.id, it.factQuantity);
-        for(const item of inventoryItems){
-            if(restoredFact.has(item.id)) item.factQuantity = restoredFact.get(item.id);
-        }
-        saveInventoryToLocal();
-        renderAll();
-        showToast(`✅ Восстановлена инвентаризация от ${new Date(record.timestamp).toLocaleString()}`, 'success');
     }
     
     // ========== CSV ==========
@@ -1175,10 +1148,6 @@
         if(inventoryItems.length === 0 && masterProducts.length > 0) rebuildInventoryFromMaster();
         await initHistory();
         
-        // Кнопка управления историей
-        const manageHistoryBtn = document.getElementById('historyManageBtn');
-        if(manageHistoryBtn) manageHistoryBtn.addEventListener('click', showHistoryModal);
-        
         document.getElementById('csvFileInput').addEventListener('change', e => { if(e.target.files[0]) loadCSVAndUpdateMaster(e.target.files[0]); });
         document.getElementById('loadCsvBtn').addEventListener('click', () => document.getElementById('csvFileInput').click());
         document.getElementById('applyAllBtn').addEventListener('click', applyAllFactual);
@@ -1194,6 +1163,12 @@
         document.getElementById('saveMasterToGithubBtn').addEventListener('click', () => saveMasterToGithub(true));
         document.getElementById('loadMasterFromGithubBtn').addEventListener('click', () => loadMasterFromGithub(true));
         document.getElementById('modalScanBarcodeBtn').addEventListener('click', modalStartBarcodeScan);
+        document.getElementById('historySelect').addEventListener('change', (e) => {
+            if(e.target.value !== '') restoreHistoryItem(parseInt(e.target.value));
+            e.target.value = ''; // сбросить выбор
+        });
+        document.getElementById('historyManageBtn').addEventListener('click', showHistoryModal);
+        document.getElementById('closeHistoryModalBtn').addEventListener('click', () => document.getElementById('historyModal').classList.remove('active'));
         
         const stockCheck = document.getElementById('onlyWithStockCheckbox');
         stockCheck.addEventListener('change', e => { onlyWithStock = e.target.checked; localStorage.setItem('only_with_stock', onlyWithStock); renderAll(); });
