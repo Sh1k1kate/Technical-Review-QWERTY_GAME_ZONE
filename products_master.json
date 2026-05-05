@@ -6,7 +6,7 @@
       "name": "Adrenaline Rush 0.45л",
       "barcode": "4600494694202",
       "systemQuantity": 45,
-      "lastFactQuantity": 45
+      "lastFactQuantity": 2
     },
     {
       "id": 3,
@@ -734,7 +734,7 @@
       "name": "Хрустим Багет Сырное Ассорти 60г",
       "barcode": "4690388008062",
       "systemQuantity": 30,
-      "lastFactQuantity": 17
+      "lastFactQuantity": 18
     },
     {
       "id": 94,
@@ -1737,5 +1737,5 @@
       "lastFactQuantity": 2
     }
   ],
-  "lastUpdated": "2026-05-05T01:56:40.429Z"
+  "lastUpdated": "2026-05-05T02:00:27.435Z"
 }
