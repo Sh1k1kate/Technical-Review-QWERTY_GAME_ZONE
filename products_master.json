@@ -102,7 +102,7 @@
       "name": "Burn Оригинальный 0,45л",
       "barcode": "5060608742172",
       "systemQuantity": 5,
-      "lastFactQuantity": 11
+      "lastFactQuantity": 5
     },
     {
       "id": 14,
@@ -158,7 +158,7 @@
       "name": "Lays Из Печи Лисички 85г",
       "barcode": "4690388124441",
       "systemQuantity": 13,
-      "lastFactQuantity": 13
+      "lastFactQuantity": 7
     },
     {
       "id": 21,
@@ -166,7 +166,7 @@
       "name": "Lays Из Печи Нежный сыр с зеленью  85г",
       "barcode": "4690388124465",
       "systemQuantity": 16,
-      "lastFactQuantity": 16
+      "lastFactQuantity": 6
     },
     {
       "id": 22,
@@ -222,7 +222,7 @@
       "name": "Lays Зеленый Лук 70г",
       "barcode": "4690388119133",
       "systemQuantity": 13,
-      "lastFactQuantity": 13
+      "lastFactQuantity": 11
     },
     {
       "id": 29,
@@ -238,7 +238,7 @@
       "name": "Lays Краб 70г",
       "barcode": "4690388119096",
       "systemQuantity": 16,
-      "lastFactQuantity": 17
+      "lastFactQuantity": 10
     },
     {
       "id": 31,
@@ -254,7 +254,7 @@
       "name": "Lays Рифлёные паприка 70г",
       "barcode": "4690388121006",
       "systemQuantity": 11,
-      "lastFactQuantity": 11
+      "lastFactQuantity": 2
     },
     {
       "id": 33,
@@ -286,7 +286,7 @@
       "name": "Lays Сыр 70г",
       "barcode": "4690388120931",
       "systemQuantity": 9,
-      "lastFactQuantity": 10
+      "lastFactQuantity": 5
     },
     {
       "id": 37,
@@ -294,7 +294,7 @@
       "name": "Липтон Зеленый 0.5л",
       "barcode": "4600494600463",
       "systemQuantity": 22,
-      "lastFactQuantity": 31
+      "lastFactQuantity": 21
     },
     {
       "id": 38,
@@ -310,7 +310,7 @@
       "name": "Липтон Лимон 0.5л",
       "barcode": "4600494600494",
       "systemQuantity": 16,
-      "lastFactQuantity": 36
+      "lastFactQuantity": 3
     },
     {
       "id": 40,
@@ -326,7 +326,7 @@
       "name": "Липтон Малина 0.5л",
       "barcode": "4600494696862",
       "systemQuantity": 22,
-      "lastFactQuantity": 35
+      "lastFactQuantity": 20
     },
     {
       "id": 42,
@@ -390,7 +390,7 @@
       "name": "Monster Classic 0,5л",
       "barcode": "5060166692483",
       "systemQuantity": 16,
-      "lastFactQuantity": 22
+      "lastFactQuantity": 16
     },
     {
       "id": 50,
@@ -406,7 +406,7 @@
       "name": "Monster Ultra Black 0,5л",
       "barcode": "5056784907870",
       "systemQuantity": 5,
-      "lastFactQuantity": 6
+      "lastFactQuantity": 5
     },
     {
       "id": 52,
@@ -446,7 +446,7 @@
       "name": "Monster Monarch 0,5л",
       "barcode": "5056784907177",
       "systemQuantity": 6,
-      "lastFactQuantity": 9
+      "lastFactQuantity": 7
     },
     {
       "id": 57,
@@ -478,7 +478,7 @@
       "name": "Monster Ultra Fantasy Ruby Red 0,5л",
       "barcode": "5056784906965",
       "systemQuantity": 7,
-      "lastFactQuantity": 10
+      "lastFactQuantity": 7
     },
     {
       "id": 61,
@@ -526,7 +526,7 @@
       "name": "Red Bull 0,25л",
       "barcode": "9002490100070",
       "systemQuantity": 5,
-      "lastFactQuantity": 12
+      "lastFactQuantity": 5
     },
     {
       "id": 67,
@@ -654,7 +654,7 @@
       "name": "Сок Любимый Виноградный Дуэт 0,95л",
       "barcode": "4601201056559",
       "systemQuantity": 11,
-      "lastFactQuantity": 12
+      "lastFactQuantity": 11
     },
     {
       "id": 83,
@@ -758,7 +758,7 @@
       "name": "Flash Original 0,45л",
       "barcode": "4600682557456",
       "systemQuantity": 16,
-      "lastFactQuantity": 20
+      "lastFactQuantity": 16
     },
     {
       "id": 96,
@@ -766,7 +766,7 @@
       "name": "Flash Ultra 0,45л",
       "barcode": "4600682033370",
       "systemQuantity": 13,
-      "lastFactQuantity": 19
+      "lastFactQuantity": 13
     },
     {
       "id": 97,
@@ -774,7 +774,7 @@
       "name": "Frustyle Апельсин 0.33л",
       "barcode": "4600494699863",
       "systemQuantity": 35,
-      "lastFactQuantity": 35
+      "lastFactQuantity": 11
     },
     {
       "id": 98,
@@ -782,7 +782,7 @@
       "name": "Frustyle Лимон и Лайм 0.33л",
       "barcode": "4600494686023",
       "systemQuantity": 35,
-      "lastFactQuantity": 36
+      "lastFactQuantity": 11
     },
     {
       "id": 99,
@@ -798,7 +798,7 @@
       "name": "Frustyle Апельсин 0.5л",
       "barcode": "4600494699825",
       "systemQuantity": 35,
-      "lastFactQuantity": 36
+      "lastFactQuantity": 11
     },
     {
       "id": 101,
@@ -830,7 +830,7 @@
       "name": "Evervess Cola 0.33л",
       "barcode": "4600494685545",
       "systemQuantity": 33,
-      "lastFactQuantity": 35
+      "lastFactQuantity": 9
     },
     {
       "id": 105,
@@ -838,7 +838,7 @@
       "name": "Evervess Cola Zero 0.33л",
       "barcode": "4600494687235",
       "systemQuantity": 32,
-      "lastFactQuantity": 36
+      "lastFactQuantity": 8
     },
     {
       "id": 106,
@@ -846,7 +846,7 @@
       "name": "Evervess Cola Zero 0.5л",
       "barcode": "4600494687259",
       "systemQuantity": 34,
-      "lastFactQuantity": 35
+      "lastFactQuantity": 10
     },
     {
       "id": 107,
@@ -854,7 +854,7 @@
       "name": "Evervess Cola  0.5л",
       "barcode": "4600494685521",
       "systemQuantity": 32,
-      "lastFactQuantity": 35
+      "lastFactQuantity": 8
     },
     {
       "id": 108,
@@ -886,7 +886,7 @@
       "name": "Lit Energy Classic 0,45л",
       "barcode": "4680232930113",
       "systemQuantity": 11,
-      "lastFactQuantity": 12
+      "lastFactQuantity": 11
     },
     {
       "id": 112,
@@ -950,7 +950,7 @@
       "name": "Чебупицца Пепперони 250г",
       "barcode": "4607111033994",
       "systemQuantity": 6,
-      "lastFactQuantity": 10
+      "lastFactQuantity": 6
     },
     {
       "id": 120,
@@ -958,7 +958,7 @@
       "name": "Burn Сочная Энергия 0,45л",
       "barcode": "5060895745153",
       "systemQuantity": 39,
-      "lastFactQuantity": 42
+      "lastFactQuantity": 39
     },
     {
       "id": 121,
@@ -990,7 +990,7 @@
       "name": "Burn Гуава 0,45л",
       "barcode": "5061013962278",
       "systemQuantity": 12,
-      "lastFactQuantity": 13
+      "lastFactQuantity": 11
     },
     {
       "id": 125,
@@ -1222,7 +1222,7 @@
       "name": "Adrenaline Rush Апельсин 0.45",
       "barcode": "4600494694165",
       "systemQuantity": 19,
-      "lastFactQuantity": 20
+      "lastFactQuantity": 19
     },
     {
       "id": 154,
@@ -1254,7 +1254,7 @@
       "name": "Drive Guava Mango Без Сахара 0,5л",
       "barcode": "4600494680335",
       "systemQuantity": 1,
-      "lastFactQuantity": 3
+      "lastFactQuantity": 1
     },
     {
       "id": 158,
@@ -1350,7 +1350,7 @@
       "name": "Red Bull Тропический микс 0,355л",
       "barcode": "9002490231538",
       "systemQuantity": 29,
-      "lastFactQuantity": 32
+      "lastFactQuantity": 29
     },
     {
       "id": 170,
@@ -1366,7 +1366,7 @@
       "name": "Lays Рифлёные Лобстер 70г",
       "barcode": "4690388121020",
       "systemQuantity": 13,
-      "lastFactQuantity": 13
+      "lastFactQuantity": 7
     },
     {
       "id": 172,
@@ -1406,7 +1406,7 @@
       "name": "Monster Ultra Violet 0.5л",
       "barcode": "5056784908228",
       "systemQuantity": 8,
-      "lastFactQuantity": 9
+      "lastFactQuantity": 7
     },
     {
       "id": 177,
@@ -1414,7 +1414,7 @@
       "name": "Monster Ultra Fiesta 0.5л",
       "barcode": "5060751213826",
       "systemQuantity": 11,
-      "lastFactQuantity": 12
+      "lastFactQuantity": 11
     },
     {
       "id": 178,
@@ -1478,7 +1478,7 @@
       "name": "Drive Экзотическая Энегрия 0,45л",
       "barcode": "",
       "systemQuantity": 11,
-      "lastFactQuantity": 12
+      "lastFactQuantity": 11
     },
     {
       "id": 186,
@@ -1526,7 +1526,7 @@
       "name": "Любимый Вишневая черешня 0.95",
       "barcode": "4601512009435",
       "systemQuantity": 11,
-      "lastFactQuantity": 12
+      "lastFactQuantity": 11
     },
     {
       "id": 192,
@@ -1542,7 +1542,7 @@
       "name": "Чебупелли Ветчина и сыр 300г",
       "barcode": "4620207491003",
       "systemQuantity": 2,
-      "lastFactQuantity": 4
+      "lastFactQuantity": 2
     },
     {
       "id": 194,
@@ -1558,7 +1558,7 @@
       "name": "Flash Bubble Gum 0,5",
       "barcode": "4600682039990",
       "systemQuantity": 20,
-      "lastFactQuantity": 24
+      "lastFactQuantity": 20
     },
     {
       "id": 196,
@@ -1582,7 +1582,7 @@
       "name": "KitKat Chunky 40г",
       "barcode": "3800020432259",
       "systemQuantity": 12,
-      "lastFactQuantity": 12
+      "lastFactQuantity": 1
     },
     {
       "id": 199,
@@ -1590,7 +1590,7 @@
       "name": "Coca Cola 0,3л",
       "barcode": "5000112545326",
       "systemQuantity": 3,
-      "lastFactQuantity": 13
+      "lastFactQuantity": 3
     },
     {
       "id": 200,
@@ -1606,7 +1606,7 @@
       "name": "Любимый земляничное лето",
       "barcode": "4601512006724",
       "systemQuantity": 10,
-      "lastFactQuantity": 12
+      "lastFactQuantity": 10
     },
     {
       "id": 202,
@@ -1614,7 +1614,7 @@
       "name": "Lays Бекон",
       "barcode": "",
       "systemQuantity": 5,
-      "lastFactQuantity": 7
+      "lastFactQuantity": 1
     },
     {
       "id": 203,
@@ -1793,5 +1793,5 @@
       "lastFactQuantity": 2
     }
   ],
-  "lastUpdated": "2026-05-05T00:12:36.288Z"
+  "lastUpdated": "2026-05-05T00:55:53.740Z"
 }
