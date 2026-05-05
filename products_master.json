@@ -157,7 +157,7 @@
       "category": "Снэки",
       "name": "Lays Из Печи Нежный сыр с зеленью  85г",
       "barcode": "4690388124465",
-      "systemQuantity": 16,
+      "systemQuantity": 15,
       "lastFactQuantity": 6
     },
     {
@@ -165,7 +165,7 @@
       "category": "Шоколад",
       "name": "Kinder Bueno White 39г",
       "barcode": "80761761",
-      "systemQuantity": 27,
+      "systemQuantity": 23,
       "lastFactQuantity": 27
     },
     {
@@ -590,7 +590,7 @@
       "name": "Сэндвич №4  ''Острый'' 175г",
       "barcode": "4602009356162",
       "systemQuantity": 1,
-      "lastFactQuantity": 5
+      "lastFactQuantity": 1
     },
     {
       "id": 76,
@@ -614,7 +614,7 @@
       "name": "\"Бургер №14 \"\"Два Мяса'' 190г\"",
       "barcode": "",
       "systemQuantity": 1,
-      "lastFactQuantity": 2
+      "lastFactQuantity": 1
     },
     {
       "id": 79,
@@ -622,7 +622,7 @@
       "name": "Бургер №15 ''Италиано'' 190г",
       "barcode": "",
       "systemQuantity": 1,
-      "lastFactQuantity": 0
+      "lastFactQuantity": 1
     },
     {
       "id": 80,
@@ -1062,7 +1062,7 @@
       "name": "\"Сэндвич №10 \"\"Английский завтрак\"\" 175г\"",
       "barcode": "",
       "systemQuantity": 1,
-      "lastFactQuantity": 5
+      "lastFactQuantity": 0
     },
     {
       "id": 135,
@@ -1093,7 +1093,7 @@
       "category": "Шоколад",
       "name": "Twix Extra 82г",
       "barcode": "5000159390729",
-      "systemQuantity": 17,
+      "systemQuantity": 11,
       "lastFactQuantity": 17
     },
     {
@@ -1366,7 +1366,7 @@
       "name": "Сухарики шашлык с кетчупом 60г",
       "barcode": "4690329003378",
       "systemQuantity": 5,
-      "lastFactQuantity": 6
+      "lastFactQuantity": 3
     },
     {
       "id": 173,
@@ -1374,7 +1374,7 @@
       "name": "Сухарики 3 корочки семга\\сыр 40г",
       "barcode": "4607024896532",
       "systemQuantity": 15,
-      "lastFactQuantity": 16
+      "lastFactQuantity": 14
     },
     {
       "id": 174,
@@ -1429,7 +1429,7 @@
       "category": "Шоколад",
       "name": "Twix XTRA соленая карамель",
       "barcode": "4660085519758",
-      "systemQuantity": 14,
+      "systemQuantity": 9,
       "lastFactQuantity": 14
     },
     {
@@ -1606,7 +1606,7 @@
       "name": "Lays Малосольные Огурчики 140г",
       "barcode": "4690388117870",
       "systemQuantity": 5,
-      "lastFactQuantity": 6
+      "lastFactQuantity": 5
     },
     {
       "id": 204,
@@ -1614,7 +1614,7 @@
       "name": "Lays Рифленые Лосось 140г",
       "barcode": "4690388095864",
       "systemQuantity": 4,
-      "lastFactQuantity": 5
+      "lastFactQuantity": 4
     },
     {
       "id": 205,
@@ -1622,7 +1622,7 @@
       "name": "Lays Рифлёные Лобстер 140г",
       "barcode": "4690388111465",
       "systemQuantity": 7,
-      "lastFactQuantity": 8
+      "lastFactQuantity": 3
     },
     {
       "id": 206,
@@ -1639,46 +1639,6 @@
       "barcode": "3800020432259",
       "systemQuantity": 4,
       "lastFactQuantity": 3
-    },
-    {
-      "id": 3,
-      "category": "Шоколад",
-      "name": "Kinder Bueno 43г",
-      "barcode": "80052760",
-      "systemQuantity": 38,
-      "lastFactQuantity": 2
-    },
-    {
-      "id": 4,
-      "category": "Шоколад",
-      "name": "Kinder Bueno White 39г",
-      "barcode": "80761761",
-      "systemQuantity": 23,
-      "lastFactQuantity": 5
-    },
-    {
-      "id": 5,
-      "category": "Шоколад",
-      "name": "Twix XTRA соленая карамель",
-      "barcode": "4660085519758",
-      "systemQuantity": 9,
-      "lastFactQuantity": 5
-    },
-    {
-      "id": 6,
-      "category": "Шоколад",
-      "name": "Twix Extra 82г",
-      "barcode": "5000159390729",
-      "systemQuantity": 11,
-      "lastFactQuantity": 5
-    },
-    {
-      "id": 7,
-      "category": "Снэки",
-      "name": "Lays Из Печи Нежный сыр с зеленью  85г",
-      "barcode": "4690388124465",
-      "systemQuantity": 15,
-      "lastFactQuantity": 10
     },
     {
       "id": 2,
@@ -1759,7 +1719,23 @@
       "barcode": "",
       "systemQuantity": 2,
       "lastFactQuantity": 2
+    },
+    {
+      "id": 1,
+      "category": "Энергетические напитки",
+      "name": "Adrenaline Energy Power Game Fuel 0,45л",
+      "barcode": "",
+      "systemQuantity": 22,
+      "lastFactQuantity": 22
+    },
+    {
+      "id": 2,
+      "category": "Готовая Еда",
+      "name": "\"Онигири \"\"Тунец\"\"\"",
+      "barcode": "",
+      "systemQuantity": 2,
+      "lastFactQuantity": 2
     }
   ],
-  "lastUpdated": "2026-05-05T01:10:23.719Z"
+  "lastUpdated": "2026-05-05T01:16:02.159Z"
 }
