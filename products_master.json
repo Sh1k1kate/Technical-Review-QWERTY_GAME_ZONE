@@ -6,7 +6,7 @@
       "name": "Adrenaline Rush 0.45л",
       "barcode": "4600494694202",
       "systemQuantity": 45,
-      "lastFactQuantity": 3
+      "lastFactQuantity": 2
     },
     {
       "id": 3,
@@ -44,7 +44,7 @@
       "id": 7,
       "category": "Напитки",
       "name": "Aqua Minerale Негазированная 0.5л",
-      "barcode": "",
+      "barcode": "4600494693335",
       "systemQuantity": 45,
       "lastFactQuantity": 10
     },
@@ -60,7 +60,7 @@
       "id": 9,
       "category": "Напитки",
       "name": "Aqua Minerale Газированная 0.5л",
-      "barcode": "",
+      "barcode": "4600494693359",
       "systemQuantity": 60,
       "lastFactQuantity": 2
     },
@@ -150,7 +150,7 @@
       "name": "Lays Из Печи Лисички 85г",
       "barcode": "4690388124441",
       "systemQuantity": 13,
-      "lastFactQuantity": 7
+      "lastFactQuantity": 12
     },
     {
       "id": 21,
@@ -158,7 +158,7 @@
       "name": "Lays Из Печи Нежный сыр с зеленью  85г",
       "barcode": "4690388124465",
       "systemQuantity": 15,
-      "lastFactQuantity": 6
+      "lastFactQuantity": 13
     },
     {
       "id": 22,
@@ -198,7 +198,7 @@
       "name": "Lays Рифлёные Сметана и Лук 70г",
       "barcode": "4690388120955",
       "systemQuantity": 22,
-      "lastFactQuantity": 24
+      "lastFactQuantity": 22
     },
     {
       "id": 27,
@@ -214,7 +214,7 @@
       "name": "Lays Зеленый Лук 70г",
       "barcode": "4690388119133",
       "systemQuantity": 13,
-      "lastFactQuantity": 11
+      "lastFactQuantity": 13
     },
     {
       "id": 29,
@@ -230,7 +230,7 @@
       "name": "Lays Краб 70г",
       "barcode": "4690388119096",
       "systemQuantity": 16,
-      "lastFactQuantity": 10
+      "lastFactQuantity": 16
     },
     {
       "id": 31,
@@ -246,7 +246,7 @@
       "name": "Lays Рифлёные паприка 70г",
       "barcode": "4690388121006",
       "systemQuantity": 11,
-      "lastFactQuantity": 2
+      "lastFactQuantity": 11
     },
     {
       "id": 33,
@@ -278,7 +278,7 @@
       "name": "Lays Сыр 70г",
       "barcode": "4690388120931",
       "systemQuantity": 9,
-      "lastFactQuantity": 5
+      "lastFactQuantity": 9
     },
     {
       "id": 37,
@@ -302,7 +302,7 @@
       "name": "Липтон Лимон 0.5л",
       "barcode": "4600494600494",
       "systemQuantity": 16,
-      "lastFactQuantity": 3
+      "lastFactQuantity": 15
     },
     {
       "id": 40,
@@ -694,7 +694,7 @@
       "name": "Хрустим Сырные Палочки 60г",
       "barcode": "4690388122829",
       "systemQuantity": 13,
-      "lastFactQuantity": 16
+      "lastFactQuantity": 13
     },
     {
       "id": 89,
@@ -710,7 +710,7 @@
       "name": "Хрустим Багет Королевский Краб 60г",
       "barcode": "4690388013653",
       "systemQuantity": 40,
-      "lastFactQuantity": 40
+      "lastFactQuantity": 28
     },
     {
       "id": 91,
@@ -734,7 +734,7 @@
       "name": "Хрустим Багет Сырное Ассорти 60г",
       "barcode": "4690388008062",
       "systemQuantity": 30,
-      "lastFactQuantity": 31
+      "lastFactQuantity": 17
     },
     {
       "id": 94,
@@ -1358,7 +1358,7 @@
       "name": "Lays Рифлёные Лобстер 70г",
       "barcode": "4690388121020",
       "systemQuantity": 13,
-      "lastFactQuantity": 7
+      "lastFactQuantity": 13
     },
     {
       "id": 172,
@@ -1596,9 +1596,9 @@
       "id": 202,
       "category": "Снэки",
       "name": "Lays Бекон",
-      "barcode": "",
+      "barcode": "4690388119119",
       "systemQuantity": 5,
-      "lastFactQuantity": 1
+      "lastFactQuantity": 5
     },
     {
       "id": 203,
@@ -1638,7 +1638,7 @@
       "name": "KitKat Chunky 40г",
       "barcode": "3800020432259",
       "systemQuantity": 4,
-      "lastFactQuantity": 3
+      "lastFactQuantity": 2
     },
     {
       "id": 2,
@@ -1646,7 +1646,7 @@
       "name": "\"Онигири \"\"Креветка\"\"\"",
       "barcode": "",
       "systemQuantity": 3,
-      "lastFactQuantity": 3
+      "lastFactQuantity": 2
     },
     {
       "id": 3,
@@ -1737,5 +1737,5 @@
       "lastFactQuantity": 2
     }
   ],
-  "lastUpdated": "2026-05-05T01:16:02.159Z"
+  "lastUpdated": "2026-05-05T01:52:17.701Z"
 }
