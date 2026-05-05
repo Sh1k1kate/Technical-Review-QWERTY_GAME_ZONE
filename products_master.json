@@ -6,15 +6,15 @@
       "name": "Adrenaline Energy Power Game Fuel 0,45л",
       "barcode": "4600494694172",
       "systemQuantity": 22,
-      "lastFactQuantity": 12
+      "lastFactQuantity": 2
     },
     {
       "id": 2,
       "category": "Энергетические напитки",
       "name": "Adrenaline Rush 0.45л",
       "barcode": "4600494694202",
-      "systemQuantity": 58,
-      "lastFactQuantity": 12
+      "systemQuantity": 45,
+      "lastFactQuantity": 3
     },
     {
       "id": 3,
@@ -22,63 +22,63 @@
       "name": "Adrenaline Ягодный Микс 0,45л",
       "barcode": "4600494694226",
       "systemQuantity": 24,
-      "lastFactQuantity": 38
+      "lastFactQuantity": 2
     },
     {
       "id": 4,
       "category": "Энергетические напитки",
       "name": "Adrenaline Zero Sugar 0.45л",
       "barcode": "4600494666612",
-      "systemQuantity": 52,
-      "lastFactQuantity": 27
+      "systemQuantity": 44,
+      "lastFactQuantity": 5
     },
     {
       "id": 5,
       "category": "Энергетические напитки",
       "name": "Adrenaline Zero Sugar 0.25л",
       "barcode": "4600494666674",
-      "systemQuantity": 70,
-      "lastFactQuantity": 14
+      "systemQuantity": 9,
+      "lastFactQuantity": 5
     },
     {
       "id": 6,
       "category": "Энергетические напитки",
       "name": "Adrenaline Rush 0.25л",
       "barcode": "4600494223013",
-      "systemQuantity": 61,
-      "lastFactQuantity": 17
+      "systemQuantity": 60,
+      "lastFactQuantity": 5
     },
     {
       "id": 7,
       "category": "Напитки",
       "name": "Aqua Minerale Негазированная 0.5л",
       "barcode": "",
-      "systemQuantity": 56,
-      "lastFactQuantity": 16
+      "systemQuantity": 45,
+      "lastFactQuantity": 10
     },
     {
       "id": 8,
       "category": "Напитки",
       "name": "Aqua Minerale Негазированная 1л",
       "barcode": "",
-      "systemQuantity": 46,
-      "lastFactQuantity": 46
+      "systemQuantity": 37,
+      "lastFactQuantity": 5
     },
     {
       "id": 9,
       "category": "Напитки",
       "name": "Aqua Minerale Газированная 0.5л",
       "barcode": "",
-      "systemQuantity": 68,
-      "lastFactQuantity": 68
+      "systemQuantity": 60,
+      "lastFactQuantity": 2
     },
     {
       "id": 10,
       "category": "Напитки",
       "name": "Aqua Minerale Газированная 1л",
       "barcode": "4600494601323",
-      "systemQuantity": 34,
-      "lastFactQuantity": 34
+      "systemQuantity": 30,
+      "lastFactQuantity": 2
     },
     {
       "id": 11,
@@ -101,7 +101,7 @@
       "category": "Энергетические напитки",
       "name": "Burn Оригинальный 0,45л",
       "barcode": "5060608742172",
-      "systemQuantity": 11,
+      "systemQuantity": 5,
       "lastFactQuantity": 11
     },
     {
@@ -125,7 +125,7 @@
       "category": "Энергетические напитки",
       "name": "Burn Яблоко Киви 0,45л",
       "barcode": "5060608742110",
-      "systemQuantity": 6,
+      "systemQuantity": 5,
       "lastFactQuantity": 6
     },
     {
@@ -205,7 +205,7 @@
       "category": "Снэки",
       "name": "Lays Рифлёные Сметана и Лук 70г",
       "barcode": "4690388120955",
-      "systemQuantity": 24,
+      "systemQuantity": 22,
       "lastFactQuantity": 24
     },
     {
@@ -237,7 +237,7 @@
       "category": "Снэки",
       "name": "Lays Краб 70г",
       "barcode": "4690388119096",
-      "systemQuantity": 17,
+      "systemQuantity": 16,
       "lastFactQuantity": 17
     },
     {
@@ -285,7 +285,7 @@
       "category": "Снэки",
       "name": "Lays Сыр 70г",
       "barcode": "4690388120931",
-      "systemQuantity": 10,
+      "systemQuantity": 9,
       "lastFactQuantity": 10
     },
     {
@@ -293,7 +293,7 @@
       "category": "Напитки",
       "name": "Липтон Зеленый 0.5л",
       "barcode": "4600494600463",
-      "systemQuantity": 31,
+      "systemQuantity": 22,
       "lastFactQuantity": 31
     },
     {
@@ -309,7 +309,7 @@
       "category": "Напитки",
       "name": "Липтон Лимон 0.5л",
       "barcode": "4600494600494",
-      "systemQuantity": 36,
+      "systemQuantity": 16,
       "lastFactQuantity": 36
     },
     {
@@ -325,7 +325,7 @@
       "category": "Напитки",
       "name": "Липтон Малина 0.5л",
       "barcode": "4600494696862",
-      "systemQuantity": 35,
+      "systemQuantity": 22,
       "lastFactQuantity": 35
     },
     {
@@ -389,7 +389,7 @@
       "category": "Энергетические напитки",
       "name": "Monster Classic 0,5л",
       "barcode": "5060166692483",
-      "systemQuantity": 22,
+      "systemQuantity": 16,
       "lastFactQuantity": 22
     },
     {
@@ -405,7 +405,7 @@
       "category": "Энергетические напитки",
       "name": "Monster Ultra Black 0,5л",
       "barcode": "5056784907870",
-      "systemQuantity": 6,
+      "systemQuantity": 5,
       "lastFactQuantity": 6
     },
     {
@@ -445,7 +445,7 @@
       "category": "Энергетические напитки",
       "name": "Monster Monarch 0,5л",
       "barcode": "5056784907177",
-      "systemQuantity": 9,
+      "systemQuantity": 6,
       "lastFactQuantity": 9
     },
     {
@@ -477,7 +477,7 @@
       "category": "Энергетические напитки",
       "name": "Monster Ultra Fantasy Ruby Red 0,5л",
       "barcode": "5056784906965",
-      "systemQuantity": 10,
+      "systemQuantity": 7,
       "lastFactQuantity": 10
     },
     {
@@ -525,7 +525,7 @@
       "category": "Энергетические напитки",
       "name": "Red Bull 0,25л",
       "barcode": "9002490100070",
-      "systemQuantity": 12,
+      "systemQuantity": 5,
       "lastFactQuantity": 12
     },
     {
@@ -589,7 +589,7 @@
       "category": "Готовая Еда",
       "name": "Сэндвич №18 ''С копченым мясом'' 175г",
       "barcode": "",
-      "systemQuantity": 5,
+      "systemQuantity": 0,
       "lastFactQuantity": 5
     },
     {
@@ -597,7 +597,7 @@
       "category": "Готовая Еда",
       "name": "Сэндвич №4  ''Острый'' 175г",
       "barcode": "4602009356162",
-      "systemQuantity": 5,
+      "systemQuantity": 1,
       "lastFactQuantity": 5
     },
     {
@@ -605,7 +605,7 @@
       "category": "Готовая Еда",
       "name": "Сэндвич №5 ''Цезарь'' 175г",
       "barcode": "",
-      "systemQuantity": 4,
+      "systemQuantity": 0,
       "lastFactQuantity": 4
     },
     {
@@ -621,7 +621,7 @@
       "category": "Готовая Еда",
       "name": "\"Бургер №14 \"\"Два Мяса'' 190г\"",
       "barcode": "",
-      "systemQuantity": 2,
+      "systemQuantity": 1,
       "lastFactQuantity": 2
     },
     {
@@ -629,7 +629,7 @@
       "category": "Готовая Еда",
       "name": "Бургер №15 ''Италиано'' 190г",
       "barcode": "",
-      "systemQuantity": 0,
+      "systemQuantity": 1,
       "lastFactQuantity": 0
     },
     {
@@ -653,7 +653,7 @@
       "category": "Напитки",
       "name": "Сок Любимый Виноградный Дуэт 0,95л",
       "barcode": "4601201056559",
-      "systemQuantity": 12,
+      "systemQuantity": 11,
       "lastFactQuantity": 12
     },
     {
@@ -701,7 +701,7 @@
       "category": "Снэки",
       "name": "Хрустим Сырные Палочки 60г",
       "barcode": "4690388122829",
-      "systemQuantity": 16,
+      "systemQuantity": 13,
       "lastFactQuantity": 16
     },
     {
@@ -741,7 +741,7 @@
       "category": "Снэки",
       "name": "Хрустим Багет Сырное Ассорти 60г",
       "barcode": "4690388008062",
-      "systemQuantity": 31,
+      "systemQuantity": 30,
       "lastFactQuantity": 31
     },
     {
@@ -757,7 +757,7 @@
       "category": "Энергетические напитки",
       "name": "Flash Original 0,45л",
       "barcode": "4600682557456",
-      "systemQuantity": 20,
+      "systemQuantity": 16,
       "lastFactQuantity": 20
     },
     {
@@ -765,7 +765,7 @@
       "category": "Энергетические напитки",
       "name": "Flash Ultra 0,45л",
       "barcode": "4600682033370",
-      "systemQuantity": 19,
+      "systemQuantity": 13,
       "lastFactQuantity": 19
     },
     {
@@ -781,7 +781,7 @@
       "category": "Напитки",
       "name": "Frustyle Лимон и Лайм 0.33л",
       "barcode": "4600494686023",
-      "systemQuantity": 36,
+      "systemQuantity": 35,
       "lastFactQuantity": 36
     },
     {
@@ -797,7 +797,7 @@
       "category": "Напитки",
       "name": "Frustyle Апельсин 0.5л",
       "barcode": "4600494699825",
-      "systemQuantity": 36,
+      "systemQuantity": 35,
       "lastFactQuantity": 36
     },
     {
@@ -829,7 +829,7 @@
       "category": "Напитки",
       "name": "Evervess Cola 0.33л",
       "barcode": "4600494685545",
-      "systemQuantity": 35,
+      "systemQuantity": 33,
       "lastFactQuantity": 35
     },
     {
@@ -837,7 +837,7 @@
       "category": "Напитки",
       "name": "Evervess Cola Zero 0.33л",
       "barcode": "4600494687235",
-      "systemQuantity": 36,
+      "systemQuantity": 32,
       "lastFactQuantity": 36
     },
     {
@@ -845,7 +845,7 @@
       "category": "Напитки",
       "name": "Evervess Cola Zero 0.5л",
       "barcode": "4600494687259",
-      "systemQuantity": 35,
+      "systemQuantity": 34,
       "lastFactQuantity": 35
     },
     {
@@ -853,7 +853,7 @@
       "category": "Напитки",
       "name": "Evervess Cola  0.5л",
       "barcode": "4600494685521",
-      "systemQuantity": 35,
+      "systemQuantity": 32,
       "lastFactQuantity": 35
     },
     {
@@ -861,7 +861,7 @@
       "category": "Готовая Еда",
       "name": "Сэндвич №2 ''Салями'' 175г",
       "barcode": "",
-      "systemQuantity": 5,
+      "systemQuantity": 0,
       "lastFactQuantity": 5
     },
     {
@@ -885,7 +885,7 @@
       "category": "Энергетические напитки",
       "name": "Lit Energy Classic 0,45л",
       "barcode": "4680232930113",
-      "systemQuantity": 12,
+      "systemQuantity": 11,
       "lastFactQuantity": 12
     },
     {
@@ -949,7 +949,7 @@
       "category": "Готовая Еда",
       "name": "Чебупицца Пепперони 250г",
       "barcode": "4607111033994",
-      "systemQuantity": 10,
+      "systemQuantity": 6,
       "lastFactQuantity": 10
     },
     {
@@ -957,7 +957,7 @@
       "category": "Энергетические напитки",
       "name": "Burn Сочная Энергия 0,45л",
       "barcode": "5060895745153",
-      "systemQuantity": 42,
+      "systemQuantity": 39,
       "lastFactQuantity": 42
     },
     {
@@ -973,7 +973,7 @@
       "category": "Энергетические напитки",
       "name": "Gorilla Манго Кокос 0,45л",
       "barcode": "",
-      "systemQuantity": 3,
+      "systemQuantity": 0,
       "lastFactQuantity": 3
     },
     {
@@ -989,7 +989,7 @@
       "category": "Энергетические напитки",
       "name": "Burn Гуава 0,45л",
       "barcode": "5061013962278",
-      "systemQuantity": 13,
+      "systemQuantity": 12,
       "lastFactQuantity": 13
     },
     {
@@ -1069,7 +1069,7 @@
       "category": "Готовая Еда",
       "name": "\"Сэндвич №10 \"\"Английский завтрак\"\" 175г\"",
       "barcode": "",
-      "systemQuantity": 5,
+      "systemQuantity": 1,
       "lastFactQuantity": 5
     },
     {
@@ -1077,7 +1077,7 @@
       "category": "Готовая Еда",
       "name": "\"Сэндвич №11 \"\"Курица Грибы\"\" 175г\"",
       "barcode": "",
-      "systemQuantity": 5,
+      "systemQuantity": 0,
       "lastFactQuantity": 5
     },
     {
@@ -1093,7 +1093,7 @@
       "category": "Готовая Еда",
       "name": "Чебуппица Курочка По-Итальянски 250г",
       "barcode": "",
-      "systemQuantity": 1,
+      "systemQuantity": 0,
       "lastFactQuantity": 1
     },
     {
@@ -1221,7 +1221,7 @@
       "category": "Энергетические напитки",
       "name": "Adrenaline Rush Апельсин 0.45",
       "barcode": "4600494694165",
-      "systemQuantity": 20,
+      "systemQuantity": 19,
       "lastFactQuantity": 20
     },
     {
@@ -1253,7 +1253,7 @@
       "category": "Энергетические напитки",
       "name": "Drive Guava Mango Без Сахара 0,5л",
       "barcode": "4600494680335",
-      "systemQuantity": 3,
+      "systemQuantity": 1,
       "lastFactQuantity": 3
     },
     {
@@ -1349,7 +1349,7 @@
       "category": "Энергетические напитки",
       "name": "Red Bull Тропический микс 0,355л",
       "barcode": "9002490231538",
-      "systemQuantity": 32,
+      "systemQuantity": 29,
       "lastFactQuantity": 32
     },
     {
@@ -1373,7 +1373,7 @@
       "category": "Снэки",
       "name": "Сухарики шашлык с кетчупом 60г",
       "barcode": "4690329003378",
-      "systemQuantity": 6,
+      "systemQuantity": 5,
       "lastFactQuantity": 6
     },
     {
@@ -1381,7 +1381,7 @@
       "category": "Снэки",
       "name": "Сухарики 3 корочки семга\\сыр 40г",
       "barcode": "4607024896532",
-      "systemQuantity": 16,
+      "systemQuantity": 15,
       "lastFactQuantity": 16
     },
     {
@@ -1405,7 +1405,7 @@
       "category": "Энергетические напитки",
       "name": "Monster Ultra Violet 0.5л",
       "barcode": "5056784908228",
-      "systemQuantity": 9,
+      "systemQuantity": 8,
       "lastFactQuantity": 9
     },
     {
@@ -1413,7 +1413,7 @@
       "category": "Энергетические напитки",
       "name": "Monster Ultra Fiesta 0.5л",
       "barcode": "5060751213826",
-      "systemQuantity": 12,
+      "systemQuantity": 11,
       "lastFactQuantity": 12
     },
     {
@@ -1429,7 +1429,7 @@
       "category": "Напитки",
       "name": "Irn Bru Zero 0.33л",
       "barcode": "",
-      "systemQuantity": 1,
+      "systemQuantity": 0,
       "lastFactQuantity": 1
     },
     {
@@ -1477,7 +1477,7 @@
       "category": "Энергетические напитки",
       "name": "Drive Экзотическая Энегрия 0,45л",
       "barcode": "",
-      "systemQuantity": 12,
+      "systemQuantity": 11,
       "lastFactQuantity": 12
     },
     {
@@ -1485,7 +1485,7 @@
       "category": "Снэки",
       "name": "Lays ИЗ Печи Мусс из Лосося 85г",
       "barcode": "4690388123574",
-      "systemQuantity": 5,
+      "systemQuantity": 3,
       "lastFactQuantity": 5
     },
     {
@@ -1525,7 +1525,7 @@
       "category": "Напитки",
       "name": "Любимый Вишневая черешня 0.95",
       "barcode": "4601512009435",
-      "systemQuantity": 12,
+      "systemQuantity": 11,
       "lastFactQuantity": 12
     },
     {
@@ -1541,7 +1541,7 @@
       "category": "Готовая Еда",
       "name": "Чебупелли Ветчина и сыр 300г",
       "barcode": "4620207491003",
-      "systemQuantity": 4,
+      "systemQuantity": 2,
       "lastFactQuantity": 4
     },
     {
@@ -1549,7 +1549,7 @@
       "category": "Готовая Еда",
       "name": "Хотстеры 250г",
       "barcode": "",
-      "systemQuantity": 3,
+      "systemQuantity": 0,
       "lastFactQuantity": 3
     },
     {
@@ -1557,7 +1557,7 @@
       "category": "Энергетические напитки",
       "name": "Flash Bubble Gum 0,5",
       "barcode": "4600682039990",
-      "systemQuantity": 24,
+      "systemQuantity": 20,
       "lastFactQuantity": 24
     },
     {
@@ -1589,7 +1589,7 @@
       "category": "Напитки",
       "name": "Coca Cola 0,3л",
       "barcode": "5000112545326",
-      "systemQuantity": 13,
+      "systemQuantity": 3,
       "lastFactQuantity": 13
     },
     {
@@ -1605,7 +1605,7 @@
       "category": "Напитки",
       "name": "Любимый земляничное лето",
       "barcode": "4601512006724",
-      "systemQuantity": 12,
+      "systemQuantity": 10,
       "lastFactQuantity": 12
     },
     {
@@ -1613,7 +1613,7 @@
       "category": "Снэки",
       "name": "Lays Бекон",
       "barcode": "",
-      "systemQuantity": 7,
+      "systemQuantity": 5,
       "lastFactQuantity": 7
     },
     {
@@ -1621,7 +1621,7 @@
       "category": "Снэки",
       "name": "Lays Малосольные Огурчики 140г",
       "barcode": "4690388117870",
-      "systemQuantity": 6,
+      "systemQuantity": 5,
       "lastFactQuantity": 6
     },
     {
@@ -1629,7 +1629,7 @@
       "category": "Снэки",
       "name": "Lays Рифленые Лосось 140г",
       "barcode": "4690388095864",
-      "systemQuantity": 5,
+      "systemQuantity": 4,
       "lastFactQuantity": 5
     },
     {
@@ -1637,7 +1637,7 @@
       "category": "Снэки",
       "name": "Lays Рифлёные Лобстер 140г",
       "barcode": "4690388111465",
-      "systemQuantity": 8,
+      "systemQuantity": 7,
       "lastFactQuantity": 8
     },
     {
@@ -1654,15 +1654,15 @@
       "name": "KitKat Chunky 40г",
       "barcode": "",
       "systemQuantity": 12,
-      "lastFactQuantity": 12
+      "lastFactQuantity": 2
     },
     {
       "id": 2,
       "category": "Шоколад",
       "name": "KitKat Chunky 40г",
       "barcode": "3800020432259",
-      "systemQuantity": 12,
-      "lastFactQuantity": 12
+      "systemQuantity": 4,
+      "lastFactQuantity": 3
     },
     {
       "id": 3,
@@ -1670,40 +1670,128 @@
       "name": "Kinder Bueno 43г",
       "barcode": "80052760",
       "systemQuantity": 38,
-      "lastFactQuantity": 38
+      "lastFactQuantity": 2
     },
     {
       "id": 4,
       "category": "Шоколад",
       "name": "Kinder Bueno White 39г",
       "barcode": "80761761",
-      "systemQuantity": 27,
-      "lastFactQuantity": 27
+      "systemQuantity": 23,
+      "lastFactQuantity": 5
     },
     {
       "id": 5,
       "category": "Шоколад",
       "name": "Twix XTRA соленая карамель",
       "barcode": "4660085519758",
-      "systemQuantity": 14,
-      "lastFactQuantity": 14
+      "systemQuantity": 9,
+      "lastFactQuantity": 5
     },
     {
       "id": 6,
       "category": "Шоколад",
       "name": "Twix Extra 82г",
       "barcode": "5000159390729",
-      "systemQuantity": 17,
-      "lastFactQuantity": 17
+      "systemQuantity": 11,
+      "lastFactQuantity": 5
     },
     {
       "id": 7,
       "category": "Снэки",
       "name": "Lays Из Печи Нежный сыр с зеленью  85г",
       "barcode": "4690388124465",
-      "systemQuantity": 16,
-      "lastFactQuantity": 16
+      "systemQuantity": 15,
+      "lastFactQuantity": 10
+    },
+    {
+      "id": 1,
+      "category": "Готовая Еда",
+      "name": "\"Онигири \"\"Тунец\"\"\"",
+      "barcode": "",
+      "systemQuantity": 2,
+      "lastFactQuantity": 2
+    },
+    {
+      "id": 2,
+      "category": "Готовая Еда",
+      "name": "\"Онигири \"\"Креветка\"\"\"",
+      "barcode": "",
+      "systemQuantity": 3,
+      "lastFactQuantity": 3
+    },
+    {
+      "id": 3,
+      "category": "Готовая Еда",
+      "name": "\"Онигири \"\"Нежный\"\"\"",
+      "barcode": "",
+      "systemQuantity": 2,
+      "lastFactQuantity": 2
+    },
+    {
+      "id": 4,
+      "category": "Готовая Еда",
+      "name": "Сэндвич с Ветчиной и Сыром",
+      "barcode": "",
+      "systemQuantity": 5,
+      "lastFactQuantity": 5
+    },
+    {
+      "id": 5,
+      "category": "Готовая Еда",
+      "name": "Сэндвич с курицей и соленым огурцом",
+      "barcode": "",
+      "systemQuantity": 5,
+      "lastFactQuantity": 5
+    },
+    {
+      "id": 6,
+      "category": "Готовая Еда",
+      "name": "\"Онигири \"\"Филадельфия\"",
+      "barcode": "",
+      "systemQuantity": 5,
+      "lastFactQuantity": 5
+    },
+    {
+      "id": 7,
+      "category": "Напитки",
+      "name": "Любимый Апельсиновое манго",
+      "barcode": "",
+      "systemQuantity": 10,
+      "lastFactQuantity": 10
+    },
+    {
+      "id": 8,
+      "category": "Готовая Еда",
+      "name": "Сэндвич с лососем",
+      "barcode": "",
+      "systemQuantity": 5,
+      "lastFactQuantity": 5
+    },
+    {
+      "id": 9,
+      "category": "Готовая Еда",
+      "name": "Онигири Искушение",
+      "barcode": "",
+      "systemQuantity": 2,
+      "lastFactQuantity": 2
+    },
+    {
+      "id": 10,
+      "category": "Готовая Еда",
+      "name": "Онигири Курица с грибами",
+      "barcode": "",
+      "systemQuantity": 2,
+      "lastFactQuantity": 2
+    },
+    {
+      "id": 11,
+      "category": "Готовая Еда",
+      "name": "Онигири Кальмар",
+      "barcode": "",
+      "systemQuantity": 2,
+      "lastFactQuantity": 2
     }
   ],
-  "lastUpdated": "2026-05-04T22:38:54.940Z"
+  "lastUpdated": "2026-05-05T00:12:33.661Z"
 }
