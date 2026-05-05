@@ -1,14 +1,6 @@
 {
   "products": [
     {
-      "id": 1,
-      "category": "Энергетические напитки",
-      "name": "Adrenaline Energy Power Game Fuel 0,45л",
-      "barcode": "4600494694172",
-      "systemQuantity": 22,
-      "lastFactQuantity": 2
-    },
-    {
       "id": 2,
       "category": "Энергетические напитки",
       "name": "Adrenaline Rush 0.45л",
@@ -1577,14 +1569,6 @@
       "lastFactQuantity": 22
     },
     {
-      "id": 198,
-      "category": "Шоколад",
-      "name": "KitKat Chunky 40г",
-      "barcode": "3800020432259",
-      "systemQuantity": 12,
-      "lastFactQuantity": 1
-    },
-    {
       "id": 199,
       "category": "Напитки",
       "name": "Coca Cola 0,3л",
@@ -1649,14 +1633,6 @@
       "lastFactQuantity": 3
     },
     {
-      "id": 1,
-      "category": "Шоколад",
-      "name": "KitKat Chunky 40г",
-      "barcode": "",
-      "systemQuantity": 12,
-      "lastFactQuantity": 2
-    },
-    {
       "id": 2,
       "category": "Шоколад",
       "name": "KitKat Chunky 40г",
@@ -1703,14 +1679,6 @@
       "barcode": "4690388124465",
       "systemQuantity": 15,
       "lastFactQuantity": 10
-    },
-    {
-      "id": 1,
-      "category": "Готовая Еда",
-      "name": "\"Онигири \"\"Тунец\"\"\"",
-      "barcode": "",
-      "systemQuantity": 2,
-      "lastFactQuantity": 2
     },
     {
       "id": 2,
@@ -1793,5 +1761,5 @@
       "lastFactQuantity": 2
     }
   ],
-  "lastUpdated": "2026-05-05T01:07:59.810Z"
+  "lastUpdated": "2026-05-05T01:10:23.719Z"
 }
