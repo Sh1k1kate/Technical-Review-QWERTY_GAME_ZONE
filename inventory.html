@@ -277,6 +277,22 @@
     let history = [];
     const TWO_HOURS = 2 * 60 * 60 * 1000;
     let pendingBarcode = null;
+
+    // Удаление дубликатов из masterProducts (по нормализованному ключу)
+    function deduplicateMaster() {
+        const seen = new Map();
+        const unique = [];
+        for (const p of masterProducts) {
+            const key = (p.category + '|' + p.name).toLowerCase().trim();
+            if (!seen.has(key)) {
+                seen.set(key, p);
+                unique.push(p);
+            } else {
+                console.warn('Удалён дубликат мастера:', p);
+            }
+        }
+        masterProducts = unique;
+    }
     
     // ========== MASTER ==========
     function loadMasterFromLocal(){
@@ -286,6 +302,7 @@
                 const data = JSON.parse(saved);
                 masterProducts = data.products || [];
                 nextMasterId = data.nextId || 1;
+                deduplicateMaster(); // чистим дубли
                 return true;
             }catch(e){}
         }
@@ -332,6 +349,7 @@
             if(jsonData.products){
                 masterProducts = jsonData.products;
                 nextMasterId = jsonData.nextId || 1;
+                deduplicateMaster(); // чистим дубли
                 saveMasterToLocal();
                 if(showMsg) showToast(`✅ Загружено ${masterProducts.length} товаров из мастера`, 'success');
                 rebuildInventoryFromMaster();
@@ -517,11 +535,15 @@
             if(name && category) csvItems.push({ name, category, systemQuantity: quantity, barcode });
         }
         if(skipped>0) showToast(`📊 Пропущено скрытых: ${skipped}`, 'success');
+        // Строим карту по НОРМАЛИЗОВАННОМУ ключу
         const masterMap = new Map();
-        for(const p of masterProducts) masterMap.set(`${p.category}|${p.name}`, p);
+        for(const p of masterProducts){
+            const key = (p.category + '|' + p.name).toLowerCase().trim();
+            if(!masterMap.has(key)) masterMap.set(key, p); // первое вхождение
+        }
         let added = 0, updated = 0;
         for(const csvItem of csvItems){
-            const key = `${csvItem.category}|${csvItem.name}`;
+            const key = (csvItem.category + '|' + csvItem.name).toLowerCase().trim();
             const existing = masterMap.get(key);
             if(existing){
                 if(existing.systemQuantity !== csvItem.systemQuantity){
@@ -529,21 +551,27 @@
                     updated++;
                 }
                 if(csvItem.barcode && !existing.barcode) existing.barcode = csvItem.barcode;
+                // Обновляем регистр в мастере на тот, что пришёл из CSV (актуальный)
+                existing.category = csvItem.category;
+                existing.name = csvItem.name;
             } else {
                 const newId = nextMasterId++;
-                masterProducts.push({
+                const newProduct = {
                     id: newId,
                     category: csvItem.category,
                     name: csvItem.name,
                     barcode: csvItem.barcode || '',
                     systemQuantity: csvItem.systemQuantity,
                     lastFactQuantity: csvItem.systemQuantity
-                });
+                };
+                masterProducts.push(newProduct);
+                masterMap.set(key, newProduct);
                 added++;
             }
         }
         saveMasterToLocal();
         showToast(`✅ Мастер обновлён: добавлено ${added}, обновлено ${updated} товаров`, 'success');
+        deduplicateMaster(); // на всякий случай
         rebuildInventoryFromMaster();
         addToHistory(true);
     }
