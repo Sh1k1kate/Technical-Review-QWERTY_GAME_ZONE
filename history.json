@@ -1494,5 +1494,17 @@
         "category": "Снэки"
       }
     ]
+  },
+  {
+    "timestamp": 1778009832067,
+    "items": [
+      {
+        "id": 7,
+        "factQuantity": 56,
+        "systemQuantity": 56,
+        "name": "Aqua Minerale Негазированная 0.5л",
+        "category": "Напитки"
+      }
+    ]
   }
 ]
