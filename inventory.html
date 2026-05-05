@@ -61,9 +61,8 @@
         .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .card-category { background: #e2e8f0; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; color: #475569; }
         .dark-theme .card-category { background: #334155; color: #cbd5e1; }
-        .card-name { font-size: 1rem; font-weight: 600; color: #1e293b; word-break: break-word; flex: 1; display: flex; align-items: center; gap: 8px; }
+        .card-name { font-size: 1rem; font-weight: 600; color: #1e293b; word-break: break-word; flex: 1; }
         .dark-theme .card-name { color: #f1f5f9; }
-        .check-mark { font-size: 1.2rem; }
         .card-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; white-space: nowrap; }
         .badge-match-card { background: #22c55e; color: white; }
         .badge-mismatch-card { background: #ef4444; color: white; }
@@ -201,7 +200,7 @@
 
     <div id="cardsContainer" class="cards-container"></div>
     <div class="table-container">
-        <table><thead><tr><th onclick="window.sortBy('category')">Категория</th><th onclick="window.sortBy('name')">Наименование</th><th onclick="window.sortBy('systemQuantity')">Учёт</th><th>Фактический</th><th>Статус</th><th>Проверено</th><th></th></tr></thead><tbody id="tableBody"></tbody></table>
+        <table><thead><tr><th onclick="window.sortBy('category')">Категория</th><th onclick="window.sortBy('name')">Наименование</th><th onclick="window.sortBy('systemQuantity')">Учёт</th><th>Фактический</th><th>Статус</th><th></th></tr></thead><tbody id="tableBody"></tbody></table>
     </div>
     <input type="file" id="mismatchesFileInput" accept=".csv" style="display: none;">
 </div>
@@ -266,7 +265,7 @@
     }
     
     let masterProducts = [];
-    let inventoryItems = []; // каждый элемент теперь имеет checked: boolean
+    let inventoryItems = [];
     let nextMasterId = 1;
     let searchTerm = '';
     let isDarkTheme = localStorage.getItem('inventory_dark_theme') === 'true';
@@ -348,8 +347,7 @@
             category: p.category,
             name: p.name,
             systemQuantity: p.systemQuantity,
-            factQuantity: (p.lastFactQuantity !== undefined && p.lastFactQuantity !== null) ? p.lastFactQuantity : p.systemQuantity,
-            checked: false // при перестроении сбрасываем отметки проверки
+            factQuantity: (p.lastFactQuantity !== undefined && p.lastFactQuantity !== null) ? p.lastFactQuantity : p.systemQuantity
         }));
         saveInventoryToLocal();
         renderAll();
@@ -371,10 +369,7 @@
         if(saved){
             try{
                 const data = JSON.parse(saved);
-                inventoryItems = (data.items || []).map(item => ({
-                    ...item,
-                    checked: item.checked === undefined ? false : item.checked // совместимость
-                }));
+                inventoryItems = data.items || [];
                 renderAll();
                 return true;
             }catch(e){}
@@ -427,10 +422,7 @@
         const restoredFact = new Map();
         for(const it of record.items) restoredFact.set(it.id, it.factQuantity);
         for(const item of inventoryItems){
-            if(restoredFact.has(item.id)) {
-                item.factQuantity = restoredFact.get(item.id);
-                // при восстановлении из истории оставляем checked как есть (может быть false)
-            }
+            if(restoredFact.has(item.id)) item.factQuantity = restoredFact.get(item.id);
         }
         saveInventoryToLocal();
         renderAll();
@@ -732,15 +724,13 @@
                     invItem.factQuantity = (existingProduct.lastFactQuantity !== undefined) ? existingProduct.lastFactQuantity : existingProduct.systemQuantity;
                     invItem.category = existingProduct.category;
                     invItem.name = existingProduct.name;
-                    invItem.checked = true; // ручное изменение
                 } else {
                     inventoryItems.push({
                         id: existingProduct.id,
                         category: existingProduct.category,
                         name: existingProduct.name,
                         systemQuantity: existingProduct.systemQuantity,
-                        factQuantity: (existingProduct.lastFactQuantity !== undefined) ? existingProduct.lastFactQuantity : existingProduct.systemQuantity,
-                        checked: true
+                        factQuantity: (existingProduct.lastFactQuantity !== undefined) ? existingProduct.lastFactQuantity : existingProduct.systemQuantity
                     });
                 }
                 saveInventoryToLocal();
@@ -761,8 +751,7 @@
                     category: category,
                     name: name,
                     systemQuantity: systemQuantity,
-                    factQuantity: factQuantity,
-                    checked: true
+                    factQuantity: factQuantity
                 });
                 saveMasterToLocal();
                 saveInventoryToLocal();
@@ -840,7 +829,6 @@
         if(item){
             item.factQuantity = parseFloat(newFact);
             if(isNaN(item.factQuantity)) item.factQuantity = 0;
-            item.checked = true; // отметка о проверке
             saveInventoryToLocal();
             renderAll();
         }
@@ -898,14 +886,14 @@
                 const idxInv = inventoryItems.findIndex(i => i.id === editId);
                 const idxMast = masterProducts.findIndex(p => p.id === editId);
                 if(idxInv !== -1 && idxMast !== -1){
-                    inventoryItems[idxInv] = { ...inventoryItems[idxInv], category, name, systemQuantity, factQuantity, checked: true };
+                    inventoryItems[idxInv] = { ...inventoryItems[idxInv], category, name, systemQuantity, factQuantity };
                     masterProducts[idxMast] = { ...masterProducts[idxMast], category, name, systemQuantity, barcode, lastFactQuantity: factQuantity };
                     showToast(`✅ Товар "${name}" обновлён`, 'success');
                 }
             } else {
                 const newId = nextMasterId++;
                 masterProducts.push({ id: newId, category, name, barcode, systemQuantity, lastFactQuantity: factQuantity });
-                inventoryItems.push({ id: newId, category, name, systemQuantity, factQuantity, checked: true });
+                inventoryItems.push({ id: newId, category, name, systemQuantity, factQuantity });
                 showToast(`✅ Добавлен "${name}"`, 'success');
             }
             saveMasterToLocal();
@@ -926,7 +914,7 @@
         updateMasterFromInventory();
         addToHistory(false);
         saveInventoryToLocal();
-        renderAll(); // отметки checked не сбрасываем
+        renderAll();
         showToast('✅ Фактические остатки сохранены (история и мастер обновлены)', 'success');
     }
     
@@ -953,7 +941,7 @@
             modal.classList.remove('active');
             callback(null);
             confirmBtn.removeEventListener('click', newConfirmHandler);
-            cancelBtn removeEventListener('click', cancelHandler);
+            cancelBtn.removeEventListener('click', cancelHandler);
         };
         confirmBtn.removeEventListener('click', newConfirmHandler);
         cancelBtn.removeEventListener('click', cancelHandler);
@@ -962,13 +950,11 @@
         modal.classList.add('active');
     }
     async function exportToPDF(){
-        let mismatches = inventoryItems.filter(item => item.factQuantity !== item.systemQuantity);
+        const mismatches = inventoryItems.filter(item => item.factQuantity !== item.systemQuantity);
         if(mismatches.length === 0){
             showToast('Нет расхождений для экспорта', 'error');
             return;
         }
-        // сортировка по категории
-        mismatches = [...mismatches].sort((a,b) => a.category.localeCompare(b.category));
         askInspectorName(async (inspectorName) => {
             if(!inspectorName) return;
             const reportDiv = document.createElement('div');
@@ -998,19 +984,17 @@
                     </ul>
                 </div>
                 <table>
-                    <thead><tr><th>Категория</th><th>Наименование</th><th>Учётный остаток</th><th>Фактический остаток</th><th>Разница</th><th>Проверено</th></tr></thead>
+                    <thead><tr><th>Категория</th><th>Наименование</th><th>Учётный остаток</th><th>Фактический остаток</th><th>Разница</th></tr></thead>
                     <tbody>
             `;
             mismatches.forEach(item => {
                 const diff = item.factQuantity - item.systemQuantity;
-                const checkedIcon = item.checked ? '✅' : '';
                 tableHtml += `<tr>
                     <td>${escapeHtml(item.category)}</td>
                     <td>${escapeHtml(item.name)}</td>
                     <td>${item.systemQuantity} шт</td>
                     <td>${item.factQuantity} шт</td>
                     <td>${diff > 0 ? '+' : ''}${diff} шт</td>
-                    <td>${checkedIcon}</td>
                 </tr>`;
             });
             tableHtml += `
@@ -1071,10 +1055,9 @@
         }
         container.innerHTML = items.map(item => {
             const isMismatch = item.factQuantity !== item.systemQuantity;
-            const checkedIcon = item.checked ? '<span class="check-mark">✅</span>' : '';
             return `<div class="inventory-card ${isMismatch ? 'mismatch' : ''}" data-id="${item.id}">
                 <div class="card-header"><span class="card-category">${escapeHtml(item.category)}</span><span class="card-badge ${isMismatch ? 'badge-mismatch-card' : 'badge-match-card'}">${isMismatch ? '⚠️ Расхождение' : '✅ Совпадает'}</span></div>
-                <div class="card-name">${escapeHtml(item.name)} ${checkedIcon}</div>
+                <div class="card-name">${escapeHtml(item.name)}</div>
                 <div class="card-details"><div class="quantity-row"><div class="system-qty"><span class="system-qty-label">Учётный остаток</span><span class="system-qty-value">${item.systemQuantity} шт</span></div><div class="fact-qty"><span class="fact-qty-label">Фактический:</span><input type="number" class="fact-input-card" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0"></div></div></div>
                 <button class="delete-btn" data-id="${item.id}">🗑️ Удалить</button>
             </div>`;
@@ -1096,19 +1079,17 @@
             if(viewFilter === 'mismatch') msg = 'Нет товаров с расхождениями';
             if(viewFilter === 'match') msg = 'Нет товаров без расхождений';
             if(onlyWithStock && items.length === 0 && inventoryItems.length > 0) msg = 'Нет товаров с ненулевым остатком';
-            tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:30px;">${msg}</td></tr>`; // colspan обновлён до 7
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:30px;">${msg}</td></tr>`;
             return;
         }
         tbody.innerHTML = items.map(item => {
             const isMismatch = item.factQuantity !== item.systemQuantity;
-            const checkedIcon = item.checked ? '✅' : '';
             return `<tr class="${isMismatch ? 'mismatch' : ''}" data-id="${item.id}">
                 <td><strong>${escapeHtml(item.category)}</strong></td>
-                <td>${escapeHtml(item.name)}</td>
+                <td>${escapeHtml(item.name)}</strong></td>
                 <td><span class="system-quantity">${item.systemQuantity} шт</span></td>
                 <td><input type="number" class="fact-input" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0"></td>
                 <td><span class="badge ${isMismatch ? 'badge-mismatch' : 'badge-match'}">${isMismatch ? '⚠️ Расхождение' : '✅ Совпадает'}</span></td>
-                <td>${checkedIcon}</td>
                 <td><button class="delete-table-btn" data-id="${item.id}">🗑️</button></td>
             </table>`;
         }).join('');
@@ -1174,11 +1155,7 @@
             if(isNaN(fact)) fact = 0;
             if(!name) continue;
             const found = inventoryItems.find(item => item.name.toLowerCase() === name.toLowerCase());
-            if(found){ 
-                found.factQuantity = fact; 
-                found.checked = true; // загруженные расхождения считаем проверенными
-                updated++; 
-            }
+            if(found){ found.factQuantity = fact; updated++; }
             else notFound++;
         }
         if(updated){
