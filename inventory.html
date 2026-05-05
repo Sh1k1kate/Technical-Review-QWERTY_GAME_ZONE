@@ -246,7 +246,7 @@
     const TWO_HOURS = 2 * 60 * 60 * 1000;
     let pendingBarcode = null;
 
-    // Удаление дубликатов мастера
+    // ---------- Удаление дубликатов в мастере ----------
     function deduplicateMaster() {
         const seen = new Map();
         const unique = [];
@@ -260,27 +260,33 @@
         masterProducts = unique;
     }
 
-    // Синхронизация инвентаризации с мастером (сохраняет введённые фактические остатки)
+    // ---------- Синхронизация inventory с мастером (сохраняет фактические остатки) ----------
     function syncInventoryFromMaster() {
         const invMap = new Map(inventoryItems.map(i => [i.id, i]));
         const synced = [];
         for (const prod of masterProducts) {
             const existing = invMap.get(prod.id);
             if (existing) {
+                // обновляем системные данные, но сохраняем введённый факт
                 existing.category = prod.category;
                 existing.name = prod.name;
                 existing.systemQuantity = prod.systemQuantity;
                 if (existing.factQuantity === undefined || existing.factQuantity === null) {
-                    existing.factQuantity = (prod.lastFactQuantity !== undefined && prod.lastFactQuantity !== null) ? prod.lastFactQuantity : prod.systemQuantity;
+                    existing.factQuantity = (prod.lastFactQuantity !== undefined && prod.lastFactQuantity !== null) 
+                        ? prod.lastFactQuantity 
+                        : prod.systemQuantity;
                 }
                 synced.push(existing);
             } else {
+                // новый товар из мастера
                 synced.push({
                     id: prod.id,
                     category: prod.category,
                     name: prod.name,
                     systemQuantity: prod.systemQuantity,
-                    factQuantity: (prod.lastFactQuantity !== undefined && prod.lastFactQuantity !== null) ? prod.lastFactQuantity : prod.systemQuantity
+                    factQuantity: (prod.lastFactQuantity !== undefined && prod.lastFactQuantity !== null) 
+                        ? prod.lastFactQuantity 
+                        : prod.systemQuantity
                 });
             }
         }
@@ -509,6 +515,7 @@
             if(name && category) csvItems.push({ name, category, systemQuantity: quantity, barcode });
         }
         if(skipped>0) showToast(`📊 Пропущено скрытых: ${skipped}`, 'success');
+        // нормализованный ключ для сопоставления
         const masterMap = new Map();
         for(const p of masterProducts) {
             const key = (p.category + '|' + p.name).toLowerCase().trim();
