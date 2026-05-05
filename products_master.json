@@ -774,7 +774,7 @@
       "name": "Frustyle Апельсин 0.33л",
       "barcode": "4600494699863",
       "systemQuantity": 35,
-      "lastFactQuantity": 11
+      "lastFactQuantity": 35
     },
     {
       "id": 98,
@@ -782,7 +782,7 @@
       "name": "Frustyle Лимон и Лайм 0.33л",
       "barcode": "4600494686023",
       "systemQuantity": 35,
-      "lastFactQuantity": 11
+      "lastFactQuantity": 35
     },
     {
       "id": 99,
@@ -798,7 +798,7 @@
       "name": "Frustyle Апельсин 0.5л",
       "barcode": "4600494699825",
       "systemQuantity": 35,
-      "lastFactQuantity": 11
+      "lastFactQuantity": 35
     },
     {
       "id": 101,
@@ -830,7 +830,7 @@
       "name": "Evervess Cola 0.33л",
       "barcode": "4600494685545",
       "systemQuantity": 33,
-      "lastFactQuantity": 9
+      "lastFactQuantity": 33
     },
     {
       "id": 105,
@@ -838,7 +838,7 @@
       "name": "Evervess Cola Zero 0.33л",
       "barcode": "4600494687235",
       "systemQuantity": 32,
-      "lastFactQuantity": 8
+      "lastFactQuantity": 32
     },
     {
       "id": 106,
@@ -846,7 +846,7 @@
       "name": "Evervess Cola Zero 0.5л",
       "barcode": "4600494687259",
       "systemQuantity": 34,
-      "lastFactQuantity": 10
+      "lastFactQuantity": 34
     },
     {
       "id": 107,
@@ -854,7 +854,7 @@
       "name": "Evervess Cola  0.5л",
       "barcode": "4600494685521",
       "systemQuantity": 32,
-      "lastFactQuantity": 8
+      "lastFactQuantity": 32
     },
     {
       "id": 108,
@@ -1793,5 +1793,5 @@
       "lastFactQuantity": 2
     }
   ],
-  "lastUpdated": "2026-05-05T00:56:30.085Z"
+  "lastUpdated": "2026-05-05T01:07:54.033Z"
 }
