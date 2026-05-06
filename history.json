@@ -1530,5 +1530,17 @@
         "category": "Энергетические напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778091545327,
+    "items": [
+      {
+        "id": 186,
+        "factQuantity": 1,
+        "systemQuantity": 5,
+        "name": "Twix XTRA соленая карамель",
+        "category": "Шоколад"
+      }
+    ]
   }
 ]
