@@ -1486,7 +1486,7 @@
       "name": "Twix XTRA соленая карамель",
       "barcode": "4660085519758",
       "systemQuantity": 5,
-      "lastFactQuantity": 5
+      "lastFactQuantity": 1
     },
     {
       "id": 187,
@@ -1518,7 +1518,7 @@
       "name": "Adrenaline Спайси 0,45л",
       "barcode": "",
       "systemQuantity": 4,
-      "lastFactQuantity": 4
+      "lastFactQuantity": 3
     },
     {
       "id": 191,
@@ -1729,6 +1729,5 @@
       "lastFactQuantity": 2
     }
   ],
-  "nextId": 217,
-  "lastUpdated": "2026-05-06T18:02:07.957Z"
+  "nextId": 217
 }
