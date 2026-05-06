@@ -1518,5 +1518,17 @@
         "category": "Напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778037351592,
+    "items": [
+      {
+        "id": 190,
+        "factQuantity": 3,
+        "systemQuantity": 4,
+        "name": "Adrenaline Спайси 0,45л",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
