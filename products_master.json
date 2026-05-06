@@ -172,7 +172,7 @@
       "id": 22,
       "category": "Шоколад",
       "name": "Kinder Bueno White 39г",
-      "barcode": "",
+      "barcode": "80761761",
       "systemQuantity": 21,
       "lastFactQuantity": 21
     },
@@ -180,7 +180,7 @@
       "id": 23,
       "category": "Шоколад",
       "name": "Kinder Bueno 43г",
-      "barcode": "",
+      "barcode": "80052760",
       "systemQuantity": 37,
       "lastFactQuantity": 37
     },
@@ -1100,7 +1100,7 @@
       "id": 138,
       "category": "Шоколад",
       "name": "Twix Extra 82г",
-      "barcode": "",
+      "barcode": "5000159390729",
       "systemQuantity": 11,
       "lastFactQuantity": 11
     },
@@ -1468,7 +1468,7 @@
       "id": 184,
       "category": "Энергетические напитки",
       "name": "Monster Zero Sugar 0.5л",
-      "barcode": "",
+      "barcode": "5056784906590",
       "systemQuantity": 8,
       "lastFactQuantity": 8
     },
@@ -1484,7 +1484,7 @@
       "id": 186,
       "category": "Шоколад",
       "name": "Twix XTRA соленая карамель",
-      "barcode": "",
+      "barcode": "4660085519758",
       "systemQuantity": 5,
       "lastFactQuantity": 5
     },
@@ -1730,5 +1730,5 @@
     }
   ],
   "nextId": 217,
-  "lastUpdated": "2026-05-06T01:22:02.880Z"
+  "lastUpdated": "2026-05-06T18:02:07.957Z"
 }
