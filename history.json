@@ -1506,5 +1506,17 @@
         "category": "Напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778033565915,
+    "items": [
+      {
+        "id": 152,
+        "factQuantity": 0,
+        "systemQuantity": 0,
+        "name": "Fanta Peach 0,33л",
+        "category": "Напитки"
+      }
+    ]
   }
 ]
