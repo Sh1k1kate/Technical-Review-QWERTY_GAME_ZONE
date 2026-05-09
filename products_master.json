@@ -13,7 +13,7 @@
       "category": "Энергетические напитки",
       "name": "Adrenaline Rush 0.45л",
       "barcode": "4600494694202",
-      "systemQuantity": 34,
+      "systemQuantity": 33,
       "lastFactQuantity": 35
     },
     {
@@ -29,7 +29,7 @@
       "category": "Энергетические напитки",
       "name": "Adrenaline Zero Sugar 0.45л",
       "barcode": "4600494666612",
-      "systemQuantity": 36,
+      "systemQuantity": 30,
       "lastFactQuantity": 34
     },
     {
@@ -53,7 +53,7 @@
       "category": "Напитки",
       "name": "Aqua Minerale Негазированная 0.5л",
       "barcode": "4600494693335",
-      "systemQuantity": 37,
+      "systemQuantity": 31,
       "lastFactQuantity": 35
     },
     {
@@ -61,7 +61,7 @@
       "category": "Напитки",
       "name": "Aqua Minerale Негазированная 1л",
       "barcode": "4600494601309",
-      "systemQuantity": 27,
+      "systemQuantity": 26,
       "lastFactQuantity": 26
     },
     {
@@ -69,7 +69,7 @@
       "category": "Напитки",
       "name": "Aqua Minerale Газированная 0.5л",
       "barcode": "4600494693359",
-      "systemQuantity": 56,
+      "systemQuantity": 55,
       "lastFactQuantity": 55
     },
     {
@@ -77,7 +77,7 @@
       "category": "Напитки",
       "name": "Aqua Minerale Газированная 1л",
       "barcode": "4600494601323",
-      "systemQuantity": 27,
+      "systemQuantity": 24,
       "lastFactQuantity": 26
     },
     {
@@ -373,7 +373,7 @@
       "category": "Энергетические напитки",
       "name": "Lit Energy Blueberry 0,45л",
       "barcode": "4680232930120",
-      "systemQuantity": 36,
+      "systemQuantity": 35,
       "lastFactQuantity": 39
     },
     {
@@ -389,7 +389,7 @@
       "category": "Энергетические напитки",
       "name": "Monster Classic 0,5л",
       "barcode": "5060166692483",
-      "systemQuantity": 10,
+      "systemQuantity": 9,
       "lastFactQuantity": 9
     },
     {
@@ -597,7 +597,7 @@
       "category": "Готовая Еда",
       "name": "Сэндвич №4  ''Острый'' 175г",
       "barcode": "",
-      "systemQuantity": 7,
+      "systemQuantity": 6,
       "lastFactQuantity": 7
     },
     {
@@ -765,7 +765,7 @@
       "category": "Энергетические напитки",
       "name": "Flash Ultra 0,45л",
       "barcode": "4600682033370",
-      "systemQuantity": 11,
+      "systemQuantity": 8,
       "lastFactQuantity": 11
     },
     {
@@ -789,7 +789,7 @@
       "category": "Напитки",
       "name": "Frustyle Лимон и Лайм 0.5л",
       "barcode": "4600494660023",
-      "systemQuantity": 33,
+      "systemQuantity": 32,
       "lastFactQuantity": 34
     },
     {
@@ -989,7 +989,7 @@
       "category": "Энергетические напитки",
       "name": "Burn Гуава 0,45л",
       "barcode": "5061013962278",
-      "systemQuantity": 8,
+      "systemQuantity": 7,
       "lastFactQuantity": 7
     },
     {
@@ -1101,7 +1101,7 @@
       "category": "Шоколад",
       "name": "Twix Extra 82г",
       "barcode": "5000159390729",
-      "systemQuantity": 2,
+      "systemQuantity": 1,
       "lastFactQuantity": 3
     },
     {
@@ -1437,7 +1437,7 @@
       "category": "Энергетические напитки",
       "name": "Monster Ultra Fiesta 0.5л",
       "barcode": "5060751213826",
-      "systemQuantity": 9,
+      "systemQuantity": 8,
       "lastFactQuantity": 9
     },
     {
@@ -1629,7 +1629,7 @@
       "category": "Снэки",
       "name": "Lays Малосольные Огурчики 140г",
       "barcode": "",
-      "systemQuantity": 3,
+      "systemQuantity": 2,
       "lastFactQuantity": 3
     },
     {
@@ -1685,7 +1685,7 @@
       "category": "Напитки",
       "name": "Lipton Зеленый 0.5л",
       "barcode": "4600494600463",
-      "systemQuantity": 14,
+      "systemQuantity": 12,
       "lastFactQuantity": 13
     },
     {
@@ -1701,7 +1701,7 @@
       "category": "Напитки",
       "name": "Lipton Лимон 0.5л",
       "barcode": "4600494600494",
-      "systemQuantity": 4,
+      "systemQuantity": 3,
       "lastFactQuantity": 1
     },
     {
@@ -1717,7 +1717,7 @@
       "category": "Напитки",
       "name": "Lipton Малина 0.5л",
       "barcode": "4600494696862",
-      "systemQuantity": 14,
+      "systemQuantity": 13,
       "lastFactQuantity": 13
     },
     {
@@ -1861,7 +1861,7 @@
       "category": "Готовая Еда",
       "name": "\"Сэндвич \"\"С ветчиной и сыром\"\" 180г\"",
       "barcode": "",
-      "systemQuantity": 4,
+      "systemQuantity": 3,
       "lastFactQuantity": 4
     },
     {
@@ -1885,7 +1885,7 @@
       "category": "Энергетические напитки",
       "name": "Red Bull Tropical Edition 0,355л",
       "barcode": "9002490231538",
-      "systemQuantity": 28,
+      "systemQuantity": 26,
       "lastFactQuantity": 28
     },
     {
@@ -1989,7 +1989,7 @@
       "category": "Энергетические напитки",
       "name": "Flash Mango Ananas 0,5л",
       "barcode": "",
-      "systemQuantity": 21,
+      "systemQuantity": 20,
       "lastFactQuantity": 21
     },
     {
@@ -2058,5 +2058,5 @@
     }
   ],
   "nextId": 264,
-  "lastUpdated": "2026-05-09T09:37:17.430Z"
+  "lastUpdated": "2026-05-09T14:39:28.282Z"
 }
