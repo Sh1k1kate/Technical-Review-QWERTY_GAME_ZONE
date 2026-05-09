@@ -1542,5 +1542,17 @@
         "category": "Шоколад"
       }
     ]
+  },
+  {
+    "timestamp": 1778296717605,
+    "items": [
+      {
+        "id": 10,
+        "factQuantity": 10,
+        "systemQuantity": 30,
+        "name": "Aqua Minerale Газированная 1л",
+        "category": "Напитки"
+      }
+    ]
   }
 ]
