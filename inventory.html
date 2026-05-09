@@ -240,7 +240,7 @@
     let searchTerm = '';
     let isDarkTheme = localStorage.getItem('inventory_dark_theme') === 'true';
     let githubToken = localStorage.getItem('github_token') || '';
-    let autoSync = localStorage.getItem('auto_sync') === 'true'; // автосинхронизация
+    let autoSync = localStorage.getItem('auto_sync') === 'true';
     let sortField = 'category';
     let sortAscending = true;
     let viewFilter = 'all';
@@ -249,13 +249,13 @@
     const TWO_HOURS = 2 * 60 * 60 * 1000;
     let pendingBarcode = null;
 
-    // Обновление nextMasterId
+    // ---------- Обновление nextMasterId ----------
     function updateNextIdFromProducts() {
         const maxId = masterProducts.reduce((max, p) => Math.max(max, p.id || 0), 0);
         nextMasterId = maxId + 1;
     }
 
-    // Удаление дубликатов в мастере
+    // ---------- Удаление дубликатов ----------
     function deduplicateMaster() {
         const seen = new Map();
         const unique = [];
@@ -270,32 +270,19 @@
         updateNextIdFromProducts();
     }
 
+    // ---------- Синхронизация inventory с мастером (ВСЕГДА перезаписывает factQuantity) ----------
     function syncInventoryFromMaster() {
-        const invMap = new Map(inventoryItems.map(i => [i.id, i]));
         const synced = [];
         for (const prod of masterProducts) {
-            const existing = invMap.get(prod.id);
-            if (existing) {
-                existing.category = prod.category;
-                existing.name = prod.name;
-                existing.systemQuantity = prod.systemQuantity;
-                if (existing.factQuantity === undefined || existing.factQuantity === null) {
-                    existing.factQuantity = (prod.lastFactQuantity !== undefined && prod.lastFactQuantity !== null) 
-                        ? prod.lastFactQuantity 
-                        : prod.systemQuantity;
-                }
-                synced.push(existing);
-            } else {
-                synced.push({
-                    id: prod.id,
-                    category: prod.category,
-                    name: prod.name,
-                    systemQuantity: prod.systemQuantity,
-                    factQuantity: (prod.lastFactQuantity !== undefined && prod.lastFactQuantity !== null) 
-                        ? prod.lastFactQuantity 
-                        : prod.systemQuantity
-                });
-            }
+            synced.push({
+                id: prod.id,
+                category: prod.category,
+                name: prod.name,
+                systemQuantity: prod.systemQuantity,
+                factQuantity: (prod.lastFactQuantity !== undefined && prod.lastFactQuantity !== null) 
+                    ? prod.lastFactQuantity 
+                    : prod.systemQuantity
+            });
         }
         inventoryItems = synced;
         saveInventoryToLocal();
@@ -826,7 +813,6 @@
         setupAutocomplete();
     }
     async function applyAllFactual(){
-        // Переносим factQuantity -> lastFactQuantity в мастере
         for(const inv of inventoryItems) {
             const master = masterProducts.find(p => p.id === inv.id);
             if(master) master.lastFactQuantity = inv.factQuantity;
@@ -837,7 +823,7 @@
         renderAll();
         showToast(`✅ Фактические остатки сохранены (${inventoryItems.length} поз.)`, 'success');
         
-        // Автосинхронизация с GitHub, если включена
+        // Автосинхронизация с GitHub
         if (autoSync && githubToken) {
             showToast('🔄 Автосинхронизация с GitHub...', 'success');
             await saveMasterToGithub(false);
@@ -1096,7 +1082,6 @@
     document.addEventListener('DOMContentLoaded', async () => {
         updateRepoDisplay();
         
-        // Восстановление состояния автосинхронизации
         const autoSyncCheck = document.getElementById('autoSyncCheckbox');
         autoSyncCheck.checked = autoSync;
         autoSyncCheck.addEventListener('change', (e) => {
