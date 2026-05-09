@@ -590,7 +590,7 @@
       "name": "Сэндвич №18 ''С копченым мясом'' 175г",
       "barcode": "",
       "systemQuantity": 8,
-      "lastFactQuantity": 5
+      "lastFactQuantity": 111111
     },
     {
       "id": 75,
@@ -2106,5 +2106,5 @@
     }
   ],
   "nextId": 264,
-  "lastUpdated": "2026-05-09T04:02:00.952Z"
+  "lastUpdated": "2026-05-09T04:05:46.116Z"
 }
