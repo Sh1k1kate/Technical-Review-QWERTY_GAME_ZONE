@@ -1409,14 +1409,6 @@
       "lastFactQuantity": 3
     },
     {
-      "id": 179,
-      "category": "Снэки",
-      "name": "Сухарики 3 корочки семга\\сыр 40г",
-      "barcode": "",
-      "systemQuantity": 15,
-      "lastFactQuantity": 15
-    },
-    {
       "id": 180,
       "category": "Снэки",
       "name": "Сухарики Красная Икра 40г",
@@ -2066,5 +2058,5 @@
     }
   ],
   "nextId": 264,
-  "lastUpdated": "2026-05-09T09:20:00.033Z"
+  "lastUpdated": "2026-05-09T09:28:03.656Z"
 }
