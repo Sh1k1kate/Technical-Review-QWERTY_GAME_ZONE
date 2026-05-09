@@ -78,7 +78,7 @@
       "name": "Aqua Minerale Газированная 1л",
       "barcode": "",
       "systemQuantity": 27,
-      "lastFactQuantity": 10
+      "lastFactQuantity": 30
     },
     {
       "id": 11,
@@ -2106,5 +2106,5 @@
     }
   ],
   "nextId": 264,
-  "lastUpdated": "2026-05-09T03:21:35.324Z"
+  "lastUpdated": "2026-05-09T03:22:09.118Z"
 }
