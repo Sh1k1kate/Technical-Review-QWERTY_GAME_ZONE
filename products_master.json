@@ -158,7 +158,7 @@
       "name": "Lays Из Печи Лисички 85г",
       "barcode": "",
       "systemQuantity": 10,
-      "lastFactQuantity": 10
+      "lastFactQuantity": 9
     },
     {
       "id": 21,
@@ -166,7 +166,7 @@
       "name": "Lays Из Печи Нежный сыр с зеленью  85г",
       "barcode": "",
       "systemQuantity": 14,
-      "lastFactQuantity": 15
+      "lastFactQuantity": 18
     },
     {
       "id": 22,
@@ -174,7 +174,7 @@
       "name": "Kinder Bueno White 39г",
       "barcode": "80761761",
       "systemQuantity": 19,
-      "lastFactQuantity": 21
+      "lastFactQuantity": 18
     },
     {
       "id": 23,
@@ -182,7 +182,7 @@
       "name": "Kinder Bueno 43г",
       "barcode": "80052760",
       "systemQuantity": 35,
-      "lastFactQuantity": 37
+      "lastFactQuantity": 34
     },
     {
       "id": 24,
@@ -206,7 +206,7 @@
       "name": "Lays Рифлёные Сметана и Лук 70г",
       "barcode": "",
       "systemQuantity": 21,
-      "lastFactQuantity": 22
+      "lastFactQuantity": 21
     },
     {
       "id": 27,
@@ -222,7 +222,7 @@
       "name": "Lays Зеленый Лук 70г",
       "barcode": "",
       "systemQuantity": 13,
-      "lastFactQuantity": 13
+      "lastFactQuantity": 12
     },
     {
       "id": 29,
@@ -286,7 +286,7 @@
       "name": "Lays Сыр 70г",
       "barcode": "",
       "systemQuantity": 8,
-      "lastFactQuantity": 9
+      "lastFactQuantity": 7
     },
     {
       "id": 37,
@@ -598,7 +598,7 @@
       "name": "Сэндвич №4  ''Острый'' 175г",
       "barcode": "",
       "systemQuantity": 7,
-      "lastFactQuantity": 5
+      "lastFactQuantity": 7
     },
     {
       "id": 76,
@@ -606,7 +606,7 @@
       "name": "Сэндвич №5 ''Цезарь'' 175г",
       "barcode": "",
       "systemQuantity": 5,
-      "lastFactQuantity": 4
+      "lastFactQuantity": 5
     },
     {
       "id": 77,
@@ -622,7 +622,7 @@
       "name": "\"Бургер №14 \"\"Два Мяса'' 190г\"",
       "barcode": "",
       "systemQuantity": 7,
-      "lastFactQuantity": 6
+      "lastFactQuantity": 7
     },
     {
       "id": 79,
@@ -718,7 +718,7 @@
       "name": "Хрустим Багет Королевский Краб 60г",
       "barcode": "",
       "systemQuantity": 40,
-      "lastFactQuantity": 40
+      "lastFactQuantity": 28
     },
     {
       "id": 91,
@@ -742,7 +742,7 @@
       "name": "Хрустим Багет Сырное Ассорти 60г",
       "barcode": "",
       "systemQuantity": 29,
-      "lastFactQuantity": 29
+      "lastFactQuantity": 17
     },
     {
       "id": 94,
@@ -862,7 +862,7 @@
       "name": "Сэндвич №2 ''Салями'' 175г",
       "barcode": "",
       "systemQuantity": 8,
-      "lastFactQuantity": 5
+      "lastFactQuantity": 8
     },
     {
       "id": 109,
@@ -950,7 +950,7 @@
       "name": "Чебупицца Пепперони 250г",
       "barcode": "",
       "systemQuantity": 1,
-      "lastFactQuantity": 6
+      "lastFactQuantity": 1
     },
     {
       "id": 120,
@@ -1038,7 +1038,7 @@
       "name": "Fanta Orange 0,35л",
       "barcode": "5449000287038",
       "systemQuantity": 18,
-      "lastFactQuantity": 21
+      "lastFactQuantity": 18
     },
     {
       "id": 131,
@@ -1070,7 +1070,7 @@
       "name": "\"Сэндвич №10 \"\"Английский завтрак\"\" 175г\"",
       "barcode": "",
       "systemQuantity": 9,
-      "lastFactQuantity": 6
+      "lastFactQuantity": 8
     },
     {
       "id": 135,
@@ -1078,7 +1078,7 @@
       "name": "\"Сэндвич №11 \"\"Курица Грибы\"\" 175г\"",
       "barcode": "",
       "systemQuantity": 2,
-      "lastFactQuantity": 5
+      "lastFactQuantity": 2
     },
     {
       "id": 136,
@@ -1086,7 +1086,7 @@
       "name": "\"Сэндвич №9 \"\"Итальянский\"\" 175г\"",
       "barcode": "",
       "systemQuantity": 9,
-      "lastFactQuantity": 5
+      "lastFactQuantity": 9
     },
     {
       "id": 137,
@@ -1102,7 +1102,7 @@
       "name": "Twix Extra 82г",
       "barcode": "5000159390729",
       "systemQuantity": 2,
-      "lastFactQuantity": 11
+      "lastFactQuantity": 3
     },
     {
       "id": 139,
@@ -1422,7 +1422,7 @@
       "name": "Сухарики шашлык с кетчупом 60г",
       "barcode": "4690329003378",
       "systemQuantity": 5,
-      "lastFactQuantity": 5
+      "lastFactQuantity": 3
     },
     {
       "id": 179,
@@ -1670,7 +1670,7 @@
       "name": "Lays Малосольные Огурчики 140г",
       "barcode": "",
       "systemQuantity": 3,
-      "lastFactQuantity": 5
+      "lastFactQuantity": 3
     },
     {
       "id": 210,
@@ -1686,7 +1686,7 @@
       "name": "Lays Рифлёные Лобстер 140г",
       "barcode": "",
       "systemQuantity": 7,
-      "lastFactQuantity": 7
+      "lastFactQuantity": 3
     },
     {
       "id": 212,
@@ -1942,7 +1942,7 @@
       "name": "Сухарики 3 корочки Сыр и Сёмга 40г",
       "barcode": "",
       "systemQuantity": 15,
-      "lastFactQuantity": 15
+      "lastFactQuantity": 14
     },
     {
       "id": 244,
@@ -2106,5 +2106,5 @@
     }
   ],
   "nextId": 264,
-  "lastUpdated": "2026-05-09T07:02:51.962Z"
+  "lastUpdated": "2026-05-09T07:34:46.275Z"
 }
