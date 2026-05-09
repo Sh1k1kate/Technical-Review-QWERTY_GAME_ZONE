@@ -1422,7 +1422,7 @@
       "name": "Сухарики шашлык с кетчупом 60г",
       "barcode": "4690329003378",
       "systemQuantity": 5,
-      "lastFactQuantity": 10
+      "lastFactQuantity": 0
     },
     {
       "id": 179,
@@ -1486,7 +1486,7 @@
       "name": "Twix XTRA соленая карамель",
       "barcode": "4660085519758",
       "systemQuantity": 5,
-      "lastFactQuantity": 1
+      "lastFactQuantity": 900
     },
     {
       "id": 187,
@@ -1730,5 +1730,5 @@
     }
   ],
   "nextId": 217,
-  "lastUpdated": "2026-05-09T02:23:10.927Z"
+  "lastUpdated": "2026-05-09T02:24:03.350Z"
 }
