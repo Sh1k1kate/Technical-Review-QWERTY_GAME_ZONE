@@ -6,7 +6,7 @@
       "name": "Adrenaline Energy Power Game Fuel 0,45л",
       "barcode": "4600494694172",
       "systemQuantity": 21,
-      "lastFactQuantity": 22
+      "lastFactQuantity": 21
     },
     {
       "id": 2,
@@ -14,7 +14,7 @@
       "name": "Adrenaline Rush 0.45л",
       "barcode": "4600494694202",
       "systemQuantity": 34,
-      "lastFactQuantity": 45
+      "lastFactQuantity": 35
     },
     {
       "id": 3,
@@ -30,7 +30,7 @@
       "name": "Adrenaline Zero Sugar 0.45л",
       "barcode": "4600494666612",
       "systemQuantity": 36,
-      "lastFactQuantity": 43
+      "lastFactQuantity": 34
     },
     {
       "id": 5,
@@ -38,7 +38,7 @@
       "name": "Adrenaline Zero Sugar 0.25л",
       "barcode": "4600494666674",
       "systemQuantity": 8,
-      "lastFactQuantity": 9
+      "lastFactQuantity": 8
     },
     {
       "id": 6,
@@ -46,7 +46,7 @@
       "name": "Adrenaline Rush 0.25л",
       "barcode": "4600494223013",
       "systemQuantity": 55,
-      "lastFactQuantity": 58
+      "lastFactQuantity": 54
     },
     {
       "id": 7,
@@ -62,7 +62,7 @@
       "name": "Aqua Minerale Негазированная 1л",
       "barcode": "4600494601309",
       "systemQuantity": 27,
-      "lastFactQuantity": 35
+      "lastFactQuantity": 26
     },
     {
       "id": 9,
@@ -78,7 +78,7 @@
       "name": "Aqua Minerale Газированная 1л",
       "barcode": "4600494601323",
       "systemQuantity": 27,
-      "lastFactQuantity": 30
+      "lastFactQuantity": 26
     },
     {
       "id": 11,
@@ -1222,7 +1222,7 @@
       "name": "Adrenaline Rush Апельсин 0.45",
       "barcode": "4600494694165",
       "systemQuantity": 18,
-      "lastFactQuantity": 19
+      "lastFactQuantity": 18
     },
     {
       "id": 154,
@@ -1516,7 +1516,7 @@
       "id": 190,
       "category": "Энергетические напитки",
       "name": "Adrenaline Спайси 0,45л",
-      "barcode": "",
+      "barcode": "4600494680571",
       "systemQuantity": 3,
       "lastFactQuantity": 3
     },
@@ -2106,5 +2106,5 @@
     }
   ],
   "nextId": 264,
-  "lastUpdated": "2026-05-09T06:43:56.664Z"
+  "lastUpdated": "2026-05-09T06:48:03.361Z"
 }
