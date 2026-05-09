@@ -390,7 +390,7 @@
       "name": "Monster Classic 0,5л",
       "barcode": "5060166692483",
       "systemQuantity": 10,
-      "lastFactQuantity": 15
+      "lastFactQuantity": 9
     },
     {
       "id": 50,
@@ -406,7 +406,7 @@
       "name": "Monster Ultra Black 0,5л",
       "barcode": "5056784907870",
       "systemQuantity": 3,
-      "lastFactQuantity": 5
+      "lastFactQuantity": 3
     },
     {
       "id": 52,
@@ -430,7 +430,7 @@
       "name": "Monster Aussie Lemonade 0,5л",
       "barcode": "5060947540620",
       "systemQuantity": 2,
-      "lastFactQuantity": 4
+      "lastFactQuantity": 1
     },
     {
       "id": 55,
@@ -2106,5 +2106,5 @@
     }
   ],
   "nextId": 264,
-  "lastUpdated": "2026-05-09T07:44:07.177Z"
+  "lastUpdated": "2026-05-09T07:52:11.976Z"
 }
