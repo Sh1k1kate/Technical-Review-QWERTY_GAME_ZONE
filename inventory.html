@@ -157,6 +157,9 @@
             <button class="btn btn-primary" id="saveMasterToGithubBtn">💾 Сохранить мастер</button>
             <button class="btn" id="loadMasterFromGithubBtn">📂 Загрузить мастер</button>
             <button class="btn btn-success" id="loadCsvBtn">📁 CSV (1С)</button>
+            <label style="display:flex; align-items:center; gap:4px; font-size:0.8rem; cursor:pointer;">
+                <input type="checkbox" id="autoSyncCheckbox"> 🔄 Автосинхронизация
+            </label>
         </div>
         <input type="file" id="csvFileInput" accept=".csv" style="display: none;">
     </div>
@@ -237,6 +240,7 @@
     let searchTerm = '';
     let isDarkTheme = localStorage.getItem('inventory_dark_theme') === 'true';
     let githubToken = localStorage.getItem('github_token') || '';
+    let autoSync = localStorage.getItem('auto_sync') === 'true'; // автосинхронизация
     let sortField = 'category';
     let sortAscending = true;
     let viewFilter = 'all';
@@ -245,7 +249,7 @@
     const TWO_HOURS = 2 * 60 * 60 * 1000;
     let pendingBarcode = null;
 
-    // ---------- Обновление nextMasterId на основе массива продуктов ----------
+    // Обновление nextMasterId
     function updateNextIdFromProducts() {
         const maxId = masterProducts.reduce((max, p) => Math.max(max, p.id || 0), 0);
         nextMasterId = maxId + 1;
@@ -266,7 +270,6 @@
         updateNextIdFromProducts();
     }
 
-    // Синхронизация inventory с мастером (сохраняет фактические остатки)
     function syncInventoryFromMaster() {
         const invMap = new Map(inventoryItems.map(i => [i.id, i]));
         const synced = [];
@@ -822,17 +825,23 @@
         document.getElementById('cancelModalBtn').onclick = () => { modal.classList.remove('active'); saveBtn.onclick = oldHandler; };
         setupAutocomplete();
     }
-    function applyAllFactual(){
+    async function applyAllFactual(){
         // Переносим factQuantity -> lastFactQuantity в мастере
         for(const inv of inventoryItems) {
             const master = masterProducts.find(p => p.id === inv.id);
             if(master) master.lastFactQuantity = inv.factQuantity;
         }
-        saveMasterToLocal();        // <-- мастер сохраняется
+        saveMasterToLocal();
         addToHistory(false);
-        saveInventoryToLocal();     // <-- инвентаризация сохраняется
+        saveInventoryToLocal();
         renderAll();
         showToast(`✅ Фактические остатки сохранены (${inventoryItems.length} поз.)`, 'success');
+        
+        // Автосинхронизация с GitHub, если включена
+        if (autoSync && githubToken) {
+            showToast('🔄 Автосинхронизация с GitHub...', 'success');
+            await saveMasterToGithub(false);
+        }
     }
     
     // ========== ЭКСПОРТ PDF ==========
@@ -1086,6 +1095,15 @@
     
     document.addEventListener('DOMContentLoaded', async () => {
         updateRepoDisplay();
+        
+        // Восстановление состояния автосинхронизации
+        const autoSyncCheck = document.getElementById('autoSyncCheckbox');
+        autoSyncCheck.checked = autoSync;
+        autoSyncCheck.addEventListener('change', (e) => {
+            autoSync = e.target.checked;
+            localStorage.setItem('auto_sync', autoSync);
+        });
+        
         loadMasterFromLocal();
         if(masterProducts.length === 0){ if(githubToken) await loadMasterFromGithub(false); }
         loadInventoryFromLocal();
