@@ -86,7 +86,7 @@
       "name": "Burn Gold Rush 0,45л",
       "barcode": "5060895744125",
       "systemQuantity": 1,
-      "lastFactQuantity": 2
+      "lastFactQuantity": 1
     },
     {
       "id": 12,
@@ -438,7 +438,7 @@
       "name": "Monster Mango Loco 0,5л",
       "barcode": "5056784906569",
       "systemQuantity": 9,
-      "lastFactQuantity": 10
+      "lastFactQuantity": 9
     },
     {
       "id": 56,
@@ -478,7 +478,7 @@
       "name": "Monster Ultra Fantasy Ruby Red 0,5л",
       "barcode": "5043380000005",
       "systemQuantity": 6,
-      "lastFactQuantity": 7
+      "lastFactQuantity": 6
     },
     {
       "id": 61,
@@ -526,7 +526,7 @@
       "name": "Red Bull 0,25л",
       "barcode": "",
       "systemQuantity": 1,
-      "lastFactQuantity": 5
+      "lastFactQuantity": 0
     },
     {
       "id": 67,
@@ -758,7 +758,7 @@
       "name": "Flash Original 0,45л",
       "barcode": "4600682557456",
       "systemQuantity": 15,
-      "lastFactQuantity": 16
+      "lastFactQuantity": 15
     },
     {
       "id": 96,
@@ -766,7 +766,7 @@
       "name": "Flash Ultra 0,45л",
       "barcode": "4600682033370",
       "systemQuantity": 11,
-      "lastFactQuantity": 13
+      "lastFactQuantity": 11
     },
     {
       "id": 97,
@@ -886,7 +886,7 @@
       "name": "Lit Energy Classic 0,45л",
       "barcode": "4680232930113",
       "systemQuantity": 9,
-      "lastFactQuantity": 11
+      "lastFactQuantity": 9
     },
     {
       "id": 112,
@@ -990,7 +990,7 @@
       "name": "Burn Гуава 0,45л",
       "barcode": "5061013962278",
       "systemQuantity": 8,
-      "lastFactQuantity": 11
+      "lastFactQuantity": 7
     },
     {
       "id": 125,
@@ -1454,7 +1454,7 @@
       "name": "Monster Ultra Violet 0.5л",
       "barcode": "5056784908228",
       "systemQuantity": 5,
-      "lastFactQuantity": 7
+      "lastFactQuantity": 4
     },
     {
       "id": 183,
@@ -2106,5 +2106,5 @@
     }
   ],
   "nextId": 264,
-  "lastUpdated": "2026-05-09T07:59:36.570Z"
+  "lastUpdated": "2026-05-09T08:02:50.331Z"
 }
