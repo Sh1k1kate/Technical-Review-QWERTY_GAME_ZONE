@@ -958,7 +958,7 @@
       "name": "Burn Сочная Энергия 0,45л",
       "barcode": "5060895745153",
       "systemQuantity": 38,
-      "lastFactQuantity": 39
+      "lastFactQuantity": 48
     },
     {
       "id": 121,
@@ -2106,5 +2106,5 @@
     }
   ],
   "nextId": 264,
-  "lastUpdated": "2026-05-09T06:59:07.899Z"
+  "lastUpdated": "2026-05-09T07:02:51.962Z"
 }
