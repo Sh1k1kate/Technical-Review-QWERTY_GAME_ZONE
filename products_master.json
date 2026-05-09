@@ -54,7 +54,7 @@
       "name": "Aqua Minerale Негазированная 0.5л",
       "barcode": "4600494693335",
       "systemQuantity": 37,
-      "lastFactQuantity": 45
+      "lastFactQuantity": 35
     },
     {
       "id": 8,
@@ -70,7 +70,7 @@
       "name": "Aqua Minerale Газированная 0.5л",
       "barcode": "4600494693359",
       "systemQuantity": 56,
-      "lastFactQuantity": 60
+      "lastFactQuantity": 55
     },
     {
       "id": 10,
@@ -84,7 +84,7 @@
       "id": 11,
       "category": "Энергетические напитки",
       "name": "Burn Gold Rush 0,45л",
-      "barcode": "",
+      "barcode": "5060895744125",
       "systemQuantity": 1,
       "lastFactQuantity": 2
     },
@@ -124,7 +124,7 @@
       "id": 16,
       "category": "Энергетические напитки",
       "name": "Burn Яблоко Киви 0,45л",
-      "barcode": "",
+      "barcode": "5060608742110",
       "systemQuantity": 5,
       "lastFactQuantity": 5
     },
@@ -372,7 +372,7 @@
       "id": 47,
       "category": "Энергетические напитки",
       "name": "Lit Energy Blueberry 0,45л",
-      "barcode": "",
+      "barcode": "4680232930120",
       "systemQuantity": 36,
       "lastFactQuantity": 39
     },
@@ -388,7 +388,7 @@
       "id": 49,
       "category": "Энергетические напитки",
       "name": "Monster Classic 0,5л",
-      "barcode": "",
+      "barcode": "5060166692483",
       "systemQuantity": 10,
       "lastFactQuantity": 15
     },
@@ -404,7 +404,7 @@
       "id": 51,
       "category": "Энергетические напитки",
       "name": "Monster Ultra Black 0,5л",
-      "barcode": "",
+      "barcode": "5056784907870",
       "systemQuantity": 3,
       "lastFactQuantity": 5
     },
@@ -428,7 +428,7 @@
       "id": 54,
       "category": "Энергетические напитки",
       "name": "Monster Aussie Lemonade 0,5л",
-      "barcode": "",
+      "barcode": "5060947540620",
       "systemQuantity": 2,
       "lastFactQuantity": 4
     },
@@ -436,7 +436,7 @@
       "id": 55,
       "category": "Энергетические напитки",
       "name": "Monster Mango Loco 0,5л",
-      "barcode": "",
+      "barcode": "5056784906569",
       "systemQuantity": 9,
       "lastFactQuantity": 10
     },
@@ -444,7 +444,7 @@
       "id": 56,
       "category": "Энергетические напитки",
       "name": "Monster Monarch 0,5л",
-      "barcode": "",
+      "barcode": "5056784907177",
       "systemQuantity": 3,
       "lastFactQuantity": 5
     },
@@ -476,7 +476,7 @@
       "id": 60,
       "category": "Энергетические напитки",
       "name": "Monster Ultra Fantasy Ruby Red 0,5л",
-      "barcode": "",
+      "barcode": "5043380000005",
       "systemQuantity": 6,
       "lastFactQuantity": 7
     },
@@ -756,7 +756,7 @@
       "id": 95,
       "category": "Энергетические напитки",
       "name": "Flash Original 0,45л",
-      "barcode": "",
+      "barcode": "4600682557456",
       "systemQuantity": 15,
       "lastFactQuantity": 16
     },
@@ -764,7 +764,7 @@
       "id": 96,
       "category": "Энергетические напитки",
       "name": "Flash Ultra 0,45л",
-      "barcode": "",
+      "barcode": "4600682033370",
       "systemQuantity": 11,
       "lastFactQuantity": 13
     },
@@ -884,7 +884,7 @@
       "id": 111,
       "category": "Энергетические напитки",
       "name": "Lit Energy Classic 0,45л",
-      "barcode": "",
+      "barcode": "4680232930113",
       "systemQuantity": 9,
       "lastFactQuantity": 11
     },
@@ -956,7 +956,7 @@
       "id": 120,
       "category": "Энергетические напитки",
       "name": "Burn Сочная Энергия 0,45л",
-      "barcode": "",
+      "barcode": "5060895745153",
       "systemQuantity": 38,
       "lastFactQuantity": 39
     },
@@ -988,7 +988,7 @@
       "id": 124,
       "category": "Энергетические напитки",
       "name": "Burn Гуава 0,45л",
-      "barcode": "",
+      "barcode": "5061013962278",
       "systemQuantity": 8,
       "lastFactQuantity": 11
     },
@@ -1036,7 +1036,7 @@
       "id": 130,
       "category": "Напитки",
       "name": "Fanta Orange 0,35л",
-      "barcode": "",
+      "barcode": "5449000287038",
       "systemQuantity": 18,
       "lastFactQuantity": 21
     },
@@ -1452,7 +1452,7 @@
       "id": 182,
       "category": "Энергетические напитки",
       "name": "Monster Ultra Violet 0.5л",
-      "barcode": "",
+      "barcode": "5056784908228",
       "systemQuantity": 5,
       "lastFactQuantity": 7
     },
@@ -1460,7 +1460,7 @@
       "id": 183,
       "category": "Энергетические напитки",
       "name": "Monster Ultra Fiesta 0.5л",
-      "barcode": "",
+      "barcode": "5060751213826",
       "systemQuantity": 9,
       "lastFactQuantity": 9
     },
@@ -1470,7 +1470,7 @@
       "name": "Monster Zero Sugar 0.5л",
       "barcode": "5056784906590",
       "systemQuantity": 6,
-      "lastFactQuantity": 8
+      "lastFactQuantity": 7
     },
     {
       "id": 185,
@@ -1604,7 +1604,7 @@
       "id": 201,
       "category": "Энергетические напитки",
       "name": "Flash Bubble Gum 0,5",
-      "barcode": "",
+      "barcode": "4600682039990",
       "systemQuantity": 20,
       "lastFactQuantity": 20
     },
@@ -1612,7 +1612,7 @@
       "id": 202,
       "category": "Энергетические напитки",
       "name": "Flash Mango Ananas 0,5",
-      "barcode": "",
+      "barcode": "4600682036425",
       "systemQuantity": 24,
       "lastFactQuantity": 24
     },
@@ -1620,7 +1620,7 @@
       "id": 203,
       "category": "Энергетические напитки",
       "name": "Flash Апельсиновый Ритм 0,5",
-      "barcode": "",
+      "barcode": "4600682003106",
       "systemQuantity": 21,
       "lastFactQuantity": 21
     },
@@ -2106,5 +2106,5 @@
     }
   ],
   "nextId": 264,
-  "lastUpdated": "2026-05-09T06:48:03.361Z"
+  "lastUpdated": "2026-05-09T06:59:07.899Z"
 }
