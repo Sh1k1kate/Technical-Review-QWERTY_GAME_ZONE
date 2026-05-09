@@ -1369,22 +1369,6 @@
       "lastFactQuantity": 2
     },
     {
-      "id": 172,
-      "category": "Готовая Еда",
-      "name": "Сэндвич с Ветчиной и Сыром",
-      "barcode": "",
-      "systemQuantity": 5,
-      "lastFactQuantity": 5
-    },
-    {
-      "id": 173,
-      "category": "Готовая Еда",
-      "name": "Сэндвич с курицей и соленым огурцом",
-      "barcode": "",
-      "systemQuantity": 5,
-      "lastFactQuantity": 5
-    },
-    {
       "id": 174,
       "category": "Готовая Еда",
       "name": "\"Онигири \"\"Филадельфия\"",
@@ -1585,14 +1569,6 @@
       "lastFactQuantity": 0
     },
     {
-      "id": 199,
-      "category": "Готовая Еда",
-      "name": "Чебупелли Ветчина и сыр 300г",
-      "barcode": "",
-      "systemQuantity": 2,
-      "lastFactQuantity": 2
-    },
-    {
       "id": 200,
       "category": "Готовая Еда",
       "name": "Хотстеры 250г",
@@ -1657,14 +1633,6 @@
       "lastFactQuantity": 9
     },
     {
-      "id": 208,
-      "category": "Снэки",
-      "name": "Lays Бекон",
-      "barcode": "",
-      "systemQuantity": 5,
-      "lastFactQuantity": 5
-    },
-    {
       "id": 209,
       "category": "Снэки",
       "name": "Lays Малосольные Огурчики 140г",
@@ -1695,14 +1663,6 @@
       "barcode": "",
       "systemQuantity": 2,
       "lastFactQuantity": 2
-    },
-    {
-      "id": 213,
-      "category": "Готовая Еда",
-      "name": "Сэндвич с лососем",
-      "barcode": "",
-      "systemQuantity": 4,
-      "lastFactQuantity": 4
     },
     {
       "id": 214,
@@ -2106,5 +2066,5 @@
     }
   ],
   "nextId": 264,
-  "lastUpdated": "2026-05-09T08:07:26.868Z"
+  "lastUpdated": "2026-05-09T09:19:57.403Z"
 }
