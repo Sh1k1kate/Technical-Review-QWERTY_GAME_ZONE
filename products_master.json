@@ -1486,7 +1486,7 @@
       "name": "Twix XTRA соленая карамель",
       "barcode": "4660085519758",
       "systemQuantity": 5,
-      "lastFactQuantity": 1
+      "lastFactQuantity": 5
     },
     {
       "id": 187,
@@ -1729,5 +1729,6 @@
       "lastFactQuantity": 2
     }
   ],
-  "nextId": 217
+  "nextId": 217,
+  "lastUpdated": "2026-05-09T02:55:13.698Z"
 }
