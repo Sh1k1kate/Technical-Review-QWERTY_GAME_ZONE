@@ -207,20 +207,6 @@
     <input type="file" id="mismatchesFileInput" accept=".csv" style="display: none;">
 </div>
 
-<!-- Модальное окно для текстового ввода -->
-<div class="modal" id="textInputModal">
-    <div class="modal-content">
-        <h3>📝 Текстовый ввод инвентаризации</h3>
-        <p>Вставьте список: Название Количество (по одному на строку)</p>
-        <textarea id="textInventoryInput" class="form-input" rows="15" placeholder="Frustyle Апельсин 0,33 31&#10;Evervess Cola 0,33 29&#10;..."></textarea>
-        <div style="margin-top:16px; display:flex; gap:10px; justify-content:flex-end;">
-            <button class="btn" id="cancelTextInputBtn">Отмена</button>
-            <button class="btn btn-primary" id="applyTextInputBtn">Обновить факт</button>
-        </div>
-    </div>
-</div>
-
-<!-- Остальные модальные окна без изменений -->
 <div class="modal" id="itemModal">
     <div class="modal-content">
         <h3 id="modalTitle">➕ Добавить товар</h3>
@@ -236,6 +222,17 @@
 <div class="modal" id="chartModal"><div class="modal-content"><h3>📈 Динамика расхождений</h3><canvas id="historyChart" width="400" height="300"></canvas><div style="margin-top:16px;"><button class="btn" id="closeChartBtn">Закрыть</button></div></div></div>
 <div class="modal" id="historyModal"><div class="modal-content"><h3>📜 Управление историей</h3><div id="historyList"></div><div style="margin-top:16px;"><button class="btn" id="closeHistoryModalBtn">Закрыть</button></div></div></div>
 <div class="modal" id="inspectorModal"><div class="modal-content"><h3>✍️ Подпись ответственного</h3><p>Введите фамилию или имя проверяющего:</p><input type="text" id="inspectorName" class="form-input" placeholder="Иванов И.И." style="margin: 15px 0;"><div style="display: flex; gap: 10px; justify-content: flex-end;"><button class="btn" id="cancelInspectorBtn">Отмена</button><button class="btn btn-primary" id="confirmInspectorBtn">Продолжить</button></div></div></div>
+<div class="modal" id="textInputModal">
+    <div class="modal-content">
+        <h3>📝 Текстовый ввод инвентаризации</h3>
+        <p>Вставьте список: Название Количество (по одному на строку)</p>
+        <textarea id="textInventoryInput" class="form-input" rows="15" placeholder="Frustyle Апельсин 0,33 31&#10;Evervess Cola 0,33 29&#10;..."></textarea>
+        <div style="margin-top:16px; display:flex; gap:10px; justify-content:flex-end;">
+            <button class="btn" id="cancelTextInputBtn">Отмена</button>
+            <button class="btn btn-primary" id="applyTextInputBtn">Обновить факт</button>
+        </div>
+    </div>
+</div>
 <div id="toast" style="display:none;" class="toast"></div>
 <div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"><div class="spinner"></div><span>Загрузка...</span></div></div>
 
@@ -264,123 +261,87 @@
     const TWO_HOURS = 2 * 60 * 60 * 1000;
     let pendingBarcode = null;
 
-    // ---------- Нормализация названия для сравнения ----------
     function normalizeName(str) {
-        return str
-            .toLowerCase()
-            .replace(/[^а-яёa-z0-9 ]/gi, '')   // убрать всё, кроме букв/цифр/пробелов
-            .replace(/\s+/g, ' ')               // множественные пробелы в один
-            .trim();
+        return str.toLowerCase().replace(/[^а-яёa-z0-9 ]/gi, '').replace(/\s+/g, ' ').trim();
     }
 
-    // Функция нечёткого сравнения: коэффициент схожести от 0 до 1
     function similarity(a, b) {
-        const an = normalizeName(a);
-        const bn = normalizeName(b);
+        const an = normalizeName(a), bn = normalizeName(b);
         if (an === bn) return 1.0;
         if (an.includes(bn) || bn.includes(an)) return 0.9;
-        // сравнение по словам
-        const wa = an.split(' ');
-        const wb = bn.split(' ');
+        const wa = an.split(' '), wb = bn.split(' ');
         let common = 0;
-        for (const w of wa) {
-            if (wb.includes(w)) common++;
-        }
-        if (wa.length === 0 && wb.length === 0) return 0;
-        const avglen = (wa.length + wb.length) / 2;
-        return common / avglen;
+        for (const w of wa) if (wb.includes(w)) common++;
+        const avg = (wa.length + wb.length) / 2;
+        return avg === 0 ? 0 : common / avg;
     }
 
-    // Поиск лучшего совпадения в массиве кандидатов
     function findBestMatch(csvName, candidates, threshold = 0.65) {
-        let best = null;
-        let bestScore = 0;
+        let best = null, bestScore = 0;
         for (const p of candidates) {
             const score = similarity(csvName, p.name);
-            if (score > bestScore) {
-                bestScore = score;
-                best = p;
-            }
+            if (score > bestScore) { bestScore = score; best = p; }
         }
         return bestScore >= threshold ? { product: best, score: bestScore } : null;
     }
 
-    // ---------- Обновление nextMasterId ----------
     function updateNextIdFromProducts() {
-        const maxId = masterProducts.reduce((max, p) => Math.max(max, p.id || 0), 0);
-        nextMasterId = maxId + 1;
+        nextMasterId = masterProducts.reduce((max, p) => Math.max(max, p.id || 0), 0) + 1;
     }
 
-    // ---------- Удаление дубликатов ----------
     function deduplicateMaster() {
-        const seen = new Map();
-        const unique = [];
+        const seen = new Map(), unique = [];
         for (const p of masterProducts) {
             const key = (p.category + '|' + p.name).toLowerCase().trim();
-            if (!seen.has(key)) {
-                seen.set(key, p);
-                unique.push(p);
-            }
+            if (!seen.has(key)) { seen.set(key, p); unique.push(p); }
         }
         masterProducts = unique;
         updateNextIdFromProducts();
     }
 
-    // ---------- Синхронизация inventory с мастером ----------
     function syncInventoryFromMaster() {
-        const synced = [];
-        for (const prod of masterProducts) {
-            synced.push({
-                id: prod.id,
-                category: prod.category,
-                name: prod.name,
-                systemQuantity: prod.systemQuantity,
-                factQuantity: (prod.lastFactQuantity !== undefined && prod.lastFactQuantity !== null) 
-                    ? prod.lastFactQuantity 
-                    : prod.systemQuantity
-            });
-        }
-        inventoryItems = synced;
+        inventoryItems = masterProducts.map(prod => ({
+            id: prod.id,
+            category: prod.category,
+            name: prod.name,
+            systemQuantity: prod.systemQuantity,
+            factQuantity: (prod.lastFactQuantity != null) ? prod.lastFactQuantity : prod.systemQuantity
+        }));
         saveInventoryToLocal();
         renderAll();
     }
-    
-    // ========== MASTER ==========
-    function loadMasterFromLocal(){
+
+    function loadMasterFromLocal() {
         const saved = localStorage.getItem('products_master_v2');
-        if(saved){
-            try{
+        if (saved) {
+            try {
                 const data = JSON.parse(saved);
                 masterProducts = data.products || [];
-                // исправляем опечатку
-                masterProducts.forEach(p => {
-                    if (p.category === 'Энергетичесике напитки') p.category = 'Энергетические напитки';
-                });
+                masterProducts.forEach(p => { if (p.category === 'Энергетичесике напитки') p.category = 'Энергетические напитки'; });
                 updateNextIdFromProducts();
                 deduplicateMaster();
                 return true;
-            }catch(e){}
+            } catch (e) {}
         }
         return false;
     }
-    function saveMasterToLocal(){
+
+    function saveMasterToLocal() {
         localStorage.setItem('products_master_v2', JSON.stringify({ products: masterProducts, nextId: nextMasterId }));
     }
 
-    // Безопасное кодирование в Base64
     function utf8ToBase64(str) {
         const bytes = new TextEncoder().encode(str);
         let binary = '';
         bytes.forEach(b => binary += String.fromCharCode(b));
         return btoa(binary);
     }
-    
-    async function saveMasterToGithub(showMsg=true, retryCount = 0) {
-        if(!githubToken){ showToast('❌ Установите токен', 'error'); return false; }
+
+    async function saveMasterToGithub(showMsg = true, retryCount = 0) {
+        if (!githubToken) { showToast('❌ Установите токен', 'error'); return false; }
         try {
             const data = { products: masterProducts, nextId: nextMasterId, lastUpdated: new Date().toISOString() };
-            const jsonStr = JSON.stringify(data, null, 2);
-            const content = utf8ToBase64(jsonStr);
+            const content = utf8ToBase64(JSON.stringify(data, null, 2));
             const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${MASTER_FILE}`;
             const getRes = await fetch(url, { headers: { 'Authorization': `token ${githubToken}` } });
             let sha = null;
@@ -391,300 +352,600 @@
                 body: JSON.stringify({ message: `Обновление мастер-файла ${new Date().toLocaleString()}`, content: content, branch: 'main', sha: sha })
             });
             if (putRes.status === 409 && retryCount < 3) return await saveMasterToGithub(showMsg, retryCount + 1);
-            if (!putRes.ok) { const err = await putRes.json(); throw new Error(err.message || 'Ошибка сохранения'); }
+            if (!putRes.ok) throw new Error((await putRes.json()).message);
             if (showMsg) showToast('✅ Мастер сохранён в GitHub', 'success');
             return true;
-        } catch(e) { console.error(e); showToast(`❌ Ошибка сохранения: ${e.message}`, 'error'); return false; }
+        } catch (e) { console.error(e); showToast(`❌ Ошибка сохранения: ${e.message}`, 'error'); return false; }
     }
-    
-    async function loadMasterFromGithub(showMsg=true){
-        if(!githubToken){ showToast('❌ Установите токен', 'error'); return false; }
+
+    async function loadMasterFromGithub(showMsg = true) {
+        if (!githubToken) { showToast('❌ Установите токен', 'error'); return false; }
         try {
             document.getElementById('loadingOverlay').classList.add('active');
             const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${MASTER_FILE}`;
             const res = await fetch(url, { headers: { 'Authorization': `token ${githubToken}` } });
-            if(!res.ok){
-                if(res.status===404 && showMsg) showToast('📭 Мастер-файл не найден, будет создан новый', 'warning');
+            if (!res.ok) {
+                if (res.status === 404 && showMsg) showToast('📭 Мастер-файл не найден', 'warning');
                 masterProducts = [];
                 updateNextIdFromProducts();
                 saveMasterToLocal();
                 return true;
             }
             const data = await res.json();
-            const jsonStr = new TextDecoder().decode(Uint8Array.from(atob(data.content), c => c.charCodeAt(0)));
-            const jsonData = JSON.parse(jsonStr);
-            if(jsonData.products){
+            const jsonData = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(data.content), c => c.charCodeAt(0))));
+            if (jsonData.products) {
                 masterProducts = jsonData.products;
-                masterProducts.forEach(p => {
-                    if (p.category === 'Энергетичесике напитки') p.category = 'Энергетические напитки';
-                });
+                masterProducts.forEach(p => { if (p.category === 'Энергетичесике напитки') p.category = 'Энергетические напитки'; });
                 updateNextIdFromProducts();
                 deduplicateMaster();
                 saveMasterToLocal();
-                if(showMsg) showToast(`✅ Загружено ${masterProducts.length} товаров из мастера`, 'success');
+                if (showMsg) showToast(`✅ Загружено ${masterProducts.length} товаров`, 'success');
                 syncInventoryFromMaster();
                 return true;
             }
-        } catch(e){ console.error(e); if(showMsg) showToast('❌ Ошибка загрузки мастера', 'error'); }
+        } catch (e) { console.error(e); if (showMsg) showToast('❌ Ошибка загрузки мастера', 'error'); }
         finally { document.getElementById('loadingOverlay').classList.remove('active'); }
         return false;
     }
 
-    function saveInventoryToLocal(){
+    function saveInventoryToLocal() {
         localStorage.setItem('inventory_data_v13', JSON.stringify({ items: inventoryItems }));
     }
-    function loadInventoryFromLocal(){
+
+    function loadInventoryFromLocal() {
         const saved = localStorage.getItem('inventory_data_v13');
-        if(saved){
-            try{
-                const data = JSON.parse(saved);
-                inventoryItems = data.items || [];
+        if (saved) {
+            try {
+                inventoryItems = JSON.parse(saved).items || [];
                 renderAll();
                 return true;
-            }catch(e){}
+            } catch (e) {}
         }
         return false;
     }
-    
-    // ========== ИСТОРИЯ (без изменений) ==========
-    function saveHistoryToLocal(){ localStorage.setItem('inventory_history_v2', JSON.stringify(history)); }
-    function loadHistoryFromLocal(){
+
+    // История (сокращённо, но достаточно)
+    function saveHistoryToLocal() { localStorage.setItem('inventory_history_v2', JSON.stringify(history)); }
+    function loadHistoryFromLocal() {
         const saved = localStorage.getItem('inventory_history_v2');
-        if(saved){
-            try{
-                history = JSON.parse(saved);
-                updateHistorySelect();
-                return true;
-            }catch(e){}
-        }
+        if (saved) { try { history = JSON.parse(saved); updateHistorySelect(); return true; } catch (e) {} }
         return false;
     }
-    function updateHistorySelect(){
+    function updateHistorySelect() {
         const select = document.getElementById('historySelect');
         const manageBtn = document.getElementById('historyManageBtn');
-        if(!history.length){
-            select.style.display = 'none';
-            if(manageBtn) manageBtn.style.display = 'none';
-            return;
-        }
+        if (!history.length) { select.style.display = 'none'; if (manageBtn) manageBtn.style.display = 'none'; return; }
         select.style.display = 'inline-flex';
-        if(manageBtn) manageBtn.style.display = 'inline-flex';
+        if (manageBtn) manageBtn.style.display = 'inline-flex';
         select.innerHTML = '<option value="">📜 История</option>';
         history.forEach((h, idx) => {
-            const date = new Date(h.timestamp).toLocaleString();
-            const count = h.items.length;
-            const option = document.createElement('option');
-            option.value = idx;
-            option.textContent = `${date} (${count} товаров)`;
-            select.appendChild(option);
+            const opt = document.createElement('option');
+            opt.value = idx;
+            opt.textContent = `${new Date(h.timestamp).toLocaleString()} (${h.items.length} тов.)`;
+            select.appendChild(opt);
         });
     }
-    async function initHistory(){
-        loadHistoryFromLocal();
-        updateHistorySelect();
+    async function initHistory() { loadHistoryFromLocal(); updateHistorySelect(); }
+    function restoreHistoryItem(idx) {
+        const rec = history[idx];
+        if (!rec) return;
+        const map = new Map(rec.items.map(it => [it.id, it.factQuantity]));
+        inventoryItems.forEach(item => { if (map.has(item.id)) item.factQuantity = map.get(item.id); });
+        saveInventoryToLocal(); renderAll();
+        showToast(`✅ Восстановлена инвентаризация`, 'success');
     }
-    function restoreHistoryItem(idx){
-        const record = history[idx];
-        if(!record) return;
-        const restoredFact = new Map();
-        for(const it of record.items) restoredFact.set(it.id, it.factQuantity);
-        for(const item of inventoryItems){
-            if(restoredFact.has(item.id)) item.factQuantity = restoredFact.get(item.id);
+    function showHistoryModal() {
+        const modal = document.getElementById('historyModal');
+        const container = document.getElementById('historyList');
+        if (!history.length) { container.innerHTML = '<div class="empty-state">Нет записей</div>'; }
+        else {
+            container.innerHTML = history.map((h, idx) => `
+                <div style="padding:8px; border-bottom:1px solid #e2e8f0; display:flex; justify-content:space-between;">
+                    <span>${new Date(h.timestamp).toLocaleString()} (${h.items.length} тов.)</span>
+                    <button class="btn btn-warning" data-idx="${idx}">🗑️</button>
+                </div>`).join('');
         }
-        saveInventoryToLocal();
-        renderAll();
-        showToast(`✅ Восстановлена инвентаризация от ${new Date(record.timestamp).toLocaleString()}`, 'success');
+        modal.classList.add('active');
+        modal.querySelectorAll('.btn-warning').forEach(btn => btn.onclick = () => {
+            if (confirm('Удалить запись?')) { history.splice(btn.dataset.idx, 1); saveHistoryToLocal(); updateHistorySelect(); showHistoryModal(); }
+        });
     }
-    function showHistoryModal(){ /* ... */ }
-    function addToHistory(forceNew = false){ /* ... */ }
+    function addToHistory(forceNew = false) {
+        const now = Date.now();
+        if (!forceNew && history.length && (now - history[history.length-1].timestamp < TWO_HOURS)) {
+            history[history.length-1] = { timestamp: now, items: inventoryItems.map(i => ({ id: i.id, factQuantity: i.factQuantity, systemQuantity: i.systemQuantity, name: i.name, category: i.category })) };
+        } else {
+            history.push({ timestamp: now, items: inventoryItems.map(i => ({ id: i.id, factQuantity: i.factQuantity, systemQuantity: i.systemQuantity, name: i.name, category: i.category })) });
+        }
+        saveHistoryToLocal(); updateHistorySelect();
+    }
 
-    // ========== CSV с нечётким сопоставлением ==========
-    function parseCSVAndMergeMaster(csvText){
+    function parseCSVAndMergeMaster(csvText) {
         const lines = csvText.split(/\r?\n/);
-        if(lines.length === 0) return;
+        if (!lines.length) return;
         let header = lines[0];
-        if(header.startsWith('\uFEFF')) header = header.substring(1);
+        if (header.startsWith('\uFEFF')) header = header.substring(1);
         const headers = header.split(';').map(h => h.trim());
-        let nameIdx = headers.findIndex(h => h.includes('Наименование'));
-        let categoryIdx = headers.findIndex(h => h.includes('Категория'));
-        let qtyIdx = headers.findIndex(h => h.includes('Текущее_Количество') || h.includes('Количество'));
-        let statusIdx = headers.findIndex(h => h === 'Статус' || h.includes('Статус'));
-        let barcodeIdx = headers.findIndex(h => h === 'Штрихкод' || h === 'Barcode' || h.includes('штрихкод'));
+        const nameIdx = headers.findIndex(h => h.includes('Наименование'));
+        const catIdx = headers.findIndex(h => h.includes('Категория'));
+        const qtyIdx = headers.findIndex(h => h.includes('Текущее_Количество') || h.includes('Количество'));
+        const statusIdx = headers.findIndex(h => h === 'Статус' || h.includes('Статус'));
+        const barcodeIdx = headers.findIndex(h => h === 'Штрихкод' || h === 'Barcode' || h.includes('штрихкод'));
         const csvItems = [];
-        let skipped = 0;
-        for(let i=1; i<lines.length; i++){
-            if(!lines[i].trim()) continue;
+        for (let i = 1; i < lines.length; i++) {
             const cols = lines[i].split(';');
-            if(cols.length <= Math.max(nameIdx, categoryIdx, qtyIdx, statusIdx, barcodeIdx)) continue;
-            let status = statusIdx !== -1 ? (cols[statusIdx] || '').trim() : '';
-            if(status !== 'Активен') { skipped++; continue; }
-            let name = nameIdx !== -1 ? cols[nameIdx].trim() : '';
-            let category = categoryIdx !== -1 ? cols[categoryIdx].trim() : '';
-            let qtyRaw = qtyIdx !== -1 ? cols[qtyIdx].trim() : '0';
-            let quantity = parseFloat(qtyRaw);
-            if(isNaN(quantity)) quantity = 0;
-            let barcode = (barcodeIdx !== -1 && cols[barcodeIdx]) ? cols[barcodeIdx].trim() : '';
-            if(name && category) csvItems.push({ name, category, systemQuantity: quantity, barcode });
+            if (cols.length <= Math.max(nameIdx, catIdx, qtyIdx, statusIdx, barcodeIdx)) continue;
+            if ((cols[statusIdx] || '').trim() !== 'Активен') continue;
+            const name = (cols[nameIdx] || '').trim();
+            const category = (cols[catIdx] || '').trim();
+            const qty = parseFloat(cols[qtyIdx]) || 0;
+            const barcode = (barcodeIdx !== -1 && cols[barcodeIdx]) ? cols[barcodeIdx].trim() : '';
+            if (name && category) csvItems.push({ name, category, systemQuantity: qty, barcode });
         }
-        if(skipped>0) showToast(`📊 Пропущено скрытых: ${skipped}`, 'success');
-        
         let added = 0, updated = 0;
-        for(const csvItem of csvItems){
-            // Ищем лучшее совпадение среди всех товаров мастера
+        for (const csvItem of csvItems) {
             const match = findBestMatch(csvItem.name, masterProducts, 0.65);
             if (match) {
-                const existing = match.product;
-                if (existing.systemQuantity !== csvItem.systemQuantity) {
-                    existing.systemQuantity = csvItem.systemQuantity;
-                    updated++;
-                }
-                if (csvItem.barcode && !existing.barcode) existing.barcode = csvItem.barcode;
-                // Обновляем имя и категорию на более точные из CSV
-                existing.name = csvItem.name;
-                existing.category = csvItem.category;
+                const p = match.product;
+                if (p.systemQuantity !== csvItem.systemQuantity) { p.systemQuantity = csvItem.systemQuantity; updated++; }
+                if (csvItem.barcode && !p.barcode) p.barcode = csvItem.barcode;
+                p.name = csvItem.name;
+                p.category = csvItem.category;
             } else {
                 const newId = nextMasterId++;
-                masterProducts.push({
-                    id: newId,
-                    category: csvItem.category,
-                    name: csvItem.name,
-                    barcode: csvItem.barcode || '',
-                    systemQuantity: csvItem.systemQuantity,
-                    lastFactQuantity: csvItem.systemQuantity
-                });
+                masterProducts.push({ id: newId, category: csvItem.category, name: csvItem.name, barcode: csvItem.barcode || '', systemQuantity: csvItem.systemQuantity, lastFactQuantity: csvItem.systemQuantity });
                 added++;
             }
         }
         updateNextIdFromProducts();
         saveMasterToLocal();
-        showToast(`✅ Мастер обновлён: добавлено ${added}, обновлено ${updated} товаров`, 'success');
         deduplicateMaster();
         syncInventoryFromMaster();
         addToHistory(true);
-    }
-    function loadCSVAndUpdateMaster(file){
-        const reader = new FileReader();
-        reader.onload = function(e){ parseCSVAndMergeMaster(e.target.result); };
-        reader.readAsText(file, 'UTF-8');
+        showToast(`✅ Мастер обновлён: +${added}, изменено ${updated}`, 'success');
     }
 
-    // ========== Текстовый ввод ==========
     function parseTextInventory(text) {
         const lines = text.split(/\r?\n/);
         let updated = 0;
-        for (let line of lines) {
-            line = line.trim();
-            if (!line) continue;
-            // Ищем последнее число в строке как количество
-            const match = line.match(/^(.*?)\s+(\d+)\s*$/);
+        for (const line of lines) {
+            const match = line.trim().match(/^(.*?)\s+(\d+)\s*$/);
             if (!match) continue;
-            const rawName = match[1].trim();
-            const qty = parseInt(match[2]);
+            const name = match[1].trim(), qty = parseInt(match[2]);
             if (isNaN(qty)) continue;
-            // Ищем лучший товар по названию
-            const best = findBestMatch(rawName, masterProducts, 0.6);
+            const best = findBestMatch(name, masterProducts, 0.6);
             if (best) {
                 const invItem = inventoryItems.find(i => i.id === best.product.id);
-                if (invItem) {
-                    invItem.factQuantity = qty;
-                    updated++;
-                }
+                if (invItem) { invItem.factQuantity = qty; updated++; }
             }
         }
-        if (updated > 0) {
-            saveInventoryToLocal();
-            renderAll();
-            showToast(`✅ Обновлён факт для ${updated} товаров`, 'success');
-        } else {
-            showToast('❌ Не найдено подходящих товаров', 'error');
-        }
+        if (updated) { saveInventoryToLocal(); renderAll(); showToast(`✅ Обновлён факт для ${updated} товаров`, 'success'); }
+        else showToast('❌ Совпадений не найдено', 'error');
     }
 
-    // ========== АВТОКОМПЛИТ, СКАНИРОВАНИЕ (без изменений) ==========
-    function setupAutocomplete(){ /* ... */ }
-    async function startBarcodeScan(){ /* ... */ }
-    function manualBarcodeInput(){ /* ... */ }
-    function handleScannedBarcode(barcode){ /* ... */ }
-    function openBarcodeAssignmentModal(barcode){ /* ... */ }
-    async function modalStartBarcodeScan(){ /* ... */ }
-
-    // ========== ОСНОВНЫЕ ФУНКЦИИ ==========
-    function updateFactQuantity(id, newFact){
+    function updateFactQuantity(id, val) {
         const item = inventoryItems.find(i => i.id === id);
-        if(item){ item.factQuantity = parseFloat(newFact) || 0; saveInventoryToLocal(); renderAll(); }
+        if (item) { item.factQuantity = parseFloat(val) || 0; saveInventoryToLocal(); renderAll(); }
     }
-    function deleteItem(id){
-        if(confirm('Удалить товар из инвентаризации и мастер-файла?')){
-            inventoryItems = inventoryItems.filter(i => i.id !== id);
-            masterProducts = masterProducts.filter(p => p.id !== id);
-            updateNextIdFromProducts();
+
+    function deleteItem(id) {
+        if (!confirm('Удалить товар?')) return;
+        inventoryItems = inventoryItems.filter(i => i.id !== id);
+        masterProducts = masterProducts.filter(p => p.id !== id);
+        updateNextIdFromProducts();
+        saveMasterToLocal(); saveInventoryToLocal(); renderAll();
+        showToast('🗑️ Товар удалён', 'success');
+    }
+
+    function addOrEditItem(editId = null) {
+        const modal = document.getElementById('itemModal');
+        const title = document.getElementById('modalTitle');
+        const catSel = document.getElementById('modalCategory');
+        const nameInp = document.getElementById('modalName');
+        const barcodeInp = document.getElementById('modalBarcode');
+        const sysQty = document.getElementById('modalSystemQty');
+        const factQty = document.getElementById('modalFactQty');
+        pendingBarcode = null;
+        barcodeInp.readOnly = false;
+        document.getElementById('modalAutocomplete').style.display = 'none';
+        if (editId) {
+            const item = inventoryItems.find(i => i.id === editId);
+            const master = masterProducts.find(p => p.id === editId);
+            if (item && master) {
+                title.innerText = '✏️ Редактировать товар';
+                catSel.value = item.category; nameInp.value = item.name;
+                barcodeInp.value = master.barcode || '';
+                sysQty.value = item.systemQuantity; factQty.value = item.factQuantity;
+            } else return;
+        } else {
+            title.innerText = '➕ Добавить товар';
+            catSel.value = 'Готовая Еда'; nameInp.value = '';
+            barcodeInp.value = ''; sysQty.value = 0; factQty.value = 0;
+        }
+        const saveBtn = document.getElementById('saveModalBtn');
+        const oldHandler = saveBtn.onclick;
+        saveBtn.onclick = () => {
+            const name = nameInp.value.trim();
+            if (!name) { showToast('Введите название', 'error'); return; }
+            const category = catSel.value;
+            const barcode = barcodeInp.value.trim();
+            const sys = parseInt(sysQty.value) || 0;
+            const fact = parseInt(factQty.value) || 0;
+            if (editId) {
+                const idxInv = inventoryItems.findIndex(i => i.id === editId);
+                const idxMast = masterProducts.findIndex(p => p.id === editId);
+                if (idxInv !== -1 && idxMast !== -1) {
+                    inventoryItems[idxInv] = { ...inventoryItems[idxInv], category, name, systemQuantity: sys, factQuantity: fact };
+                    masterProducts[idxMast] = { ...masterProducts[idxMast], category, name, systemQuantity: sys, barcode, lastFactQuantity: fact };
+                }
+            } else {
+                const newId = nextMasterId++;
+                masterProducts.push({ id: newId, category, name, barcode, systemQuantity: sys, lastFactQuantity: fact });
+                inventoryItems.push({ id: newId, category, name, systemQuantity: sys, factQuantity: fact });
+                updateNextIdFromProducts();
+            }
             saveMasterToLocal(); saveInventoryToLocal(); renderAll();
-            showToast('🗑️ Товар удалён', 'success');
+            modal.classList.remove('active');
+            saveBtn.onclick = oldHandler;
+        };
+        modal.classList.add('active');
+        document.getElementById('cancelModalBtn').onclick = () => { modal.classList.remove('active'); saveBtn.onclick = oldHandler; };
+        setupAutocomplete();
+    }
+
+    async function applyAllFactual() {
+        for (const inv of inventoryItems) {
+            const master = masterProducts.find(p => p.id === inv.id);
+            if (master) master.lastFactQuantity = inv.factQuantity;
+        }
+        saveMasterToLocal(); addToHistory(); saveInventoryToLocal(); renderAll();
+        showToast(`✅ Факт сохранён (${inventoryItems.length} поз.)`, 'success');
+        if (autoSync && githubToken) { showToast('🔄 Синхронизация...', 'success'); await saveMasterToGithub(true); }
+    }
+
+    // Рендер
+    function renderCards(items) {
+        const container = document.getElementById('cardsContainer');
+        if (!items.length) {
+            let msg = '📭 Нет данных';
+            if (viewFilter === 'mismatch') msg = '✨ Нет расхождений';
+            else if (viewFilter === 'match') msg = '📦 Нет совпадений';
+            container.innerHTML = `<div class="empty-state">${msg}</div>`;
+            return;
+        }
+        container.innerHTML = items.map(item => {
+            const mis = item.factQuantity !== item.systemQuantity;
+            return `<div class="inventory-card ${mis ? 'mismatch' : ''}" data-id="${item.id}">
+                <div class="card-header"><span class="card-category">${escapeHtml(item.category)}</span><span class="card-badge ${mis ? 'badge-mismatch-card' : 'badge-match-card'}">${mis ? '⚠️ Расхождение' : '✅ Совпадает'}</span></div>
+                <div class="card-name">${escapeHtml(item.name)}</div>
+                <div class="card-details"><div class="quantity-row"><div class="system-qty"><span class="system-qty-label">Учёт</span><span class="system-qty-value">${item.systemQuantity} шт</span></div><div class="fact-qty"><span class="fact-qty-label">Факт:</span><input type="number" class="fact-input-card" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0"></div></div></div>
+                <button class="delete-btn" data-id="${item.id}">🗑️</button>
+            </div>`;
+        }).join('');
+        document.querySelectorAll('.fact-input-card').forEach(inp => inp.addEventListener('change', e => updateFactQuantity(parseInt(inp.dataset.id), inp.value)));
+        document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', e => { e.stopPropagation(); deleteItem(parseInt(btn.dataset.id)); }));
+        document.querySelectorAll('.inventory-card').forEach(card => card.addEventListener('click', e => {
+            if (e.target.classList.contains('delete-btn') || e.target.classList.contains('fact-input-card')) return;
+            addOrEditItem(parseInt(card.dataset.id));
+        }));
+    }
+
+    function renderTable(items) {
+        const tbody = document.getElementById('tableBody');
+        if (!items.length) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px;">Нет данных</td></tr>';
+            return;
+        }
+        tbody.innerHTML = items.map(item => {
+            const mis = item.factQuantity !== item.systemQuantity;
+            return `<tr class="${mis ? 'mismatch' : ''}" data-id="${item.id}">
+                <td>${escapeHtml(item.category)}</td><td>${escapeHtml(item.name)}</td>
+                <td><span class="system-quantity">${item.systemQuantity} шт</span></td>
+                <td><input type="number" class="fact-input" data-id="${item.id}" value="${item.factQuantity}" step="1" min="0"></td>
+                <td><span class="badge ${mis ? 'badge-mismatch' : 'badge-match'}">${mis ? '⚠️' : '✅'}</span></td>
+                <td><button class="delete-table-btn" data-id="${item.id}">🗑️</button></td>
+            </tr>`;
+        }).join('');
+        document.querySelectorAll('.fact-input').forEach(inp => inp.addEventListener('change', e => updateFactQuantity(parseInt(inp.dataset.id), inp.value)));
+        document.querySelectorAll('.delete-table-btn').forEach(btn => btn.addEventListener('click', e => { e.stopPropagation(); deleteItem(parseInt(btn.dataset.id)); }));
+        document.querySelectorAll('#tableBody tr').forEach(row => row.addEventListener('click', e => {
+            if (e.target.tagName === 'INPUT' || e.target.classList.contains('delete-table-btn')) return;
+            addOrEditItem(parseInt(row.dataset.id));
+        }));
+    }
+
+    function renderAll() {
+        let filtered = inventoryItems;
+        if (searchTerm) {
+            const t = searchTerm.toLowerCase();
+            filtered = filtered.filter(i => i.name.toLowerCase().includes(t) || i.category.toLowerCase().includes(t));
+        }
+        if (onlyWithStock) filtered = filtered.filter(i => i.systemQuantity > 0);
+        if (viewFilter === 'mismatch') filtered = filtered.filter(i => i.factQuantity !== i.systemQuantity);
+        else if (viewFilter === 'match') filtered = filtered.filter(i => i.factQuantity === i.systemQuantity);
+        const sorted = sortItems(filtered);
+        renderCards(sorted);
+        renderTable(sorted);
+        document.getElementById('totalCount').innerText = inventoryItems.length;
+        const mismatches = inventoryItems.filter(i => i.factQuantity !== i.systemQuantity).length;
+        document.getElementById('mismatchCount').innerText = mismatches;
+        document.getElementById('matchCount').innerText = inventoryItems.length - mismatches;
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.filter === viewFilter));
+        document.getElementById('onlyWithStockCheckbox').checked = onlyWithStock;
+    }
+
+    function sortItems(arr) {
+        return [...arr].sort((a,b) => {
+            let cmp = 0;
+            if (sortField === 'category') cmp = a.category.localeCompare(b.category);
+            else if (sortField === 'name') cmp = a.name.localeCompare(b.name);
+            else if (sortField === 'systemQuantity') cmp = a.systemQuantity - b.systemQuantity;
+            return sortAscending ? cmp : -cmp;
+        });
+    }
+
+    function exportMismatchesToCSV() {
+        const mismatches = inventoryItems.filter(i => i.factQuantity !== i.systemQuantity);
+        if (!mismatches.length) { showToast('Нет расхождений', 'error'); return; }
+        const csv = ['Наименование;Категория;Учёт;Факт;Разница'].concat(
+            mismatches.map(i => [i.name, i.category, i.systemQuantity, i.factQuantity, i.factQuantity - i.systemQuantity].join(';'))
+        ).join('\n');
+        const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `mismatches_${new Date().toISOString().slice(0,19)}.csv`;
+        a.click();
+        showToast(`📎 Экспортировано ${mismatches.length} расхождений`, 'success');
+    }
+
+    function loadMismatchesFromCSV(csvText) {
+        const lines = csvText.split(/\r?\n/);
+        if (!lines.length) return;
+        const headers = lines[0].split(';').map(h => h.trim().toLowerCase());
+        const nameIdx = headers.findIndex(h => h.includes('наименование'));
+        const factIdx = headers.findIndex(h => h.includes('фактический') || h.includes('факт'));
+        if (nameIdx === -1 || factIdx === -1) { showToast('CSV должен содержать Наименование и Фактический остаток', 'error'); return; }
+        let updated = 0;
+        for (let i = 1; i < lines.length; i++) {
+            const cols = lines[i].split(';');
+            const name = (cols[nameIdx] || '').trim();
+            const fact = parseFloat(cols[factIdx]) || 0;
+            const item = inventoryItems.find(it => it.name.toLowerCase() === name.toLowerCase());
+            if (item) { item.factQuantity = fact; updated++; }
+        }
+        if (updated) { saveInventoryToLocal(); renderAll(); showToast(`✅ Обновлено ${updated} товаров`, 'success'); }
+        else showToast('❌ Товары не найдены', 'error');
+    }
+
+    function showChart() {
+        if (!history.length) { showToast('Нет истории', 'error'); return; }
+        const labels = [], mismatches = [], diffs = [];
+        history.forEach(h => {
+            labels.push(new Date(h.timestamp).toLocaleDateString());
+            let m = 0, d = 0;
+            h.items.forEach(it => { if (it.factQuantity !== it.systemQuantity) { m++; d += it.factQuantity - it.systemQuantity; } });
+            mismatches.push(m); diffs.push(d);
+        });
+        const ctx = document.getElementById('historyChart').getContext('2d');
+        if (window.myChart) window.myChart.destroy();
+        window.myChart = new Chart(ctx, {
+            type: 'line',
+            data: { labels, datasets: [
+                { label: 'Расхождений', data: mismatches, borderColor: '#ef4444', yAxisID: 'y' },
+                { label: 'Разница (шт)', data: diffs, borderColor: '#3b82f6', yAxisID: 'y1' }
+            ]},
+            options: { responsive: true, interaction: { mode: 'index' }, scales: { y: { title: { display: true, text: 'Кол-во' } }, y1: { position: 'right', title: { display: true, text: 'Шт' } } } }
+        });
+        document.getElementById('chartModal').classList.add('active');
+    }
+
+    function escapeHtml(s) { return s ? s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') : ''; }
+    function showToast(text, type='success') {
+        const toast = document.getElementById('toast');
+        toast.className = 'toast' + (type === 'error' ? ' error' : '');
+        toast.style.display = 'block'; toast.innerText = text;
+        setTimeout(() => toast.style.display = 'none', 3000);
+    }
+    function applyTheme() {
+        document.body.classList.toggle('dark-theme', isDarkTheme);
+        document.getElementById('themeToggle').innerHTML = isDarkTheme ? '☀️ Светлая' : '🌙 Тёмная';
+    }
+    window.sortBy = (field) => {
+        if (sortField === field) sortAscending = !sortAscending;
+        else { sortField = field; sortAscending = true; }
+        renderAll();
+    };
+    function updateRepoDisplay() {
+        document.getElementById('repoDisplay').textContent = `${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`;
+        const ts = document.getElementById('tokenStatus');
+        if (githubToken) { ts.innerHTML = '✅ Токен есть'; ts.style.background = '#dcfce7'; }
+        else { ts.innerHTML = '🔑 Нет токена'; ts.style.background = '#fef3c7'; }
+    }
+
+    // Автокомплит и сканер
+    function setupAutocomplete() {
+        const inp = document.getElementById('modalName');
+        const div = document.getElementById('modalAutocomplete');
+        if (!inp) return;
+        inp.removeEventListener('input', window._acInput);
+        const handler = function() {
+            const val = this.value.toLowerCase().trim();
+            if (val.length < 2) { div.style.display = 'none'; return; }
+            const matches = masterProducts.filter(p => p.name.toLowerCase().includes(val)).slice(0, 5);
+            if (!matches.length) { div.style.display = 'none'; return; }
+            div.innerHTML = matches.map(p => `<div class="autocomplete-item" data-id="${p.id}" data-category="${p.category}" data-name="${p.name}" data-barcode="${p.barcode||''}" data-system="${p.systemQuantity}" data-fact="${p.lastFactQuantity ?? p.systemQuantity}">${escapeHtml(p.name)} <small>(${p.category}, учёт: ${p.systemQuantity})</small></div>`).join('');
+            div.style.display = 'block';
+        };
+        inp.addEventListener('input', handler);
+        window._acInput = handler;
+        div.onclick = (e) => {
+            const item = e.target.closest('.autocomplete-item');
+            if (!item) return;
+            document.getElementById('modalName').value = item.dataset.name;
+            document.getElementById('modalCategory').value = item.dataset.category;
+            document.getElementById('modalBarcode').value = pendingBarcode ?? item.dataset.barcode;
+            document.getElementById('modalSystemQty').value = item.dataset.system;
+            document.getElementById('modalFactQty').value = item.dataset.fact;
+            div.style.display = 'none';
+        };
+        document.addEventListener('click', (e) => { if (!inp.contains(e.target) && !div.contains(e.target)) div.style.display = 'none'; });
+    }
+
+    async function startBarcodeScan() {
+        if ('BarcodeDetector' in window) {
+            try {
+                const detector = new BarcodeDetector({ formats: ['ean_13','ean_8','upc_a','upc_e','code_128','code_39','qr_code'] });
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                const video = document.createElement('video');
+                video.srcObject = stream; video.setAttribute('playsinline', true);
+                video.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:10000;';
+                document.body.appendChild(video);
+                await video.play();
+                const interval = setInterval(async () => {
+                    try { const barcodes = await detector.detect(video); if (barcodes.length) { clearInterval(interval); stream.getTracks().forEach(t => t.stop()); video.remove(); handleScannedBarcode(barcodes[0].rawValue); } } catch (e) {}
+                }, 200);
+                setTimeout(() => { clearInterval(interval); if (stream.active) { stream.getTracks().forEach(t => t.stop()); video.remove(); showToast('Сканирование отменено', 'error'); } }, 30000);
+            } catch (e) { showToast('Ошибка камеры', 'error'); manualBarcodeInput(); }
+        } else manualBarcodeInput();
+    }
+    function manualBarcodeInput() { const code = prompt('Штрихкод:'); if (code) handleScannedBarcode(code); }
+    function handleScannedBarcode(code) {
+        const product = masterProducts.find(p => p.barcode === code);
+        if (product) {
+            document.getElementById('searchInput').value = product.name;
+            document.getElementById('searchInput').dispatchEvent(new Event('input', { bubbles: true }));
+            setTimeout(() => {
+                const card = document.querySelector(`.inventory-card[data-id="${product.id}"]`);
+                if (card) { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); card.classList.add('highlight'); setTimeout(() => card.classList.remove('highlight'), 2000); }
+            }, 300);
+        } else {
+            pendingBarcode = code;
+            openBarcodeAssignmentModal(code);
         }
     }
-    function addOrEditItem(editId = null){ /* ... */ }
-    async function applyAllFactual(){ /* ... */ }
+    function openBarcodeAssignmentModal(code) {
+        const modal = document.getElementById('itemModal');
+        document.getElementById('modalTitle').innerText = '🔗 Привязка штрихкода';
+        document.getElementById('modalCategory').value = 'Напитки';
+        document.getElementById('modalName').value = '';
+        document.getElementById('modalBarcode').value = code;
+        document.getElementById('modalBarcode').readOnly = true;
+        document.getElementById('modalSystemQty').value = 0;
+        document.getElementById('modalFactQty').value = 0;
+        const saveBtn = document.getElementById('saveModalBtn');
+        const old = saveBtn.onclick;
+        saveBtn.onclick = () => {
+            const name = document.getElementById('modalName').value.trim();
+            if (!name) { showToast('Введите название', 'error'); return; }
+            const cat = document.getElementById('modalCategory').value;
+            const sys = parseInt(document.getElementById('modalSystemQty').value) || 0;
+            const fact = parseInt(document.getElementById('modalFactQty').value) || 0;
+            const bc = document.getElementById('modalBarcode').value;
+            let prod = masterProducts.find(p => p.name === name && p.category === cat);
+            if (prod) {
+                prod.barcode = bc; saveMasterToLocal();
+                let inv = inventoryItems.find(i => i.id === prod.id);
+                if (inv) { inv.systemQuantity = prod.systemQuantity; inv.factQuantity = prod.lastFactQuantity ?? prod.systemQuantity; }
+                else inventoryItems.push({ id: prod.id, category: prod.category, name: prod.name, systemQuantity: prod.systemQuantity, factQuantity: prod.lastFactQuantity ?? prod.systemQuantity });
+                saveInventoryToLocal(); renderAll();
+                showToast(`✅ Штрихкод добавлен`, 'success');
+            } else {
+                const newId = nextMasterId++;
+                masterProducts.push({ id: newId, category: cat, name, barcode: bc, systemQuantity: sys, lastFactQuantity: fact });
+                inventoryItems.push({ id: newId, category: cat, name, systemQuantity: sys, factQuantity: fact });
+                updateNextIdFromProducts(); saveMasterToLocal(); saveInventoryToLocal(); renderAll();
+                showToast(`✅ Новый товар с штрихкодом`, 'success');
+            }
+            modal.classList.remove('active'); saveBtn.onclick = old;
+            document.getElementById('modalBarcode').readOnly = false;
+            pendingBarcode = null;
+        };
+        document.getElementById('cancelModalBtn').onclick = () => { modal.classList.remove('active'); saveBtn.onclick = old; pendingBarcode = null; document.getElementById('modalBarcode').readOnly = false; };
+        modal.classList.add('active');
+        setupAutocomplete();
+    }
+    async function modalStartBarcodeScan() {
+        if ('BarcodeDetector' in window) {
+            try {
+                const detector = new BarcodeDetector({ formats: ['ean_13','ean_8','upc_a','upc_e','code_128','code_39','qr_code'] });
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                const video = document.createElement('video');
+                video.srcObject = stream; video.setAttribute('playsinline', true);
+                video.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:10000;';
+                document.body.appendChild(video);
+                await video.play();
+                const interval = setInterval(async () => {
+                    try { const barcodes = await detector.detect(video); if (barcodes.length) { clearInterval(interval); stream.getTracks().forEach(t => t.stop()); video.remove(); document.getElementById('modalBarcode').value = barcodes[0].rawValue; } } catch (e) {}
+                }, 200);
+                setTimeout(() => { clearInterval(interval); if (stream.active) { stream.getTracks().forEach(t => t.stop()); video.remove(); } }, 30000);
+            } catch (e) { const code = prompt('Штрихкод:'); if (code) document.getElementById('modalBarcode').value = code; }
+        } else { const code = prompt('Штрихкод:'); if (code) document.getElementById('modalBarcode').value = code; }
+    }
 
-    // ========== PDF, экспорт, рендер, график (без изменений) ==========
-    // ... (остальной код функций renderAll, renderCards, renderTable, askInspectorName, exportToPDF, showChart, escapeHtml, showToast, applyTheme и т.д.)
-
-    // ========== Инициализация ==========
+    // Инициализация
     document.addEventListener('DOMContentLoaded', async () => {
         updateRepoDisplay();
-        
         const autoSyncCheck = document.getElementById('autoSyncCheckbox');
         autoSyncCheck.checked = autoSync;
-        autoSyncCheck.addEventListener('change', (e) => {
-            autoSync = e.target.checked;
-            localStorage.setItem('auto_sync', autoSync);
-        });
-        
+        autoSyncCheck.addEventListener('change', e => { autoSync = e.target.checked; localStorage.setItem('auto_sync', autoSync); });
+
         loadMasterFromLocal();
-        if(masterProducts.length === 0){ if(githubToken) await loadMasterFromGithub(false); }
+        if (!masterProducts.length && githubToken) await loadMasterFromGithub(false);
         loadInventoryFromLocal();
-        if(inventoryItems.length === 0 && masterProducts.length > 0) syncInventoryFromMaster();
+        if (!inventoryItems.length && masterProducts.length) syncInventoryFromMaster();
         await initHistory();
-        
-        // --- кнопки ---
-        document.getElementById('csvFileInput').addEventListener('change', e => { if(e.target.files[0]) loadCSVAndUpdateMaster(e.target.files[0]); });
+
+        document.getElementById('csvFileInput').addEventListener('change', e => { if (e.target.files[0]) { const r = new FileReader(); r.onload = ev => parseCSVAndMergeMaster(ev.target.result); r.readAsText(e.target.files[0], 'UTF-8'); } });
         document.getElementById('loadCsvBtn').addEventListener('click', () => document.getElementById('csvFileInput').click());
         document.getElementById('textInputBtn').addEventListener('click', () => document.getElementById('textInputModal').classList.add('active'));
         document.getElementById('cancelTextInputBtn').addEventListener('click', () => document.getElementById('textInputModal').classList.remove('active'));
-        document.getElementById('applyTextInputBtn').addEventListener('click', () => {
-            const text = document.getElementById('textInventoryInput').value;
-            parseTextInventory(text);
-            document.getElementById('textInputModal').classList.remove('active');
-        });
+        document.getElementById('applyTextInputBtn').addEventListener('click', () => { parseTextInventory(document.getElementById('textInventoryInput').value); document.getElementById('textInputModal').classList.remove('active'); });
         document.getElementById('applyAllBtn').addEventListener('click', applyAllFactual);
         document.getElementById('exportMismatchesBtn').addEventListener('click', exportMismatchesToCSV);
         document.getElementById('loadMismatchesBtn').addEventListener('click', () => document.getElementById('mismatchesFileInput').click());
-        document.getElementById('mismatchesFileInput').addEventListener('change', e => { if(e.target.files[0]) loadMismatchesFile(e.target.files[0]); });
+        document.getElementById('mismatchesFileInput').addEventListener('change', e => { if (e.target.files[0]) { const r = new FileReader(); r.onload = ev => loadMismatchesFromCSV(ev.target.result); r.readAsText(e.target.files[0], 'UTF-8'); } });
         document.getElementById('searchInput').addEventListener('input', e => { searchTerm = e.target.value; renderAll(); });
         document.getElementById('themeToggle').addEventListener('click', () => { isDarkTheme = !isDarkTheme; localStorage.setItem('inventory_dark_theme', isDarkTheme); applyTheme(); });
-        document.getElementById('addItemBtn').addEventListener('click', () => addOrEditItem(null));
+        document.getElementById('addItemBtn').addEventListener('click', () => addOrEditItem());
         document.getElementById('scanBarcodeBtn').addEventListener('click', startBarcodeScan);
         document.getElementById('showChartBtn').addEventListener('click', showChart);
         document.getElementById('closeChartBtn').addEventListener('click', () => document.getElementById('chartModal').classList.remove('active'));
-        document.getElementById('saveMasterToGithubBtn').addEventListener('click', () => saveMasterToGithub(true));
-        document.getElementById('loadMasterFromGithubBtn').addEventListener('click', () => loadMasterFromGithub(true));
+        document.getElementById('saveMasterToGithubBtn').addEventListener('click', () => saveMasterToGithub());
+        document.getElementById('loadMasterFromGithubBtn').addEventListener('click', () => loadMasterFromGithub());
         document.getElementById('modalScanBarcodeBtn').addEventListener('click', modalStartBarcodeScan);
-        document.getElementById('historySelect').addEventListener('change', (e) => { if(e.target.value !== '') restoreHistoryItem(parseInt(e.target.value)); e.target.value = ''; });
+        document.getElementById('historySelect').addEventListener('change', e => { if (e.target.value !== '') { restoreHistoryItem(parseInt(e.target.value)); e.target.value = ''; } });
         document.getElementById('historyManageBtn').addEventListener('click', showHistoryModal);
         document.getElementById('closeHistoryModalBtn').addEventListener('click', () => document.getElementById('historyModal').classList.remove('active'));
         document.getElementById('exportPdfBtn').addEventListener('click', exportToPDF);
-        
-        const stockCheck = document.getElementById('onlyWithStockCheckbox');
-        stockCheck.addEventListener('change', e => { onlyWithStock = e.target.checked; localStorage.setItem('only_with_stock', onlyWithStock); renderAll(); });
+        document.getElementById('onlyWithStockCheckbox').addEventListener('change', e => { onlyWithStock = e.target.checked; localStorage.setItem('only_with_stock', onlyWithStock); renderAll(); });
         document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', () => { viewFilter = btn.dataset.filter; renderAll(); }));
         document.getElementById('showTokenBtn').addEventListener('click', () => { document.getElementById('githubToken').value = githubToken; document.getElementById('tokenModal').classList.add('active'); });
-        document.getElementById('saveTokenBtn').addEventListener('click', () => { const t = document.getElementById('githubToken').value.trim(); if(t){ githubToken = t; localStorage.setItem('github_token', t); document.getElementById('tokenModal').classList.remove('active'); updateRepoDisplay(); } });
+        document.getElementById('saveTokenBtn').addEventListener('click', () => { githubToken = document.getElementById('githubToken').value.trim(); if (githubToken) { localStorage.setItem('github_token', githubToken); updateRepoDisplay(); } document.getElementById('tokenModal').classList.remove('active'); });
         document.getElementById('cancelTokenBtn').addEventListener('click', () => document.getElementById('tokenModal').classList.remove('active'));
-        
+
         applyTheme();
-        if(masterProducts.length === 0 && inventoryItems.length === 0){
-            document.getElementById('cardsContainer').innerHTML = '<div class="empty-state">📁 Загрузите CSV (1С) для создания мастер-файла, или используйте кнопку "📂 Загрузить мастер" из GitHub</div>';
+        if (!masterProducts.length && !inventoryItems.length) {
+            document.getElementById('cardsContainer').innerHTML = '<div class="empty-state">📁 Загрузите CSV (1С) для создания мастер-файла</div>';
         }
     });
+
+    async function exportToPDF() {
+        const mismatches = inventoryItems.filter(i => i.factQuantity !== i.systemQuantity);
+        if (!mismatches.length) { showToast('Нет расхождений', 'error'); return; }
+        const inspector = prompt('Имя проверяющего:');
+        if (!inspector) return;
+        const report = document.createElement('div');
+        report.className = 'pdf-report';
+        report.style.padding = '20px'; report.style.fontFamily = 'Arial'; report.style.background = 'white';
+        const now = new Date();
+        let html = `<div class="header"><h2>Отчёт по инвентаризации</h2><p>${now.toLocaleString()}</p></div><div class="stats"><ul><li>Расхождений: ${mismatches.length}</li><li>Учёт всего: ${mismatches.reduce((s,i)=>s+i.systemQuantity,0)}</li><li>Факт всего: ${mismatches.reduce((s,i)=>s+i.factQuantity,0)}</li></ul></div><table><thead><tr><th>Категория</th><th>Наименование</th><th>Учёт</th><th>Факт</th><th>Разница</th></tr></thead><tbody>`;
+        mismatches.forEach(i => html += `<tr><td>${escapeHtml(i.category)}</td><td>${escapeHtml(i.name)}</td><td>${i.systemQuantity}</td><td>${i.factQuantity}</td><td>${i.factQuantity - i.systemQuantity}</td></tr>`);
+        html += `</tbody></table><div class="signature"><div>Ответственный: ${escapeHtml(inspector)}</div></div>`;
+        report.innerHTML = html;
+        document.body.appendChild(report);
+        await html2pdf().set({ margin: 0.5, filename: `inventory_${now.toISOString()}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' } }).from(report).save();
+        document.body.removeChild(report);
+    }
 })();
 </script>
 </body>
