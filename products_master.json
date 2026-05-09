@@ -4,7 +4,7 @@
       "id": 1,
       "category": "Энергетические напитки",
       "name": "Adrenaline Energy Power Game Fuel 0,45л",
-      "barcode": "",
+      "barcode": "4600494694172",
       "systemQuantity": 21,
       "lastFactQuantity": 22
     },
@@ -12,7 +12,7 @@
       "id": 2,
       "category": "Энергетические напитки",
       "name": "Adrenaline Rush 0.45л",
-      "barcode": "",
+      "barcode": "4600494694202",
       "systemQuantity": 34,
       "lastFactQuantity": 45
     },
@@ -20,7 +20,7 @@
       "id": 3,
       "category": "Энергетические напитки",
       "name": "Adrenaline Ягодный Микс 0,45л",
-      "barcode": "",
+      "barcode": "4600494694226",
       "systemQuantity": 24,
       "lastFactQuantity": 24
     },
@@ -28,7 +28,7 @@
       "id": 4,
       "category": "Энергетические напитки",
       "name": "Adrenaline Zero Sugar 0.45л",
-      "barcode": "",
+      "barcode": "4600494666612",
       "systemQuantity": 36,
       "lastFactQuantity": 43
     },
@@ -36,7 +36,7 @@
       "id": 5,
       "category": "Энергетические напитки",
       "name": "Adrenaline Zero Sugar 0.25л",
-      "barcode": "",
+      "barcode": "4600494666674",
       "systemQuantity": 8,
       "lastFactQuantity": 9
     },
@@ -44,7 +44,7 @@
       "id": 6,
       "category": "Энергетические напитки",
       "name": "Adrenaline Rush 0.25л",
-      "barcode": "",
+      "barcode": "4600494223013",
       "systemQuantity": 55,
       "lastFactQuantity": 58
     },
@@ -52,7 +52,7 @@
       "id": 7,
       "category": "Напитки",
       "name": "Aqua Minerale Негазированная 0.5л",
-      "barcode": "",
+      "barcode": "4600494693335",
       "systemQuantity": 37,
       "lastFactQuantity": 45
     },
@@ -60,7 +60,7 @@
       "id": 8,
       "category": "Напитки",
       "name": "Aqua Minerale Негазированная 1л",
-      "barcode": "",
+      "barcode": "4600494601309",
       "systemQuantity": 27,
       "lastFactQuantity": 35
     },
@@ -68,7 +68,7 @@
       "id": 9,
       "category": "Напитки",
       "name": "Aqua Minerale Газированная 0.5л",
-      "barcode": "",
+      "barcode": "4600494693359",
       "systemQuantity": 56,
       "lastFactQuantity": 60
     },
@@ -76,7 +76,7 @@
       "id": 10,
       "category": "Напитки",
       "name": "Aqua Minerale Газированная 1л",
-      "barcode": "",
+      "barcode": "4600494601323",
       "systemQuantity": 27,
       "lastFactQuantity": 30
     },
@@ -532,7 +532,7 @@
       "id": 67,
       "category": "Энергетические напитки",
       "name": "Red Bull Арбуз 0,25л",
-      "barcode": "",
+      "barcode": "9002490250126",
       "systemQuantity": 7,
       "lastFactQuantity": 7
     },
@@ -772,7 +772,7 @@
       "id": 97,
       "category": "Напитки",
       "name": "Frustyle Апельсин 0.33л",
-      "barcode": "",
+      "barcode": "4600494699863",
       "systemQuantity": 31,
       "lastFactQuantity": 35
     },
@@ -780,7 +780,7 @@
       "id": 98,
       "category": "Напитки",
       "name": "Frustyle Лимон и Лайм 0.33л",
-      "barcode": "",
+      "barcode": "4600494686023",
       "systemQuantity": 33,
       "lastFactQuantity": 35
     },
@@ -788,7 +788,7 @@
       "id": 99,
       "category": "Напитки",
       "name": "Frustyle Лимон и Лайм 0.5л",
-      "barcode": "",
+      "barcode": "4600494660023",
       "systemQuantity": 33,
       "lastFactQuantity": 34
     },
@@ -796,7 +796,7 @@
       "id": 100,
       "category": "Напитки",
       "name": "Frustyle Апельсин 0.5л",
-      "barcode": "",
+      "barcode": "4600494699825",
       "systemQuantity": 34,
       "lastFactQuantity": 35
     },
@@ -828,7 +828,7 @@
       "id": 104,
       "category": "Напитки",
       "name": "Evervess Cola 0.33л",
-      "barcode": "",
+      "barcode": "4600494685545",
       "systemQuantity": 30,
       "lastFactQuantity": 33
     },
@@ -836,7 +836,7 @@
       "id": 105,
       "category": "Напитки",
       "name": "Evervess Cola Zero 0.33л",
-      "barcode": "",
+      "barcode": "4600494687235",
       "systemQuantity": 28,
       "lastFactQuantity": 30
     },
@@ -844,7 +844,7 @@
       "id": 106,
       "category": "Напитки",
       "name": "Evervess Cola Zero 0.5л",
-      "barcode": "",
+      "barcode": "4600494687259",
       "systemQuantity": 30,
       "lastFactQuantity": 34
     },
@@ -852,7 +852,7 @@
       "id": 107,
       "category": "Напитки",
       "name": "Evervess Cola  0.5л",
-      "barcode": "",
+      "barcode": "4600494685521",
       "systemQuantity": 28,
       "lastFactQuantity": 31
     },
@@ -1220,7 +1220,7 @@
       "id": 153,
       "category": "Энергетические напитки",
       "name": "Adrenaline Rush Апельсин 0.45",
-      "barcode": "",
+      "barcode": "4600494694165",
       "systemQuantity": 18,
       "lastFactQuantity": 19
     },
@@ -1228,9 +1228,9 @@
       "id": 154,
       "category": "Энергетические напитки",
       "name": "Drive Original 0.45",
-      "barcode": "",
+      "barcode": "4600494680311",
       "systemQuantity": 8,
-      "lastFactQuantity": 8
+      "lastFactQuantity": 7
     },
     {
       "id": 155,
@@ -1252,7 +1252,7 @@
       "id": 157,
       "category": "Энергетические напитки",
       "name": "Drive Guava Mango Без Сахара 0,5л",
-      "barcode": "",
+      "barcode": "4600494680335",
       "systemQuantity": 1,
       "lastFactQuantity": 1
     },
@@ -1524,7 +1524,7 @@
       "id": 191,
       "category": "Энергетические напитки",
       "name": "Drive Экзотическая Энегрия 0,45л",
-      "barcode": "",
+      "barcode": "4600494680946",
       "systemQuantity": 11,
       "lastFactQuantity": 11
     },
@@ -1732,9 +1732,9 @@
       "id": 217,
       "category": "Напитки",
       "name": "Lipton Зеленый 0.5л",
-      "barcode": "",
+      "barcode": "4600494600463",
       "systemQuantity": 14,
-      "lastFactQuantity": 14
+      "lastFactQuantity": 13
     },
     {
       "id": 218,
@@ -1748,9 +1748,9 @@
       "id": 219,
       "category": "Напитки",
       "name": "Lipton Лимон 0.5л",
-      "barcode": "",
+      "barcode": "4600494600494",
       "systemQuantity": 4,
-      "lastFactQuantity": 4
+      "lastFactQuantity": 1
     },
     {
       "id": 220,
@@ -1764,9 +1764,9 @@
       "id": 221,
       "category": "Напитки",
       "name": "Lipton Малина 0.5л",
-      "barcode": "",
+      "barcode": "4600494696862",
       "systemQuantity": 14,
-      "lastFactQuantity": 14
+      "lastFactQuantity": 13
     },
     {
       "id": 222,
@@ -1932,7 +1932,7 @@
       "id": 242,
       "category": "Энергетические напитки",
       "name": "Red Bull Tropical Edition 0,355л",
-      "barcode": "",
+      "barcode": "9002490231538",
       "systemQuantity": 28,
       "lastFactQuantity": 28
     },
@@ -2106,5 +2106,5 @@
     }
   ],
   "nextId": 264,
-  "lastUpdated": "2026-05-09T06:33:48.349Z"
+  "lastUpdated": "2026-05-09T06:43:56.664Z"
 }
