@@ -105,7 +105,7 @@
         .loading-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 4000; align-items: center; justify-content: center; }
         .loading-overlay.active { display: flex; }
         .empty-state { text-align: center; padding: 40px 20px; color: #64748b; }
-        .github-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
+        .github-buttons { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
         .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; padding: 16px; }
         .modal.active { display: flex; }
         .modal-content { background: white; border-radius: 24px; padding: 20px; max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto; }
@@ -249,13 +249,11 @@
     const TWO_HOURS = 2 * 60 * 60 * 1000;
     let pendingBarcode = null;
 
-    // ---------- Обновление nextMasterId ----------
     function updateNextIdFromProducts() {
         const maxId = masterProducts.reduce((max, p) => Math.max(max, p.id || 0), 0);
         nextMasterId = maxId + 1;
     }
 
-    // ---------- Удаление дубликатов ----------
     function deduplicateMaster() {
         const seen = new Map();
         const unique = [];
@@ -270,7 +268,6 @@
         updateNextIdFromProducts();
     }
 
-    // ---------- Синхронизация inventory с мастером (ВСЕГДА перезаписывает factQuantity) ----------
     function syncInventoryFromMaster() {
         const synced = [];
         for (const prod of masterProducts) {
@@ -306,25 +303,62 @@
     function saveMasterToLocal(){
         localStorage.setItem('products_master_v2', JSON.stringify({ products: masterProducts, nextId: nextMasterId }));
     }
-    async function saveMasterToGithub(showMsg=true){
+    
+    // Функция безопасного кодирования в Base64 (UTF-8)
+    function utf8ToBase64(str) {
+        const bytes = new TextEncoder().encode(str);
+        let binary = '';
+        bytes.forEach(b => binary += String.fromCharCode(b));
+        return btoa(binary);
+    }
+    
+    async function saveMasterToGithub(showMsg=true, retryCount = 0) {
         if(!githubToken){ showToast('❌ Установите токен', 'error'); return false; }
         try {
             const data = { products: masterProducts, nextId: nextMasterId, lastUpdated: new Date().toISOString() };
-            const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+            const jsonStr = JSON.stringify(data, null, 2);
+            const content = utf8ToBase64(jsonStr);
             const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${MASTER_FILE}`;
+            
+            // Получаем актуальный SHA файла
             const getRes = await fetch(url, { headers: { 'Authorization': `token ${githubToken}` } });
             let sha = null;
-            if(getRes.ok){ const d = await getRes.json(); sha = d.sha; }
+            if (getRes.ok) {
+                const d = await getRes.json();
+                sha = d.sha;
+            }
+            
             const putRes = await fetch(url, {
                 method: 'PUT',
                 headers: { 'Authorization': `token ${githubToken}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: `Обновление мастер-файла ${new Date().toLocaleString()}`, content: content, branch: 'main', sha: sha })
+                body: JSON.stringify({
+                    message: `Обновление мастер-файла ${new Date().toLocaleString()}`,
+                    content: content,
+                    branch: 'main',
+                    sha: sha
+                })
             });
-            if(!putRes.ok) throw new Error();
-            if(showMsg) showToast('✅ Мастер сохранён в GitHub', 'success');
+            
+            if (putRes.status === 409 && retryCount < 3) {
+                // Конфликт версий – пробуем ещё раз с новым SHA
+                console.warn('Конфликт версий, повторная попытка...');
+                return await saveMasterToGithub(showMsg, retryCount + 1);
+            }
+            
+            if (!putRes.ok) {
+                const err = await putRes.json();
+                throw new Error(err.message || 'Ошибка сохранения');
+            }
+            
+            if (showMsg) showToast('✅ Мастер сохранён в GitHub', 'success');
             return true;
-        } catch(e){ if(showMsg) showToast('❌ Ошибка сохранения мастера', 'error'); return false; }
+        } catch(e) {
+            console.error(e);
+            showToast(`❌ Ошибка сохранения: ${e.message}`, 'error');
+            return false;
+        }
     }
+    
     async function loadMasterFromGithub(showMsg=true){
         if(!githubToken){ showToast('❌ Установите токен', 'error'); return false; }
         try {
@@ -340,7 +374,9 @@
                 return true;
             }
             const data = await res.json();
-            const jsonData = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+            // Декодируем содержимое из Base64
+            const jsonStr = new TextDecoder().decode(Uint8Array.from(atob(data.content), c => c.charCodeAt(0)));
+            const jsonData = JSON.parse(jsonStr);
             if(jsonData.products){
                 masterProducts = jsonData.products;
                 updateNextIdFromProducts();
@@ -350,7 +386,10 @@
                 syncInventoryFromMaster();
                 return true;
             }
-        } catch(e){ if(showMsg) showToast('❌ Ошибка загрузки мастера', 'error'); }
+        } catch(e){
+            console.error(e);
+            if(showMsg) showToast('❌ Ошибка загрузки мастера', 'error');
+        }
         finally { document.getElementById('loadingOverlay').classList.remove('active'); }
         return false;
     }
@@ -554,7 +593,7 @@
         reader.readAsText(file, 'UTF-8');
     }
 
-    // ========== АВТОКОМПЛИТ ==========
+    // ========== АВТОКОМПЛИТ, СКАНИРОВАНИЕ (без изменений) ==========
     function setupAutocomplete(){
         const nameInput = document.getElementById('modalName');
         const autocompleteDiv = document.getElementById('modalAutocomplete');
@@ -603,8 +642,6 @@
         document.addEventListener('click', outsideHandler);
         window._autocompleteOutsideHandler = outsideHandler;
     }
-    
-    // ========== СКАНИРОВАНИЕ ==========
     async function startBarcodeScan(){
         if('BarcodeDetector' in window){
             try{
@@ -823,14 +860,13 @@
         renderAll();
         showToast(`✅ Фактические остатки сохранены (${inventoryItems.length} поз.)`, 'success');
         
-        // Автосинхронизация с GitHub
         if (autoSync && githubToken) {
             showToast('🔄 Автосинхронизация с GitHub...', 'success');
-            await saveMasterToGithub(false);
+            await saveMasterToGithub(true); // показываем результат
         }
     }
     
-    // ========== ЭКСПОРТ PDF ==========
+    // ========== PDF, экспорт, рендер (без изменений) ==========
     function askInspectorName(callback){
         const modal = document.getElementById('inspectorModal');
         const input = document.getElementById('inspectorName');
