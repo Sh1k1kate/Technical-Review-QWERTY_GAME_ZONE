@@ -1614,5 +1614,17 @@
         "category": "Энергетические напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778423716345,
+    "items": [
+      {
+        "id": 3,
+        "factQuantity": 24,
+        "systemQuantity": 24,
+        "name": "Adrenaline Ягодный Микс 0,45л",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
