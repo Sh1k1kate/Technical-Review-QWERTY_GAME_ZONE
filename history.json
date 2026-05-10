@@ -1854,5 +1854,17 @@
         "category": "Энергетические напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778425410796,
+    "items": [
+      {
+        "id": 183,
+        "factQuantity": 7,
+        "systemQuantity": 8,
+        "name": "Monster Ultra Fiesta 0.5л",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
