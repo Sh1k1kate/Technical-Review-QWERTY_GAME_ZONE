@@ -1842,5 +1842,17 @@
         "category": "Энергетические напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778425392484,
+    "items": [
+      {
+        "id": 49,
+        "factQuantity": 6,
+        "systemQuantity": 7,
+        "name": "Monster Classic 0,5л",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
