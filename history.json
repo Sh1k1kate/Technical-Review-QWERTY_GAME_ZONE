@@ -1758,5 +1758,17 @@
         "category": "Энергетические напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778425143299,
+    "items": [
+      {
+        "id": 124,
+        "factQuantity": 6,
+        "systemQuantity": 7,
+        "name": "Burn Гуава 0,45л",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
