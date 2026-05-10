@@ -1818,5 +1818,17 @@
         "category": "Энергетические напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778425359831,
+    "items": [
+      {
+        "id": 130,
+        "factQuantity": 16,
+        "systemQuantity": 16,
+        "name": "Fanta Orange 0,35л",
+        "category": "Напитки"
+      }
+    ]
   }
 ]
