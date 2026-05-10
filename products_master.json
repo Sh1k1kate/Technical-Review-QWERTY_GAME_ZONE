@@ -310,7 +310,7 @@
       "name": "Липтон Лимон 0.5л",
       "barcode": "",
       "systemQuantity": 13,
-      "lastFactQuantity": 13
+      "lastFactQuantity": 0
     },
     {
       "id": 40,
@@ -1702,7 +1702,7 @@
       "name": "Lipton Лимон 0.5л",
       "barcode": "4600494600494",
       "systemQuantity": 2,
-      "lastFactQuantity": 1
+      "lastFactQuantity": 0
     },
     {
       "id": 220,
@@ -2042,5 +2042,5 @@
     }
   ],
   "nextId": 264,
-  "lastUpdated": "2026-05-10T04:35:33.548Z"
+  "lastUpdated": "2026-05-10T04:49:26.118Z"
 }
