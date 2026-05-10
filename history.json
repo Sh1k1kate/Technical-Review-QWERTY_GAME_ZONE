@@ -1770,5 +1770,17 @@
         "category": "Энергетические напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778425160674,
+    "items": [
+      {
+        "id": 16,
+        "factQuantity": 5,
+        "systemQuantity": 5,
+        "name": "Burn Яблоко Киви 0,45л",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
