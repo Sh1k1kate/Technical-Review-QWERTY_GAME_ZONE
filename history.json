@@ -1674,5 +1674,17 @@
         "category": "Напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778424707949,
+    "items": [
+      {
+        "id": 107,
+        "factQuantity": 26,
+        "systemQuantity": 26,
+        "name": "Evervess Cola  0.5л",
+        "category": "Напитки"
+      }
+    ]
   }
 ]
