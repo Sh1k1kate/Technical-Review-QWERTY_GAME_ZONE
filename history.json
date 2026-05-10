@@ -1878,5 +1878,17 @@
         "category": "Энергетические напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778425454723,
+    "items": [
+      {
+        "id": 55,
+        "factQuantity": 8,
+        "systemQuantity": 8,
+        "name": "Monster Mango Loco 0,5л",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
