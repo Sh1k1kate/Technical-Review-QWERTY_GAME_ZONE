@@ -523,52 +523,53 @@
         else showToast('❌ Совпадений не найдено', 'error');
     }
 
-    // ========== ЭКСПОРТ TXT с выбором МИНИМАЛЬНОГО остатка ==========
-    function exportToTxt() {
-        const items = inventoryItems.filter(i => i.factQuantity > 0);
-        if (!items.length) { showToast('Нет товаров с ненулевым фактом', 'error'); return; }
+  // ========== ЭКСПОРТ TXT с высоким порогом схожести ==========
+function exportToTxt() {
+    const items = inventoryItems.filter(i => i.factQuantity > 0);
+    if (!items.length) { showToast('Нет товаров с ненулевым фактом', 'error'); return; }
 
-        // Группируем похожие названия (порог 0.6)
-        const groups = [];
-        for (const item of items) {
-            let foundGroup = null;
-            for (const group of groups) {
-                if (similarity(item.name, group.name) >= 0.6) {
-                    foundGroup = group;
-                    break;
-                }
-            }
-            if (foundGroup) {
-                foundGroup.total = Math.min(foundGroup.total, item.factQuantity);
-                foundGroup.items.push(item);
-            } else {
-                groups.push({
-                    name: item.name,
-                    category: item.category,
-                    total: item.factQuantity,
-                    items: [item]
-                });
+    // Группируем только ОЧЕНЬ похожие названия (порог 0.85)
+    const groups = [];
+    for (const item of items) {
+        let foundGroup = null;
+        for (const group of groups) {
+            if (similarity(item.name, group.name) >= 0.85) {
+                foundGroup = group;
+                break;
             }
         }
-
-        // Сортировка групп по категориям и названиям
-        const catOrder = { 'Напитки': 1, 'Энергетические напитки': 2, 'Готовая Еда': 3, 'Снэки': 4, 'Шоколад': 5 };
-        groups.sort((a, b) => {
-            const catA = catOrder[a.category] || 99;
-            const catB = catOrder[b.category] || 99;
-            if (catA !== catB) return catA - catB;
-            return a.name.localeCompare(b.name);
-        });
-
-        const lines = groups.map(g => `${g.name} ${g.total}`);
-        const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `inventory_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.txt`;
-        a.click();
-        URL.revokeObjectURL(a.href);
-        showToast(`📄 Экспортировано ${groups.length} уникальных позиций`, 'success');
+        if (foundGroup) {
+            foundGroup.total = Math.min(foundGroup.total, item.factQuantity);
+            foundGroup.items.push(item);
+        } else {
+            groups.push({
+                name: item.name,
+                category: item.category,
+                total: item.factQuantity,
+                items: [item]
+            });
+        }
     }
+
+    // Сортировка групп по категориям и названиям
+    const catOrder = { 'Напитки': 1, 'Энергетические напитки': 2, 'Готовая Еда': 3, 'Снэки': 4, 'Шоколад': 5 };
+    groups.sort((a, b) => {
+        const catA = catOrder[a.category] || 99;
+        const catB = catOrder[b.category] || 99;
+        if (catA !== catB) return catA - catB;
+        return a.name.localeCompare(b.name);
+    });
+
+    const lines = groups.map(g => `${g.name} ${g.total}`);
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `inventory_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.txt`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showToast(`📄 Экспортировано ${groups.length} уникальных позиций`, 'success');
+}
+
 
     function updateFactQuantity(id, val) {
         const item = inventoryItems.find(i => i.id === id);
