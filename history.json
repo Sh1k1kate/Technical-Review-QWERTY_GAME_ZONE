@@ -1974,5 +1974,17 @@
         "category": "Готовая Еда"
       }
     ]
+  },
+  {
+    "timestamp": 1778425669590,
+    "items": [
+      {
+        "id": 242,
+        "factQuantity": 25,
+        "systemQuantity": 25,
+        "name": "Red Bull Tropical Edition 0,355л",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
