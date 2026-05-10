@@ -1746,5 +1746,17 @@
         "category": "Энергетические напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778425125485,
+    "items": [
+      {
+        "id": 47,
+        "factQuantity": 32,
+        "systemQuantity": 32,
+        "name": "Lit Energy Blueberry 0,45л",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
