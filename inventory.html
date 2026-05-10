@@ -523,16 +523,53 @@
         else showToast('❌ Совпадений не найдено', 'error');
     }
 
-    // ========== ЭКСПОРТ TXT ==========
+    // ========== ЭКСПОРТ TXT (группировка по категориям) ==========
     function exportToTxt() {
-        // Собираем все товары с ненулевым фактическим остатком
+        // Собираем позиции с ненулевым фактом
         const items = inventoryItems.filter(i => i.factQuantity > 0);
         if (items.length === 0) {
             showToast('Нет товаров с ненулевым фактом', 'error');
             return;
         }
-        // Формируем строку: "Название  Количество"
-        const lines = items.map(i => `${i.name} ${i.factQuantity}`);
+        // Группируем по категориям
+        const categories = {
+            'Напитки': [],
+            'Энергетические напитки': [],
+            'Готовая Еда': [],
+            'Снэки': [],
+            'Шоколад': []
+        };
+        for (const item of items) {
+            if (categories[item.category]) {
+                categories[item.category].push(item);
+            } else {
+                // Если категория нестандартная, создаём новую группу
+                if (!categories[item.category]) categories[item.category] = [];
+                categories[item.category].push(item);
+            }
+        }
+        // Сортируем внутри каждой группы по имени
+        for (const cat in categories) {
+            categories[cat].sort((a, b) => a.name.localeCompare(b.name));
+        }
+        // Формируем выходной текст
+        const lines = [];
+        const orderedCats = ['Напитки', 'Энергетические напитки', 'Готовая Еда', 'Снэки', 'Шоколад'];
+        for (const cat of orderedCats) {
+            if (categories[cat] && categories[cat].length > 0) {
+                for (const item of categories[cat]) {
+                    lines.push(`${item.name} ${item.factQuantity}`);
+                }
+            }
+        }
+        // Добавляем оставшиеся категории (если есть)
+        for (const cat in categories) {
+            if (!orderedCats.includes(cat) && categories[cat].length > 0) {
+                for (const item of categories[cat]) {
+                    lines.push(`${item.name} ${item.factQuantity}`);
+                }
+            }
+        }
         const txtContent = lines.join('\n');
         const blob = new Blob([txtContent], { type: 'text/plain;charset=utf-8' });
         const a = document.createElement('a');
