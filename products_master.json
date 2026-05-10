@@ -102,7 +102,7 @@
       "name": "Burn Оригинальный 0,45л",
       "barcode": "",
       "systemQuantity": 0,
-      "lastFactQuantity": 3
+      "lastFactQuantity": 0
     },
     {
       "id": 14,
@@ -430,7 +430,7 @@
       "name": "Monster Aussie Lemonade 0,5л",
       "barcode": "5060947540620",
       "systemQuantity": 0,
-      "lastFactQuantity": 1
+      "lastFactQuantity": 0
     },
     {
       "id": 55,
@@ -870,7 +870,7 @@
       "name": "Red Bull The Sea Blue Edition 0,25л",
       "barcode": "",
       "systemQuantity": 0,
-      "lastFactQuantity": 1
+      "lastFactQuantity": 0
     },
     {
       "id": 110,
@@ -1102,7 +1102,7 @@
       "name": "Twix Extra 82г",
       "barcode": "5000159390729",
       "systemQuantity": 0,
-      "lastFactQuantity": 3
+      "lastFactQuantity": 0
     },
     {
       "id": 139,
@@ -1862,7 +1862,7 @@
       "name": "\"Онигири \"\"Филадельфия\"\" 120г\"",
       "barcode": "",
       "systemQuantity": 0,
-      "lastFactQuantity": 1
+      "lastFactQuantity": 0
     },
     {
       "id": 242,
@@ -2042,5 +2042,5 @@
     }
   ],
   "nextId": 264,
-  "lastUpdated": "2026-05-10T05:55:34.704Z"
+  "lastUpdated": "2026-05-10T05:58:17.025Z"
 }
