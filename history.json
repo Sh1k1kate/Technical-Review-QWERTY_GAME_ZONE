@@ -1698,5 +1698,17 @@
         "category": "Напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778424804718,
+    "items": [
+      {
+        "id": 9,
+        "factQuantity": 53,
+        "systemQuantity": 53,
+        "name": "Aqua Minerale Газированная 0.5л",
+        "category": "Напитки"
+      }
+    ]
   }
 ]
