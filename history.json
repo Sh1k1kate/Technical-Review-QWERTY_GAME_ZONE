@@ -1710,5 +1710,17 @@
         "category": "Напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778424851056,
+    "items": [
+      {
+        "id": 7,
+        "factQuantity": 22,
+        "systemQuantity": 25,
+        "name": "Aqua Minerale Негазированная 0.5л",
+        "category": "Напитки"
+      }
+    ]
   }
 ]
