@@ -6,7 +6,7 @@
       "name": "Adrenaline Energy Power Game Fuel 0,45л",
       "barcode": "4600494694172",
       "systemQuantity": 20,
-      "lastFactQuantity": 21
+      "lastFactQuantity": 20
     },
     {
       "id": 2,
@@ -14,7 +14,7 @@
       "name": "Adrenaline Rush 0.45л",
       "barcode": "4600494694202",
       "systemQuantity": 27,
-      "lastFactQuantity": 35
+      "lastFactQuantity": 27
     },
     {
       "id": 3,
@@ -30,7 +30,7 @@
       "name": "Adrenaline Zero Sugar 0.45л",
       "barcode": "4600494666612",
       "systemQuantity": 30,
-      "lastFactQuantity": 34
+      "lastFactQuantity": 29
     },
     {
       "id": 5,
@@ -46,7 +46,7 @@
       "name": "Adrenaline Rush 0.25л",
       "barcode": "4600494223013",
       "systemQuantity": 54,
-      "lastFactQuantity": 54
+      "lastFactQuantity": 52
     },
     {
       "id": 7,
@@ -54,7 +54,7 @@
       "name": "Aqua Minerale Негазированная 0.5л",
       "barcode": "4600494693335",
       "systemQuantity": 27,
-      "lastFactQuantity": 35
+      "lastFactQuantity": 27
     },
     {
       "id": 8,
@@ -62,7 +62,7 @@
       "name": "Aqua Minerale Негазированная 1л",
       "barcode": "4600494601309",
       "systemQuantity": 26,
-      "lastFactQuantity": 26
+      "lastFactQuantity": 25
     },
     {
       "id": 9,
@@ -78,7 +78,7 @@
       "name": "Aqua Minerale Газированная 1л",
       "barcode": "4600494601323",
       "systemQuantity": 24,
-      "lastFactQuantity": 26
+      "lastFactQuantity": 25
     },
     {
       "id": 11,
@@ -374,7 +374,7 @@
       "name": "Lit Energy Blueberry 0,45л",
       "barcode": "4680232930120",
       "systemQuantity": 35,
-      "lastFactQuantity": 39
+      "lastFactQuantity": 35
     },
     {
       "id": 48,
@@ -390,7 +390,7 @@
       "name": "Monster Classic 0,5л",
       "barcode": "5060166692483",
       "systemQuantity": 9,
-      "lastFactQuantity": 9
+      "lastFactQuantity": 8
     },
     {
       "id": 50,
@@ -446,7 +446,7 @@
       "name": "Monster Monarch 0,5л",
       "barcode": "5056784907177",
       "systemQuantity": 2,
-      "lastFactQuantity": 5
+      "lastFactQuantity": 4
     },
     {
       "id": 57,
@@ -476,7 +476,7 @@
       "id": 60,
       "category": "Энергетические напитки",
       "name": "Monster Ultra Fantasy Ruby Red 0,5л",
-      "barcode": "5043380000005",
+      "barcode": "5056784906965",
       "systemQuantity": 6,
       "lastFactQuantity": 6
     },
@@ -598,7 +598,7 @@
       "name": "Сэндвич №4  ''Острый'' 175г",
       "barcode": "",
       "systemQuantity": 6,
-      "lastFactQuantity": 7
+      "lastFactQuantity": 6
     },
     {
       "id": 76,
@@ -654,7 +654,7 @@
       "name": "Сок Любимый Виноградный Дуэт 0,95л",
       "barcode": "",
       "systemQuantity": 9,
-      "lastFactQuantity": 9
+      "lastFactQuantity": 7
     },
     {
       "id": 83,
@@ -766,7 +766,7 @@
       "name": "Flash Ultra 0,45л",
       "barcode": "4600682033370",
       "systemQuantity": 6,
-      "lastFactQuantity": 11
+      "lastFactQuantity": 6
     },
     {
       "id": 97,
@@ -846,7 +846,7 @@
       "name": "Evervess Cola Zero 0.5л",
       "barcode": "4600494687259",
       "systemQuantity": 29,
-      "lastFactQuantity": 29
+      "lastFactQuantity": 25
     },
     {
       "id": 107,
@@ -854,7 +854,7 @@
       "name": "Evervess Cola  0.5л",
       "barcode": "4600494685521",
       "systemQuantity": 27,
-      "lastFactQuantity": 29
+      "lastFactQuantity": 28
     },
     {
       "id": 108,
@@ -990,7 +990,7 @@
       "name": "Burn Гуава 0,45л",
       "barcode": "5061013962278",
       "systemQuantity": 7,
-      "lastFactQuantity": 7
+      "lastFactQuantity": 6
     },
     {
       "id": 125,
@@ -1038,7 +1038,7 @@
       "name": "Fanta Orange 0,35л",
       "barcode": "5449000287038",
       "systemQuantity": 17,
-      "lastFactQuantity": 18
+      "lastFactQuantity": 17
     },
     {
       "id": 131,
@@ -1070,7 +1070,7 @@
       "name": "\"Сэндвич №10 \"\"Английский завтрак\"\" 175г\"",
       "barcode": "",
       "systemQuantity": 8,
-      "lastFactQuantity": 8
+      "lastFactQuantity": 7
     },
     {
       "id": 135,
@@ -1078,7 +1078,7 @@
       "name": "\"Сэндвич №11 \"\"Курица Грибы\"\" 175г\"",
       "barcode": "",
       "systemQuantity": 1,
-      "lastFactQuantity": 2
+      "lastFactQuantity": 1
     },
     {
       "id": 136,
@@ -1350,7 +1350,7 @@
       "name": "\"Онигири \"\"Тунец\"\"\"",
       "barcode": "",
       "systemQuantity": 2,
-      "lastFactQuantity": 2
+      "lastFactQuantity": 1
     },
     {
       "id": 170,
@@ -1430,7 +1430,7 @@
       "name": "Monster Ultra Violet 0.5л",
       "barcode": "5056784908228",
       "systemQuantity": 4,
-      "lastFactQuantity": 4
+      "lastFactQuantity": 3
     },
     {
       "id": 183,
@@ -1438,7 +1438,7 @@
       "name": "Monster Ultra Fiesta 0.5л",
       "barcode": "5060751213826",
       "systemQuantity": 8,
-      "lastFactQuantity": 9
+      "lastFactQuantity": 7
     },
     {
       "id": 184,
@@ -1550,7 +1550,7 @@
       "name": "Любимый Вишневая черешня 0.95",
       "barcode": "",
       "systemQuantity": 10,
-      "lastFactQuantity": 10
+      "lastFactQuantity": 8
     },
     {
       "id": 198,
@@ -1574,7 +1574,7 @@
       "name": "Flash Bubble Gum 0,5",
       "barcode": "4600682039990",
       "systemQuantity": 20,
-      "lastFactQuantity": 20
+      "lastFactQuantity": 16
     },
     {
       "id": 202,
@@ -1582,7 +1582,7 @@
       "name": "Flash Mango Ananas 0,5",
       "barcode": "4600682036425",
       "systemQuantity": 24,
-      "lastFactQuantity": 24
+      "lastFactQuantity": 20
     },
     {
       "id": 203,
@@ -1614,7 +1614,7 @@
       "name": "Любимый Апельсиновое манго",
       "barcode": "",
       "systemQuantity": 10,
-      "lastFactQuantity": 10
+      "lastFactQuantity": 9
     },
     {
       "id": 207,
@@ -1622,7 +1622,7 @@
       "name": "Любимый земляничное лето",
       "barcode": "",
       "systemQuantity": 9,
-      "lastFactQuantity": 9
+      "lastFactQuantity": 8
     },
     {
       "id": 209,
@@ -1670,7 +1670,7 @@
       "name": "Онигири Курица с грибами",
       "barcode": "",
       "systemQuantity": 2,
-      "lastFactQuantity": 2
+      "lastFactQuantity": 1
     },
     {
       "id": 216,
@@ -1686,7 +1686,7 @@
       "name": "Lipton Зеленый 0.5л",
       "barcode": "4600494600463",
       "systemQuantity": 11,
-      "lastFactQuantity": 13
+      "lastFactQuantity": 10
     },
     {
       "id": 218,
@@ -1718,7 +1718,7 @@
       "name": "Lipton Малина 0.5л",
       "barcode": "4600494696862",
       "systemQuantity": 10,
-      "lastFactQuantity": 13
+      "lastFactQuantity": 8
     },
     {
       "id": 222,
@@ -1750,7 +1750,7 @@
       "name": "\"Любимый \"\"Виноградный Дуэт\"\" 0,95л\"",
       "barcode": "",
       "systemQuantity": 8,
-      "lastFactQuantity": 8
+      "lastFactQuantity": 7
     },
     {
       "id": 226,
@@ -1846,7 +1846,7 @@
       "name": "\"Сэндвич \"\"С ветчиной и сыром\"\" 180г\"",
       "barcode": "",
       "systemQuantity": 1,
-      "lastFactQuantity": 4
+      "lastFactQuantity": 1
     },
     {
       "id": 240,
@@ -1854,7 +1854,7 @@
       "name": "\"Сэндвич \"\"С курицей и соленым огурцом\"\" 180г\"",
       "barcode": "",
       "systemQuantity": 3,
-      "lastFactQuantity": 4
+      "lastFactQuantity": 3
     },
     {
       "id": 241,
@@ -1870,7 +1870,7 @@
       "name": "Red Bull Tropical Edition 0,355л",
       "barcode": "9002490231538",
       "systemQuantity": 26,
-      "lastFactQuantity": 28
+      "lastFactQuantity": 26
     },
     {
       "id": 243,
@@ -1966,7 +1966,7 @@
       "name": "Flash Bubble Gum 0,5л",
       "barcode": "",
       "systemQuantity": 17,
-      "lastFactQuantity": 18
+      "lastFactQuantity": 16
     },
     {
       "id": 255,
@@ -1974,7 +1974,7 @@
       "name": "Flash Mango Ananas 0,5л",
       "barcode": "",
       "systemQuantity": 20,
-      "lastFactQuantity": 21
+      "lastFactQuantity": 20
     },
     {
       "id": 256,
@@ -2042,5 +2042,5 @@
     }
   ],
   "nextId": 264,
-  "lastUpdated": "2026-05-10T03:48:46.264Z"
+  "lastUpdated": "2026-05-10T04:24:44.158Z"
 }
