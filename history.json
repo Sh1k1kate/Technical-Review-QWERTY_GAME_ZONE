@@ -1902,5 +1902,17 @@
         "category": "Энергетические напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778425492800,
+    "items": [
+      {
+        "id": 184,
+        "factQuantity": 7,
+        "systemQuantity": 6,
+        "name": "Monster Zero Sugar 0.5л",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
