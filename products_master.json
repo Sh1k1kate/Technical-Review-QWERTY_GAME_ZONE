@@ -1358,7 +1358,7 @@
       "name": "\"Онигири \"\"Креветка\"\"\"",
       "barcode": "",
       "systemQuantity": 1,
-      "lastFactQuantity": 1
+      "lastFactQuantity": 0
     },
     {
       "id": 171,
@@ -1366,7 +1366,7 @@
       "name": "\"Онигири \"\"Нежный\"\"\"",
       "barcode": "",
       "systemQuantity": 2,
-      "lastFactQuantity": 2
+      "lastFactQuantity": 0
     },
     {
       "id": 174,
@@ -1374,7 +1374,7 @@
       "name": "\"Онигири \"\"Филадельфия\"",
       "barcode": "",
       "systemQuantity": 5,
-      "lastFactQuantity": 5
+      "lastFactQuantity": 0
     },
     {
       "id": 175,
@@ -1462,7 +1462,7 @@
       "name": "Twix XTRA соленая карамель",
       "barcode": "4660085519758",
       "systemQuantity": 5,
-      "lastFactQuantity": 5
+      "lastFactQuantity": 0
     },
     {
       "id": 187,
@@ -1678,7 +1678,7 @@
       "name": "Онигири Кальмар",
       "barcode": "",
       "systemQuantity": 2,
-      "lastFactQuantity": 2
+      "lastFactQuantity": 0
     },
     {
       "id": 217,
@@ -1894,7 +1894,7 @@
       "name": "Twix XTRA Соленая карамель 82г",
       "barcode": "",
       "systemQuantity": 3,
-      "lastFactQuantity": 4
+      "lastFactQuantity": 0
     },
     {
       "id": 246,
@@ -2042,5 +2042,5 @@
     }
   ],
   "nextId": 264,
-  "lastUpdated": "2026-05-10T05:40:10.454Z"
+  "lastUpdated": "2026-05-10T05:43:52.038Z"
 }
