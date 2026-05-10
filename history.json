@@ -1890,5 +1890,17 @@
         "category": "Энергетические напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778425469962,
+    "items": [
+      {
+        "id": 56,
+        "factQuantity": 4,
+        "systemQuantity": 2,
+        "name": "Monster Monarch 0,5л",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
