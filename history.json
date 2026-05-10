@@ -1830,5 +1830,17 @@
         "category": "Напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778425374307,
+    "items": [
+      {
+        "id": 182,
+        "factQuantity": 1,
+        "systemQuantity": 2,
+        "name": "Monster Ultra Violet 0.5л",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
