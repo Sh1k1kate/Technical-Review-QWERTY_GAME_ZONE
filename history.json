@@ -1686,5 +1686,17 @@
         "category": "Напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778424723297,
+    "items": [
+      {
+        "id": 221,
+        "factQuantity": 7,
+        "systemQuantity": 10,
+        "name": "Lipton Малина 0.5л",
+        "category": "Напитки"
+      }
+    ]
   }
 ]
