@@ -1866,5 +1866,17 @@
         "category": "Энергетические напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778425428329,
+    "items": [
+      {
+        "id": 60,
+        "factQuantity": 5,
+        "systemQuantity": 5,
+        "name": "Monster Ultra Fantasy Ruby Red 0,5л",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
