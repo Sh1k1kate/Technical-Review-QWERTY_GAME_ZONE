@@ -1598,7 +1598,7 @@
       "name": "KitKat Chunky 40г",
       "barcode": "",
       "systemQuantity": 3,
-      "lastFactQuantity": 3
+      "lastFactQuantity": 0
     },
     {
       "id": 205,
@@ -2042,5 +2042,5 @@
     }
   ],
   "nextId": 264,
-  "lastUpdated": "2026-05-10T04:49:26.118Z"
+  "lastUpdated": "2026-05-10T05:40:10.454Z"
 }
