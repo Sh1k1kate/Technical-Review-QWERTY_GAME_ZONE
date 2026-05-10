@@ -1638,5 +1638,17 @@
         "category": "Напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778423956466,
+    "items": [
+      {
+        "id": 105,
+        "factQuantity": 25,
+        "systemQuantity": 26,
+        "name": "Evervess Cola Zero 0.33л",
+        "category": "Напитки"
+      }
+    ]
   }
 ]
