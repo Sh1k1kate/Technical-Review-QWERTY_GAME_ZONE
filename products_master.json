@@ -46,7 +46,7 @@
       "name": "Adrenaline Rush 0.25л",
       "barcode": "4600494223013",
       "systemQuantity": 53,
-      "lastFactQuantity": 52
+      "lastFactQuantity": 51
     },
     {
       "id": 7,
@@ -2041,6 +2041,5 @@
       "lastFactQuantity": 0
     }
   ],
-  "nextId": 264,
-  "lastUpdated": "2026-05-10T14:28:43.541Z"
+  "nextId": 264
 }
