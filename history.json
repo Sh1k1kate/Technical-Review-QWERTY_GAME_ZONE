@@ -1590,5 +1590,17 @@
         "category": "Энергетические напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778423657487,
+    "items": [
+      {
+        "id": 153,
+        "factQuantity": 17,
+        "systemQuantity": 17,
+        "name": "Adrenaline Rush Апельсин 0.45",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
