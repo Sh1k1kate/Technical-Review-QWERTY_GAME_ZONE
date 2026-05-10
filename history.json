@@ -1806,5 +1806,17 @@
         "category": "Энергетические напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778425268225,
+    "items": [
+      {
+        "id": 95,
+        "factQuantity": 15,
+        "systemQuantity": 15,
+        "name": "Flash Original 0,45л",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
