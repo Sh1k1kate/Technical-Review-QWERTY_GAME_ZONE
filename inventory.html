@@ -523,61 +523,51 @@
         else showToast('❌ Совпадений не найдено', 'error');
     }
 
-    // ========== ЭКСПОРТ TXT (группировка по категориям) ==========
+    // ========== ЭКСПОРТ TXT с дедупликацией ==========
     function exportToTxt() {
-        // Собираем позиции с ненулевым фактом
         const items = inventoryItems.filter(i => i.factQuantity > 0);
-        if (items.length === 0) {
-            showToast('Нет товаров с ненулевым фактом', 'error');
-            return;
-        }
-        // Группируем по категориям
-        const categories = {
-            'Напитки': [],
-            'Энергетические напитки': [],
-            'Готовая Еда': [],
-            'Снэки': [],
-            'Шоколад': []
-        };
+        if (!items.length) { showToast('Нет товаров с ненулевым фактом', 'error'); return; }
+
+        // Группируем товары по нечёткому совпадению (порог 0.6)
+        const groups = []; // массив { name: 'имя', category: '...', total: 0, items: [...] }
         for (const item of items) {
-            if (categories[item.category]) {
-                categories[item.category].push(item);
+            let foundGroup = null;
+            for (const group of groups) {
+                if (similarity(item.name, group.name) >= 0.6) {
+                    foundGroup = group;
+                    break;
+                }
+            }
+            if (foundGroup) {
+                foundGroup.total += item.factQuantity;
+                foundGroup.items.push(item);
             } else {
-                // Если категория нестандартная, создаём новую группу
-                if (!categories[item.category]) categories[item.category] = [];
-                categories[item.category].push(item);
+                groups.push({
+                    name: item.name,
+                    category: item.category,
+                    total: item.factQuantity,
+                    items: [item]
+                });
             }
         }
-        // Сортируем внутри каждой группы по имени
-        for (const cat in categories) {
-            categories[cat].sort((a, b) => a.name.localeCompare(b.name));
-        }
-        // Формируем выходной текст
-        const lines = [];
-        const orderedCats = ['Напитки', 'Энергетические напитки', 'Готовая Еда', 'Снэки', 'Шоколад'];
-        for (const cat of orderedCats) {
-            if (categories[cat] && categories[cat].length > 0) {
-                for (const item of categories[cat]) {
-                    lines.push(`${item.name} ${item.factQuantity}`);
-                }
-            }
-        }
-        // Добавляем оставшиеся категории (если есть)
-        for (const cat in categories) {
-            if (!orderedCats.includes(cat) && categories[cat].length > 0) {
-                for (const item of categories[cat]) {
-                    lines.push(`${item.name} ${item.factQuantity}`);
-                }
-            }
-        }
-        const txtContent = lines.join('\n');
-        const blob = new Blob([txtContent], { type: 'text/plain;charset=utf-8' });
+
+        // Сортируем группы по категориям и названиям
+        const catOrder = { 'Напитки': 1, 'Энергетические напитки': 2, 'Готовая Еда': 3, 'Снэки': 4, 'Шоколад': 5 };
+        groups.sort((a, b) => {
+            const catA = catOrder[a.category] || 99;
+            const catB = catOrder[b.category] || 99;
+            if (catA !== catB) return catA - catB;
+            return a.name.localeCompare(b.name);
+        });
+
+        const lines = groups.map(g => `${g.name} ${g.total}`);
+        const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
         a.download = `inventory_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.txt`;
         a.click();
         URL.revokeObjectURL(a.href);
-        showToast(`📄 Экспортировано ${items.length} позиций`, 'success');
+        showToast(`📄 Экспортировано ${groups.length} уникальных позиций`, 'success');
     }
 
     function updateFactQuantity(id, val) {
@@ -785,14 +775,49 @@
         const ctx = document.getElementById('historyChart').getContext('2d');
         if (window.myChart) window.myChart.destroy();
         window.myChart = new Chart(ctx, {
-            type: 'line',
-            data: { labels, datasets: [
+            type: 'line', data: { labels, datasets: [
                 { label: 'Расхождений', data: mismatches, borderColor: '#ef4444', yAxisID: 'y' },
                 { label: 'Разница (шт)', data: diffs, borderColor: '#3b82f6', yAxisID: 'y1' }
             ]},
-            options: { responsive: true, interaction: { mode: 'index' }, scales: { y: { title: { display: true, text: 'Кол-во' } }, y1: { position: 'right', title: { display: true, text: 'Шт' } } } }
+            options: { responsive: true, scales: { y: { title: { display: true, text: 'Кол-во' } }, y1: { position: 'right', title: { display: true, text: 'Шт' } } } }
         });
         document.getElementById('chartModal').classList.add('active');
+    }
+
+    async function exportToPDF() {
+        const mismatches = inventoryItems.filter(i => i.factQuantity !== i.systemQuantity);
+        if (!mismatches.length) { showToast('Нет расхождений', 'error'); return; }
+        const inspector = prompt('Введите фамилию проверяющего:');
+        if (!inspector) return;
+        const reportDiv = document.createElement('div');
+        reportDiv.className = 'pdf-report';
+        reportDiv.style.padding = '20px'; reportDiv.style.fontFamily = 'Arial, sans-serif';
+        reportDiv.style.backgroundColor = 'white'; reportDiv.style.color = 'black';
+        const now = new Date();
+        let html = `<div class="header"><h2>Отчёт по инвентаризации</h2><p>${now.toLocaleString()}</p></div>`;
+        html += `<div class="stats"><p><strong>Общая статистика:</strong></p><ul>`;
+        html += `<li>Расхождений: ${mismatches.length}</li>`;
+        html += `<li>Учётный остаток (всего): ${mismatches.reduce((s,i)=>s+i.systemQuantity,0)} шт</li>`;
+        html += `<li>Фактический остаток (всего): ${mismatches.reduce((s,i)=>s+i.factQuantity,0)} шт</li>`;
+        html += `<li>Общая разница: ${mismatches.reduce((s,i)=>s+i.factQuantity-i.systemQuantity,0)} шт</li></ul></div>`;
+        html += `<table><thead><tr><th>Категория</th><th>Наименование</th><th>Учёт</th><th>Факт</th><th>Разница</th></tr></thead><tbody>`;
+        mismatches.forEach(i => {
+            html += `<tr><td>${escapeHtml(i.category)}</td><td>${escapeHtml(i.name)}</td><td>${i.systemQuantity}</td><td>${i.factQuantity}</td><td>${i.factQuantity - i.systemQuantity}</td></tr>`;
+        });
+        html += `</tbody></table><div class="signature"><div>Ответственный: ${escapeHtml(inspector)}</div><div>_________________</div></div>`;
+        reportDiv.innerHTML = html;
+        document.body.appendChild(reportDiv);
+        try {
+            await html2pdf().set({
+                margin: 0.5,
+                filename: `inventory_report_${now.toISOString().slice(0,19)}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
+            }).from(reportDiv).save();
+            showToast('PDF отчёт сформирован', 'success');
+        } catch (e) { showToast('Ошибка при создании PDF', 'error'); }
+        document.body.removeChild(reportDiv);
     }
 
     function escapeHtml(s) { return s ? s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') : ''; }
@@ -846,17 +871,13 @@
         document.addEventListener('click', (e) => { if (!inp.contains(e.target) && !div.contains(e.target)) div.style.display = 'none'; });
     }
 
-    async function startBarcodeScan() { /* ... */ }
-    function manualBarcodeInput() { const code = prompt('Штрихкод:'); if (code) handleScannedBarcode(code); }
-    function handleScannedBarcode(code) { /* ... */ }
-    function openBarcodeAssignmentModal(code) { /* ... */ }
-    async function modalStartBarcodeScan() { /* ... */ }
+    async function startBarcodeScan() { alert('Сканер не подключён'); }
+    async function modalStartBarcodeScan() { alert('Сканер не подключён'); }
 
     document.addEventListener('DOMContentLoaded', async () => {
         updateRepoDisplay();
-        const autoSyncCheck = document.getElementById('autoSyncCheckbox');
-        autoSyncCheck.checked = autoSync;
-        autoSyncCheck.addEventListener('change', e => { autoSync = e.target.checked; localStorage.setItem('auto_sync', autoSync); });
+        document.getElementById('autoSyncCheckbox').checked = autoSync;
+        document.getElementById('autoSyncCheckbox').addEventListener('change', e => { autoSync = e.target.checked; localStorage.setItem('auto_sync', autoSync); });
 
         loadMasterFromLocal();
         if (!masterProducts.length && githubToken) await loadMasterFromGithub(false);
@@ -869,7 +890,7 @@
         document.getElementById('textInputBtn').addEventListener('click', () => document.getElementById('textInputModal').classList.add('active'));
         document.getElementById('cancelTextInputBtn').addEventListener('click', () => document.getElementById('textInputModal').classList.remove('active'));
         document.getElementById('applyTextInputBtn').addEventListener('click', () => { parseTextInventory(document.getElementById('textInventoryInput').value); document.getElementById('textInputModal').classList.remove('active'); });
-        document.getElementById('exportTxtBtn').addEventListener('click', exportToTxt);  // <-- кнопка TXT
+        document.getElementById('exportTxtBtn').addEventListener('click', exportToTxt);
         document.getElementById('applyAllBtn').addEventListener('click', applyAllFactual);
         document.getElementById('exportMismatchesBtn').addEventListener('click', exportMismatchesToCSV);
         document.getElementById('loadMismatchesBtn').addEventListener('click', () => document.getElementById('mismatchesFileInput').click());
@@ -898,8 +919,6 @@
             document.getElementById('cardsContainer').innerHTML = '<div class="empty-state">📁 Загрузите CSV (1С) для создания мастер-файла</div>';
         }
     });
-
-    async function exportToPDF() { /* ... */ }
 })();
 </script>
 </body>
