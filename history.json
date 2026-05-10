@@ -1662,5 +1662,17 @@
         "category": "Энергетические напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778424585977,
+    "items": [
+      {
+        "id": 106,
+        "factQuantity": 24,
+        "systemQuantity": 28,
+        "name": "Evervess Cola Zero 0.5л",
+        "category": "Напитки"
+      }
+    ]
   }
 ]
