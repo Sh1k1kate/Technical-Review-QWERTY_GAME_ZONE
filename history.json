@@ -1722,5 +1722,17 @@
         "category": "Напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778424884691,
+    "items": [
+      {
+        "id": 111,
+        "factQuantity": 9,
+        "systemQuantity": 9,
+        "name": "Lit Energy Classic 0,45л",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
