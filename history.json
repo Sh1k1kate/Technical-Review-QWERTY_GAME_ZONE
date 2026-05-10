@@ -1938,5 +1938,17 @@
         "category": "Готовая Еда"
       }
     ]
+  },
+  {
+    "timestamp": 1778425567843,
+    "items": [
+      {
+        "id": 108,
+        "factQuantity": 7,
+        "systemQuantity": 7,
+        "name": "Сэндвич №2 ''Салями'' 175г",
+        "category": "Готовая Еда"
+      }
+    ]
   }
 ]
