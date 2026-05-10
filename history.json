@@ -1914,5 +1914,17 @@
         "category": "Энергетические напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778425506681,
+    "items": [
+      {
+        "id": 51,
+        "factQuantity": 3,
+        "systemQuantity": 3,
+        "name": "Monster Ultra Black 0,5л",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
