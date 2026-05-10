@@ -1626,5 +1626,17 @@
         "category": "Энергетические напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778423766756,
+    "items": [
+      {
+        "id": 217,
+        "factQuantity": 8,
+        "systemQuantity": 9,
+        "name": "Lipton Зеленый 0.5л",
+        "category": "Напитки"
+      }
+    ]
   }
 ]
