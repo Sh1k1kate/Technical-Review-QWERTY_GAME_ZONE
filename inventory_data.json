@@ -11,7 +11,7 @@
       "id": 2,
       "category": "Энергетические напитки",
       "name": "Adrenaline Rush 0.45л",
-      "systemQuantity": 27,
+      "systemQuantity": 26,
       "factQuantity": 27
     },
     {
@@ -25,7 +25,7 @@
       "id": 4,
       "category": "Энергетические напитки",
       "name": "Adrenaline Zero Sugar 0.45л",
-      "systemQuantity": 30,
+      "systemQuantity": 28,
       "factQuantity": 29
     },
     {
@@ -39,14 +39,14 @@
       "id": 6,
       "category": "Энергетические напитки",
       "name": "Adrenaline Rush 0.25л",
-      "systemQuantity": 54,
+      "systemQuantity": 53,
       "factQuantity": 52
     },
     {
       "id": 7,
       "category": "Напитки",
       "name": "Aqua Minerale Негазированная 0.5л",
-      "systemQuantity": 27,
+      "systemQuantity": 25,
       "factQuantity": 27
     },
     {
@@ -60,7 +60,7 @@
       "id": 9,
       "category": "Напитки",
       "name": "Aqua Minerale Газированная 0.5л",
-      "systemQuantity": 55,
+      "systemQuantity": 53,
       "factQuantity": 55
     },
     {
@@ -74,7 +74,7 @@
       "id": 11,
       "category": "Энергетические напитки",
       "name": "Burn Gold Rush 0,45л",
-      "systemQuantity": 1,
+      "systemQuantity": 0,
       "factQuantity": 1
     },
     {
@@ -151,14 +151,14 @@
       "id": 22,
       "category": "Шоколад",
       "name": "Kinder Bueno White 39г",
-      "systemQuantity": 19,
+      "systemQuantity": 18,
       "factQuantity": 18
     },
     {
       "id": 23,
       "category": "Шоколад",
       "name": "Kinder Bueno 43г",
-      "systemQuantity": 35,
+      "systemQuantity": 34,
       "factQuantity": 34
     },
     {
@@ -326,7 +326,7 @@
       "id": 47,
       "category": "Энергетические напитки",
       "name": "Lit Energy Blueberry 0,45л",
-      "systemQuantity": 35,
+      "systemQuantity": 32,
       "factQuantity": 35
     },
     {
@@ -340,7 +340,7 @@
       "id": 49,
       "category": "Энергетические напитки",
       "name": "Monster Classic 0,5л",
-      "systemQuantity": 9,
+      "systemQuantity": 7,
       "factQuantity": 8
     },
     {
@@ -382,7 +382,7 @@
       "id": 55,
       "category": "Энергетические напитки",
       "name": "Monster Mango Loco 0,5л",
-      "systemQuantity": 9,
+      "systemQuantity": 8,
       "factQuantity": 9
     },
     {
@@ -417,7 +417,7 @@
       "id": 60,
       "category": "Энергетические напитки",
       "name": "Monster Ultra Fantasy Ruby Red 0,5л",
-      "systemQuantity": 6,
+      "systemQuantity": 5,
       "factQuantity": 6
     },
     {
@@ -522,7 +522,7 @@
       "id": 75,
       "category": "Готовая Еда",
       "name": "Сэндвич №4  ''Острый'' 175г",
-      "systemQuantity": 6,
+      "systemQuantity": 5,
       "factQuantity": 6
     },
     {
@@ -543,7 +543,7 @@
       "id": 78,
       "category": "Готовая Еда",
       "name": "\"Бургер №14 \"\"Два Мяса'' 190г\"",
-      "systemQuantity": 7,
+      "systemQuantity": 5,
       "factQuantity": 7
     },
     {
@@ -732,28 +732,28 @@
       "id": 105,
       "category": "Напитки",
       "name": "Evervess Cola Zero 0.33л",
-      "systemQuantity": 28,
+      "systemQuantity": 26,
       "factQuantity": 27
     },
     {
       "id": 106,
       "category": "Напитки",
       "name": "Evervess Cola Zero 0.5л",
-      "systemQuantity": 29,
+      "systemQuantity": 28,
       "factQuantity": 25
     },
     {
       "id": 107,
       "category": "Напитки",
       "name": "Evervess Cola  0.5л",
-      "systemQuantity": 27,
+      "systemQuantity": 26,
       "factQuantity": 28
     },
     {
       "id": 108,
       "category": "Готовая Еда",
       "name": "Сэндвич №2 ''Салями'' 175г",
-      "systemQuantity": 8,
+      "systemQuantity": 7,
       "factQuantity": 8
     },
     {
@@ -837,7 +837,7 @@
       "id": 120,
       "category": "Энергетические напитки",
       "name": "Burn Сочная Энергия 0,45л",
-      "systemQuantity": 38,
+      "systemQuantity": 36,
       "factQuantity": 48
     },
     {
@@ -907,7 +907,7 @@
       "id": 130,
       "category": "Напитки",
       "name": "Fanta Orange 0,35л",
-      "systemQuantity": 17,
+      "systemQuantity": 16,
       "factQuantity": 17
     },
     {
@@ -1068,7 +1068,7 @@
       "id": 153,
       "category": "Энергетические напитки",
       "name": "Adrenaline Rush Апельсин 0.45",
-      "systemQuantity": 18,
+      "systemQuantity": 17,
       "factQuantity": 18
     },
     {
@@ -1250,7 +1250,7 @@
       "id": 182,
       "category": "Энергетические напитки",
       "name": "Monster Ultra Violet 0.5л",
-      "systemQuantity": 4,
+      "systemQuantity": 2,
       "factQuantity": 3
     },
     {
@@ -1474,7 +1474,7 @@
       "id": 217,
       "category": "Напитки",
       "name": "Lipton Зеленый 0.5л",
-      "systemQuantity": 11,
+      "systemQuantity": 9,
       "factQuantity": 10
     },
     {
@@ -1614,7 +1614,7 @@
       "id": 239,
       "category": "Готовая Еда",
       "name": "\"Сэндвич \"\"С ветчиной и сыром\"\" 180г\"",
-      "systemQuantity": 1,
+      "systemQuantity": 0,
       "factQuantity": 1
     },
     {
@@ -1635,7 +1635,7 @@
       "id": 242,
       "category": "Энергетические напитки",
       "name": "Red Bull Tropical Edition 0,355л",
-      "systemQuantity": 26,
+      "systemQuantity": 25,
       "factQuantity": 26
     },
     {
