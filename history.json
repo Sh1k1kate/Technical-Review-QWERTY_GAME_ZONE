@@ -1650,5 +1650,17 @@
         "category": "Напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778424190750,
+    "items": [
+      {
+        "id": 4,
+        "factQuantity": 26,
+        "systemQuantity": 28,
+        "name": "Adrenaline Zero Sugar 0.45л",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
