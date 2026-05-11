@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474546847,
+    "timestamp": 1778474777200,
     "items": [
       {
         "id": 6,
@@ -417,7 +417,7 @@
       },
       {
         "id": 26,
-        "factQuantity": 2,
+        "factQuantity": 21,
         "systemQuantity": 21,
         "name": "Lays Рифлёные Сметана и Лук 70г",
         "category": "Снэки"
