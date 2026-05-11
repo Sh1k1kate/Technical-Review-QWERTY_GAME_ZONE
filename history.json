@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474305504,
+    "timestamp": 1778474319384,
     "items": [
       {
         "id": 6,
@@ -490,6 +490,13 @@
         "factQuantity": 7,
         "systemQuantity": 12,
         "name": "Хрустим Сырные Палочки 60г",
+        "category": "Снэки"
+      },
+      {
+        "id": 192,
+        "factQuantity": 2,
+        "systemQuantity": 2,
+        "name": "Lays ИЗ Печи Мусс из Лосося 85г",
         "category": "Снэки"
       }
     ]
