@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472522643,
+    "timestamp": 1778472548195,
     "items": [
       {
         "id": 6,
@@ -280,6 +280,13 @@
         "factQuantity": 3,
         "systemQuantity": 3,
         "name": "Monster Ultra Black 0,5л",
+        "category": "Энергетические напитки"
+      },
+      {
+        "id": 111,
+        "factQuantity": 9,
+        "systemQuantity": 9,
+        "name": "Lit Energy Classic 0,45л",
         "category": "Энергетические напитки"
       }
     ]
