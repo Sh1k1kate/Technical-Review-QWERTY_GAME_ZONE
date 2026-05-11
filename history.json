@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778471778807,
+    "timestamp": 1778471804962,
     "items": [
       {
         "id": 6,
@@ -77,6 +77,13 @@
         "factQuantity": 25,
         "systemQuantity": 26,
         "name": "Evervess Cola Zero 0.33л",
+        "category": "Напитки"
+      },
+      {
+        "id": 104,
+        "factQuantity": 29,
+        "systemQuantity": 30,
+        "name": "Evervess Cola 0.33л",
         "category": "Напитки"
       }
     ]
