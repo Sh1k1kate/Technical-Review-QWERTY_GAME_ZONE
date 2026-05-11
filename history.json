@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474397516,
+    "timestamp": 1778474412620,
     "items": [
       {
         "id": 6,
@@ -518,6 +518,13 @@
         "factQuantity": 4,
         "systemQuantity": 40,
         "name": "Хрустим Багет Королевский Краб 60г",
+        "category": "Снэки"
+      },
+      {
+        "id": 94,
+        "factQuantity": 4,
+        "systemQuantity": 11,
+        "name": "Хрустим Багет Томат 60г",
         "category": "Снэки"
       }
     ]
