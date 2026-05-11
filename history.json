@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474335315,
+    "timestamp": 1778474357122,
     "items": [
       {
         "id": 6,
@@ -504,6 +504,13 @@
         "factQuantity": 3,
         "systemQuantity": 5,
         "name": "Сухарики шашлык с кетчупом 60г",
+        "category": "Снэки"
+      },
+      {
+        "id": 259,
+        "factQuantity": 3,
+        "systemQuantity": 5,
+        "name": "Lays Бекон 70г",
         "category": "Снэки"
       }
     ]
