@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778475667769,
+    "timestamp": 1778475684131,
     "items": [
       {
         "id": 169,
@@ -28,6 +28,13 @@
         "factQuantity": 0,
         "systemQuantity": 2,
         "name": "Онигири Курица с грибами",
+        "category": "Готовая Еда"
+      },
+      {
+        "id": 216,
+        "factQuantity": 0,
+        "systemQuantity": 2,
+        "name": "Онигири Кальмар",
         "category": "Готовая Еда"
       }
     ]
