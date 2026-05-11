@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472405920,
+    "timestamp": 1778472430173,
     "items": [
       {
         "id": 6,
@@ -232,6 +232,13 @@
         "systemQuantity": 16,
         "name": "Fanta Orange 0,35л",
         "category": "Напитки"
+      },
+      {
+        "id": 49,
+        "factQuantity": 3,
+        "systemQuantity": 7,
+        "name": "Monster Classic 0,5л",
+        "category": "Энергетические напитки"
       }
     ]
   }
