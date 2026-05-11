@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474357122,
+    "timestamp": 1778474397516,
     "items": [
       {
         "id": 6,
@@ -511,6 +511,13 @@
         "factQuantity": 3,
         "systemQuantity": 5,
         "name": "Lays Бекон 70г",
+        "category": "Снэки"
+      },
+      {
+        "id": 90,
+        "factQuantity": 4,
+        "systemQuantity": 40,
+        "name": "Хрустим Багет Королевский Краб 60г",
         "category": "Снэки"
       }
     ]
