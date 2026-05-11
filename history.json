@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472778161,
+    "timestamp": 1778472792132,
     "items": [
       {
         "id": 6,
@@ -371,6 +371,13 @@
         "factQuantity": 3,
         "systemQuantity": 7,
         "name": "Сэндвич №2 ''Салями'' 175г",
+        "category": "Готовая Еда"
+      },
+      {
+        "id": 134,
+        "factQuantity": 5,
+        "systemQuantity": 8,
+        "name": "\"Сэндвич №10 \"\"Английский завтрак\"\" 175г\"",
         "category": "Готовая Еда"
       }
     ]
