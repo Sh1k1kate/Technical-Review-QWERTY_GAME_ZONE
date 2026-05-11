@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778475684131,
+    "timestamp": 1778475739859,
     "items": [
       {
         "id": 169,
@@ -35,6 +35,13 @@
         "factQuantity": 0,
         "systemQuantity": 2,
         "name": "Онигири Кальмар",
+        "category": "Готовая Еда"
+      },
+      {
+        "id": 236,
+        "factQuantity": 0,
+        "systemQuantity": 1,
+        "name": "\"Онигири \"\"Тунец\"\" 120г\"",
         "category": "Готовая Еда"
       }
     ]
