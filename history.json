@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778471952653,
+    "timestamp": 1778471963898,
     "items": [
       {
         "id": 6,
@@ -119,6 +119,13 @@
         "factQuantity": 0,
         "systemQuantity": 1,
         "name": "Drive Guava Mango Без Сахара 0,5л",
+        "category": "Энергетические напитки"
+      },
+      {
+        "id": 191,
+        "factQuantity": 11,
+        "systemQuantity": 11,
+        "name": "Drive Экзотическая Энегрия 0,45л",
         "category": "Энергетические напитки"
       }
     ]
