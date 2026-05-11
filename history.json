@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472650779,
+    "timestamp": 1778472665656,
     "items": [
       {
         "id": 6,
@@ -329,6 +329,13 @@
         "factQuantity": 15,
         "systemQuantity": 15,
         "name": "Flash Original 0,45л",
+        "category": "Энергетические напитки"
+      },
+      {
+        "id": 203,
+        "factQuantity": 21,
+        "systemQuantity": 21,
+        "name": "Flash Апельсиновый Ритм 0,5",
         "category": "Энергетические напитки"
       }
     ]
