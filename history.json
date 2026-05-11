@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474010310,
+    "timestamp": 1778474030951,
     "items": [
       {
         "id": 6,
@@ -413,6 +413,13 @@
         "factQuantity": 6,
         "systemQuantity": 10,
         "name": "Lays Из Печи Лисички 85г",
+        "category": "Снэки"
+      },
+      {
+        "id": 26,
+        "factQuantity": 2,
+        "systemQuantity": 21,
+        "name": "Lays Рифлёные Сметана и Лук 70г",
         "category": "Снэки"
       }
     ]
