@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472837362,
+    "timestamp": 1778473988006,
     "items": [
       {
         "id": 6,
@@ -400,6 +400,13 @@
         "systemQuantity": 5,
         "name": "\"Бургер №14 \"\"Два Мяса'' 190г\"",
         "category": "Готовая Еда"
+      },
+      {
+        "id": 21,
+        "factQuantity": 4,
+        "systemQuantity": 14,
+        "name": "Lays Из Печи Нежный сыр с зеленью  85г",
+        "category": "Снэки"
       }
     ]
   }
