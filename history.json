@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472825564,
+    "timestamp": 1778472837362,
     "items": [
       {
         "id": 6,
@@ -392,6 +392,13 @@
         "factQuantity": 5,
         "systemQuantity": 9,
         "name": "\"Сэндвич №9 \"\"Итальянский\"\" 175г\"",
+        "category": "Готовая Еда"
+      },
+      {
+        "id": 78,
+        "factQuantity": 5,
+        "systemQuantity": 5,
+        "name": "\"Бургер №14 \"\"Два Мяса'' 190г\"",
         "category": "Готовая Еда"
       }
     ]
