@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778471804962,
+    "timestamp": 1778471829673,
     "items": [
       {
         "id": 6,
@@ -84,6 +84,13 @@
         "factQuantity": 29,
         "systemQuantity": 30,
         "name": "Evervess Cola 0.33л",
+        "category": "Напитки"
+      },
+      {
+        "id": 100,
+        "factQuantity": 35,
+        "systemQuantity": 34,
+        "name": "Frustyle Апельсин 0.5л",
         "category": "Напитки"
       }
     ]
