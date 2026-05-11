@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778471513628,
+    "timestamp": 1778471552254,
     "items": [
       {
         "id": 6,
@@ -14,6 +14,13 @@
         "factQuantity": 8,
         "systemQuantity": 8,
         "name": "Adrenaline Zero Sugar 0.25л",
+        "category": "Энергетические напитки"
+      },
+      {
+        "id": 2,
+        "factQuantity": 24,
+        "systemQuantity": 26,
+        "name": "Adrenaline Rush 0.45л",
         "category": "Энергетические напитки"
       }
     ]
