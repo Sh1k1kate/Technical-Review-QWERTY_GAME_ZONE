@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474110273,
+    "timestamp": 1778474173462,
     "items": [
       {
         "id": 6,
@@ -448,6 +448,13 @@
         "factQuantity": 2,
         "systemQuantity": 11,
         "name": "Lays Рифлёные паприка 70г",
+        "category": "Снэки"
+      },
+      {
+        "id": 177,
+        "factQuantity": 7,
+        "systemQuantity": 13,
+        "name": "Lays Рифлёные Лобстер 70г",
         "category": "Снэки"
       }
     ]
