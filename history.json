@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474094959,
+    "timestamp": 1778474110273,
     "items": [
       {
         "id": 6,
@@ -441,6 +441,13 @@
         "factQuantity": 11,
         "systemQuantity": 16,
         "name": "Lays Краб 70г",
+        "category": "Снэки"
+      },
+      {
+        "id": 32,
+        "factQuantity": 2,
+        "systemQuantity": 11,
+        "name": "Lays Рифлёные паприка 70г",
         "category": "Снэки"
       }
     ]
