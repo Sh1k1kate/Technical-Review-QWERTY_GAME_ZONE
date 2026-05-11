@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472446969,
+    "timestamp": 1778472461817,
     "items": [
       {
         "id": 6,
@@ -245,6 +245,13 @@
         "factQuantity": 7,
         "systemQuantity": 8,
         "name": "Monster Ultra Fiesta 0.5л",
+        "category": "Энергетические напитки"
+      },
+      {
+        "id": 60,
+        "factQuantity": 4,
+        "systemQuantity": 5,
+        "name": "Monster Ultra Fantasy Ruby Red 0,5л",
         "category": "Энергетические напитки"
       }
     ]
