@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778471635009,
+    "timestamp": 1778471723262,
     "items": [
       {
         "id": 6,
@@ -57,6 +57,13 @@
         "systemQuantity": 3,
         "name": "Adrenaline Спайси 0,45л",
         "category": "Энергетические напитки"
+      },
+      {
+        "id": 97,
+        "factQuantity": 31,
+        "systemQuantity": 31,
+        "name": "Frustyle Апельсин 0.33л",
+        "category": "Напитки"
       }
     ]
   }
