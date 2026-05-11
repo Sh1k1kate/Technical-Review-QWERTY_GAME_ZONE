@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778471622104,
+    "timestamp": 1778471635009,
     "items": [
       {
         "id": 6,
@@ -49,6 +49,13 @@
         "factQuantity": 20,
         "systemQuantity": 20,
         "name": "Adrenaline Energy Power Game Fuel 0,45л",
+        "category": "Энергетические напитки"
+      },
+      {
+        "id": 190,
+        "factQuantity": 3,
+        "systemQuantity": 3,
+        "name": "Adrenaline Спайси 0,45л",
         "category": "Энергетические напитки"
       }
     ]
