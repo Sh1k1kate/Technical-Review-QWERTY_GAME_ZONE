@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472635959,
+    "timestamp": 1778472650779,
     "items": [
       {
         "id": 6,
@@ -322,6 +322,13 @@
         "factQuantity": 6,
         "systemQuantity": 6,
         "name": "Flash Ultra 0,45л",
+        "category": "Энергетические напитки"
+      },
+      {
+        "id": 95,
+        "factQuantity": 15,
+        "systemQuantity": 15,
+        "name": "Flash Original 0,45л",
         "category": "Энергетические напитки"
       }
     ]
