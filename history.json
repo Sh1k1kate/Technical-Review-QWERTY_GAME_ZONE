@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "timestamp": 1778475625203,
+    "items": [
+      {
+        "id": 169,
+        "factQuantity": 0,
+        "systemQuantity": 2,
+        "name": "\"Онигири \"\"Тунец\"\"\"",
+        "category": "Готовая Еда"
+      }
+    ]
+  }
+]
