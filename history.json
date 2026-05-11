@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778471998917,
+    "timestamp": 1778472014913,
     "items": [
       {
         "id": 6,
@@ -140,6 +140,13 @@
         "factQuantity": 8,
         "systemQuantity": 9,
         "name": "Lipton Зеленый 0.5л",
+        "category": "Напитки"
+      },
+      {
+        "id": 221,
+        "factQuantity": 7,
+        "systemQuantity": 10,
+        "name": "Lipton Малина 0.5л",
         "category": "Напитки"
       }
     ]
