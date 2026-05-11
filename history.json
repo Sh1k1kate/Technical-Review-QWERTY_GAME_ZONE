@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474412620,
+    "timestamp": 1778474426938,
     "items": [
       {
         "id": 6,
@@ -525,6 +525,13 @@
         "factQuantity": 4,
         "systemQuantity": 11,
         "name": "Хрустим Багет Томат 60г",
+        "category": "Снэки"
+      },
+      {
+        "id": 93,
+        "factQuantity": 3,
+        "systemQuantity": 29,
+        "name": "Хрустим Багет Сырное Ассорти 60г",
         "category": "Снэки"
       }
     ]
