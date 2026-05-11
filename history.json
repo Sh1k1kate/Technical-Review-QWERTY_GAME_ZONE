@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472014913,
+    "timestamp": 1778472035971,
     "items": [
       {
         "id": 6,
@@ -147,6 +147,13 @@
         "factQuantity": 7,
         "systemQuantity": 10,
         "name": "Lipton Малина 0.5л",
+        "category": "Напитки"
+      },
+      {
+        "id": 10,
+        "factQuantity": 25,
+        "systemQuantity": 24,
+        "name": "Aqua Minerale Газированная 1л",
         "category": "Напитки"
       }
     ]
