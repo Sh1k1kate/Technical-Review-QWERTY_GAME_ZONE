@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472173256,
+    "timestamp": 1778472203408,
     "items": [
       {
         "id": 6,
@@ -176,6 +176,13 @@
         "systemQuantity": 25,
         "name": "Aqua Minerale Негазированная 0.5л",
         "category": "Напитки"
+      },
+      {
+        "id": 67,
+        "factQuantity": 7,
+        "systemQuantity": 7,
+        "name": "Red Bull Арбуз 0,25л",
+        "category": "Энергетические напитки"
       }
     ]
   }
