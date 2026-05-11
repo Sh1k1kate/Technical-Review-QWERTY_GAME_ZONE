@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472234341,
+    "timestamp": 1778472305835,
     "items": [
       {
         "id": 6,
@@ -190,6 +190,13 @@
         "systemQuantity": 25,
         "name": "Red Bull Tropical Edition 0,355л",
         "category": "Энергетические напитки"
+      },
+      {
+        "id": 258,
+        "factQuantity": 8,
+        "systemQuantity": 8,
+        "name": "\"Любимый \"\"Земляничное лето\"\" 0,95л\"",
+        "category": "Напитки"
       }
     ]
   }
