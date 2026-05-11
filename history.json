@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472736450,
+    "timestamp": 1778472756583,
     "items": [
       {
         "id": 6,
@@ -357,6 +357,13 @@
         "factQuantity": 3,
         "systemQuantity": 8,
         "name": "Сэндвич №18 ''С копченым мясом'' 175г",
+        "category": "Готовая Еда"
+      },
+      {
+        "id": 76,
+        "factQuantity": 3,
+        "systemQuantity": 5,
+        "name": "Сэндвич №5 ''Цезарь'' 175г",
         "category": "Готовая Еда"
       }
     ]
