@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474288233,
+    "timestamp": 1778474305504,
     "items": [
       {
         "id": 6,
@@ -483,6 +483,13 @@
         "factQuantity": 4,
         "systemQuantity": 8,
         "name": "Lays Сыр 70г",
+        "category": "Снэки"
+      },
+      {
+        "id": 88,
+        "factQuantity": 7,
+        "systemQuantity": 12,
+        "name": "Хрустим Сырные Палочки 60г",
         "category": "Снэки"
       }
     ]
