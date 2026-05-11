@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778471974854,
+    "timestamp": 1778471998917,
     "items": [
       {
         "id": 6,
@@ -134,6 +134,13 @@
         "systemQuantity": 8,
         "name": "Drive Original 0.45",
         "category": "Энергетические напитки"
+      },
+      {
+        "id": 217,
+        "factQuantity": 8,
+        "systemQuantity": 9,
+        "name": "Lipton Зеленый 0.5л",
+        "category": "Напитки"
       }
     ]
   }
