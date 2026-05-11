@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778471918597,
+    "timestamp": 1778471952653,
     "items": [
       {
         "id": 6,
@@ -113,6 +113,13 @@
         "systemQuantity": 26,
         "name": "Evervess Cola  0.5л",
         "category": "Напитки"
+      },
+      {
+        "id": 157,
+        "factQuantity": 0,
+        "systemQuantity": 1,
+        "name": "Drive Guava Mango Без Сахара 0,5л",
+        "category": "Энергетические напитки"
       }
     ]
   }
