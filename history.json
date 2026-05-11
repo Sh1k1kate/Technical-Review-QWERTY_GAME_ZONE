@@ -1,12 +1,19 @@
 [
   {
-    "timestamp": 1778475625203,
+    "timestamp": 1778475638238,
     "items": [
       {
         "id": 169,
         "factQuantity": 0,
         "systemQuantity": 2,
         "name": "\"Онигири \"\"Тунец\"\"\"",
+        "category": "Готовая Еда"
+      },
+      {
+        "id": 170,
+        "factQuantity": 0,
+        "systemQuantity": 1,
+        "name": "\"Онигири \"\"Креветка\"\"\"",
         "category": "Готовая Еда"
       }
     ]
