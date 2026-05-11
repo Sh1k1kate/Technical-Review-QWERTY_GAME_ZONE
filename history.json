@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472756583,
+    "timestamp": 1778472778161,
     "items": [
       {
         "id": 6,
@@ -364,6 +364,13 @@
         "factQuantity": 3,
         "systemQuantity": 5,
         "name": "Сэндвич №5 ''Цезарь'' 175г",
+        "category": "Готовая Еда"
+      },
+      {
+        "id": 108,
+        "factQuantity": 3,
+        "systemQuantity": 7,
+        "name": "Сэндвич №2 ''Салями'' 175г",
         "category": "Готовая Еда"
       }
     ]
