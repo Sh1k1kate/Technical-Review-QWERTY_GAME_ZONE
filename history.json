@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472350986,
+    "timestamp": 1778472371873,
     "items": [
       {
         "id": 6,
@@ -210,6 +210,13 @@
         "factQuantity": 8,
         "systemQuantity": 8,
         "name": "\"Любимый \"\"Вишневая черешня\"\" 0,95л\"",
+        "category": "Напитки"
+      },
+      {
+        "id": 82,
+        "factQuantity": 6,
+        "systemQuantity": 9,
+        "name": "Сок Любимый Виноградный Дуэт 0,95л",
         "category": "Напитки"
       }
     ]
