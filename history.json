@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474319384,
+    "timestamp": 1778474335315,
     "items": [
       {
         "id": 6,
@@ -497,6 +497,13 @@
         "factQuantity": 2,
         "systemQuantity": 2,
         "name": "Lays ИЗ Печи Мусс из Лосося 85г",
+        "category": "Снэки"
+      },
+      {
+        "id": 178,
+        "factQuantity": 3,
+        "systemQuantity": 5,
+        "name": "Сухарики шашлык с кетчупом 60г",
         "category": "Снэки"
       }
     ]
