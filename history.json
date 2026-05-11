@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778475638238,
+    "timestamp": 1778475651865,
     "items": [
       {
         "id": 169,
@@ -14,6 +14,13 @@
         "factQuantity": 0,
         "systemQuantity": 1,
         "name": "\"Онигири \"\"Креветка\"\"\"",
+        "category": "Готовая Еда"
+      },
+      {
+        "id": 214,
+        "factQuantity": 0,
+        "systemQuantity": 2,
+        "name": "Онигири Искушение",
         "category": "Готовая Еда"
       }
     ]
