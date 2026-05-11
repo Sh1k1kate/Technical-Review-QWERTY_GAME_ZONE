@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472585562,
+    "timestamp": 1778472597830,
     "items": [
       {
         "id": 6,
@@ -301,6 +301,13 @@
         "factQuantity": 6,
         "systemQuantity": 7,
         "name": "Burn Гуава 0,45л",
+        "category": "Энергетические напитки"
+      },
+      {
+        "id": 16,
+        "factQuantity": 5,
+        "systemQuantity": 5,
+        "name": "Burn Яблоко Киви 0,45л",
         "category": "Энергетические напитки"
       }
     ]
