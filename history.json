@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472597830,
+    "timestamp": 1778472623846,
     "items": [
       {
         "id": 6,
@@ -308,6 +308,13 @@
         "factQuantity": 5,
         "systemQuantity": 5,
         "name": "Burn Яблоко Киви 0,45л",
+        "category": "Энергетические напитки"
+      },
+      {
+        "id": 120,
+        "factQuantity": 46,
+        "systemQuantity": 36,
+        "name": "Burn Сочная Энергия 0,45л",
         "category": "Энергетические напитки"
       }
     ]
