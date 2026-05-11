@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778475783708,
+    "timestamp": 1778476014263,
     "items": [
       {
         "id": 169,
@@ -57,6 +57,13 @@
         "systemQuantity": 1,
         "name": "\"Онигири \"\"Курица с грибами\"\" 120г\"",
         "category": "Готовая Еда"
+      },
+      {
+        "id": 37,
+        "factQuantity": 0,
+        "systemQuantity": 18,
+        "name": "Липтон Зеленый 0.5л",
+        "category": "Напитки"
       }
     ]
   }
