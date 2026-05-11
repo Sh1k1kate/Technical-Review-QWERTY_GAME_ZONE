@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778471859428,
+    "timestamp": 1778471893002,
     "items": [
       {
         "id": 6,
@@ -98,6 +98,13 @@
         "factQuantity": 33,
         "systemQuantity": 32,
         "name": "Frustyle Лимон и Лайм 0.5л",
+        "category": "Напитки"
+      },
+      {
+        "id": 106,
+        "factQuantity": 24,
+        "systemQuantity": 28,
+        "name": "Evervess Cola Zero 0.5л",
         "category": "Напитки"
       }
     ]
