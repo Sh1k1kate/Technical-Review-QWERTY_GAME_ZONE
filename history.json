@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472684344,
+    "timestamp": 1778472699805,
     "items": [
       {
         "id": 6,
@@ -343,6 +343,13 @@
         "factQuantity": 16,
         "systemQuantity": 20,
         "name": "Flash Bubble Gum 0,5",
+        "category": "Энергетические напитки"
+      },
+      {
+        "id": 202,
+        "factQuantity": 20,
+        "systemQuantity": 24,
+        "name": "Flash Mango Ananas 0,5",
         "category": "Энергетические напитки"
       }
     ]
