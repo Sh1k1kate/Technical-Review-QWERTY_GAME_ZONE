@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474457391,
+    "timestamp": 1778474521123,
     "items": [
       {
         "id": 6,
@@ -540,6 +540,13 @@
         "systemQuantity": 15,
         "name": "Сухарики 3 корочки Сыр и Сёмга 40г",
         "category": "Снэки"
+      },
+      {
+        "id": 23,
+        "factQuantity": 32,
+        "systemQuantity": 34,
+        "name": "Kinder Bueno 43г",
+        "category": "Шоколад"
       }
     ]
   }
