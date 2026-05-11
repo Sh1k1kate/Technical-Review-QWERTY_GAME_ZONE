@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472548195,
+    "timestamp": 1778472571469,
     "items": [
       {
         "id": 6,
@@ -287,6 +287,13 @@
         "factQuantity": 9,
         "systemQuantity": 9,
         "name": "Lit Energy Classic 0,45л",
+        "category": "Энергетические напитки"
+      },
+      {
+        "id": 47,
+        "factQuantity": 31,
+        "systemQuantity": 32,
+        "name": "Lit Energy Blueberry 0,45л",
         "category": "Энергетические напитки"
       }
     ]
