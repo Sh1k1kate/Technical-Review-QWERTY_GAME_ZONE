@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778475772931,
+    "timestamp": 1778475783708,
     "items": [
       {
         "id": 169,
@@ -49,6 +49,13 @@
         "factQuantity": 0,
         "systemQuantity": 2,
         "name": "\"Онигири \"\"Искушение\"\" 120г\"",
+        "category": "Готовая Еда"
+      },
+      {
+        "id": 262,
+        "factQuantity": 0,
+        "systemQuantity": 1,
+        "name": "\"Онигири \"\"Курица с грибами\"\" 120г\"",
         "category": "Готовая Еда"
       }
     ]
