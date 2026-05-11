@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474880009,
+    "timestamp": 1778474917453,
     "items": [
       {
         "id": 6,
@@ -431,7 +431,7 @@
       },
       {
         "id": 28,
-        "factQuantity": 10,
+        "factQuantity": 12,
         "systemQuantity": 13,
         "name": "Lays Зеленый Лук 70г",
         "category": "Снэки"
