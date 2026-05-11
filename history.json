@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472203408,
+    "timestamp": 1778472234341,
     "items": [
       {
         "id": 6,
@@ -182,6 +182,13 @@
         "factQuantity": 7,
         "systemQuantity": 7,
         "name": "Red Bull Арбуз 0,25л",
+        "category": "Энергетические напитки"
+      },
+      {
+        "id": 242,
+        "factQuantity": 24,
+        "systemQuantity": 25,
+        "name": "Red Bull Tropical Edition 0,355л",
         "category": "Энергетические напитки"
       }
     ]
