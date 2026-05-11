@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472477039,
+    "timestamp": 1778472490037,
     "items": [
       {
         "id": 6,
@@ -259,6 +259,13 @@
         "factQuantity": 7,
         "systemQuantity": 8,
         "name": "Monster Mango Loco 0,5л",
+        "category": "Энергетические напитки"
+      },
+      {
+        "id": 56,
+        "factQuantity": 4,
+        "systemQuantity": 2,
+        "name": "Monster Monarch 0,5л",
         "category": "Энергетические напитки"
       }
     ]
