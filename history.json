@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472305835,
+    "timestamp": 1778472325513,
     "items": [
       {
         "id": 6,
@@ -196,6 +196,13 @@
         "factQuantity": 8,
         "systemQuantity": 8,
         "name": "\"Любимый \"\"Земляничное лето\"\" 0,95л\"",
+        "category": "Напитки"
+      },
+      {
+        "id": 257,
+        "factQuantity": 9,
+        "systemQuantity": 9,
+        "name": "\"Любимый \"\"Апельсиновое манго\"\" 0,95л\"",
         "category": "Напитки"
       }
     ]
