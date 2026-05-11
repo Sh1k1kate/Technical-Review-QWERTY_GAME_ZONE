@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472665656,
+    "timestamp": 1778472684344,
     "items": [
       {
         "id": 6,
@@ -336,6 +336,13 @@
         "factQuantity": 21,
         "systemQuantity": 21,
         "name": "Flash Апельсиновый Ритм 0,5",
+        "category": "Энергетические напитки"
+      },
+      {
+        "id": 201,
+        "factQuantity": 16,
+        "systemQuantity": 20,
+        "name": "Flash Bubble Gum 0,5",
         "category": "Энергетические напитки"
       }
     ]
