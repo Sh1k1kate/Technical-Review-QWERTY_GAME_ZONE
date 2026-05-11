@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472380390,
+    "timestamp": 1778472405920,
     "items": [
       {
         "id": 6,
@@ -224,6 +224,13 @@
         "factQuantity": 6,
         "systemQuantity": 8,
         "name": "\"Любимый \"\"Виноградный Дуэт\"\" 0,95л\"",
+        "category": "Напитки"
+      },
+      {
+        "id": 130,
+        "factQuantity": 16,
+        "systemQuantity": 16,
+        "name": "Fanta Orange 0,35л",
         "category": "Напитки"
       }
     ]
