@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472325513,
+    "timestamp": 1778472350986,
     "items": [
       {
         "id": 6,
@@ -203,6 +203,13 @@
         "factQuantity": 9,
         "systemQuantity": 9,
         "name": "\"Любимый \"\"Апельсиновое манго\"\" 0,95л\"",
+        "category": "Напитки"
+      },
+      {
+        "id": 252,
+        "factQuantity": 8,
+        "systemQuantity": 8,
+        "name": "\"Любимый \"\"Вишневая черешня\"\" 0,95л\"",
         "category": "Напитки"
       }
     ]
