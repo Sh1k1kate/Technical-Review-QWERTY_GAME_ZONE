@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472430173,
+    "timestamp": 1778472446969,
     "items": [
       {
         "id": 6,
@@ -238,6 +238,13 @@
         "factQuantity": 3,
         "systemQuantity": 7,
         "name": "Monster Classic 0,5л",
+        "category": "Энергетические напитки"
+      },
+      {
+        "id": 183,
+        "factQuantity": 7,
+        "systemQuantity": 8,
+        "name": "Monster Ultra Fiesta 0.5л",
         "category": "Энергетические напитки"
       }
     ]
