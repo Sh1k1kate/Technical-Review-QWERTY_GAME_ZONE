@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474191853,
+    "timestamp": 1778474205939,
     "items": [
       {
         "id": 6,
@@ -462,6 +462,13 @@
         "factQuantity": 3,
         "systemQuantity": 7,
         "name": "Lays Рифлёные Лобстер 140г",
+        "category": "Снэки"
+      },
+      {
+        "id": 212,
+        "factQuantity": 2,
+        "systemQuantity": 2,
+        "name": "Lays Рифленые Стейк Рибай 140г",
         "category": "Снэки"
       }
     ]
