@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472699805,
+    "timestamp": 1778472736450,
     "items": [
       {
         "id": 6,
@@ -351,6 +351,13 @@
         "systemQuantity": 24,
         "name": "Flash Mango Ananas 0,5",
         "category": "Энергетические напитки"
+      },
+      {
+        "id": 74,
+        "factQuantity": 3,
+        "systemQuantity": 8,
+        "name": "Сэндвич №18 ''С копченым мясом'' 175г",
+        "category": "Готовая Еда"
       }
     ]
   }
