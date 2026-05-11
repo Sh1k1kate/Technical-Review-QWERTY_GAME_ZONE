@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472068273,
+    "timestamp": 1778472132943,
     "items": [
       {
         "id": 6,
@@ -161,6 +161,13 @@
         "factQuantity": 52,
         "systemQuantity": 53,
         "name": "Aqua Minerale Газированная 0.5л",
+        "category": "Напитки"
+      },
+      {
+        "id": 8,
+        "factQuantity": 24,
+        "systemQuantity": 26,
+        "name": "Aqua Minerale Негазированная 1л",
         "category": "Напитки"
       }
     ]
