@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474257946,
+    "timestamp": 1778474288233,
     "items": [
       {
         "id": 6,
@@ -476,6 +476,13 @@
         "factQuantity": 4,
         "systemQuantity": 4,
         "name": "Lays Рифленые Лосось 140г",
+        "category": "Снэки"
+      },
+      {
+        "id": 36,
+        "factQuantity": 4,
+        "systemQuantity": 8,
+        "name": "Lays Сыр 70г",
         "category": "Снэки"
       }
     ]
