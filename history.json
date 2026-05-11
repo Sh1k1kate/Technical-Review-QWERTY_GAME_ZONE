@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778473988006,
+    "timestamp": 1778474010310,
     "items": [
       {
         "id": 6,
@@ -406,6 +406,13 @@
         "factQuantity": 4,
         "systemQuantity": 14,
         "name": "Lays Из Печи Нежный сыр с зеленью  85г",
+        "category": "Снэки"
+      },
+      {
+        "id": 20,
+        "factQuantity": 6,
+        "systemQuantity": 10,
+        "name": "Lays Из Печи Лисички 85г",
         "category": "Снэки"
       }
     ]
