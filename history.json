@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472371873,
+    "timestamp": 1778472380390,
     "items": [
       {
         "id": 6,
@@ -217,6 +217,13 @@
         "factQuantity": 6,
         "systemQuantity": 9,
         "name": "Сок Любимый Виноградный Дуэт 0,95л",
+        "category": "Напитки"
+      },
+      {
+        "id": 225,
+        "factQuantity": 6,
+        "systemQuantity": 8,
+        "name": "\"Любимый \"\"Виноградный Дуэт\"\" 0,95л\"",
         "category": "Напитки"
       }
     ]
