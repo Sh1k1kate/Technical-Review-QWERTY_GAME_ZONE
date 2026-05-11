@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474521123,
+    "timestamp": 1778474546847,
     "items": [
       {
         "id": 6,
@@ -546,6 +546,13 @@
         "factQuantity": 32,
         "systemQuantity": 34,
         "name": "Kinder Bueno 43г",
+        "category": "Шоколад"
+      },
+      {
+        "id": 22,
+        "factQuantity": 17,
+        "systemQuantity": 18,
+        "name": "Kinder Bueno White 39г",
         "category": "Шоколад"
       }
     ]
