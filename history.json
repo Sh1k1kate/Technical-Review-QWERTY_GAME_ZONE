@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778471829673,
+    "timestamp": 1778471859428,
     "items": [
       {
         "id": 6,
@@ -91,6 +91,13 @@
         "factQuantity": 35,
         "systemQuantity": 34,
         "name": "Frustyle Апельсин 0.5л",
+        "category": "Напитки"
+      },
+      {
+        "id": 99,
+        "factQuantity": 33,
+        "systemQuantity": 32,
+        "name": "Frustyle Лимон и Лайм 0.5л",
         "category": "Напитки"
       }
     ]
