@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472623846,
+    "timestamp": 1778472635959,
     "items": [
       {
         "id": 6,
@@ -315,6 +315,13 @@
         "factQuantity": 46,
         "systemQuantity": 36,
         "name": "Burn Сочная Энергия 0,45л",
+        "category": "Энергетические напитки"
+      },
+      {
+        "id": 96,
+        "factQuantity": 6,
+        "systemQuantity": 6,
+        "name": "Flash Ultra 0,45л",
         "category": "Энергетические напитки"
       }
     ]
