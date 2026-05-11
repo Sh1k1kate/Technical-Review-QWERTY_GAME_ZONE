@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778471963898,
+    "timestamp": 1778471974854,
     "items": [
       {
         "id": 6,
@@ -126,6 +126,13 @@
         "factQuantity": 11,
         "systemQuantity": 11,
         "name": "Drive Экзотическая Энегрия 0,45л",
+        "category": "Энергетические напитки"
+      },
+      {
+        "id": 154,
+        "factQuantity": 7,
+        "systemQuantity": 8,
+        "name": "Drive Original 0.45",
         "category": "Энергетические напитки"
       }
     ]
