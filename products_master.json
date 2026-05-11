@@ -294,7 +294,7 @@
       "name": "Липтон Зеленый 0.5л",
       "barcode": "",
       "systemQuantity": 18,
-      "lastFactQuantity": 18
+      "lastFactQuantity": 0
     },
     {
       "id": 38,
@@ -326,7 +326,7 @@
       "name": "Липтон Малина 0.5л",
       "barcode": "",
       "systemQuantity": 19,
-      "lastFactQuantity": 19
+      "lastFactQuantity": 0
     },
     {
       "id": 42,
@@ -1350,7 +1350,7 @@
       "name": "\"Онигири \"\"Тунец\"\"\"",
       "barcode": "",
       "systemQuantity": 2,
-      "lastFactQuantity": 1
+      "lastFactQuantity": 0
     },
     {
       "id": 170,
@@ -1662,7 +1662,7 @@
       "name": "Онигири Искушение",
       "barcode": "",
       "systemQuantity": 2,
-      "lastFactQuantity": 2
+      "lastFactQuantity": 0
     },
     {
       "id": 215,
@@ -1670,7 +1670,7 @@
       "name": "Онигири Курица с грибами",
       "barcode": "",
       "systemQuantity": 2,
-      "lastFactQuantity": 1
+      "lastFactQuantity": 0
     },
     {
       "id": 216,
@@ -1822,7 +1822,7 @@
       "name": "\"Онигири \"\"Тунец\"\" 120г\"",
       "barcode": "",
       "systemQuantity": 0,
-      "lastFactQuantity": 1
+      "lastFactQuantity": 0
     },
     {
       "id": 237,
@@ -2022,7 +2022,7 @@
       "name": "\"Онигири \"\"Искушение\"\" 120г\"",
       "barcode": "",
       "systemQuantity": 0,
-      "lastFactQuantity": 2
+      "lastFactQuantity": 0
     },
     {
       "id": 262,
@@ -2030,7 +2030,7 @@
       "name": "\"Онигири \"\"Курица с грибами\"\" 120г\"",
       "barcode": "",
       "systemQuantity": 0,
-      "lastFactQuantity": 1
+      "lastFactQuantity": 0
     },
     {
       "id": 263,
