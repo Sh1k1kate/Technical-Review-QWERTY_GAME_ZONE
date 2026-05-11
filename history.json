@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474065064,
+    "timestamp": 1778474094959,
     "items": [
       {
         "id": 6,
@@ -434,6 +434,13 @@
         "factQuantity": 10,
         "systemQuantity": 13,
         "name": "Lays Зеленый Лук 70г",
+        "category": "Снэки"
+      },
+      {
+        "id": 30,
+        "factQuantity": 11,
+        "systemQuantity": 16,
+        "name": "Lays Краб 70г",
         "category": "Снэки"
       }
     ]
