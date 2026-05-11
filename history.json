@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474426938,
+    "timestamp": 1778474457391,
     "items": [
       {
         "id": 6,
@@ -532,6 +532,13 @@
         "factQuantity": 3,
         "systemQuantity": 29,
         "name": "Хрустим Багет Сырное Ассорти 60г",
+        "category": "Снэки"
+      },
+      {
+        "id": 243,
+        "factQuantity": 14,
+        "systemQuantity": 15,
+        "name": "Сухарики 3 корочки Сыр и Сёмга 40г",
         "category": "Снэки"
       }
     ]
