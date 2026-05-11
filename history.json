@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778472810348,
+    "timestamp": 1778472825564,
     "items": [
       {
         "id": 6,
@@ -385,6 +385,13 @@
         "factQuantity": 0,
         "systemQuantity": 1,
         "name": "\"Сэндвич №11 \"\"Курица Грибы\"\" 175г\"",
+        "category": "Готовая Еда"
+      },
+      {
+        "id": 136,
+        "factQuantity": 5,
+        "systemQuantity": 9,
+        "name": "\"Сэндвич №9 \"\"Итальянский\"\" 175г\"",
         "category": "Готовая Еда"
       }
     ]
