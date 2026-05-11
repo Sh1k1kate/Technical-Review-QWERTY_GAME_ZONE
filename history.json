@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1778474932954,
+    "timestamp": 1778474945029,
     "items": [
       {
         "id": 6,
@@ -508,7 +508,7 @@
       },
       {
         "id": 259,
-        "factQuantity": 3,
+        "factQuantity": 6,
         "systemQuantity": 5,
         "name": "Lays Бекон 70г",
         "category": "Снэки"
