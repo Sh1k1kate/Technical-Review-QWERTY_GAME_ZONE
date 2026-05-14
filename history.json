@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "timestamp": 1778794128902,
+    "items": [
+      {
+        "id": 10,
+        "factQuantity": 0,
+        "systemQuantity": 0,
+        "name": "Burn Апельсиновый микс 0,45л",
+        "category": "Энергетические напитки"
+      }
+    ]
+  }
+]
