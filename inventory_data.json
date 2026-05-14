@@ -4,1784 +4,958 @@
       "id": 1,
       "category": "Энергетические напитки",
       "name": "Adrenaline Energy Power Game Fuel 0,45л",
-      "systemQuantity": 20,
+      "systemQuantity": 19,
       "factQuantity": 20
     },
     {
       "id": 2,
       "category": "Энергетические напитки",
-      "name": "Adrenaline Rush 0.45л",
-      "systemQuantity": 24,
+      "name": "Adrenaline Rush 0.25л",
+      "systemQuantity": 52,
       "factQuantity": 24
     },
     {
       "id": 3,
       "category": "Энергетические напитки",
       "name": "Adrenaline Ягодный Микс 0,45л",
-      "systemQuantity": 24,
+      "systemQuantity": 23,
       "factQuantity": 24
     },
     {
       "id": 4,
       "category": "Энергетические напитки",
-      "name": "Adrenaline Zero Sugar 0.45л",
-      "systemQuantity": 26,
+      "name": "Adrenaline Zero Sugar 0.25л",
+      "systemQuantity": 8,
       "factQuantity": 25
     },
     {
       "id": 5,
-      "category": "Энергетические напитки",
-      "name": "Adrenaline Zero Sugar 0.25л",
-      "systemQuantity": 8,
+      "category": "Напитки",
+      "name": "Aqua Minerale Газированная 1л",
+      "systemQuantity": 19,
       "factQuantity": 8
     },
     {
       "id": 6,
-      "category": "Энергетические напитки",
-      "name": "Adrenaline Rush 0.25л",
-      "systemQuantity": 53,
+      "category": "Напитки",
+      "name": "Aqua Minerale Газированная 0.5л",
+      "systemQuantity": 40,
       "factQuantity": 51
     },
     {
       "id": 7,
-      "category": "Напитки",
-      "name": "Aqua Minerale Негазированная 0.5л",
-      "systemQuantity": 24,
+      "category": "Энергетические напитки",
+      "name": "Burn Gold Rush 0,45л",
+      "systemQuantity": 0,
       "factQuantity": 21
     },
     {
       "id": 8,
-      "category": "Напитки",
-      "name": "Aqua Minerale Негазированная 1л",
-      "systemQuantity": 25,
+      "category": "Энергетические напитки",
+      "name": "Burn Гуава 0,45л",
+      "systemQuantity": 1,
       "factQuantity": 24
     },
     {
       "id": 9,
-      "category": "Напитки",
-      "name": "Aqua Minerale Газированная 0.5л",
-      "systemQuantity": 53,
+      "category": "Энергетические напитки",
+      "name": "Burn Сочная Энергия 0,45л",
+      "systemQuantity": 27,
       "factQuantity": 52
     },
     {
       "id": 10,
-      "category": "Напитки",
-      "name": "Aqua Minerale Газированная 1л",
-      "systemQuantity": 24,
+      "category": "Энергетические напитки",
+      "name": "Burn Апельсиновый микс 0,45л",
+      "systemQuantity": 0,
       "factQuantity": 25
     },
     {
       "id": 11,
       "category": "Энергетические напитки",
-      "name": "Burn Gold Rush 0,45л",
-      "systemQuantity": 0,
+      "name": "Burn Яблоко Киви 0,45л",
+      "systemQuantity": 2,
       "factQuantity": 1
     },
     {
       "id": 12,
-      "category": "Энергетические напитки",
-      "name": "Burn Манго 0,45л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 13,
-      "category": "Энергетические напитки",
-      "name": "Burn Оригинальный 0,45л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 14,
-      "category": "Энергетические напитки",
-      "name": "Burn Темная Энергия 0,45л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 15,
-      "category": "Энергетические напитки",
-      "name": "Burn Тропический Микс 0,45л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 16,
-      "category": "Энергетические напитки",
-      "name": "Burn Яблоко Киви 0,45л",
-      "systemQuantity": 5,
-      "factQuantity": 5
-    },
-    {
-      "id": 17,
       "category": "Энергетические напитки",
       "name": "Drive Bubble Blast 0,45л",
       "systemQuantity": 0,
       "factQuantity": 0
     },
     {
-      "id": 18,
+      "id": 13,
       "category": "Энергетические напитки",
-      "name": "Drive Nitro 0,45л",
-      "systemQuantity": 0,
+      "name": "Drive Original 0.45л",
+      "systemQuantity": 7,
       "factQuantity": 0
     },
     {
-      "id": 19,
+      "id": 14,
       "category": "Энергетические напитки",
       "name": "Drive Original Пласт 0,5л",
       "systemQuantity": 0,
       "factQuantity": 0
     },
     {
-      "id": 20,
+      "id": 15,
       "category": "Снэки",
-      "name": "Lays Из Печи Лисички 85г",
-      "systemQuantity": 9,
-      "factQuantity": 9
+      "name": "Lays ИЗ Печи Мусс из Лосося 85г",
+      "systemQuantity": 0,
+      "factQuantity": 0
     },
     {
-      "id": 21,
+      "id": 16,
       "category": "Снэки",
       "name": "Lays Из Печи Нежный сыр с зеленью  85г",
-      "systemQuantity": 14,
-      "factQuantity": 17
+      "systemQuantity": 13,
+      "factQuantity": 5
     },
     {
-      "id": 22,
+      "id": 17,
       "category": "Шоколад",
       "name": "Kinder Bueno White 39г",
-      "systemQuantity": 18,
-      "factQuantity": 17
+      "systemQuantity": 3,
+      "factQuantity": 0
     },
     {
-      "id": 23,
+      "id": 18,
       "category": "Шоколад",
       "name": "Kinder Bueno 43г",
-      "systemQuantity": 33,
-      "factQuantity": 32
+      "systemQuantity": 22,
+      "factQuantity": 0
     },
     {
-      "id": 24,
+      "id": 19,
       "category": "Шоколад",
       "name": "KitKat 41,5г",
       "systemQuantity": 0,
       "factQuantity": 0
     },
     {
-      "id": 25,
+      "id": 20,
       "category": "Снэки",
-      "name": "Lays Краб 140г",
+      "name": "Lays Бекон 70г",
+      "systemQuantity": 5,
+      "factQuantity": 9
+    },
+    {
+      "id": 21,
+      "category": "Снэки",
+      "name": "Lays Рифлёные Сметана и Лук 225г",
       "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 26,
-      "category": "Снэки",
-      "name": "Lays Рифлёные Сметана и Лук 70г",
-      "systemQuantity": 21,
-      "factQuantity": 21
-    },
-    {
-      "id": 27,
-      "category": "Снэки",
-      "name": "Lays Зеленый Лук 140г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 28,
-      "category": "Снэки",
-      "name": "Lays Зеленый Лук 70г",
-      "systemQuantity": 13,
-      "factQuantity": 12
-    },
-    {
-      "id": 29,
-      "category": "Снэки",
-      "name": "Lays Краб 225г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 30,
-      "category": "Снэки",
-      "name": "Lays Краб 70г",
-      "systemQuantity": 16,
       "factQuantity": 17
     },
     {
-      "id": 31,
+      "id": 22,
       "category": "Снэки",
-      "name": "Lays Рифлёные паприка 225г",
-      "systemQuantity": 0,
-      "factQuantity": 0
+      "name": "Lays Зеленый Лук 70г",
+      "systemQuantity": 13,
+      "factQuantity": 17
     },
     {
-      "id": 32,
+      "id": 23,
       "category": "Снэки",
-      "name": "Lays Рифлёные паприка 70г",
-      "systemQuantity": 11,
-      "factQuantity": 11
+      "name": "Lays Рифлёные Лобстер 140г",
+      "systemQuantity": 5,
+      "factQuantity": 32
     },
     {
-      "id": 33,
-      "category": "Снэки",
-      "name": "Lays Сметана и Зелень 140г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 34,
+      "id": 24,
       "category": "Снэки",
       "name": "Lays Сметана и Зелень 70г",
       "systemQuantity": 0,
       "factQuantity": 0
     },
     {
-      "id": 35,
-      "category": "Снэки",
-      "name": "Lays Рифлёные Сметана и Лук 225г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 36,
-      "category": "Снэки",
-      "name": "Lays Сыр 70г",
-      "systemQuantity": 8,
-      "factQuantity": 7
-    },
-    {
-      "id": 37,
-      "category": "Напитки",
-      "name": "Липтон Зеленый 0.5л",
-      "systemQuantity": 18,
-      "factQuantity": 0
-    },
-    {
-      "id": 38,
-      "category": "Напитки",
-      "name": "Липтон Зеленый 1л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 39,
-      "category": "Напитки",
-      "name": "Липтон Лимон 0.5л",
-      "systemQuantity": 13,
-      "factQuantity": 0
-    },
-    {
-      "id": 40,
-      "category": "Напитки",
-      "name": "Липтон Лимон 1л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 41,
-      "category": "Напитки",
-      "name": "Липтон Малина 0.5л",
-      "systemQuantity": 19,
-      "factQuantity": 0
-    },
-    {
-      "id": 42,
-      "category": "Напитки",
-      "name": "Липтон Малина 1л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 43,
-      "category": "Энергетические напитки",
-      "name": "Lit Energy Strawberry Bubblegum 0,45л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 44,
-      "category": "Энергетические напитки",
-      "name": "Lit Energy Original Без Сахара 0,45л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 45,
-      "category": "Энергетические напитки",
-      "name": "Lit Energy Malina Crash 0,45л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 46,
-      "category": "Энергетические напитки",
-      "name": "Lit Energy Mango Coconut 0,45л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 47,
-      "category": "Энергетические напитки",
-      "name": "Lit Energy Blueberry 0,45л",
-      "systemQuantity": 31,
-      "factQuantity": 31
-    },
-    {
-      "id": 48,
-      "category": "Шоколад",
-      "name": "Mars MAX 81г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 49,
-      "category": "Энергетические напитки",
-      "name": "Monster Classic 0,5л",
-      "systemQuantity": 5,
-      "factQuantity": 3
-    },
-    {
-      "id": 50,
-      "category": "Энергетические напитки",
-      "name": "Monster Nitro Super Dry 0,5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 51,
-      "category": "Энергетические напитки",
-      "name": "Monster Ultra Black 0,5л",
-      "systemQuantity": 3,
-      "factQuantity": 3
-    },
-    {
-      "id": 52,
-      "category": "Энергетические напитки",
-      "name": "Monster Pipeline Punch 0,5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 53,
-      "category": "Энергетические напитки",
-      "name": "Monster Bad Apple 0,5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 54,
-      "category": "Энергетические напитки",
-      "name": "Monster Aussie Lemonade 0,5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 55,
-      "category": "Энергетические напитки",
-      "name": "Monster Mango Loco 0,5л",
-      "systemQuantity": 7,
-      "factQuantity": 7
-    },
-    {
-      "id": 56,
-      "category": "Энергетические напитки",
-      "name": "Monster Monarch 0,5л",
-      "systemQuantity": 2,
-      "factQuantity": 4
-    },
-    {
-      "id": 57,
-      "category": "Энергетические напитки",
-      "name": "Monster Pacific Punch 0,5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 58,
-      "category": "Энергетические напитки",
-      "name": "Monster Rehab Tea+Peach 0,5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 59,
-      "category": "Энергетические напитки",
-      "name": "Monster Rio Punch 0.5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 60,
-      "category": "Энергетические напитки",
-      "name": "Monster Ultra Fantasy Ruby Red 0,5л",
-      "systemQuantity": 4,
-      "factQuantity": 4
-    },
-    {
-      "id": 61,
-      "category": "Энергетические напитки",
-      "name": "Monster Ultra Strawberry Dreams 0,5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 62,
-      "category": "Энергетические напитки",
-      "name": "Monster The Doctor 0,5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 63,
-      "category": "Энергетические напитки",
-      "name": "Monster Rehab Lemonade Tea 0,5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 64,
-      "category": "Шоколад",
-      "name": "Oreo Original 38г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 65,
-      "category": "Шоколад",
-      "name": "Picnic Грецкий Орех 52г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 66,
-      "category": "Энергетические напитки",
-      "name": "Red Bull 0,25л",
-      "systemQuantity": 1,
-      "factQuantity": 0
-    },
-    {
-      "id": 67,
-      "category": "Энергетические напитки",
-      "name": "Red Bull Арбуз 0,25л",
-      "systemQuantity": 7,
-      "factQuantity": 7
-    },
-    {
-      "id": 68,
-      "category": "Напитки",
-      "name": "Смузи J7 Вишня, Банан, Яблоко 0.3л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 69,
-      "category": "Шоколад",
-      "name": "Snickers SUPER 81г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 70,
-      "category": "Шоколад",
-      "name": "Snickers Лесной Орех  81г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 71,
-      "category": "Напитки",
-      "name": "Сок J7 Frustyle Красный Апельсин 0.385л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 72,
-      "category": "Напитки",
-      "name": "Сок J7 Frustyle Кактус Лайм 0.385л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 73,
-      "category": "Готовая Еда",
-      "name": "Сэндвич №1 ''С ветчиной'' 175г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 74,
-      "category": "Готовая Еда",
-      "name": "Сэндвич №18 ''С копченым мясом'' 175г",
-      "systemQuantity": 3,
-      "factQuantity": 3
-    },
-    {
-      "id": 75,
-      "category": "Готовая Еда",
-      "name": "Сэндвич №4  ''Острый'' 175г",
-      "systemQuantity": 5,
-      "factQuantity": 5
-    },
-    {
-      "id": 76,
-      "category": "Готовая Еда",
-      "name": "Сэндвич №5 ''Цезарь'' 175г",
-      "systemQuantity": 2,
-      "factQuantity": 3
-    },
-    {
-      "id": 77,
-      "category": "Готовая Еда",
-      "name": "Сэндвич №8 ''С курицей и морковью'' 175г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 78,
-      "category": "Готовая Еда",
-      "name": "\"Бургер №14 \"\"Два Мяса'' 190г\"",
-      "systemQuantity": 5,
-      "factQuantity": 5
-    },
-    {
-      "id": 79,
-      "category": "Готовая Еда",
-      "name": "Бургер №15 ''Италиано'' 190г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 80,
-      "category": "Готовая Еда",
-      "name": "Бургер №13 ''С копченым мясом'' 190г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 81,
-      "category": "Напитки",
-      "name": "Сок Любимый Абрикосовая Груша 0,95л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 82,
-      "category": "Напитки",
-      "name": "Сок Любимый Виноградный Дуэт 0,95л",
-      "systemQuantity": 9,
-      "factQuantity": 6
-    },
-    {
-      "id": 83,
-      "category": "Напитки",
-      "name": "Сок Любимый Малиновая Нежность 0,95л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 84,
-      "category": "Напитки",
-      "name": "Сок Любимый Черничная Забота 0,95л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 85,
-      "category": "Напитки",
-      "name": "Сок Любимый Мультифрукт 0,95л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 86,
-      "category": "Напитки",
-      "name": "Сок Любимый Яблоко 0,95л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 87,
-      "category": "Снэки",
-      "name": "Хрустим Стэйк и Черный Перец 60г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 88,
-      "category": "Снэки",
-      "name": "Хрустим Сырные Палочки 60г",
-      "systemQuantity": 12,
-      "factQuantity": 12
-    },
-    {
-      "id": 89,
-      "category": "Снэки",
-      "name": "Хрустим Сырные Палочки XXL 140г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 90,
-      "category": "Снэки",
-      "name": "Хрустим Багет Королевский Краб 60г",
-      "systemQuantity": 40,
-      "factQuantity": 28
-    },
-    {
-      "id": 91,
-      "category": "Снэки",
-      "name": "Хрустим Stix Кальмар 60г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 92,
-      "category": "Снэки",
-      "name": "Хрустим Stix Баварские Колбаски 60г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 93,
-      "category": "Снэки",
-      "name": "Хрустим Багет Сырное Ассорти 60г",
-      "systemQuantity": 28,
-      "factQuantity": 16
-    },
-    {
-      "id": 94,
-      "category": "Снэки",
-      "name": "Хрустим Багет Томат 60г",
-      "systemQuantity": 11,
-      "factQuantity": 11
-    },
-    {
-      "id": 95,
-      "category": "Энергетические напитки",
-      "name": "Flash Original 0,45л",
-      "systemQuantity": 15,
-      "factQuantity": 15
-    },
-    {
-      "id": 96,
-      "category": "Энергетические напитки",
-      "name": "Flash Ultra 0,45л",
-      "systemQuantity": 6,
-      "factQuantity": 6
-    },
-    {
-      "id": 97,
-      "category": "Напитки",
-      "name": "Frustyle Апельсин 0.33л",
-      "systemQuantity": 30,
-      "factQuantity": 31
-    },
-    {
-      "id": 98,
-      "category": "Напитки",
-      "name": "Frustyle Лимон и Лайм 0.33л",
-      "systemQuantity": 33,
-      "factQuantity": 34
-    },
-    {
-      "id": 99,
-      "category": "Напитки",
-      "name": "Frustyle Лимон и Лайм 0.5л",
-      "systemQuantity": 31,
-      "factQuantity": 33
-    },
-    {
-      "id": 100,
-      "category": "Напитки",
-      "name": "Frustyle Апельсин 0.5л",
-      "systemQuantity": 34,
-      "factQuantity": 35
-    },
-    {
-      "id": 101,
-      "category": "Снэки",
-      "name": "Cheetos Кетчуп 85г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 102,
-      "category": "Снэки",
-      "name": "Cheetos Краб 85г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 103,
-      "category": "Снэки",
-      "name": "Cheetos Сыр 85г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 104,
-      "category": "Напитки",
-      "name": "Evervess Cola 0.33л",
-      "systemQuantity": 30,
-      "factQuantity": 29
-    },
-    {
-      "id": 105,
-      "category": "Напитки",
-      "name": "Evervess Cola Zero 0.33л",
-      "systemQuantity": 26,
-      "factQuantity": 25
-    },
-    {
-      "id": 106,
-      "category": "Напитки",
-      "name": "Evervess Cola Zero 0.5л",
-      "systemQuantity": 28,
-      "factQuantity": 24
-    },
-    {
-      "id": 107,
-      "category": "Напитки",
-      "name": "Evervess Cola  0.5л",
-      "systemQuantity": 24,
-      "factQuantity": 25
-    },
-    {
-      "id": 108,
-      "category": "Готовая Еда",
-      "name": "Сэндвич №2 ''Салями'' 175г",
-      "systemQuantity": 3,
-      "factQuantity": 3
-    },
-    {
-      "id": 109,
-      "category": "Энергетические напитки",
-      "name": "Red Bull The Sea Blue Edition 0,25л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 110,
-      "category": "Энергетические напитки",
-      "name": "Red Bull The Blue Edition 0,25л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 111,
-      "category": "Энергетические напитки",
-      "name": "Lit Energy Classic 0,45л",
-      "systemQuantity": 9,
-      "factQuantity": 9
-    },
-    {
-      "id": 112,
-      "category": "Шоколад",
-      "name": "Bounty 55г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 113,
-      "category": "Шоколад",
-      "name": "Twix 55г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 114,
-      "category": "Шоколад",
-      "name": "Snickers Больше Арахиса 81г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 115,
-      "category": "Шоколад",
-      "name": "MMs шоколад 45г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 116,
-      "category": "Шоколад",
-      "name": "MMs арахис 45г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 117,
-      "category": "Энергетические напитки",
-      "name": "Monster Full Throttle 0,5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 118,
-      "category": "Энергетические напитки",
-      "name": "Monster Khaotic 0,5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 119,
-      "category": "Готовая Еда",
-      "name": "Чебупицца Пепперони 250г",
-      "systemQuantity": 1,
-      "factQuantity": 1
-    },
-    {
-      "id": 120,
-      "category": "Энергетические напитки",
-      "name": "Burn Сочная Энергия 0,45л",
-      "systemQuantity": 36,
-      "factQuantity": 46
-    },
-    {
-      "id": 121,
-      "category": "Энергетические напитки",
-      "name": "Gorilla Оригинал 0,45л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 122,
-      "category": "Энергетические напитки",
-      "name": "Gorilla Манго Кокос 0,45л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 123,
-      "category": "Энергетические напитки",
-      "name": "Burn Арбуз Без сахара 0,45л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 124,
-      "category": "Энергетические напитки",
-      "name": "Burn Гуава 0,45л",
-      "systemQuantity": 7,
-      "factQuantity": 6
-    },
-    {
-      "id": 125,
-      "category": "Напитки",
-      "name": "AriZona Tropical ChillZicle 0,65л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 126,
-      "category": "Напитки",
-      "name": "AriZona Mucho Mango 0,65л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 127,
-      "category": "Энергетические напитки",
-      "name": "Monster Nitro Cosmic Peach 0,5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 128,
-      "category": "Напитки",
-      "name": "Irn Bru 0,33л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 129,
-      "category": "Напитки",
-      "name": "Mountain Dew Citrus Blast 0,33л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 130,
-      "category": "Напитки",
-      "name": "Fanta Orange 0,35л",
-      "systemQuantity": 16,
-      "factQuantity": 16
-    },
-    {
-      "id": 131,
-      "category": "Напитки",
-      "name": "Fanta Grape 0,35л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 132,
-      "category": "Напитки",
-      "name": "Fanta Pineapple 0,35л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 133,
-      "category": "Напитки",
-      "name": "Fanta Berry 0,35л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 134,
-      "category": "Готовая Еда",
-      "name": "\"Сэндвич №10 \"\"Английский завтрак\"\" 175г\"",
-      "systemQuantity": 6,
-      "factQuantity": 5
-    },
-    {
-      "id": 135,
-      "category": "Готовая Еда",
-      "name": "\"Сэндвич №11 \"\"Курица Грибы\"\" 175г\"",
-      "systemQuantity": 1,
-      "factQuantity": 0
-    },
-    {
-      "id": 136,
-      "category": "Готовая Еда",
-      "name": "\"Сэндвич №9 \"\"Итальянский\"\" 175г\"",
-      "systemQuantity": 5,
-      "factQuantity": 5
-    },
-    {
-      "id": 137,
-      "category": "Готовая Еда",
-      "name": "Чебуппица Курочка По-Итальянски 250г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 138,
-      "category": "Шоколад",
-      "name": "Twix Extra 82г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 139,
-      "category": "Энергетические напитки",
-      "name": "Red Bull The Peach Edition 0,25л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 140,
-      "category": "Напитки",
-      "name": "Сок J7 Frustyle Апельсин 0.3л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 141,
-      "category": "Напитки",
-      "name": "Сок J7 Яблоко 0.3л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 142,
-      "category": "Напитки",
-      "name": "Сок J7 Манго 0.3л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 143,
-      "category": "Напитки",
-      "name": "AriZona Lemonade 0,65л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 144,
-      "category": "Напитки",
-      "name": "AriZona Ice Tea with Peach Flavor 0,65л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 145,
-      "category": "Напитки",
-      "name": "AriZona Ice Tea with Raspberry Flavor 0,65л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 146,
-      "category": "Напитки",
-      "name": "AriZona Fruit Punch 0,65л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 147,
-      "category": "Напитки",
-      "name": "Fanta Lemon 0,33л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 148,
-      "category": "Напитки",
-      "name": "Fanta Exotic 0,33л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 149,
-      "category": "Напитки",
-      "name": "Coca Cola Cherry 0,33л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 150,
-      "category": "Напитки",
-      "name": "Dr.Pepper Strawberry Cream 0,33л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 151,
-      "category": "Напитки",
-      "name": "Coca Cola Caffeine Free 0,33л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 152,
-      "category": "Напитки",
-      "name": "Fanta Peach 0,33л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 153,
-      "category": "Энергетические напитки",
-      "name": "Adrenaline Rush Апельсин 0.45",
-      "systemQuantity": 17,
-      "factQuantity": 17
-    },
-    {
-      "id": 154,
-      "category": "Энергетические напитки",
-      "name": "Drive Original 0.45",
-      "systemQuantity": 8,
-      "factQuantity": 7
-    },
-    {
-      "id": 155,
-      "category": "Снэки",
-      "name": "Хрустим Сметана и Зелень",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 156,
-      "category": "Шоколад",
-      "name": "Snickers Белый 81г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 157,
-      "category": "Энергетические напитки",
-      "name": "Drive Guava Mango Без Сахара 0,5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 158,
-      "category": "Энергетические напитки",
-      "name": "TASSAY Energy 0,5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 159,
-      "category": "Шоколад",
-      "name": "M&M КРИСПИ 6 ЦВЕТОВ",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 160,
-      "category": "Энергетические напитки",
-      "name": "Drive Berry Kick 0,5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 161,
-      "category": "Напитки",
-      "name": "Evervess cola 1л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 162,
-      "category": "Напитки",
-      "name": "Сок Любимый Яблоко 0,3л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 163,
-      "category": "Напитки",
-      "name": "Сок Любимый Земляничное лето 0,3л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 164,
-      "category": "Напитки",
-      "name": "Сок Любимый Вишневая черешня 0,3л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 165,
-      "category": "Снэки",
-      "name": "Хрустим Багет сметана зелень 100г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 166,
-      "category": "Энергетические напитки",
-      "name": "Burn Апельсиновый микс 0,45л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 167,
-      "category": "Готовая Еда",
-      "name": "\"Сэндвич №6 \"\"Курица и бекон\"\" 175г\"",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 168,
-      "category": "Готовая Еда",
-      "name": "\"Сэндвич №7 \"\"Лосось\"\" 175г\"",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 169,
-      "category": "Готовая Еда",
-      "name": "\"Онигири \"\"Тунец\"\"\"",
-      "systemQuantity": 2,
-      "factQuantity": 0
-    },
-    {
-      "id": 170,
-      "category": "Готовая Еда",
-      "name": "\"Онигири \"\"Креветка\"\"\"",
-      "systemQuantity": 1,
-      "factQuantity": 0
-    },
-    {
-      "id": 171,
-      "category": "Готовая Еда",
-      "name": "\"Онигири \"\"Нежный\"\"\"",
-      "systemQuantity": 2,
-      "factQuantity": 0
-    },
-    {
-      "id": 174,
-      "category": "Готовая Еда",
-      "name": "\"Онигири \"\"Филадельфия\"",
-      "systemQuantity": 5,
-      "factQuantity": 0
-    },
-    {
-      "id": 175,
-      "category": "Энергетические напитки",
-      "name": "Red Bull Тропический микс 0,355л",
-      "systemQuantity": 29,
-      "factQuantity": 29
-    },
-    {
-      "id": 176,
-      "category": "Энергетические напитки",
-      "name": "Red Bull Classic 0,355л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 177,
-      "category": "Снэки",
-      "name": "Lays Рифлёные Лобстер 70г",
-      "systemQuantity": 13,
-      "factQuantity": 13
-    },
-    {
-      "id": 178,
-      "category": "Снэки",
-      "name": "Сухарики шашлык с кетчупом 60г",
-      "systemQuantity": 5,
-      "factQuantity": 3
-    },
-    {
-      "id": 180,
-      "category": "Снэки",
-      "name": "Сухарики Красная Икра 40г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 181,
-      "category": "Энергетические напитки",
-      "name": "Monster Ultra White 0.5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 182,
-      "category": "Энергетические напитки",
-      "name": "Monster Ultra Violet 0.5л",
-      "systemQuantity": 1,
-      "factQuantity": 1
-    },
-    {
-      "id": 183,
-      "category": "Энергетические напитки",
-      "name": "Monster Ultra Fiesta 0.5л",
-      "systemQuantity": 8,
-      "factQuantity": 7
-    },
-    {
-      "id": 184,
-      "category": "Энергетические напитки",
-      "name": "Monster Zero Sugar 0.5л",
-      "systemQuantity": 6,
-      "factQuantity": 7
-    },
-    {
-      "id": 185,
-      "category": "Напитки",
-      "name": "Irn Bru Zero 0.33л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 186,
-      "category": "Шоколад",
-      "name": "Twix XTRA соленая карамель",
-      "systemQuantity": 5,
-      "factQuantity": 0
-    },
-    {
-      "id": 187,
-      "category": "Напитки",
-      "name": "Липтон Персик 0.5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 188,
-      "category": "Напитки",
-      "name": "Липтон Манго 0.5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 189,
-      "category": "Энергетические напитки",
-      "name": "Adrenaline Бриз 0,45л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 190,
-      "category": "Энергетические напитки",
-      "name": "Adrenaline Спайси 0,45л",
-      "systemQuantity": 3,
-      "factQuantity": 3
-    },
-    {
-      "id": 191,
-      "category": "Энергетические напитки",
-      "name": "Drive Экзотическая Энегрия 0,45л",
-      "systemQuantity": 11,
-      "factQuantity": 11
-    },
-    {
-      "id": 192,
-      "category": "Снэки",
-      "name": "Lays ИЗ Печи Мусс из Лосося 85г",
-      "systemQuantity": 2,
-      "factQuantity": 2
-    },
-    {
-      "id": 193,
-      "category": "Снэки",
-      "name": "4,6 Чипсы нори RIOBA Васаби",
-      "systemQuantity": 8,
-      "factQuantity": 8
-    },
-    {
-      "id": 194,
-      "category": "Снэки",
-      "name": "Чипсы DELICADOS с сыром 50г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 195,
-      "category": "Напитки",
-      "name": "Любимый Малиновая нежность 0.95",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 196,
-      "category": "Напитки",
-      "name": "Любимый Яблоко 0.95",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 197,
-      "category": "Напитки",
-      "name": "Любимый Вишневая черешня 0.95",
-      "systemQuantity": 10,
-      "factQuantity": 8
-    },
-    {
-      "id": 198,
-      "category": "Готовая Еда",
-      "name": "Круггетсы 200г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 200,
-      "category": "Готовая Еда",
-      "name": "Хотстеры 250г",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 201,
-      "category": "Энергетические напитки",
-      "name": "Flash Bubble Gum 0,5",
-      "systemQuantity": 20,
-      "factQuantity": 16
-    },
-    {
-      "id": 202,
-      "category": "Энергетические напитки",
-      "name": "Flash Mango Ananas 0,5",
-      "systemQuantity": 24,
-      "factQuantity": 20
-    },
-    {
-      "id": 203,
-      "category": "Энергетические напитки",
-      "name": "Flash Апельсиновый Ритм 0,5",
-      "systemQuantity": 21,
-      "factQuantity": 21
-    },
-    {
-      "id": 204,
-      "category": "Шоколад",
-      "name": "KitKat Chunky 40г",
-      "systemQuantity": 3,
-      "factQuantity": 0
-    },
-    {
-      "id": 205,
-      "category": "Напитки",
-      "name": "Coca Cola 0,3л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 206,
-      "category": "Напитки",
-      "name": "Любимый Апельсиновое манго",
-      "systemQuantity": 10,
-      "factQuantity": 9
-    },
-    {
-      "id": 207,
-      "category": "Напитки",
-      "name": "Любимый земляничное лето",
-      "systemQuantity": 9,
-      "factQuantity": 8
-    },
-    {
-      "id": 209,
-      "category": "Снэки",
-      "name": "Lays Малосольные Огурчики 140г",
-      "systemQuantity": 2,
-      "factQuantity": 2
-    },
-    {
-      "id": 210,
-      "category": "Снэки",
-      "name": "Lays Рифленые Лосось 140г",
-      "systemQuantity": 4,
-      "factQuantity": 4
-    },
-    {
-      "id": 211,
-      "category": "Снэки",
-      "name": "Lays Рифлёные Лобстер 140г",
-      "systemQuantity": 7,
-      "factQuantity": 3
-    },
-    {
-      "id": 212,
-      "category": "Снэки",
-      "name": "Lays Рифленые Стейк Рибай 140г",
-      "systemQuantity": 2,
-      "factQuantity": 2
-    },
-    {
-      "id": 214,
-      "category": "Готовая Еда",
-      "name": "Онигири Искушение",
-      "systemQuantity": 2,
-      "factQuantity": 0
-    },
-    {
-      "id": 215,
-      "category": "Готовая Еда",
-      "name": "Онигири Курица с грибами",
-      "systemQuantity": 2,
-      "factQuantity": 0
-    },
-    {
-      "id": 216,
-      "category": "Готовая Еда",
-      "name": "Онигири Кальмар",
-      "systemQuantity": 2,
-      "factQuantity": 0
-    },
-    {
-      "id": 217,
-      "category": "Напитки",
-      "name": "Lipton Зеленый 0.5л",
-      "systemQuantity": 9,
-      "factQuantity": 8
-    },
-    {
-      "id": 218,
-      "category": "Напитки",
-      "name": "Lipton Зеленый 1л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 219,
-      "category": "Напитки",
-      "name": "Lipton Лимон 0.5л",
-      "systemQuantity": 2,
-      "factQuantity": 0
-    },
-    {
-      "id": 220,
-      "category": "Напитки",
-      "name": "Lipton Лимон 1л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 221,
-      "category": "Напитки",
-      "name": "Lipton Малина 0.5л",
-      "systemQuantity": 9,
-      "factQuantity": 7
-    },
-    {
-      "id": 222,
+      "id": 25,
       "category": "Напитки",
       "name": "Lipton Малина 1л",
       "systemQuantity": 0,
       "factQuantity": 0
     },
     {
-      "id": 223,
+      "id": 26,
+      "category": "Напитки",
+      "name": "Lipton Манго 0.5л",
+      "systemQuantity": 0,
+      "factQuantity": 21
+    },
+    {
+      "id": 27,
       "category": "Энергетические напитки",
-      "name": "Red Bull Summer Edition 0,25л",
-      "systemQuantity": 7,
+      "name": "Lit Energy Classic 0,45л",
+      "systemQuantity": 4,
+      "factQuantity": 0
+    },
+    {
+      "id": 28,
+      "category": "Энергетические напитки",
+      "name": "Lit Energy Original Без Сахара 0,45л",
+      "systemQuantity": 0,
+      "factQuantity": 12
+    },
+    {
+      "id": 29,
+      "category": "Энергетические напитки",
+      "name": "Lit Energy Malina Crash 0,45л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 30,
+      "category": "Энергетические напитки",
+      "name": "Lit Energy Mango Coconut 0,45л",
+      "systemQuantity": 0,
+      "factQuantity": 17
+    },
+    {
+      "id": 31,
+      "category": "Шоколад",
+      "name": "Mars MAX 81г",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 32,
+      "category": "Энергетические напитки",
+      "name": "Monster Khaotic 0,5л",
+      "systemQuantity": 0,
+      "factQuantity": 11
+    },
+    {
+      "id": 33,
+      "category": "Энергетические напитки",
+      "name": "Monster Nitro Super Dry 0,5л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 34,
+      "category": "Энергетические напитки",
+      "name": "Monster Ultra Fiesta 0.5л",
+      "systemQuantity": 8,
+      "factQuantity": 0
+    },
+    {
+      "id": 35,
+      "category": "Энергетические напитки",
+      "name": "Monster Rio Punch 0.5л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 36,
+      "category": "Энергетические напитки",
+      "name": "Monster Bad Apple 0,5л",
+      "systemQuantity": 0,
       "factQuantity": 7
     },
     {
-      "id": 224,
+      "id": 37,
+      "category": "Энергетические напитки",
+      "name": "Monster Rehab Lemonade Tea 0,5л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 38,
+      "category": "Энергетические напитки",
+      "name": "Monster Mango Loco 0,5л",
+      "systemQuantity": 5,
+      "factQuantity": 0
+    },
+    {
+      "id": 39,
+      "category": "Энергетические напитки",
+      "name": "Monster Rehab Tea+Peach 0,5л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 40,
+      "category": "Энергетические напитки",
+      "name": "Monster Ultra Fantasy Ruby Red 0,5л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 41,
+      "category": "Энергетические напитки",
+      "name": "Monster The Doctor 0,5л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 42,
+      "category": "Шоколад",
+      "name": "Oreo Original 38г",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 43,
+      "category": "Шоколад",
+      "name": "Picnic Грецкий Орех 52г",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 44,
+      "category": "Энергетические напитки",
+      "name": "Red Bull The Peach Edition 0,25л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 45,
+      "category": "Напитки",
+      "name": "Смузи J7 Вишня, Банан, Яблоко 0.3л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 46,
+      "category": "Шоколад",
+      "name": "Snickers Белый 81г",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 47,
+      "category": "Шоколад",
+      "name": "Snickers Лесной Орех  81г",
+      "systemQuantity": 0,
+      "factQuantity": 31
+    },
+    {
+      "id": 48,
+      "category": "Напитки",
+      "name": "Сок J7 Frustyle Кактус Лайм 0.385л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 49,
+      "category": "Готовая Еда",
+      "name": "Сэндвич №1 ''С ветчиной'' 175г",
+      "systemQuantity": 0,
+      "factQuantity": 3
+    },
+    {
+      "id": 50,
+      "category": "Готовая Еда",
+      "name": "Сэндвич №18 ''С копченым мясом'' 175г",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 51,
+      "category": "Готовая Еда",
+      "name": "Сэндвич №4  ''Острый'' 175г",
+      "systemQuantity": 2,
+      "factQuantity": 3
+    },
+    {
+      "id": 52,
+      "category": "Готовая Еда",
+      "name": "Сэндвич №5 ''Цезарь'' 175г",
+      "systemQuantity": 4,
+      "factQuantity": 0
+    },
+    {
+      "id": 53,
+      "category": "Готовая Еда",
+      "name": "Сэндвич №8 ''С курицей и морковью'' 175г",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 54,
+      "category": "Готовая Еда",
+      "name": "\"Бургер №14 \"\"Два Мяса'' 190г\"",
+      "systemQuantity": 3,
+      "factQuantity": 0
+    },
+    {
+      "id": 55,
+      "category": "Готовая Еда",
+      "name": "Бургер №15 ''Италиано'' 190г",
+      "systemQuantity": 0,
+      "factQuantity": 7
+    },
+    {
+      "id": 56,
+      "category": "Готовая Еда",
+      "name": "Бургер №13 ''С копченым мясом'' 190г",
+      "systemQuantity": 0,
+      "factQuantity": 4
+    },
+    {
+      "id": 57,
       "category": "Напитки",
       "name": "\"Любимый \"\"Абрикосовая Груша\"\" 0,95л\"",
       "systemQuantity": 0,
       "factQuantity": 0
     },
     {
-      "id": 225,
+      "id": 58,
       "category": "Напитки",
       "name": "\"Любимый \"\"Виноградный Дуэт\"\" 0,95л\"",
       "systemQuantity": 7,
-      "factQuantity": 6
+      "factQuantity": 0
     },
     {
-      "id": 226,
+      "id": 59,
       "category": "Напитки",
       "name": "\"Любимый \"\"Черничная Забота\"\" 0,95л\"",
       "systemQuantity": 0,
       "factQuantity": 0
     },
     {
-      "id": 227,
+      "id": 60,
       "category": "Напитки",
-      "name": "\"Любимый \"\"Мультифрукт\"\" 0,95л\"",
+      "name": "\"Любимый \"\"Яблоко\"\" 0,95л\"",
+      "systemQuantity": 0,
+      "factQuantity": 4
+    },
+    {
+      "id": 61,
+      "category": "Снэки",
+      "name": "Хрустим Стэйк и Черный Перец 60г",
       "systemQuantity": 0,
       "factQuantity": 0
     },
     {
-      "id": 230,
+      "id": 62,
+      "category": "Снэки",
+      "name": "Хрустим Сырные Палочки XXL 140г",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 63,
+      "category": "Снэки",
+      "name": "Хрустим Багет Томат 60г",
+      "systemQuantity": 11,
+      "factQuantity": 0
+    },
+    {
+      "id": 64,
+      "category": "Снэки",
+      "name": "Хрустим Stix Баварские Колбаски 60г",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 65,
+      "category": "Снэки",
+      "name": "Хрустим Багет Сырное Ассорти 60г",
+      "systemQuantity": 27,
+      "factQuantity": 0
+    },
+    {
+      "id": 66,
       "category": "Энергетические напитки",
-      "name": "Drive Original 0.45л",
-      "systemQuantity": 7,
+      "name": "Flash Ultra 0,45л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 67,
+      "category": "Напитки",
+      "name": "Frustyle Апельсин 0.5л",
+      "systemQuantity": 31,
       "factQuantity": 7
     },
     {
-      "id": 231,
+      "id": 68,
+      "category": "Напитки",
+      "name": "Frustyle Лимон и Лайм 0.5л",
+      "systemQuantity": 30,
+      "factQuantity": 0
+    },
+    {
+      "id": 69,
       "category": "Снэки",
-      "name": "Хрустим Сметана и Зелень 60г",
+      "name": "Cheetos Сыр 85г",
       "systemQuantity": 0,
       "factQuantity": 0
     },
     {
-      "id": 232,
+      "id": 70,
+      "category": "Напитки",
+      "name": "Evervess cola 1л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 71,
+      "category": "Готовая Еда",
+      "name": "Сэндвич №2 ''Салями'' 175г",
+      "systemQuantity": 4,
+      "factQuantity": 0
+    },
+    {
+      "id": 72,
+      "category": "Шоколад",
+      "name": "Bounty 55г",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 73,
+      "category": "Шоколад",
+      "name": "Twix 55г",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 74,
+      "category": "Шоколад",
+      "name": "Snickers Больше Арахиса 81г",
+      "systemQuantity": 0,
+      "factQuantity": 3
+    },
+    {
+      "id": 75,
+      "category": "Шоколад",
+      "name": "MMs арахис 45г",
+      "systemQuantity": 0,
+      "factQuantity": 5
+    },
+    {
+      "id": 76,
+      "category": "Энергетические напитки",
+      "name": "Monster Full Throttle 0,5л",
+      "systemQuantity": 0,
+      "factQuantity": 3
+    },
+    {
+      "id": 77,
+      "category": "Готовая Еда",
+      "name": "Чебупицца Пепперони 250г",
+      "systemQuantity": 1,
+      "factQuantity": 0
+    },
+    {
+      "id": 78,
+      "category": "Энергетические напитки",
+      "name": "Gorilla Оригинал 0,45л",
+      "systemQuantity": 0,
+      "factQuantity": 5
+    },
+    {
+      "id": 79,
+      "category": "Энергетические напитки",
+      "name": "Gorilla Манго Кокос 0,45л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 80,
+      "category": "Энергетические напитки",
+      "name": "Burn Арбуз Без сахара 0,45л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 81,
+      "category": "Напитки",
+      "name": "AriZona Tropical ChillZicle 0,65л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 82,
+      "category": "Напитки",
+      "name": "AriZona Mucho Mango 0,65л",
+      "systemQuantity": 0,
+      "factQuantity": 6
+    },
+    {
+      "id": 83,
+      "category": "Энергетические напитки",
+      "name": "Monster Nitro Cosmic Peach 0,5л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 84,
+      "category": "Напитки",
+      "name": "Irn Bru Zero 0.33л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 85,
+      "category": "Напитки",
+      "name": "Mountain Dew Citrus Blast 0,33л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 86,
+      "category": "Напитки",
+      "name": "Fanta Berry 0,35л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 87,
+      "category": "Готовая Еда",
+      "name": "\"Сэндвич №10 \"\"Английский завтрак\"\" 175г\"",
+      "systemQuantity": 4,
+      "factQuantity": 0
+    },
+    {
+      "id": 88,
+      "category": "Готовая Еда",
+      "name": "\"Сэндвич №11 \"\"Курица Грибы\"\" 175г\"",
+      "systemQuantity": 2,
+      "factQuantity": 12
+    },
+    {
+      "id": 89,
+      "category": "Готовая Еда",
+      "name": "\"Сэндвич №9 \"\"Итальянский\"\" 175г\"",
+      "systemQuantity": 2,
+      "factQuantity": 0
+    },
+    {
+      "id": 90,
+      "category": "Готовая Еда",
+      "name": "Чебуппица Курочка По-Итальянски 250г",
+      "systemQuantity": 0,
+      "factQuantity": 28
+    },
+    {
+      "id": 91,
+      "category": "Шоколад",
+      "name": "Twix Extra 82г",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 92,
+      "category": "Напитки",
+      "name": "Сок J7 Манго 0.3л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 93,
+      "category": "Напитки",
+      "name": "AriZona Lemonade 0,65л",
+      "systemQuantity": 0,
+      "factQuantity": 16
+    },
+    {
+      "id": 94,
+      "category": "Напитки",
+      "name": "AriZona Ice Tea with Raspberry Flavor 0,65л",
+      "systemQuantity": 0,
+      "factQuantity": 11
+    },
+    {
+      "id": 95,
+      "category": "Напитки",
+      "name": "AriZona Fruit Punch 0,65л",
+      "systemQuantity": 0,
+      "factQuantity": 15
+    },
+    {
+      "id": 96,
+      "category": "Напитки",
+      "name": "Fanta Peach 0,33л",
+      "systemQuantity": 0,
+      "factQuantity": 6
+    },
+    {
+      "id": 97,
+      "category": "Напитки",
+      "name": "Coca Cola Caffeine Free 0,33л",
+      "systemQuantity": 0,
+      "factQuantity": 31
+    },
+    {
+      "id": 98,
+      "category": "Напитки",
+      "name": "Dr.Pepper Strawberry Cream 0,33л",
+      "systemQuantity": 0,
+      "factQuantity": 34
+    },
+    {
+      "id": 99,
+      "category": "Энергетические напитки",
+      "name": "Adrenaline Rush Апельсин 0.45",
+      "systemQuantity": 16,
+      "factQuantity": 33
+    },
+    {
+      "id": 100,
+      "category": "Снэки",
+      "name": "Хрустим Сметана и Зелень 60г",
+      "systemQuantity": 0,
+      "factQuantity": 35
+    },
+    {
+      "id": 101,
+      "category": "Энергетические напитки",
+      "name": "Drive Guava Mango Без Сахара 0,5л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 102,
+      "category": "Энергетические напитки",
+      "name": "TASSAY Energy 0,5л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 103,
       "category": "Шоколад",
       "name": "MMs Криспи 36г",
       "systemQuantity": 0,
       "factQuantity": 0
     },
     {
-      "id": 233,
+      "id": 104,
+      "category": "Энергетические напитки",
+      "name": "Drive Berry Kick 0,5л",
+      "systemQuantity": 0,
+      "factQuantity": 29
+    },
+    {
+      "id": 105,
       "category": "Напитки",
       "name": "\"Любимый \"\"Яблоко\"\" 0,3л\"",
       "systemQuantity": 0,
-      "factQuantity": 0
+      "factQuantity": 25
     },
     {
-      "id": 234,
+      "id": 106,
       "category": "Напитки",
-      "name": "\"Любимый \"\"Земляничное лето\"\" 0,3л \"",
-      "systemQuantity": 0,
-      "factQuantity": 0
+      "name": "\"Любимый \"\"Земляничное лето\"\" 0,95л\"",
+      "systemQuantity": 5,
+      "factQuantity": 24
     },
     {
-      "id": 235,
+      "id": 107,
       "category": "Напитки",
-      "name": "\"Любимый \"\"Вишневая черешня\"\" 0,3л\"",
-      "systemQuantity": 0,
-      "factQuantity": 0
+      "name": "\"Любимый \"\"Вишневая черешня\"\" 0,95л\"",
+      "systemQuantity": 7,
+      "factQuantity": 25
     },
     {
-      "id": 236,
-      "category": "Готовая Еда",
-      "name": "\"Онигири \"\"Тунец\"\" 120г\"",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 237,
-      "category": "Готовая Еда",
-      "name": "\"Онигири \"\"Креветка\"\" 120г\"",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 238,
-      "category": "Готовая Еда",
-      "name": "\"Онигири \"\"Нежный\"\" 120г\"",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 239,
-      "category": "Готовая Еда",
-      "name": "\"Сэндвич \"\"С ветчиной и сыром\"\" 180г\"",
-      "systemQuantity": 0,
-      "factQuantity": 1
-    },
-    {
-      "id": 240,
-      "category": "Готовая Еда",
-      "name": "\"Сэндвич \"\"С курицей и соленым огурцом\"\" 180г\"",
+      "id": 108,
+      "category": "Снэки",
+      "name": "Хрустим Багет сметана зелень 100г",
       "systemQuantity": 0,
       "factQuantity": 3
     },
     {
-      "id": 241,
+      "id": 109,
       "category": "Готовая Еда",
-      "name": "\"Онигири \"\"Филадельфия\"\" 120г\"",
+      "name": "\"Сэндвич №6 \"\"Курица и бекон\"\" 175г\"",
       "systemQuantity": 0,
       "factQuantity": 0
     },
     {
-      "id": 242,
-      "category": "Энергетические напитки",
-      "name": "Red Bull Tropical Edition 0,355л",
-      "systemQuantity": 24,
-      "factQuantity": 24
+      "id": 110,
+      "category": "Готовая Еда",
+      "name": "\"Сэндвич №7 \"\"Лосось\"\" 175г\"",
+      "systemQuantity": 0,
+      "factQuantity": 0
     },
     {
-      "id": 243,
+      "id": 111,
+      "category": "Готовая Еда",
+      "name": "\"Онигири \"\"Кальмар\"\" 120г\"",
+      "systemQuantity": 0,
+      "factQuantity": 9
+    },
+    {
+      "id": 112,
+      "category": "Готовая Еда",
+      "name": "\"Сэндвич \"\"С ветчиной и сыром\"\" 180г\"",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 113,
+      "category": "Готовая Еда",
+      "name": "\"Сэндвич \"\"С курицей и соленым огурцом\"\" 180г\"",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 114,
+      "category": "Энергетические напитки",
+      "name": "Red Bull Classic 0,355л",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 115,
+      "category": "Снэки",
+      "name": "Сухарики шашлык с кетчупом 60г",
+      "systemQuantity": 5,
+      "factQuantity": 0
+    },
+    {
+      "id": 116,
       "category": "Снэки",
       "name": "Сухарики 3 корочки Сыр и Сёмга 40г",
-      "systemQuantity": 15,
-      "factQuantity": 14
+      "systemQuantity": 13,
+      "factQuantity": 0
     },
     {
-      "id": 244,
+      "id": 117,
       "category": "Снэки",
       "name": "Кириешки Красная Икра 40г",
       "systemQuantity": 0,
       "factQuantity": 0
     },
     {
-      "id": 245,
+      "id": 118,
+      "category": "Энергетические напитки",
+      "name": "Monster Zero Sugar 0.5л",
+      "systemQuantity": 5,
+      "factQuantity": 0
+    },
+    {
+      "id": 119,
       "category": "Шоколад",
       "name": "Twix XTRA Соленая карамель 82г",
       "systemQuantity": 3,
+      "factQuantity": 1
+    },
+    {
+      "id": 120,
+      "category": "Энергетические напитки",
+      "name": "Adrenaline Спайси 0,45л",
+      "systemQuantity": 2,
+      "factQuantity": 46
+    },
+    {
+      "id": 121,
+      "category": "Энергетические напитки",
+      "name": "Drive Экзотическая Энегрия 0,45л",
+      "systemQuantity": 11,
       "factQuantity": 0
     },
     {
-      "id": 246,
-      "category": "Напитки",
-      "name": "Lipton Персик 0.5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 247,
-      "category": "Напитки",
-      "name": "Lipton Манго 0.5л",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 248,
+      "id": 122,
       "category": "Снэки",
       "name": "Чипсы нори RIOBA Васаби 4,5г",
-      "systemQuantity": 8,
-      "factQuantity": 8
+      "systemQuantity": 4,
+      "factQuantity": 0
     },
     {
-      "id": 249,
+      "id": 123,
       "category": "Снэки",
       "name": "DELICADOS с сыром 50г",
       "systemQuantity": 0,
       "factQuantity": 0
     },
     {
-      "id": 250,
+      "id": 124,
       "category": "Напитки",
       "name": "\"Любимый \"\"Малиновая нежность\"\" 0,95л\"",
       "systemQuantity": 0,
-      "factQuantity": 0
+      "factQuantity": 6
     },
     {
-      "id": 251,
-      "category": "Напитки",
-      "name": "\"Любимый \"\"Яблоко\"\" 0,95л\"",
+      "id": 125,
+      "category": "Готовая Еда",
+      "name": "Круггетсы 200г",
       "systemQuantity": 0,
       "factQuantity": 0
     },
     {
-      "id": 252,
-      "category": "Напитки",
-      "name": "\"Любимый \"\"Вишневая черешня\"\" 0,95л\"",
-      "systemQuantity": 8,
-      "factQuantity": 8
-    },
-    {
-      "id": 253,
+      "id": 126,
       "category": "Готовая Еда",
       "name": "Чебупелли Ветчина и сыр 250г",
-      "systemQuantity": 1,
-      "factQuantity": 1
+      "systemQuantity": 0,
+      "factQuantity": 0
     },
     {
-      "id": 254,
+      "id": 127,
+      "category": "Готовая Еда",
+      "name": "Хотстеры 250г",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 128,
       "category": "Энергетические напитки",
       "name": "Flash Bubble Gum 0,5л",
-      "systemQuantity": 17,
+      "systemQuantity": 15,
+      "factQuantity": 0
+    },
+    {
+      "id": 129,
+      "category": "Энергетические напитки",
+      "name": "Flash Mango Ananas 0,5л",
+      "systemQuantity": 19,
+      "factQuantity": 0
+    },
+    {
+      "id": 130,
+      "category": "Энергетические напитки",
+      "name": "Flash Апельсиновый Ритм 0,5л",
+      "systemQuantity": 18,
       "factQuantity": 16
     },
     {
-      "id": 255,
-      "category": "Энергетические напитки",
-      "name": "Flash Mango Ananas 0,5л",
-      "systemQuantity": 20,
-      "factQuantity": 20
+      "id": 131,
+      "category": "Шоколад",
+      "name": "KitKat Chunky 40г",
+      "systemQuantity": 3,
+      "factQuantity": 0
     },
     {
-      "id": 256,
-      "category": "Энергетические напитки",
-      "name": "Flash Апельсиновый Ритм 0,5л",
-      "systemQuantity": 21,
-      "factQuantity": 21
+      "id": 132,
+      "category": "Напитки",
+      "name": "Coca Cola 0,3л",
+      "systemQuantity": 0,
+      "factQuantity": 0
     },
     {
-      "id": 257,
+      "id": 133,
       "category": "Напитки",
       "name": "\"Любимый \"\"Апельсиновое манго\"\" 0,95л\"",
       "systemQuantity": 9,
-      "factQuantity": 9
+      "factQuantity": 0
     },
     {
-      "id": 258,
-      "category": "Напитки",
-      "name": "\"Любимый \"\"Земляничное лето\"\" 0,95л\"",
-      "systemQuantity": 8,
-      "factQuantity": 8
-    },
-    {
-      "id": 259,
+      "id": 134,
       "category": "Снэки",
-      "name": "Lays Бекон 70г",
-      "systemQuantity": 5,
+      "name": "Lays Малосольные Огурчики 140г",
+      "systemQuantity": 1,
       "factQuantity": 5
     },
     {
-      "id": 260,
+      "id": 135,
+      "category": "Снэки",
+      "name": "Lays Рифленые Стейк Рибай 140г",
+      "systemQuantity": 1,
+      "factQuantity": 0
+    },
+    {
+      "id": 136,
       "category": "Готовая Еда",
       "name": "\"Сэндвич \"\"Лосось\"\" 180г\"",
       "systemQuantity": 0,
-      "factQuantity": 0
+      "factQuantity": 5
     },
     {
-      "id": 261,
-      "category": "Готовая Еда",
-      "name": "\"Онигири \"\"Искушение\"\" 120г\"",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 262,
+      "id": 137,
       "category": "Готовая Еда",
       "name": "\"Онигири \"\"Курица с грибами\"\" 120г\"",
-      "systemQuantity": 0,
-      "factQuantity": 0
-    },
-    {
-      "id": 263,
-      "category": "Готовая Еда",
-      "name": "\"Онигири \"\"Кальмар\"\" 120г\"",
       "systemQuantity": 0,
       "factQuantity": 0
     }
