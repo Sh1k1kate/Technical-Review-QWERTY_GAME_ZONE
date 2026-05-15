@@ -11,6 +11,9 @@ GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "ghp_...")
 ADMIN_CHAT_ID = os.environ.get("ADMIN_CHAT_ID", "398362790")
 NOVOSIBIRSK_TZ = timezone(timedelta(hours=7))
 
+# Имя файла истории удалений (отдельно от других скриптов)
+HISTORY_FILE = "game_history.json"
+
 # ==================== GitHub helpers ====================
 def get_github_raw(file_path):
     url = f"https://raw.githubusercontent.com/{GITHUB_OWNER}/{GITHUB_REPO}/{GITHUB_BRANCH}/{file_path}"
@@ -151,7 +154,7 @@ def cmd_status_all(chat_id):
     send_message(chat_id, "\n".join(lines))
 
 def cmd_history(chat_id):
-    hist = read_json_from_github("history.json").get("events", [])
+    hist = read_json_from_github(HISTORY_FILE).get("events", [])
     if not hist:
         send_message(chat_id, "📭 История пуста.")
         return
@@ -303,7 +306,7 @@ alert_lock = threading.Lock()
 
 def send_pending_alerts():
     global last_notified_timestamp
-    hist = read_json_from_github("history.json")
+    hist = read_json_from_github(HISTORY_FILE)
     if not hist or "events" not in hist:
         return
     events = hist["events"]
@@ -344,7 +347,7 @@ def webhook():
         chat_id = str(msg["chat"]["id"])
         text = msg.get("text", "")
 
-        # Обработка force_reply (ожидание ввода от админа)
+        # Обработка force_reply
         state = user_states.get(chat_id)
         if state:
             if state["action"] == "awaiting_interval":
@@ -392,7 +395,7 @@ def webhook():
                 del user_states[chat_id]
                 return "ok"
 
-        # Обработка кнопок и команд
+        # Команды и кнопки
         if text == "/start" or text == "✅ Подписаться":
             if add_subscriber(chat_id):
                 send_message(chat_id, "✅ Вы подписаны.", reply_markup=get_reply_keyboard(chat_id))
