@@ -12,7 +12,7 @@
     ]
   },
   {
-    "timestamp": 1778807019032,
+    "timestamp": 1778807631839,
     "items": [
       {
         "id": 2,
@@ -33,6 +33,13 @@
         "factQuantity": 16,
         "systemQuantity": 16,
         "name": "Adrenaline Rush Апельсин 0.45",
+        "category": "Энергетические напитки"
+      },
+      {
+        "id": 120,
+        "factQuantity": 2,
+        "systemQuantity": 2,
+        "name": "Adrenaline Спайси 0,45л",
         "category": "Энергетические напитки"
       }
     ]
