@@ -10,5 +10,17 @@
         "category": "Энергетические напитки"
       }
     ]
+  },
+  {
+    "timestamp": 1778806915280,
+    "items": [
+      {
+        "id": 2,
+        "factQuantity": 48,
+        "systemQuantity": 52,
+        "name": "Adrenaline Rush 0.25л",
+        "category": "Энергетические напитки"
+      }
+    ]
   }
 ]
