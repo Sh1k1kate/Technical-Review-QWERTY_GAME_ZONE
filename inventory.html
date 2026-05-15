@@ -13,7 +13,6 @@
         body.dark-theme { background: #0f172a; color: #e2e8f0; }
         .container { max-width: 800px; margin: 0 auto; padding: 12px; padding-bottom: 80px; }
 
-        /* Верхняя панель */
         .toolbar { 
             background: white; 
             border-radius: 24px; 
@@ -30,7 +29,6 @@
         }
         .dark-theme .toolbar { background: #1e293b; }
 
-        /* Обновлённые кнопки */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -67,7 +65,9 @@
         }
         .dark-theme .toolbar .separator { background: #475569; }
 
-        /* Строка поиска и фильтры */
+        .extra-buttons { display: none; gap: 8px; flex-wrap: wrap; align-items: center; }
+        .extra-buttons.show { display: flex; }
+
         .search-row {
             display: flex;
             gap: 8px;
@@ -84,11 +84,8 @@
             background: white;
             box-shadow: 0 2px 6px rgba(0,0,0,0.04);
         }
-        .dark-theme .search-row input {
-            background: #1e293b;
-            border-color: #334155;
-            color: white;
-        }
+        .dark-theme .search-row input { background: #1e293b; border-color: #334155; color: white; }
+
         .filter-group {
             display: flex;
             gap: 6px;
@@ -122,8 +119,6 @@
             cursor: pointer;
         }
         .dark-theme .stock-filter { background: #1e293b; }
-
-        /* Статистика */
         .stat-badge {
             background: white;
             padding: 8px 16px;
@@ -135,7 +130,6 @@
         }
         .dark-theme .stat-badge { background: #1e293b; }
 
-        /* Карточки товаров */
         .cards-container { display: flex; flex-direction: column; gap: 12px; }
         .inventory-card {
             background: white;
@@ -154,14 +148,7 @@
         .dark-theme .inventory-card.mismatch { background: #2d1a1a; border-left-color: #ef4444; }
 
         .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
-        .card-category {
-            background: #e2e8f0;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #475569;
-        }
+        .card-category { background: #e2e8f0; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; color: #475569; }
         .dark-theme .card-category { background: #334155; color: #cbd5e1; }
         .card-name { font-size: 1rem; font-weight: 600; color: #1e293b; word-break: break-word; flex: 1; }
         .dark-theme .card-name { color: #f1f5f9; }
@@ -179,53 +166,24 @@
         .fact-qty { display: flex; align-items: center; gap: 8px; flex: 1; flex-wrap: wrap; }
         .fact-qty-label { font-size: 0.8rem; font-weight: 500; color: #64748b; }
         .fact-input-card {
-            width: 90px;
-            padding: 8px 10px;
-            border-radius: 16px;
-            border: 1px solid #cbd5e1;
-            text-align: center;
-            font-size: 0.9rem;
-            font-weight: 500;
-            background: white;
+            width: 90px; padding: 8px 10px; border-radius: 16px; border: 1px solid #cbd5e1;
+            text-align: center; font-size: 0.9rem; font-weight: 500; background: white;
         }
         .dark-theme .fact-input-card { background: #0f172a; border-color: #475569; color: white; }
         .delete-btn {
-            background: #ef4444;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            padding: 6px 12px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            margin-top: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+            background: #ef4444; color: white; border: none; border-radius: 30px;
+            padding: 6px 12px; font-size: 0.7rem; cursor: pointer; margin-top: 8px;
+            display: inline-flex; align-items: center; gap: 4px;
         }
 
-        /* Таблица (десктоп) */
         .table-container { display: none; }
         @media (min-width: 768px) {
             .cards-container { display: none; }
-            .table-container {
-                display: block;
-                background: white;
-                border-radius: 20px;
-                padding: 12px;
-                overflow-x: auto;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            }
+            .table-container { display: block; background: white; border-radius: 20px; padding: 12px; overflow-x: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
             .dark-theme .table-container { background: #1e293b; }
             table { width: 100%; border-collapse: collapse; min-width: 700px; font-size: 0.85rem; }
             th, td { padding: 10px 8px; text-align: left; }
-            .fact-input {
-                width: 80px;
-                padding: 6px;
-                border-radius: 16px;
-                border: 1px solid #cbd5e1;
-                text-align: center;
-                background: white;
-            }
+            .fact-input { width: 80px; padding: 6px; border-radius: 16px; border: 1px solid #cbd5e1; text-align: center; background: white; }
             .dark-theme .fact-input { background: #0f172a; border-color: #475569; color: white; }
             .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; display: inline-block; }
             .badge-match { background: #22c55e; color: white; }
@@ -234,61 +192,27 @@
             .dark-theme .system-quantity { background: #334155; }
             tr.mismatch { background: #fee2e2; }
             .dark-theme tr.mismatch { background: #7f1a1a; }
-            .delete-table-btn {
-                background: #ef4444;
-                border: none;
-                color: white;
-                padding: 4px 8px;
-                border-radius: 20px;
-                cursor: pointer;
-                font-size: 0.7rem;
-            }
+            .delete-table-btn { background: #ef4444; border: none; color: white; padding: 4px 8px; border-radius: 20px; cursor: pointer; font-size: 0.7rem; }
         }
 
-        /* FAB сканирования */
         .fab {
-            position: fixed;
-            bottom: 28px;
-            right: 28px;
-            width: 60px;
-            height: 60px;
-            border-radius: 30px;
-            background: #8b5cf6;
-            color: white;
-            border: none;
-            font-size: 26px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 6px 18px rgba(139,92,246,0.4);
-            cursor: pointer;
-            z-index: 2000;
+            position: fixed; bottom: 28px; right: 28px; width: 60px; height: 60px;
+            border-radius: 30px; background: #8b5cf6; color: white; border: none; font-size: 26px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 6px 18px rgba(139,92,246,0.4); cursor: pointer; z-index: 2000;
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .fab:active { transform: scale(0.94); box-shadow: 0 4px 12px rgba(139,92,246,0.3); }
 
-        /* Тост */
         .toast {
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #22c55e;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 40px;
-            animation: fade 3s;
-            z-index: 3000;
-            font-size: 0.85rem;
-            font-weight: 500;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            max-width: 90%;
-            text-align: center;
+            position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+            background: #22c55e; color: white; padding: 12px 24px; border-radius: 40px;
+            animation: fade 3s; z-index: 3000; font-size: 0.85rem; font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2); max-width: 90%; text-align: center;
         }
         .toast.error { background: #ef4444; }
         @keyframes fade { 0% { opacity: 0; transform: translateX(-50%) translateY(20px); } 10% { opacity: 1; transform: translateX(-50%) translateY(0); } 90% { opacity: 1; } 100% { opacity: 0; transform: translateX(-50%) translateY(20px); } }
 
-        /* Модальные окна */
         .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; padding: 16px; }
         .modal.active { display: flex; }
         .modal-content { background: white; border-radius: 24px; padding: 24px; max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
@@ -300,18 +224,9 @@
         .barcode-row { display: flex; gap: 8px; align-items: center; }
         .barcode-row .form-input { flex: 1; }
         .autocomplete-list {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            margin-top: 4px;
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: absolute; top: 100%; left: 0; right: 0; background: white;
+            border: 1px solid #e2e8f0; border-radius: 16px; margin-top: 4px; max-height: 200px;
+            overflow-y: auto; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         .dark-theme .autocomplete-list { background: #1e293b; border-color: #334155; }
         .autocomplete-item { padding: 10px 14px; cursor: pointer; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; }
@@ -324,25 +239,27 @@
 </head>
 <body>
 <div class="container">
-    <!-- Верхняя панель инструментов -->
+    <!-- Верхняя сворачиваемая панель -->
     <div class="toolbar" id="toolbar">
-        <button class="btn btn-success" id="loadCsvBtn">📁 CSV</button>
-        <button class="btn btn-purple" id="textInputBtn">📝 Текст</button>
         <button class="btn btn-success" id="exportTxtBtn">📄 TXT</button>
         <button class="btn btn-primary" id="applyAllBtn">💾 Сохранить</button>
-        <button class="btn btn-primary" id="addItemBtn">➕ Товар</button>
-        <div class="separator"></div>
-        <button class="btn" id="exportMismatchesBtn">📎 Расхождения</button>
-        <button class="btn" id="showChartBtn">📈 График</button>
-        <button class="btn btn-danger" id="exportPdfBtn">📄 PDF</button>
-        <div class="separator"></div>
-        <button class="btn" id="historyBtn">📜 История</button>
-        <button class="btn" id="showTokenBtn">🔑 Токен</button>
         <button class="btn" id="saveMasterToGithubBtn">☁️ В облако</button>
         <button class="btn" id="loadMasterFromGithubBtn">📥 Из облака</button>
-        <label style="display:flex; align-items:center; gap:4px; font-size:0.75rem; cursor:pointer; margin-left:auto;">
-            <input type="checkbox" id="autoSyncCheckbox"> 🔄 Авто
-        </label>
+        <div class="separator"></div>
+        <button class="btn" id="toggleExtraBtn" style="font-weight:bold;">⚙️ Ещё ▾</button>
+        <div class="extra-buttons" id="extraButtons">
+            <button class="btn btn-success" id="loadCsvBtn">📁 CSV</button>
+            <button class="btn btn-purple" id="textInputBtn">📝 Текст</button>
+            <button class="btn btn-primary" id="addItemBtn">➕ Товар</button>
+            <button class="btn" id="exportMismatchesBtn">📎 Расхождения</button>
+            <button class="btn" id="showChartBtn">📈 График</button>
+            <button class="btn btn-danger" id="exportPdfBtn">📄 PDF</button>
+            <button class="btn" id="historyBtn">📜 История</button>
+            <button class="btn" id="showTokenBtn">🔑 Токен</button>
+            <label style="display:flex; align-items:center; gap:4px; font-size:0.75rem; cursor:pointer; white-space:nowrap;">
+                <input type="checkbox" id="autoSyncCheckbox"> 🔄 Авто
+            </label>
+        </div>
     </div>
 
     <!-- Строка поиска и фильтры -->
@@ -363,18 +280,15 @@
         </span>
     </div>
 
-    <!-- Карточки товаров -->
     <div id="cardsContainer" class="cards-container"></div>
-    <!-- Таблица для десктопа -->
     <div class="table-container">
         <table><thead><tr><th onclick="window.sortBy('category')">Категория</th><th onclick="window.sortBy('name')">Наименование</th><th onclick="window.sortBy('systemQuantity')">Учёт</th><th>Фактический</th><th>Статус</th><th></th></tr></thead><tbody id="tableBody"></tbody></table>
     </div>
 </div>
 
-<!-- FAB сканирования -->
 <button class="fab" id="fabScanBtn" title="Сканировать штрихкод">📷</button>
 
-<!-- Модальные окна (без изменений) -->
+<!-- Модальные окна -->
 <div class="modal" id="itemModal">
     <div class="modal-content">
         <h3 id="modalTitle">➕ Добавить товар</h3>
@@ -1076,7 +990,6 @@
         else { sortField = field; sortAscending = true; }
         renderAll();
     };
-    function updateRepoDisplay() {}
     function setupAutocomplete() {
         const inp = document.getElementById('modalName');
         const div = document.getElementById('modalAutocomplete');
@@ -1106,7 +1019,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
-        updateRepoDisplay();
         document.getElementById('autoSyncCheckbox').checked = autoSync;
         document.getElementById('autoSyncCheckbox').addEventListener('change', e => { autoSync = e.target.checked; localStorage.setItem('auto_sync', autoSync); });
 
@@ -1116,6 +1028,15 @@
         if (!inventoryItems.length && masterProducts.length) syncInventoryFromMaster();
         await initHistory();
 
+        // Сворачивание панели
+        const toggleBtn = document.getElementById('toggleExtraBtn');
+        const extraDiv = document.getElementById('extraButtons');
+        toggleBtn.addEventListener('click', () => {
+            const isOpen = extraDiv.classList.toggle('show');
+            toggleBtn.innerHTML = isOpen ? '⚙️ Ещё ▴' : '⚙️ Ещё ▾';
+        });
+
+        // Привязка кнопок
         document.getElementById('csvFileInput').addEventListener('change', e => { if (e.target.files[0]) { const r = new FileReader(); r.onload = ev => parseCSVAndMergeMaster(ev.target.result); r.readAsText(e.target.files[0], 'UTF-8'); } });
         document.getElementById('loadCsvBtn').addEventListener('click', () => document.getElementById('csvFileInput').click());
         document.getElementById('textInputBtn').addEventListener('click', () => document.getElementById('textInputModal').classList.add('active'));
@@ -1131,7 +1052,7 @@
         document.getElementById('historyBtn').addEventListener('click', showHistoryModal);
         document.getElementById('closeHistoryModalBtn').addEventListener('click', () => document.getElementById('historyModal').classList.remove('active'));
         document.getElementById('showTokenBtn').addEventListener('click', () => { document.getElementById('githubTokenInput').value = githubToken; document.getElementById('tokenModal').classList.add('active'); });
-        document.getElementById('saveTokenBtn').addEventListener('click', () => { githubToken = document.getElementById('githubTokenInput').value.trim(); if (githubToken) { localStorage.setItem('github_token', githubToken); updateRepoDisplay(); } document.getElementById('tokenModal').classList.remove('active'); });
+        document.getElementById('saveTokenBtn').addEventListener('click', () => { githubToken = document.getElementById('githubTokenInput').value.trim(); if (githubToken) { localStorage.setItem('github_token', githubToken); } document.getElementById('tokenModal').classList.remove('active'); });
         document.getElementById('cancelTokenBtn').addEventListener('click', () => document.getElementById('tokenModal').classList.remove('active'));
         document.getElementById('saveMasterToGithubBtn').addEventListener('click', () => saveMasterToGithub(true));
         document.getElementById('loadMasterFromGithubBtn').addEventListener('click', () => loadMasterFromGithub(true));
