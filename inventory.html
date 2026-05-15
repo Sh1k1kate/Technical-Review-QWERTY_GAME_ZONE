@@ -9,51 +9,29 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; margin: 0; padding: 0; }
-        body { background: #f4f7fb; color: #1e293b; padding: 12px; min-height: 100vh; }
+        body { background: #f4f7fb; color: #1e293b; padding: 0; min-height: 100vh; }
         body.dark-theme { background: #0f172a; color: #e2e8f0; }
-        .container { max-width: 800px; margin: 0 auto; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
-        h1 { font-size: 1.4rem; font-weight: 600; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .theme-toggle { background: white; border: 1px solid #e2e8f0; border-radius: 40px; padding: 8px 16px; cursor: pointer; font-size: 0.85rem; }
-        .dark-theme .theme-toggle { background: #1e293b; border-color: #334155; color: #f1f5f9; }
-        .nav-links { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-        .nav-link { background: white; border: 1px solid #e2e8f0; border-radius: 40px; padding: 8px 16px; text-decoration: none; color: #1e293b; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; }
-        .dark-theme .nav-link { background: #1e293b; color: #f1f5f9; border-color: #334155; }
-        .nav-link.primary { background: #3b82f6; color: white; border: none; }
-        .github-panel { background: white; border-radius: 20px; padding: 12px 16px; margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .dark-theme .github-panel { background: #1e293b; }
-        .repo-info { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; flex-wrap: wrap; }
-        .repo-info span { background: #f1f5f9; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; }
-        .dark-theme .repo-info span { background: #0f172a; }
-        .btn { background: white; border: 1px solid #e2e8f0; border-radius: 30px; padding: 6px 12px; font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 4px; }
-        .dark-theme .btn { background: #0f172a; border-color: #334155; color: #f1f5f9; }
-        .btn-primary { background: #3b82f6; color: white; border: none; }
-        .btn-success { background: #22c55e; color: white; border: none; }
-        .btn-warning { background: #f59e0b; color: white; border: none; }
-        .btn-purple { background: #8b5cf6; color: white; border: none; }
-        .search-bar { background: white; border-radius: 20px; padding: 12px 16px; margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .dark-theme .search-bar { background: #1e293b; }
-        .search-box { flex: 1; position: relative; }
-        .search-box input { width: 100%; padding: 10px 12px 10px 36px; border: 1px solid #e2e8f0; border-radius: 30px; font-size: 0.9rem; }
-        .dark-theme .search-box input { background: #0f172a; border-color: #334155; color: white; }
-        .search-box::before { content: "🔍"; position: absolute; left: 12px; top: 9px; font-size: 0.9rem; }
-        .stats-panel { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: space-between; width: 100%; }
-        .stat-badge { background: #f1f5f9; border-radius: 30px; padding: 6px 12px; display: flex; gap: 12px; font-size: 0.75rem; }
-        .dark-theme .stat-badge { background: #0f172a; }
-        .btn-group { display: flex; gap: 6px; flex-wrap: wrap; }
-        .filter-group { display: flex; gap: 8px; align-items: center; background: #f1f5f9; padding: 4px 12px; border-radius: 30px; flex-wrap: wrap; }
-        .dark-theme .filter-group { background: #0f172a; }
-        .filter-label { font-size: 0.7rem; color: #64748b; }
-        .filter-btn { background: transparent; border: none; padding: 4px 12px; border-radius: 30px; font-size: 0.75rem; cursor: pointer; transition: 0.2s; color: #64748b; }
+        .container { max-width: 800px; margin: 0 auto; padding: 12px; padding-bottom: 80px; }
+        /* Верхняя панель */
+        .toolbar { background: white; border-radius: 20px; padding: 10px 14px; margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; box-shadow: 0 2px 6px rgba(0,0,0,0.06); position: sticky; top: 8px; z-index: 500; }
+        .dark-theme .toolbar { background: #1e293b; }
+        .toolbar .btn { font-size: 0.78rem; padding: 6px 12px; white-space: nowrap; }
+        .toolbar .separator { width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px; }
+        .dark-theme .toolbar .separator { background: #334155; }
+        /* Поиск и фильтры */
+        .search-row { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; flex-wrap: wrap; }
+        .search-row input { flex: 1; padding: 8px 12px; border-radius: 30px; border: 1px solid #e2e8f0; font-size: 0.9rem; }
+        .dark-theme .search-row input { background: #1e293b; border-color: #334155; color: white; }
+        .filter-group { display: flex; gap: 6px; background: white; padding: 4px 8px; border-radius: 30px; }
+        .dark-theme .filter-group { background: #1e293b; }
+        .filter-btn { background: transparent; border: none; padding: 4px 10px; border-radius: 30px; font-size: 0.7rem; cursor: pointer; color: #64748b; }
         .filter-btn.active { background: #3b82f6; color: white; }
-        .dark-theme .filter-btn.active { background: #3b82f6; }
-        .stock-filter { display: inline-flex; align-items: center; gap: 6px; background: #f1f5f9; padding: 4px 12px; border-radius: 30px; font-size: 0.75rem; }
-        .dark-theme .stock-filter { background: #0f172a; }
-        .data-status { display: flex; align-items: center; gap: 4px; font-size: 0.7rem; padding: 4px 10px; border-radius: 30px; background: #f1f5f9; }
-        .dark-theme .data-status { background: #0f172a; }
+        .stock-filter { display: inline-flex; align-items: center; gap: 4px; background: white; padding: 4px 10px; border-radius: 30px; font-size: 0.7rem; }
+        .dark-theme .stock-filter { background: #1e293b; }
+        /* Карточки товаров */
         .cards-container { display: flex; flex-direction: column; gap: 12px; }
         .inventory-card { background: white; border-radius: 20px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 4px solid #22c55e; position: relative; transition: background 0.2s; cursor: pointer; }
-        .inventory-card.highlight { background: #fef08a !important; transition: 0.3s; }
+        .inventory-card.highlight { background: #fef08a !important; }
         .dark-theme .inventory-card.highlight { background: #854d0e !important; }
         .dark-theme .inventory-card { background: #1e293b; border-left-color: #22c55e; }
         .inventory-card.mismatch { border-left-color: #ef4444; background: #fff5f5; }
@@ -77,7 +55,7 @@
         .fact-qty-label { font-size: 0.8rem; font-weight: 500; color: #64748b; }
         .fact-input-card { width: 90px; padding: 8px 10px; border-radius: 16px; border: 1px solid #cbd5e1; text-align: center; font-size: 0.9rem; font-weight: 500; cursor: text; }
         .dark-theme .fact-input-card { background: #0f172a; border-color: #475569; color: white; }
-        .delete-btn { background: #ef4444; color: white; border: none; border-radius: 30px; padding: 6px 12px; font-size: 0.7rem; cursor: pointer; margin-top: 8px; display: inline-flex; align-items: center; gap: 4px; pointer-events: auto; }
+        .delete-btn { background: #ef4444; color: white; border: none; border-radius: 30px; padding: 6px 12px; font-size: 0.7rem; cursor: pointer; margin-top: 8px; display: inline-flex; align-items: center; gap: 4px; }
         .table-container { display: none; }
         @media (min-width: 768px) {
             .cards-container { display: none; }
@@ -95,17 +73,15 @@
             tr.mismatch { background: #fee2e2; }
             .dark-theme tr.mismatch { background: #7f1a1a; }
             .delete-table-btn { background: #ef4444; border: none; color: white; padding: 4px 8px; border-radius: 20px; cursor: pointer; font-size: 0.7rem; }
-            .highlight-row { background: #fef08a !important; }
         }
-        .filter-info { background: #fef3c7; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; color: #92400e; }
-        .dark-theme .filter-info { background: #422006; color: #fde047; }
-        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #22c55e; color: white; padding: 10px 20px; border-radius: 40px; animation: fade 3s; z-index: 3000; font-size: 0.85rem; max-width: 90%; text-align: center; }
+        /* FAB сканирования */
+        .fab { position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; border-radius: 50%; background: #8b5cf6; color: white; border: none; font-size: 24px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.25); cursor: pointer; z-index: 2000; transition: transform 0.2s; }
+        .fab:active { transform: scale(0.95); }
+        /* Тост */
+        .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #22c55e; color: white; padding: 10px 20px; border-radius: 40px; animation: fade 3s; z-index: 3000; font-size: 0.85rem; max-width: 90%; text-align: center; }
         .toast.error { background: #ef4444; }
         @keyframes fade { 0% { opacity: 0; transform: translateX(-50%) translateY(20px); } 10% { opacity: 1; transform: translateX(-50%) translateY(0); } 90% { opacity: 1; } 100% { opacity: 0; transform: translateX(-50%) translateY(20px); } }
-        .loading-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 4000; align-items: center; justify-content: center; }
-        .loading-overlay.active { display: flex; }
-        .empty-state { text-align: center; padding: 40px 20px; color: #64748b; }
-        .github-buttons { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+        /* Модальные окна */
         .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; padding: 16px; }
         .modal.active { display: flex; }
         .modal-content { background: white; border-radius: 24px; padding: 20px; max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto; }
@@ -116,97 +92,66 @@
         .dark-theme .form-input, .dark-theme .form-select { background: #0f172a; border-color: #475569; color: white; }
         .barcode-row { display: flex; gap: 8px; align-items: center; }
         .barcode-row .form-input { flex: 1; }
-        .barcode-row .btn { flex-shrink: 0; }
-        .autocomplete-list { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #e2e8f0; border-radius: 16px; margin-top: 4px; max-height: 200px; overflow-y: auto; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .autocomplete-list { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #e2e8f0; border-radius: 16px; margin-top: 4px; max-height: 200px; overflow-y: auto; z-index: 100; }
         .dark-theme .autocomplete-list { background: #1e293b; border-color: #334155; }
         .autocomplete-item { padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; }
         .dark-theme .autocomplete-item { border-bottom-color: #334155; }
         .autocomplete-item:hover { background: #f1f5f9; }
         .dark-theme .autocomplete-item:hover { background: #0f172a; }
-        .history-select { max-width: 220px; font-size: 0.75rem; padding: 4px 8px; border-radius: 30px; }
-        canvas { max-height: 300px; }
-        .pdf-report table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .pdf-report th, .pdf-report td { border: 1px solid #ccc; padding: 8px; font-size: 10pt; }
-        .pdf-report th { background: #f2f2f2; }
-        .pdf-report .header { text-align: center; margin-bottom: 20px; }
-        .pdf-report .stats { margin: 20px 0; }
-        .pdf-report .signature { margin-top: 40px; display: flex; justify-content: space-between; }
+        .loading-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 4000; align-items: center; justify-content: center; }
+        .loading-overlay.active { display: flex; }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="nav-links">
-        <a href="index.html" class="nav-link">🖥️ Технический отчёт</a>
-        <a href="inventory.html?secret=INVENTORY2026" class="nav-link primary">📦 Инвентаризация</a>
-        <a href="games.html" class="nav-link">👾 Статус Игр</a>
-        <a href="mismatches.html?secret=INVENTORY2026" class="nav-link">📋 Все расхождения</a>
-    </div>
-    <div class="header">
-        <h1>📊 Сверка остатков</h1>
-        <div class="theme-toggle" id="themeToggle">🌙 Тёмная</div>
-    </div>
-
-    <div class="github-panel">
-        <div class="repo-info">
-            <span>📦 <strong id="repoDisplay">Sh1k1kate/Technical-Review-QWERTY_GAME_ZONE</strong></span>
-            <span id="tokenStatus" style="background: #fef3c7;">🔑 Нет токена</span>
-            <span class="filter-info">✅ Только Активен</span>
-        </div>
-        <div class="github-buttons">
-            <button class="btn" id="showTokenBtn">🔑 Токен</button>
-            <button class="btn btn-primary" id="saveMasterToGithubBtn">💾 Сохранить мастер</button>
-            <button class="btn" id="loadMasterFromGithubBtn">📂 Загрузить мастер</button>
-            <button class="btn btn-success" id="loadCsvBtn">📁 CSV (1С)</button>
-            <button class="btn btn-purple" id="textInputBtn">📝 Текстовый ввод</button>
-            <button class="btn btn-success" id="exportTxtBtn" style="background:#10b981;">📄 Экспорт TXT</button>
-            <label style="display:flex; align-items:center; gap:4px; font-size:0.8rem; cursor:pointer;">
-                <input type="checkbox" id="autoSyncCheckbox"> 🔄 Автосинхронизация
-            </label>
-        </div>
-        <input type="file" id="csvFileInput" accept=".csv" style="display: none;">
+    <!-- Верхняя панель инструментов -->
+    <div class="toolbar" id="toolbar">
+        <button class="btn btn-success" id="loadCsvBtn">📁 CSV</button>
+        <button class="btn btn-purple" id="textInputBtn">📝 Текст</button>
+        <button class="btn btn-success" id="exportTxtBtn" style="background:#10b981;">📄 TXT</button>
+        <button class="btn btn-primary" id="applyAllBtn">💾 Сохранить</button>
+        <button class="btn" id="addItemBtn">➕ Товар</button>
+        <div class="separator"></div>
+        <button class="btn" id="showChartBtn">📈 График</button>
+        <button class="btn btn-primary" id="exportPdfBtn" style="background:#e11d48;">📄 PDF</button>
+        <div class="separator"></div>
+        <button class="btn" id="historyBtn">📜 История</button>
+        <button class="btn" id="showTokenBtn">🔑 Токен</button>
+        <button class="btn" id="saveMasterToGithubBtn">☁️ В облако</button>
+        <button class="btn" id="loadMasterFromGithubBtn">📥 Из облака</button>
+        <label style="display:flex; align-items:center; gap:4px; font-size:0.75rem; cursor:pointer;">
+            <input type="checkbox" id="autoSyncCheckbox"> 🔄 Авто
+        </label>
     </div>
 
-    <div class="search-bar">
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Поиск по названию или категории...">
+    <!-- Строка поиска и фильтры -->
+    <div class="search-row">
+        <input type="text" id="searchInput" placeholder="🔍 Поиск по названию или категории...">
+        <div class="filter-group" id="filterGroup">
+            <button class="filter-btn active" data-filter="all">Все</button>
+            <button class="filter-btn" data-filter="mismatch">⚠️ Расхождения</button>
+            <button class="filter-btn" data-filter="match">✅ Совпадает</button>
         </div>
-        <button class="btn btn-primary" id="scanBarcodeBtn" style="background:#8b5cf6;">📷 Сканировать</button>
-        <div class="stats-panel">
-            <div class="stat-badge">
-                <span>📦 <strong id="totalCount">0</strong></span>
-                <span>⚠️ <strong id="mismatchCount">0</strong></span>
-                <span>✅ <strong id="matchCount">0</strong></span>
-            </div>
-            <div class="filter-group">
-                <span class="filter-label">Фильтр:</span>
-                <button class="filter-btn active" data-filter="all">Все</button>
-                <button class="filter-btn" data-filter="mismatch">⚠️ Только расхождения</button>
-                <button class="filter-btn" data-filter="match">✅ Без расхождений</button>
-            </div>
-            <div class="stock-filter">
-                <input type="checkbox" id="onlyWithStockCheckbox" checked>
-                <label for="onlyWithStockCheckbox">📦 Только с остатком</label>
-            </div>
-            <div class="btn-group">
-                <button class="btn btn-success btn-small" id="applyAllBtn">💾 Сохранить</button>
-                <button class="btn" id="exportMismatchesBtn" style="background:#8b5cf6; color:white;">📎 Выгрузить расхождения</button>
-                <button class="btn btn-purple" id="loadMismatchesBtn">📥 Загрузить расхождения</button>
-                <button class="btn btn-primary" id="addItemBtn">➕ Добавить товар</button>
-                <select id="historySelect" class="history-select" style="display:none;"><option value="">📜 История</option></select>
-                <button class="btn" id="historyManageBtn" style="display:none;">📋 Управление историей</button>
-                <button class="btn" id="showChartBtn">📈 График</button>
-                <button class="btn btn-primary" id="exportPdfBtn" style="background:#e11d48;">📄 Экспорт PDF</button>
-            </div>
-        </div>
-        <div class="data-status" id="dataStatus">💾 Загружены</div>
+        <label class="stock-filter">
+            <input type="checkbox" id="onlyWithStockCheckbox" checked> 📦 С остатком
+        </label>
+        <span class="stat-badge" style="background:white; padding:4px 12px; border-radius:30px; font-size:0.75rem; display:flex; gap:12px;">
+            <span>📦 <strong id="totalCount">0</strong></span>
+            <span>⚠️ <strong id="mismatchCount">0</strong></span>
+            <span>✅ <strong id="matchCount">0</strong></span>
+        </span>
     </div>
 
+    <!-- Карточки товаров -->
     <div id="cardsContainer" class="cards-container"></div>
+    <!-- Таблица для десктопа -->
     <div class="table-container">
         <table><thead><tr><th onclick="window.sortBy('category')">Категория</th><th onclick="window.sortBy('name')">Наименование</th><th onclick="window.sortBy('systemQuantity')">Учёт</th><th>Фактический</th><th>Статус</th><th></th></tr></thead><tbody id="tableBody"></tbody></table>
     </div>
-    <input type="file" id="mismatchesFileInput" accept=".csv" style="display: none;">
 </div>
+
+<!-- FAB сканирования -->
+<button class="fab" id="fabScanBtn" title="Сканировать штрихкод">📷</button>
 
 <!-- Модальные окна -->
 <div class="modal" id="itemModal">
@@ -220,9 +165,9 @@
         <div style="display: flex; gap: 10px; justify-content: flex-end;"><button class="btn" id="cancelModalBtn">Отмена</button><button class="btn btn-primary" id="saveModalBtn">Сохранить</button></div>
     </div>
 </div>
-<div class="modal" id="tokenModal"><div class="modal-content"><h2>🔑 GitHub Token</h2><p>Введите токен с правами на запись</p><input type="password" id="githubToken" style="width:100%; margin:15px 0; padding:10px; border-radius:16px;"><div style="display:flex; gap:10px;"><button class="btn" id="cancelTokenBtn">Отмена</button><button class="btn btn-primary" id="saveTokenBtn">Сохранить</button></div></div></div>
+<div class="modal" id="tokenModal"><div class="modal-content"><h2>🔑 GitHub Token</h2><p>Введите токен с правами на запись</p><input type="password" id="githubTokenInput" style="width:100%; margin:15px 0; padding:10px; border-radius:16px;"><div style="display:flex; gap:10px;"><button class="btn" id="cancelTokenBtn">Отмена</button><button class="btn btn-primary" id="saveTokenBtn">Сохранить</button></div></div></div>
 <div class="modal" id="chartModal"><div class="modal-content"><h3>📈 Динамика расхождений</h3><canvas id="historyChart" width="400" height="300"></canvas><div style="margin-top:16px;"><button class="btn" id="closeChartBtn">Закрыть</button></div></div></div>
-<div class="modal" id="historyModal"><div class="modal-content"><h3>📜 Управление историей</h3><div id="historyList"></div><div style="margin-top:16px;"><button class="btn" id="closeHistoryModalBtn">Закрыть</button></div></div></div>
+<div class="modal" id="historyModal"><div class="modal-content"><h3>📜 История инвентаризаций</h3><div id="historyList"></div><div style="margin-top:16px;"><button class="btn" id="closeHistoryModalBtn">Закрыть</button></div></div></div>
 <div class="modal" id="inspectorModal"><div class="modal-content"><h3>✍️ Подпись ответственного</h3><p>Введите фамилию или имя проверяющего:</p><input type="text" id="inspectorName" class="form-input" placeholder="Иванов И.И." style="margin: 15px 0;"><div style="display: flex; gap: 10px; justify-content: flex-end;"><button class="btn" id="cancelInspectorBtn">Отмена</button><button class="btn btn-primary" id="confirmInspectorBtn">Продолжить</button></div></div></div>
 <div class="modal" id="textInputModal">
     <div class="modal-content">
@@ -237,10 +182,10 @@
 </div>
 <div id="toast" style="display:none;" class="toast"></div>
 <div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"><div class="spinner"></div><span>Загрузка...</span></div></div>
+<input type="file" id="csvFileInput" accept=".csv" style="display: none;">
 
 <script>
 (function(){
-    /* ---------- КОНФИГУРАЦИЯ ---------- */
     const GITHUB_CONFIG = { owner: 'Sh1k1kate', repo: 'Technical-Review-QWERTY_GAME_ZONE' };
     const MASTER_FILE = 'products_master.json';
     const SECRET_WORD = 'INVENTORY2026';
@@ -412,27 +357,17 @@
         return false;
     }
     function updateHistorySelect() {
-        const select = document.getElementById('historySelect');
-        const manageBtn = document.getElementById('historyManageBtn');
-        if (!history.length) { select.style.display = 'none'; if (manageBtn) manageBtn.style.display = 'none'; return; }
-        select.style.display = 'inline-flex';
-        if (manageBtn) manageBtn.style.display = 'inline-flex';
-        select.innerHTML = '<option value="">📜 История</option>';
-        history.forEach((h, idx) => {
-            const opt = document.createElement('option');
-            opt.value = idx;
-            opt.textContent = `${new Date(h.timestamp).toLocaleString()} (${h.items.length} тов.)`;
-            select.appendChild(opt);
-        });
+        // не используется в новом UI, но оставлено
     }
-    async function initHistory() { loadHistoryFromLocal(); updateHistorySelect(); }
-    function restoreHistoryItem(idx) {
-        const rec = history[idx];
-        if (!rec) return;
-        const map = new Map(rec.items.map(it => [it.id, it.factQuantity]));
-        inventoryItems.forEach(item => { if (map.has(item.id)) item.factQuantity = map.get(item.id); });
-        saveInventoryToLocal(); renderAll();
-        showToast(`✅ Восстановлена инвентаризация`, 'success');
+    async function initHistory() { loadHistoryFromLocal(); }
+    function addToHistory(forceNew = false) {
+        const now = Date.now();
+        if (!forceNew && history.length && (now - history[history.length-1].timestamp < TWO_HOURS)) {
+            history[history.length-1] = { timestamp: now, items: inventoryItems.map(i => ({ id: i.id, factQuantity: i.factQuantity, systemQuantity: i.systemQuantity, name: i.name, category: i.category })) };
+        } else {
+            history.push({ timestamp: now, items: inventoryItems.map(i => ({ id: i.id, factQuantity: i.factQuantity, systemQuantity: i.systemQuantity, name: i.name, category: i.category })) });
+        }
+        saveHistoryToLocal();
     }
     function showHistoryModal() {
         const modal = document.getElementById('historyModal');
@@ -445,19 +380,10 @@
                     <button class="btn btn-warning" data-idx="${idx}">🗑️</button>
                 </div>`).join('');
         }
-        modal.classList.add('active');
         modal.querySelectorAll('.btn-warning').forEach(btn => btn.onclick = () => {
-            if (confirm('Удалить запись?')) { history.splice(btn.dataset.idx, 1); saveHistoryToLocal(); updateHistorySelect(); showHistoryModal(); }
+            if (confirm('Удалить запись?')) { history.splice(btn.dataset.idx, 1); saveHistoryToLocal(); showHistoryModal(); }
         });
-    }
-    function addToHistory(forceNew = false) {
-        const now = Date.now();
-        if (!forceNew && history.length && (now - history[history.length-1].timestamp < TWO_HOURS)) {
-            history[history.length-1] = { timestamp: now, items: inventoryItems.map(i => ({ id: i.id, factQuantity: i.factQuantity, systemQuantity: i.systemQuantity, name: i.name, category: i.category })) };
-        } else {
-            history.push({ timestamp: now, items: inventoryItems.map(i => ({ id: i.id, factQuantity: i.factQuantity, systemQuantity: i.systemQuantity, name: i.name, category: i.category })) });
-        }
-        saveHistoryToLocal(); updateHistorySelect();
+        modal.classList.add('active');
     }
 
     /* ---------- CSV (импорт из 1С) ---------- */
@@ -658,10 +584,7 @@
     function renderCards(items) {
         const container = document.getElementById('cardsContainer');
         if (!items.length) {
-            let msg = '📭 Нет данных';
-            if (viewFilter === 'mismatch') msg = '✨ Нет расхождений';
-            else if (viewFilter === 'match') msg = '📦 Нет совпадений';
-            container.innerHTML = `<div class="empty-state">${msg}</div>`;
+            container.innerHTML = `<div class="empty-state">📭 Нет данных</div>`;
             return;
         }
         container.innerHTML = items.map(item => {
@@ -732,39 +655,6 @@
         });
     }
 
-    /* ---------- ЭКСПОРТ CSV РАСХОЖДЕНИЙ ---------- */
-    function exportMismatchesToCSV() {
-        const mismatches = inventoryItems.filter(i => i.factQuantity !== i.systemQuantity);
-        if (!mismatches.length) { showToast('Нет расхождений', 'error'); return; }
-        const csv = ['Наименование;Категория;Учёт;Факт;Разница'].concat(
-            mismatches.map(i => [i.name, i.category, i.systemQuantity, i.factQuantity, i.factQuantity - i.systemQuantity].join(';'))
-        ).join('\n');
-        const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `mismatches_${new Date().toISOString().slice(0,19)}.csv`;
-        a.click();
-        showToast(`📎 Экспортировано ${mismatches.length} расхождений`, 'success');
-    }
-    function loadMismatchesFromCSV(csvText) {
-        const lines = csvText.split(/\r?\n/);
-        if (!lines.length) return;
-        const headers = lines[0].split(';').map(h => h.trim().toLowerCase());
-        const nameIdx = headers.findIndex(h => h.includes('наименование'));
-        const factIdx = headers.findIndex(h => h.includes('фактический') || h.includes('факт'));
-        if (nameIdx === -1 || factIdx === -1) { showToast('CSV должен содержать Наименование и Фактический остаток', 'error'); return; }
-        let updated = 0;
-        for (let i = 1; i < lines.length; i++) {
-            const cols = lines[i].split(';');
-            const name = (cols[nameIdx] || '').trim();
-            const fact = parseFloat(cols[factIdx]) || 0;
-            const item = inventoryItems.find(it => it.name.toLowerCase() === name.toLowerCase());
-            if (item) { item.factQuantity = fact; updated++; }
-        }
-        if (updated) { saveInventoryToLocal(); renderAll(); showToast(`✅ Обновлено ${updated} товаров`, 'success'); }
-        else showToast('❌ Товары не найдены', 'error');
-    }
-
     /* ---------- ГРАФИК ---------- */
     function showChart() {
         if (!history.length) { showToast('Нет истории', 'error'); return; }
@@ -824,7 +714,7 @@
         document.body.removeChild(reportDiv);
     }
 
-    /* ---------- СКАНЕР ШТРИХКОДОВ (работает с камерой) ---------- */
+    /* ---------- СКАНЕР ШТРИХКОДОВ ---------- */
     async function startBarcodeScan() {
         if ('BarcodeDetector' in window) {
             try {
@@ -843,8 +733,7 @@
                             clearInterval(scanInterval);
                             stream.getTracks().forEach(t => t.stop());
                             video.remove();
-                            const barcode = barcodes[0].rawValue;
-                            handleScannedBarcode(barcode);
+                            handleScannedBarcode(barcodes[0].rawValue);
                         }
                     } catch (e) {}
                 }, 200);
@@ -968,7 +857,6 @@
     }
     function applyTheme() {
         document.body.classList.toggle('dark-theme', isDarkTheme);
-        document.getElementById('themeToggle').innerHTML = isDarkTheme ? '☀️ Светлая' : '🌙 Тёмная';
     }
     window.sortBy = (field) => {
         if (sortField === field) sortAscending = !sortAscending;
@@ -976,10 +864,12 @@
         renderAll();
     };
     function updateRepoDisplay() {
-        document.getElementById('repoDisplay').textContent = `${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}`;
+        // обновляет индикатор токена
         const ts = document.getElementById('tokenStatus');
-        if (githubToken) { ts.innerHTML = '✅ Токен есть'; ts.style.background = '#dcfce7'; }
-        else { ts.innerHTML = '🔑 Нет токена'; ts.style.background = '#fef3c7'; }
+        if (ts) {
+            if (githubToken) { ts.innerHTML = '✅ Токен есть'; ts.style.background = '#dcfce7'; }
+            else { ts.innerHTML = '🔑 Нет токена'; ts.style.background = '#fef3c7'; }
+        }
     }
     function setupAutocomplete() {
         const inp = document.getElementById('modalName');
@@ -1021,6 +911,7 @@
         if (!inventoryItems.length && masterProducts.length) syncInventoryFromMaster();
         await initHistory();
 
+        // Кнопки тулбара
         document.getElementById('csvFileInput').addEventListener('change', e => { if (e.target.files[0]) { const r = new FileReader(); r.onload = ev => parseCSVAndMergeMaster(ev.target.result); r.readAsText(e.target.files[0], 'UTF-8'); } });
         document.getElementById('loadCsvBtn').addEventListener('click', () => document.getElementById('csvFileInput').click());
         document.getElementById('textInputBtn').addEventListener('click', () => document.getElementById('textInputModal').classList.add('active'));
@@ -1028,27 +919,27 @@
         document.getElementById('applyTextInputBtn').addEventListener('click', () => { parseTextInventory(document.getElementById('textInventoryInput').value); document.getElementById('textInputModal').classList.remove('active'); });
         document.getElementById('exportTxtBtn').addEventListener('click', exportToTxt);
         document.getElementById('applyAllBtn').addEventListener('click', applyAllFactual);
-        document.getElementById('exportMismatchesBtn').addEventListener('click', exportMismatchesToCSV);
-        document.getElementById('loadMismatchesBtn').addEventListener('click', () => document.getElementById('mismatchesFileInput').click());
-        document.getElementById('mismatchesFileInput').addEventListener('change', e => { if (e.target.files[0]) { const r = new FileReader(); r.onload = ev => loadMismatchesFromCSV(ev.target.result); r.readAsText(e.target.files[0], 'UTF-8'); } });
-        document.getElementById('searchInput').addEventListener('input', e => { searchTerm = e.target.value; renderAll(); });
-        document.getElementById('themeToggle').addEventListener('click', () => { isDarkTheme = !isDarkTheme; localStorage.setItem('inventory_dark_theme', isDarkTheme); applyTheme(); });
-        document.getElementById('addItemBtn').addEventListener('click', () => addOrEditItem());
-        document.getElementById('scanBarcodeBtn').addEventListener('click', startBarcodeScan);
         document.getElementById('showChartBtn').addEventListener('click', showChart);
         document.getElementById('closeChartBtn').addEventListener('click', () => document.getElementById('chartModal').classList.remove('active'));
-        document.getElementById('saveMasterToGithubBtn').addEventListener('click', () => saveMasterToGithub());
-        document.getElementById('loadMasterFromGithubBtn').addEventListener('click', () => loadMasterFromGithub());
-        document.getElementById('modalScanBarcodeBtn').addEventListener('click', modalStartBarcodeScan);
-        document.getElementById('historySelect').addEventListener('change', e => { if (e.target.value !== '') { restoreHistoryItem(parseInt(e.target.value)); e.target.value = ''; } });
-        document.getElementById('historyManageBtn').addEventListener('click', showHistoryModal);
-        document.getElementById('closeHistoryModalBtn').addEventListener('click', () => document.getElementById('historyModal').classList.remove('active'));
         document.getElementById('exportPdfBtn').addEventListener('click', exportToPDF);
-        document.getElementById('onlyWithStockCheckbox').addEventListener('change', e => { onlyWithStock = e.target.checked; localStorage.setItem('only_with_stock', onlyWithStock); renderAll(); });
-        document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', () => { viewFilter = btn.dataset.filter; renderAll(); }));
-        document.getElementById('showTokenBtn').addEventListener('click', () => { document.getElementById('githubToken').value = githubToken; document.getElementById('tokenModal').classList.add('active'); });
-        document.getElementById('saveTokenBtn').addEventListener('click', () => { githubToken = document.getElementById('githubToken').value.trim(); if (githubToken) { localStorage.setItem('github_token', githubToken); updateRepoDisplay(); } document.getElementById('tokenModal').classList.remove('active'); });
+        document.getElementById('addItemBtn').addEventListener('click', () => addOrEditItem());
+        document.getElementById('historyBtn').addEventListener('click', showHistoryModal);
+        document.getElementById('closeHistoryModalBtn').addEventListener('click', () => document.getElementById('historyModal').classList.remove('active'));
+        document.getElementById('showTokenBtn').addEventListener('click', () => { document.getElementById('githubTokenInput').value = githubToken; document.getElementById('tokenModal').classList.add('active'); });
+        document.getElementById('saveTokenBtn').addEventListener('click', () => { githubToken = document.getElementById('githubTokenInput').value.trim(); if (githubToken) { localStorage.setItem('github_token', githubToken); updateRepoDisplay(); } document.getElementById('tokenModal').classList.remove('active'); });
         document.getElementById('cancelTokenBtn').addEventListener('click', () => document.getElementById('tokenModal').classList.remove('active'));
+        document.getElementById('saveMasterToGithubBtn').addEventListener('click', () => saveMasterToGithub(true));
+        document.getElementById('loadMasterFromGithubBtn').addEventListener('click', () => loadMasterFromGithub(true));
+
+        // FAB
+        document.getElementById('fabScanBtn').addEventListener('click', startBarcodeScan);
+        // Сканер в модальном окне
+        document.getElementById('modalScanBarcodeBtn').addEventListener('click', modalStartBarcodeScan);
+
+        // Поиск и фильтры
+        document.getElementById('searchInput').addEventListener('input', e => { searchTerm = e.target.value; renderAll(); });
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', () => { viewFilter = btn.dataset.filter; renderAll(); }));
+        document.getElementById('onlyWithStockCheckbox').addEventListener('change', e => { onlyWithStock = e.target.checked; localStorage.setItem('only_with_stock', onlyWithStock); renderAll(); });
 
         applyTheme();
         if (!masterProducts.length && !inventoryItems.length) {
