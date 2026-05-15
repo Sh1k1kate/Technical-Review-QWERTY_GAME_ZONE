@@ -1,47 +1,27 @@
-[
-  {
-    "timestamp": 1778794128902,
-    "items": [
-      {
-        "id": 10,
-        "factQuantity": 0,
-        "systemQuantity": 0,
-        "name": "Burn Апельсиновый микс 0,45л",
-        "category": "Энергетические напитки"
-      }
-    ]
-  },
-  {
-    "timestamp": 1778807631839,
-    "items": [
-      {
-        "id": 2,
-        "factQuantity": 48,
-        "systemQuantity": 52,
-        "name": "Adrenaline Rush 0.25л",
-        "category": "Энергетические напитки"
-      },
-      {
-        "id": 4,
-        "factQuantity": 7,
-        "systemQuantity": 8,
-        "name": "Adrenaline Zero Sugar 0.25л",
-        "category": "Энергетические напитки"
-      },
-      {
-        "id": 99,
-        "factQuantity": 16,
-        "systemQuantity": 16,
-        "name": "Adrenaline Rush Апельсин 0.45",
-        "category": "Энергетические напитки"
-      },
-      {
-        "id": 120,
-        "factQuantity": 2,
-        "systemQuantity": 2,
-        "name": "Adrenaline Спайси 0,45л",
-        "category": "Энергетические напитки"
-      }
-    ]
-  }
-]
+{
+  "events": [
+    {
+      "timestamp": "2026-05-16T05:56:20.434954",
+      "pc": "1",
+      "missing": [
+        "CS2",
+        "Dota 2",
+        "PUBG",
+        "RUST",
+        "Deadlock",
+        "Apex Legends",
+        "DayZ",
+        "Arc Raiders",
+        "Marvel Rivals",
+        "Delta Force",
+        "Valorant",
+        "Roblox",
+        "Minecraft",
+        "Fortnite",
+        "Warface",
+        "Мир танков",
+        "League of Legends"
+      ]
+    }
+  ]
+}
