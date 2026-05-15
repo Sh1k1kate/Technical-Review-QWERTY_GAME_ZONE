@@ -13,7 +13,7 @@
       "category": "Энергетические напитки",
       "name": "Adrenaline Rush 0.25л",
       "barcode": "",
-      "systemQuantity": 52,
+      "systemQuantity": 51,
       "lastFactQuantity": 54
     },
     {
@@ -21,7 +21,7 @@
       "category": "Энергетические напитки",
       "name": "Adrenaline Ягодный Микс 0,45л",
       "barcode": "",
-      "systemQuantity": 23,
+      "systemQuantity": 22,
       "lastFactQuantity": 23
     },
     {
@@ -37,7 +37,7 @@
       "category": "Напитки",
       "name": "Aqua Minerale Газированная 1л",
       "barcode": "",
-      "systemQuantity": 19,
+      "systemQuantity": 18,
       "lastFactQuantity": 21
     },
     {
@@ -45,7 +45,7 @@
       "category": "Напитки",
       "name": "Aqua Minerale Газированная 0.5л",
       "barcode": "",
-      "systemQuantity": 40,
+      "systemQuantity": 37,
       "lastFactQuantity": 40
     },
     {
@@ -69,7 +69,7 @@
       "category": "Энергетические напитки",
       "name": "Burn Сочная Энергия 0,45л",
       "barcode": "",
-      "systemQuantity": 27,
+      "systemQuantity": 26,
       "lastFactQuantity": 36
     },
     {
@@ -141,7 +141,7 @@
       "category": "Шоколад",
       "name": "Kinder Bueno 43г",
       "barcode": "",
-      "systemQuantity": 22,
+      "systemQuantity": 19,
       "lastFactQuantity": 22
     },
     {
@@ -213,7 +213,7 @@
       "category": "Энергетические напитки",
       "name": "Lit Energy Classic 0,45л",
       "barcode": "",
-      "systemQuantity": 4,
+      "systemQuantity": 3,
       "lastFactQuantity": 4
     },
     {
@@ -541,7 +541,7 @@
       "category": "Напитки",
       "name": "Frustyle Лимон и Лайм 0.5л",
       "barcode": "",
-      "systemQuantity": 30,
+      "systemQuantity": 29,
       "lastFactQuantity": 29
     },
     {
@@ -565,7 +565,7 @@
       "category": "Готовая Еда",
       "name": "Сэндвич №2 ''Салями'' 175г",
       "barcode": "",
-      "systemQuantity": 4,
+      "systemQuantity": 2,
       "lastFactQuantity": 4
     },
     {
@@ -693,7 +693,7 @@
       "category": "Готовая Еда",
       "name": "\"Сэндвич №10 \"\"Английский завтрак\"\" 175г\"",
       "barcode": "",
-      "systemQuantity": 4,
+      "systemQuantity": 3,
       "lastFactQuantity": 4
     },
     {
@@ -701,7 +701,7 @@
       "category": "Готовая Еда",
       "name": "\"Сэндвич №11 \"\"Курица Грибы\"\" 175г\"",
       "barcode": "",
-      "systemQuantity": 2,
+      "systemQuantity": 1,
       "lastFactQuantity": 2
     },
     {
@@ -941,7 +941,7 @@
       "category": "Энергетические напитки",
       "name": "Monster Zero Sugar 0.5л",
       "barcode": "",
-      "systemQuantity": 5,
+      "systemQuantity": 1,
       "lastFactQuantity": 5
     },
     {
@@ -965,7 +965,7 @@
       "category": "Энергетические напитки",
       "name": "Drive Экзотическая Энегрия 0,45л",
       "barcode": "",
-      "systemQuantity": 11,
+      "systemQuantity": 10,
       "lastFactQuantity": 11
     },
     {
@@ -1069,7 +1069,7 @@
       "category": "Снэки",
       "name": "Lays Малосольные Огурчики 140г",
       "barcode": "",
-      "systemQuantity": 1,
+      "systemQuantity": 0,
       "lastFactQuantity": 1
     },
     {
@@ -1115,9 +1115,9 @@
     {
       "id": 140,
       "category": "Энергетические напитки",
-      "name": "Adrenaline rush 0.45л",
+      "name": "Adrenaline Rush 0.45л",
       "barcode": "",
-      "systemQuantity": 1,
+      "systemQuantity": 0,
       "lastFactQuantity": 1
     },
     {
@@ -1125,10 +1125,10 @@
       "category": "Энергетические напитки",
       "name": "Adrenaline Zero Sugar 0.45л",
       "barcode": "",
-      "systemQuantity": 18,
+      "systemQuantity": 13,
       "lastFactQuantity": 17
     }
   ],
   "nextId": 142,
-  "lastUpdated": "2026-05-15T23:23:22.313Z"
+  "lastUpdated": "2026-05-15T23:45:20.915Z"
 }
