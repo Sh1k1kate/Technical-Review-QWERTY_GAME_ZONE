@@ -14,7 +14,7 @@
       "name": "Adrenaline Rush 0.25л",
       "barcode": "",
       "systemQuantity": 52,
-      "lastFactQuantity": 0
+      "lastFactQuantity": 48
     },
     {
       "id": 3,
@@ -30,7 +30,7 @@
       "name": "Adrenaline Zero Sugar 0.25л",
       "barcode": "",
       "systemQuantity": 8,
-      "lastFactQuantity": 18
+      "lastFactQuantity": 7
     },
     {
       "id": 5,
@@ -534,7 +534,7 @@
       "name": "Frustyle Апельсин 0.5л",
       "barcode": "",
       "systemQuantity": 31,
-      "lastFactQuantity": 27
+      "lastFactQuantity": 0
     },
     {
       "id": 68,
@@ -958,7 +958,7 @@
       "name": "Adrenaline Спайси 0,45л",
       "barcode": "",
       "systemQuantity": 2,
-      "lastFactQuantity": 0
+      "lastFactQuantity": 2
     },
     {
       "id": 121,
@@ -1111,8 +1111,24 @@
       "barcode": "",
       "systemQuantity": 10,
       "lastFactQuantity": 0
+    },
+    {
+      "id": 140,
+      "category": "Энергетические напитки",
+      "name": "Adrenaline rush 0.45л",
+      "barcode": "",
+      "systemQuantity": 1,
+      "lastFactQuantity": 1
+    },
+    {
+      "id": 141,
+      "category": "Энергетические напитки",
+      "name": "Adrenaline Zero Sugar 0.45л",
+      "barcode": "",
+      "systemQuantity": 18,
+      "lastFactQuantity": 17
     }
   ],
-  "nextId": 140,
-  "lastUpdated": "2026-05-15T01:08:32.097Z"
+  "nextId": 142,
+  "lastUpdated": "2026-05-15T01:18:01.186Z"
 }
