@@ -11,9 +11,6 @@ GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "ghp_...")
 ADMIN_CHAT_ID = os.environ.get("ADMIN_CHAT_ID", "398362790")
 NOVOSIBIRSK_TZ = timezone(timedelta(hours=7))
 
-# Имя файла истории удалений (отдельно от других скриптов)
-HISTORY_FILE = "game_history.json"
-
 # ==================== GitHub helpers ====================
 def get_github_raw(file_path):
     url = f"https://raw.githubusercontent.com/{GITHUB_OWNER}/{GITHUB_REPO}/{GITHUB_BRANCH}/{file_path}"
@@ -154,7 +151,8 @@ def cmd_status_all(chat_id):
     send_message(chat_id, "\n".join(lines))
 
 def cmd_history(chat_id):
-    hist = read_json_from_github(HISTORY_FILE).get("events", [])
+    # Читаем game_history.json вместо history.json
+    hist = read_json_from_github("game_history.json").get("events", [])
     if not hist:
         send_message(chat_id, "📭 История пуста.")
         return
@@ -306,7 +304,8 @@ alert_lock = threading.Lock()
 
 def send_pending_alerts():
     global last_notified_timestamp
-    hist = read_json_from_github(HISTORY_FILE)
+    # Используем game_history.json
+    hist = read_json_from_github("game_history.json")
     if not hist or "events" not in hist:
         return
     events = hist["events"]
@@ -314,13 +313,28 @@ def send_pending_alerts():
         new_events = [e for e in events if e["timestamp"] > last_notified_timestamp]
         if not new_events:
             return
-        # Группируем по ПК и времени
+        # Группируем по ПК
         lines = ["🚨 Обнаружены удалённые игры:"]
         for ev in sorted(new_events, key=lambda x: x["timestamp"]):
             ts = ev["timestamp"][:16].replace("T", " ")
             pc = ev["pc"]
-            games = ", ".join(ev["missing"])
-            lines.append(f"{ts} | {pc}: {games}")
+            for game in ev["missing"]:
+                lines.append(f"  ❌ {game}")
+            lines.append(f"🖥️ {pc} ({ts})")   # строка с ПК после игр, как в примере
+        # Переставляем, чтобы ПК были в начале? В примере сначала ПК, потом список. Исправим:
+        # Соберём более точно под пример:
+        grouped = {}
+        for ev in sorted(new_events, key=lambda x: x["timestamp"]):
+            ts = ev["timestamp"][:16].replace("T", " ")
+            pc = ev["pc"]
+            if pc not in grouped:
+                grouped[pc] = {"timestamp": ts, "games": []}
+            grouped[pc]["games"].extend(ev["missing"])
+        lines = ["🚨 Обнаружены удалённые игры:"]
+        for pc, data in grouped.items():
+            lines.append(f"\n🖥️ {pc} ({data['timestamp']})")
+            for game in data["games"]:
+                lines.append(f"  ❌ {game}")
         msg = "\n".join(lines)
         send_to_all(msg)
         last_notified_timestamp = new_events[-1]["timestamp"]
@@ -335,8 +349,6 @@ def alert_scheduler():
 
 # ==================== Flask Webhook ====================
 app = Flask(__name__)
-
-# Хранилище состояний диалога
 user_states = {}
 
 @app.route("/", methods=["POST"])
@@ -347,7 +359,6 @@ def webhook():
         chat_id = str(msg["chat"]["id"])
         text = msg.get("text", "")
 
-        # Обработка force_reply
         state = user_states.get(chat_id)
         if state:
             if state["action"] == "awaiting_interval":
@@ -395,7 +406,6 @@ def webhook():
                 del user_states[chat_id]
                 return "ok"
 
-        # Команды и кнопки
         if text == "/start" or text == "✅ Подписаться":
             if add_subscriber(chat_id):
                 send_message(chat_id, "✅ Вы подписаны.", reply_markup=get_reply_keyboard(chat_id))
