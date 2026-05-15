@@ -12,38 +12,163 @@
         body { background: #f4f7fb; color: #1e293b; padding: 0; min-height: 100vh; }
         body.dark-theme { background: #0f172a; color: #e2e8f0; }
         .container { max-width: 800px; margin: 0 auto; padding: 12px; padding-bottom: 80px; }
+
         /* Верхняя панель */
-        .toolbar { background: white; border-radius: 20px; padding: 10px 14px; margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; box-shadow: 0 2px 6px rgba(0,0,0,0.06); position: sticky; top: 8px; z-index: 500; }
+        .toolbar { 
+            background: white; 
+            border-radius: 24px; 
+            padding: 14px 16px; 
+            margin-bottom: 16px; 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 8px; 
+            align-items: center; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06); 
+            position: sticky; 
+            top: 8px; 
+            z-index: 500; 
+        }
         .dark-theme .toolbar { background: #1e293b; }
-        .toolbar .btn { font-size: 0.78rem; padding: 6px 12px; white-space: nowrap; }
-        .toolbar .separator { width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px; }
-        .dark-theme .toolbar .separator { background: #334155; }
-        /* Поиск и фильтры */
-        .search-row { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; flex-wrap: wrap; }
-        .search-row input { flex: 1; padding: 8px 12px; border-radius: 30px; border: 1px solid #e2e8f0; font-size: 0.9rem; }
-        .dark-theme .search-row input { background: #1e293b; border-color: #334155; color: white; }
-        .filter-group { display: flex; gap: 6px; background: white; padding: 4px 8px; border-radius: 30px; }
+
+        /* Обновлённые кнопки */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            background: white;
+            color: #1e293b;
+            white-space: nowrap;
+            letter-spacing: 0.01em;
+            min-width: 44px;
+            min-height: 44px;
+        }
+        .dark-theme .btn { background: #334155; color: #e2e8f0; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+        .btn:active { transform: scale(0.96); }
+        .btn-primary { background: #3b82f6; color: white; }
+        .btn-success { background: #22c55e; color: white; }
+        .btn-warning { background: #f59e0b; color: white; }
+        .btn-purple { background: #8b5cf6; color: white; }
+        .btn-danger { background: #ef4444; color: white; }
+
+        .toolbar .separator {
+            width: 1px;
+            height: 28px;
+            background: #e2e8f0;
+            margin: 0 6px;
+        }
+        .dark-theme .toolbar .separator { background: #475569; }
+
+        /* Строка поиска и фильтры */
+        .search-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-row input {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 30px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+            background: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .dark-theme .search-row input {
+            background: #1e293b;
+            border-color: #334155;
+            color: white;
+        }
+        .filter-group {
+            display: flex;
+            gap: 6px;
+            background: white;
+            padding: 4px 8px;
+            border-radius: 30px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
         .dark-theme .filter-group { background: #1e293b; }
-        .filter-btn { background: transparent; border: none; padding: 4px 10px; border-radius: 30px; font-size: 0.7rem; cursor: pointer; color: #64748b; }
+        .filter-btn {
+            background: transparent;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            color: #64748b;
+            transition: all 0.2s;
+        }
         .filter-btn.active { background: #3b82f6; color: white; }
-        .stock-filter { display: inline-flex; align-items: center; gap: 4px; background: white; padding: 4px 10px; border-radius: 30px; font-size: 0.7rem; }
+        .stock-filter {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: white;
+            padding: 8px 14px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            cursor: pointer;
+        }
         .dark-theme .stock-filter { background: #1e293b; }
+
+        /* Статистика */
+        .stat-badge {
+            background: white;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            display: flex;
+            gap: 14px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .dark-theme .stat-badge { background: #1e293b; }
+
         /* Карточки товаров */
         .cards-container { display: flex; flex-direction: column; gap: 12px; }
-        .inventory-card { background: white; border-radius: 20px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 4px solid #22c55e; position: relative; transition: background 0.2s; cursor: pointer; }
+        .inventory-card {
+            background: white;
+            border-radius: 20px;
+            padding: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-left: 5px solid #22c55e;
+            position: relative;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
         .inventory-card.highlight { background: #fef08a !important; }
         .dark-theme .inventory-card.highlight { background: #854d0e !important; }
         .dark-theme .inventory-card { background: #1e293b; border-left-color: #22c55e; }
         .inventory-card.mismatch { border-left-color: #ef4444; background: #fff5f5; }
         .dark-theme .inventory-card.mismatch { background: #2d1a1a; border-left-color: #ef4444; }
+
         .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
-        .card-category { background: #e2e8f0; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; color: #475569; }
+        .card-category {
+            background: #e2e8f0;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #475569;
+        }
         .dark-theme .card-category { background: #334155; color: #cbd5e1; }
         .card-name { font-size: 1rem; font-weight: 600; color: #1e293b; word-break: break-word; flex: 1; }
         .dark-theme .card-name { color: #f1f5f9; }
         .card-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; white-space: nowrap; }
         .badge-match-card { background: #22c55e; color: white; }
         .badge-mismatch-card { background: #ef4444; color: white; }
+
         .card-details { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
         .quantity-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding: 10px 0; border-top: 1px solid #e2e8f0; }
         .dark-theme .quantity-row { border-top-color: #334155; }
@@ -53,17 +178,54 @@
         .system-qty-value { font-size: 1.1rem; font-weight: 700; color: #3b82f6; }
         .fact-qty { display: flex; align-items: center; gap: 8px; flex: 1; flex-wrap: wrap; }
         .fact-qty-label { font-size: 0.8rem; font-weight: 500; color: #64748b; }
-        .fact-input-card { width: 90px; padding: 8px 10px; border-radius: 16px; border: 1px solid #cbd5e1; text-align: center; font-size: 0.9rem; font-weight: 500; cursor: text; }
+        .fact-input-card {
+            width: 90px;
+            padding: 8px 10px;
+            border-radius: 16px;
+            border: 1px solid #cbd5e1;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: white;
+        }
         .dark-theme .fact-input-card { background: #0f172a; border-color: #475569; color: white; }
-        .delete-btn { background: #ef4444; color: white; border: none; border-radius: 30px; padding: 6px 12px; font-size: 0.7rem; cursor: pointer; margin-top: 8px; display: inline-flex; align-items: center; gap: 4px; }
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 6px 12px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            margin-top: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Таблица (десктоп) */
         .table-container { display: none; }
         @media (min-width: 768px) {
             .cards-container { display: none; }
-            .table-container { display: block; background: white; border-radius: 20px; padding: 12px; overflow-x: auto; }
+            .table-container {
+                display: block;
+                background: white;
+                border-radius: 20px;
+                padding: 12px;
+                overflow-x: auto;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            }
             .dark-theme .table-container { background: #1e293b; }
             table { width: 100%; border-collapse: collapse; min-width: 700px; font-size: 0.85rem; }
             th, td { padding: 10px 8px; text-align: left; }
-            .fact-input { width: 80px; padding: 6px; border-radius: 16px; border: 1px solid #cbd5e1; text-align: center; }
+            .fact-input {
+                width: 80px;
+                padding: 6px;
+                border-radius: 16px;
+                border: 1px solid #cbd5e1;
+                text-align: center;
+                background: white;
+            }
             .dark-theme .fact-input { background: #0f172a; border-color: #475569; color: white; }
             .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; display: inline-block; }
             .badge-match { background: #22c55e; color: white; }
@@ -72,29 +234,87 @@
             .dark-theme .system-quantity { background: #334155; }
             tr.mismatch { background: #fee2e2; }
             .dark-theme tr.mismatch { background: #7f1a1a; }
-            .delete-table-btn { background: #ef4444; border: none; color: white; padding: 4px 8px; border-radius: 20px; cursor: pointer; font-size: 0.7rem; }
+            .delete-table-btn {
+                background: #ef4444;
+                border: none;
+                color: white;
+                padding: 4px 8px;
+                border-radius: 20px;
+                cursor: pointer;
+                font-size: 0.7rem;
+            }
         }
+
         /* FAB сканирования */
-        .fab { position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; border-radius: 50%; background: #8b5cf6; color: white; border: none; font-size: 24px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.25); cursor: pointer; z-index: 2000; transition: transform 0.2s; }
-        .fab:active { transform: scale(0.95); }
+        .fab {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 18px rgba(139,92,246,0.4);
+            cursor: pointer;
+            z-index: 2000;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .fab:active { transform: scale(0.94); box-shadow: 0 4px 12px rgba(139,92,246,0.3); }
+
         /* Тост */
-        .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #22c55e; color: white; padding: 10px 20px; border-radius: 40px; animation: fade 3s; z-index: 3000; font-size: 0.85rem; max-width: 90%; text-align: center; }
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #22c55e;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            animation: fade 3s;
+            z-index: 3000;
+            font-size: 0.85rem;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            max-width: 90%;
+            text-align: center;
+        }
         .toast.error { background: #ef4444; }
         @keyframes fade { 0% { opacity: 0; transform: translateX(-50%) translateY(20px); } 10% { opacity: 1; transform: translateX(-50%) translateY(0); } 90% { opacity: 1; } 100% { opacity: 0; transform: translateX(-50%) translateY(20px); } }
+
         /* Модальные окна */
         .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; padding: 16px; }
         .modal.active { display: flex; }
-        .modal-content { background: white; border-radius: 24px; padding: 20px; max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto; }
+        .modal-content { background: white; border-radius: 24px; padding: 24px; max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
         .dark-theme .modal-content { background: #1e293b; color: #e2e8f0; }
         .form-group { margin-bottom: 16px; position: relative; }
         .form-label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 0.85rem; }
-        .form-input, .form-select { width: 100%; padding: 8px 12px; border-radius: 16px; border: 1px solid #cbd5e1; font-size: 0.9rem; }
+        .form-input, .form-select { width: 100%; padding: 10px 14px; border-radius: 16px; border: 1px solid #cbd5e1; font-size: 0.9rem; background: white; }
         .dark-theme .form-input, .dark-theme .form-select { background: #0f172a; border-color: #475569; color: white; }
         .barcode-row { display: flex; gap: 8px; align-items: center; }
         .barcode-row .form-input { flex: 1; }
-        .autocomplete-list { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #e2e8f0; border-radius: 16px; margin-top: 4px; max-height: 200px; overflow-y: auto; z-index: 100; }
+        .autocomplete-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            margin-top: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
         .dark-theme .autocomplete-list { background: #1e293b; border-color: #334155; }
-        .autocomplete-item { padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; }
+        .autocomplete-item { padding: 10px 14px; cursor: pointer; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; }
         .dark-theme .autocomplete-item { border-bottom-color: #334155; }
         .autocomplete-item:hover { background: #f1f5f9; }
         .dark-theme .autocomplete-item:hover { background: #0f172a; }
@@ -108,18 +328,19 @@
     <div class="toolbar" id="toolbar">
         <button class="btn btn-success" id="loadCsvBtn">📁 CSV</button>
         <button class="btn btn-purple" id="textInputBtn">📝 Текст</button>
-        <button class="btn btn-success" id="exportTxtBtn" style="background:#10b981;">📄 TXT</button>
+        <button class="btn btn-success" id="exportTxtBtn">📄 TXT</button>
         <button class="btn btn-primary" id="applyAllBtn">💾 Сохранить</button>
-        <button class="btn" id="addItemBtn">➕ Товар</button>
+        <button class="btn btn-primary" id="addItemBtn">➕ Товар</button>
         <div class="separator"></div>
+        <button class="btn" id="exportMismatchesBtn">📎 Расхождения</button>
         <button class="btn" id="showChartBtn">📈 График</button>
-        <button class="btn btn-primary" id="exportPdfBtn" style="background:#e11d48;">📄 PDF</button>
+        <button class="btn btn-danger" id="exportPdfBtn">📄 PDF</button>
         <div class="separator"></div>
         <button class="btn" id="historyBtn">📜 История</button>
         <button class="btn" id="showTokenBtn">🔑 Токен</button>
         <button class="btn" id="saveMasterToGithubBtn">☁️ В облако</button>
         <button class="btn" id="loadMasterFromGithubBtn">📥 Из облака</button>
-        <label style="display:flex; align-items:center; gap:4px; font-size:0.75rem; cursor:pointer;">
+        <label style="display:flex; align-items:center; gap:4px; font-size:0.75rem; cursor:pointer; margin-left:auto;">
             <input type="checkbox" id="autoSyncCheckbox"> 🔄 Авто
         </label>
     </div>
@@ -135,7 +356,7 @@
         <label class="stock-filter">
             <input type="checkbox" id="onlyWithStockCheckbox" checked> 📦 С остатком
         </label>
-        <span class="stat-badge" style="background:white; padding:4px 12px; border-radius:30px; font-size:0.75rem; display:flex; gap:12px;">
+        <span class="stat-badge">
             <span>📦 <strong id="totalCount">0</strong></span>
             <span>⚠️ <strong id="mismatchCount">0</strong></span>
             <span>✅ <strong id="matchCount">0</strong></span>
@@ -153,7 +374,7 @@
 <!-- FAB сканирования -->
 <button class="fab" id="fabScanBtn" title="Сканировать штрихкод">📷</button>
 
-<!-- Модальные окна -->
+<!-- Модальные окна (без изменений) -->
 <div class="modal" id="itemModal">
     <div class="modal-content">
         <h3 id="modalTitle">➕ Добавить товар</h3>
@@ -209,7 +430,6 @@
     const TWO_HOURS = 2 * 60 * 60 * 1000;
     let pendingBarcode = null;
 
-    /* ---------- НОРМАЛИЗАЦИЯ И НЕЧЁТКОЕ СРАВНЕНИЕ ---------- */
     function normalizeName(str) {
         return str.toLowerCase().replace(/[^а-яёa-z0-9 ]/gi, '').replace(/\s+/g, ' ').trim();
     }
@@ -232,7 +452,6 @@
         return bestScore >= threshold ? { product: best, score: bestScore } : null;
     }
 
-    /* ---------- УПРАВЛЕНИЕ ID ---------- */
     function updateNextIdFromProducts() {
         nextMasterId = masterProducts.reduce((max, p) => Math.max(max, p.id || 0), 0) + 1;
     }
@@ -246,7 +465,6 @@
         updateNextIdFromProducts();
     }
 
-    /* ---------- СИНХРОНИЗАЦИЯ ИНВЕНТАРИЗАЦИИ ---------- */
     function syncInventoryFromMaster() {
         inventoryItems = masterProducts.map(prod => ({
             id: prod.id,
@@ -259,7 +477,6 @@
         renderAll();
     }
 
-    /* ---------- LOCAL STORAGE ---------- */
     function loadMasterFromLocal() {
         const saved = localStorage.getItem('products_master_v2');
         if (saved) {
@@ -292,7 +509,6 @@
         return false;
     }
 
-    /* ---------- GITHUB ---------- */
     function utf8ToBase64(str) {
         const bytes = new TextEncoder().encode(str);
         let binary = '';
@@ -349,15 +565,11 @@
         return false;
     }
 
-    /* ---------- ИСТОРИЯ ---------- */
     function saveHistoryToLocal() { localStorage.setItem('inventory_history_v2', JSON.stringify(history)); }
     function loadHistoryFromLocal() {
         const saved = localStorage.getItem('inventory_history_v2');
-        if (saved) { try { history = JSON.parse(saved); updateHistorySelect(); return true; } catch (e) {} }
+        if (saved) { try { history = JSON.parse(saved); return true; } catch (e) {} }
         return false;
-    }
-    function updateHistorySelect() {
-        // не используется в новом UI, но оставлено
     }
     async function initHistory() { loadHistoryFromLocal(); }
     function addToHistory(forceNew = false) {
@@ -386,7 +598,6 @@
         modal.classList.add('active');
     }
 
-    /* ---------- CSV (импорт из 1С) ---------- */
     function parseCSVAndMergeMaster(csvText) {
         const lines = csvText.split(/\r?\n/);
         if (!lines.length) return;
@@ -438,10 +649,9 @@
         deduplicateMaster();
         syncInventoryFromMaster();
         addToHistory(true);
-        showToast(`✅ Мастер обновлён: добавлено ${added}, обновлено ${updated}`, 'success');
+        showToast(`✅ Мастер обновлён: +${added}, изменено ${updated}`, 'success');
     }
 
-    /* ---------- ТЕКСТОВЫЙ ВВОД ---------- */
     function parseTextInventory(text) {
         const lines = text.split(/\r?\n/);
         let updated = 0;
@@ -460,7 +670,6 @@
         else showToast('❌ Совпадений не найдено', 'error');
     }
 
-    /* ---------- ЭКСПОРТ TXT (мин. остаток, порог 0.85) ---------- */
     function exportToTxt() {
         const items = inventoryItems.filter(i => i.factQuantity > 0);
         if (!items.length) { showToast('Нет товаров с ненулевым фактом', 'error'); return; }
@@ -502,7 +711,6 @@
         showToast(`📄 Экспортировано ${groups.length} позиций`, 'success');
     }
 
-    /* ---------- ОСНОВНЫЕ ДЕЙСТВИЯ ---------- */
     function updateFactQuantity(id, val) {
         const item = inventoryItems.find(i => i.id === id);
         if (item) { item.factQuantity = parseFloat(val) || 0; saveInventoryToLocal(); renderAll(); }
@@ -580,7 +788,6 @@
         if (autoSync && githubToken) { showToast('🔄 Синхронизация...', 'success'); await saveMasterToGithub(true); }
     }
 
-    /* ---------- РЕНДЕР ---------- */
     function renderCards(items) {
         const container = document.getElementById('cardsContainer');
         if (!items.length) {
@@ -655,7 +862,19 @@
         });
     }
 
-    /* ---------- ГРАФИК ---------- */
+    function exportMismatchesToCSV() {
+        const mismatches = inventoryItems.filter(i => i.factQuantity !== i.systemQuantity);
+        if (!mismatches.length) { showToast('Нет расхождений', 'error'); return; }
+        const csv = ['Наименование;Категория;Учёт;Факт;Разница'].concat(
+            mismatches.map(i => [i.name, i.category, i.systemQuantity, i.factQuantity, i.factQuantity - i.systemQuantity].join(';'))
+        ).join('\n');
+        const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `mismatches_${new Date().toISOString().slice(0,19)}.csv`;
+        a.click();
+        showToast(`📎 Экспортировано ${mismatches.length} расхождений`, 'success');
+    }
     function showChart() {
         if (!history.length) { showToast('Нет истории', 'error'); return; }
         const labels = [], mismatches = [], diffs = [];
@@ -676,8 +895,6 @@
         });
         document.getElementById('chartModal').classList.add('active');
     }
-
-    /* ---------- PDF ---------- */
     async function exportToPDF() {
         const mismatches = inventoryItems.filter(i => i.factQuantity !== i.systemQuantity);
         if (!mismatches.length) { showToast('Нет расхождений', 'error'); return; }
@@ -714,7 +931,6 @@
         document.body.removeChild(reportDiv);
     }
 
-    /* ---------- СКАНЕР ШТРИХКОДОВ ---------- */
     async function startBarcodeScan() {
         if ('BarcodeDetector' in window) {
             try {
@@ -847,7 +1063,6 @@
         }
     }
 
-    /* ---------- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ---------- */
     function escapeHtml(s) { return s ? s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') : ''; }
     function showToast(text, type='success') {
         const toast = document.getElementById('toast');
@@ -855,22 +1070,13 @@
         toast.style.display = 'block'; toast.innerText = text;
         setTimeout(() => toast.style.display = 'none', 3000);
     }
-    function applyTheme() {
-        document.body.classList.toggle('dark-theme', isDarkTheme);
-    }
+    function applyTheme() { document.body.classList.toggle('dark-theme', isDarkTheme); }
     window.sortBy = (field) => {
         if (sortField === field) sortAscending = !sortAscending;
         else { sortField = field; sortAscending = true; }
         renderAll();
     };
-    function updateRepoDisplay() {
-        // обновляет индикатор токена
-        const ts = document.getElementById('tokenStatus');
-        if (ts) {
-            if (githubToken) { ts.innerHTML = '✅ Токен есть'; ts.style.background = '#dcfce7'; }
-            else { ts.innerHTML = '🔑 Нет токена'; ts.style.background = '#fef3c7'; }
-        }
-    }
+    function updateRepoDisplay() {}
     function setupAutocomplete() {
         const inp = document.getElementById('modalName');
         const div = document.getElementById('modalAutocomplete');
@@ -899,7 +1105,6 @@
         document.addEventListener('click', (e) => { if (!inp.contains(e.target) && !div.contains(e.target)) div.style.display = 'none'; });
     }
 
-    /* ---------- ИНИЦИАЛИЗАЦИЯ ---------- */
     document.addEventListener('DOMContentLoaded', async () => {
         updateRepoDisplay();
         document.getElementById('autoSyncCheckbox').checked = autoSync;
@@ -911,7 +1116,6 @@
         if (!inventoryItems.length && masterProducts.length) syncInventoryFromMaster();
         await initHistory();
 
-        // Кнопки тулбара
         document.getElementById('csvFileInput').addEventListener('change', e => { if (e.target.files[0]) { const r = new FileReader(); r.onload = ev => parseCSVAndMergeMaster(ev.target.result); r.readAsText(e.target.files[0], 'UTF-8'); } });
         document.getElementById('loadCsvBtn').addEventListener('click', () => document.getElementById('csvFileInput').click());
         document.getElementById('textInputBtn').addEventListener('click', () => document.getElementById('textInputModal').classList.add('active'));
@@ -919,6 +1123,7 @@
         document.getElementById('applyTextInputBtn').addEventListener('click', () => { parseTextInventory(document.getElementById('textInventoryInput').value); document.getElementById('textInputModal').classList.remove('active'); });
         document.getElementById('exportTxtBtn').addEventListener('click', exportToTxt);
         document.getElementById('applyAllBtn').addEventListener('click', applyAllFactual);
+        document.getElementById('exportMismatchesBtn').addEventListener('click', exportMismatchesToCSV);
         document.getElementById('showChartBtn').addEventListener('click', showChart);
         document.getElementById('closeChartBtn').addEventListener('click', () => document.getElementById('chartModal').classList.remove('active'));
         document.getElementById('exportPdfBtn').addEventListener('click', exportToPDF);
@@ -931,12 +1136,9 @@
         document.getElementById('saveMasterToGithubBtn').addEventListener('click', () => saveMasterToGithub(true));
         document.getElementById('loadMasterFromGithubBtn').addEventListener('click', () => loadMasterFromGithub(true));
 
-        // FAB
         document.getElementById('fabScanBtn').addEventListener('click', startBarcodeScan);
-        // Сканер в модальном окне
         document.getElementById('modalScanBarcodeBtn').addEventListener('click', modalStartBarcodeScan);
 
-        // Поиск и фильтры
         document.getElementById('searchInput').addEventListener('input', e => { searchTerm = e.target.value; renderAll(); });
         document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', () => { viewFilter = btn.dataset.filter; renderAll(); }));
         document.getElementById('onlyWithStockCheckbox').addEventListener('change', e => { onlyWithStock = e.target.checked; localStorage.setItem('only_with_stock', onlyWithStock); renderAll(); });
