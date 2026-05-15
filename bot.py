@@ -151,7 +151,6 @@ def cmd_status_all(chat_id):
     send_message(chat_id, "\n".join(lines))
 
 def cmd_history(chat_id):
-    # Читаем game_history.json вместо history.json
     hist = read_json_from_github("game_history.json").get("events", [])
     if not hist:
         send_message(chat_id, "📭 История пуста.")
@@ -304,7 +303,6 @@ alert_lock = threading.Lock()
 
 def send_pending_alerts():
     global last_notified_timestamp
-    # Используем game_history.json
     hist = read_json_from_github("game_history.json")
     if not hist or "events" not in hist:
         return
@@ -313,28 +311,12 @@ def send_pending_alerts():
         new_events = [e for e in events if e["timestamp"] > last_notified_timestamp]
         if not new_events:
             return
-        # Группируем по ПК
         lines = ["🚨 Обнаружены удалённые игры:"]
         for ev in sorted(new_events, key=lambda x: x["timestamp"]):
             ts = ev["timestamp"][:16].replace("T", " ")
             pc = ev["pc"]
-            for game in ev["missing"]:
-                lines.append(f"  ❌ {game}")
-            lines.append(f"🖥️ {pc} ({ts})")   # строка с ПК после игр, как в примере
-        # Переставляем, чтобы ПК были в начале? В примере сначала ПК, потом список. Исправим:
-        # Соберём более точно под пример:
-        grouped = {}
-        for ev in sorted(new_events, key=lambda x: x["timestamp"]):
-            ts = ev["timestamp"][:16].replace("T", " ")
-            pc = ev["pc"]
-            if pc not in grouped:
-                grouped[pc] = {"timestamp": ts, "games": []}
-            grouped[pc]["games"].extend(ev["missing"])
-        lines = ["🚨 Обнаружены удалённые игры:"]
-        for pc, data in grouped.items():
-            lines.append(f"\n🖥️ {pc} ({data['timestamp']})")
-            for game in data["games"]:
-                lines.append(f"  ❌ {game}")
+            games = ", ".join(ev["missing"])
+            lines.append(f"{ts} | {pc}: {games}")
         msg = "\n".join(lines)
         send_to_all(msg)
         last_notified_timestamp = new_events[-1]["timestamp"]
