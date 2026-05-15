@@ -2,5 +2,9 @@
   "update_available": {
     "target": "1",
     "timestamp": "2026-04-30T16:23:52.950174"
+  },
+  "force_check": {
+    "timestamp": "2026-05-15T22:51:06.469563",
+    "target": "1"
   }
 }
