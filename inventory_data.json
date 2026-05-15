@@ -354,7 +354,7 @@
       "id": 51,
       "category": "Готовая Еда",
       "name": "Сэндвич №4  ''Острый'' 175г",
-      "systemQuantity": 2,
+      "systemQuantity": 1,
       "factQuantity": 3
     },
     {
@@ -957,6 +957,20 @@
       "category": "Готовая Еда",
       "name": "\"Онигири \"\"Курица с грибами\"\" 120г\"",
       "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 138,
+      "category": "Снэки",
+      "name": "Lays Краб 225г",
+      "systemQuantity": 0,
+      "factQuantity": 0
+    },
+    {
+      "id": 139,
+      "category": "Снэки",
+      "name": "Lays Рифлёные паприка 70г",
+      "systemQuantity": 10,
       "factQuantity": 0
     }
   ]
