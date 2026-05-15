@@ -405,7 +405,7 @@
       "category": "Готовая Еда",
       "name": "Сэндвич №4  ''Острый'' 175г",
       "barcode": "",
-      "systemQuantity": 2,
+      "systemQuantity": 1,
       "lastFactQuantity": 2
     },
     {
@@ -1095,8 +1095,24 @@
       "barcode": "",
       "systemQuantity": 0,
       "lastFactQuantity": 0
+    },
+    {
+      "id": 138,
+      "category": "Снэки",
+      "name": "Lays Краб 225г",
+      "barcode": "",
+      "systemQuantity": 0,
+      "lastFactQuantity": 0
+    },
+    {
+      "id": 139,
+      "category": "Снэки",
+      "name": "Lays Рифлёные паприка 70г",
+      "barcode": "",
+      "systemQuantity": 10,
+      "lastFactQuantity": 0
     }
   ],
-  "nextId": 138,
-  "lastUpdated": "2026-05-14T21:29:16.528Z"
+  "nextId": 140,
+  "lastUpdated": "2026-05-15T00:48:42.397Z"
 }
