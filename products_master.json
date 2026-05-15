@@ -14,7 +14,7 @@
       "name": "Adrenaline Rush 0.25л",
       "barcode": "",
       "systemQuantity": 52,
-      "lastFactQuantity": 48
+      "lastFactQuantity": 54
     },
     {
       "id": 3,
@@ -38,7 +38,7 @@
       "name": "Aqua Minerale Газированная 1л",
       "barcode": "",
       "systemQuantity": 19,
-      "lastFactQuantity": 10
+      "lastFactQuantity": 21
     },
     {
       "id": 6,
@@ -70,7 +70,7 @@
       "name": "Burn Сочная Энергия 0,45л",
       "barcode": "",
       "systemQuantity": 27,
-      "lastFactQuantity": 0
+      "lastFactQuantity": 36
     },
     {
       "id": 10,
@@ -86,7 +86,7 @@
       "name": "Burn Яблоко Киви 0,45л",
       "barcode": "",
       "systemQuantity": 2,
-      "lastFactQuantity": 2
+      "lastFactQuantity": 0
     },
     {
       "id": 12,
@@ -102,7 +102,7 @@
       "name": "Drive Original 0.45л",
       "barcode": "",
       "systemQuantity": 7,
-      "lastFactQuantity": 0
+      "lastFactQuantity": 6
     },
     {
       "id": 14,
@@ -198,7 +198,7 @@
       "name": "Lipton Малина 1л",
       "barcode": "",
       "systemQuantity": 0,
-      "lastFactQuantity": 1
+      "lastFactQuantity": 0
     },
     {
       "id": 26,
@@ -214,7 +214,7 @@
       "name": "Lit Energy Classic 0,45л",
       "barcode": "",
       "systemQuantity": 4,
-      "lastFactQuantity": 0
+      "lastFactQuantity": 4
     },
     {
       "id": 28,
@@ -462,7 +462,7 @@
       "name": "\"Любимый \"\"Виноградный Дуэт\"\" 0,95л\"",
       "barcode": "",
       "systemQuantity": 7,
-      "lastFactQuantity": 7
+      "lastFactQuantity": 6
     },
     {
       "id": 59,
@@ -846,7 +846,7 @@
       "name": "\"Любимый \"\"Земляничное лето\"\" 0,95л\"",
       "barcode": "",
       "systemQuantity": 5,
-      "lastFactQuantity": 0
+      "lastFactQuantity": 5
     },
     {
       "id": 107,
@@ -1022,7 +1022,7 @@
       "name": "Flash Bubble Gum 0,5л",
       "barcode": "",
       "systemQuantity": 15,
-      "lastFactQuantity": 15
+      "lastFactQuantity": 14
     },
     {
       "id": 129,
@@ -1130,5 +1130,5 @@
     }
   ],
   "nextId": 142,
-  "lastUpdated": "2026-05-15T01:18:01.186Z"
+  "lastUpdated": "2026-05-15T01:21:20.034Z"
 }
