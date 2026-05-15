@@ -4,7 +4,7 @@
       "id": 1,
       "category": "Энергетические напитки",
       "name": "Adrenaline Energy Power Game Fuel 0,45л",
-      "barcode": "",
+      "barcode": "4600494694172",
       "systemQuantity": 19,
       "lastFactQuantity": 19
     },
@@ -12,23 +12,23 @@
       "id": 2,
       "category": "Энергетические напитки",
       "name": "Adrenaline Rush 0.25л",
-      "barcode": "",
+      "barcode": "4600494223013",
       "systemQuantity": 51,
-      "lastFactQuantity": 54
+      "lastFactQuantity": 47
     },
     {
       "id": 3,
       "category": "Энергетические напитки",
       "name": "Adrenaline Ягодный Микс 0,45л",
-      "barcode": "",
+      "barcode": "4600494694226",
       "systemQuantity": 22,
-      "lastFactQuantity": 23
+      "lastFactQuantity": 22
     },
     {
       "id": 4,
       "category": "Энергетические напитки",
       "name": "Adrenaline Zero Sugar 0.25л",
-      "barcode": "",
+      "barcode": "4600494666674",
       "systemQuantity": 8,
       "lastFactQuantity": 7
     },
@@ -788,7 +788,7 @@
       "id": 99,
       "category": "Энергетические напитки",
       "name": "Adrenaline Rush Апельсин 0.45",
-      "barcode": "",
+      "barcode": "4600494694165",
       "systemQuantity": 16,
       "lastFactQuantity": 16
     },
@@ -956,7 +956,7 @@
       "id": 120,
       "category": "Энергетические напитки",
       "name": "Adrenaline Спайси 0,45л",
-      "barcode": "",
+      "barcode": "4600494680571",
       "systemQuantity": 2,
       "lastFactQuantity": 2
     },
@@ -1118,17 +1118,17 @@
       "name": "Adrenaline Rush 0.45л",
       "barcode": "",
       "systemQuantity": 0,
-      "lastFactQuantity": 1
+      "lastFactQuantity": 0
     },
     {
       "id": 141,
       "category": "Энергетические напитки",
       "name": "Adrenaline Zero Sugar 0.45л",
-      "barcode": "",
+      "barcode": "4600494666612",
       "systemQuantity": 13,
-      "lastFactQuantity": 17
+      "lastFactQuantity": 16
     }
   ],
   "nextId": 142,
-  "lastUpdated": "2026-05-15T23:45:20.915Z"
+  "lastUpdated": "2026-05-15T23:59:52.257Z"
 }
