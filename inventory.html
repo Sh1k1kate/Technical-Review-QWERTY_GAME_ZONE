@@ -208,6 +208,7 @@
     <input type="file" id="mismatchesFileInput" accept=".csv" style="display: none;">
 </div>
 
+<!-- Модальные окна -->
 <div class="modal" id="itemModal">
     <div class="modal-content">
         <h3 id="modalTitle">➕ Добавить товар</h3>
@@ -239,6 +240,7 @@
 
 <script>
 (function(){
+    /* ---------- КОНФИГУРАЦИЯ ---------- */
     const GITHUB_CONFIG = { owner: 'Sh1k1kate', repo: 'Technical-Review-QWERTY_GAME_ZONE' };
     const MASTER_FILE = 'products_master.json';
     const SECRET_WORD = 'INVENTORY2026';
@@ -262,10 +264,10 @@
     const TWO_HOURS = 2 * 60 * 60 * 1000;
     let pendingBarcode = null;
 
+    /* ---------- НОРМАЛИЗАЦИЯ И НЕЧЁТКОЕ СРАВНЕНИЕ ---------- */
     function normalizeName(str) {
         return str.toLowerCase().replace(/[^а-яёa-z0-9 ]/gi, '').replace(/\s+/g, ' ').trim();
     }
-
     function similarity(a, b) {
         const an = normalizeName(a), bn = normalizeName(b);
         if (an === bn) return 1.0;
@@ -276,7 +278,6 @@
         const avg = (wa.length + wb.length) / 2;
         return avg === 0 ? 0 : common / avg;
     }
-
     function findBestMatch(csvName, candidates, threshold = 0.65) {
         let best = null, bestScore = 0;
         for (const p of candidates) {
@@ -286,10 +287,10 @@
         return bestScore >= threshold ? { product: best, score: bestScore } : null;
     }
 
+    /* ---------- УПРАВЛЕНИЕ ID ---------- */
     function updateNextIdFromProducts() {
         nextMasterId = masterProducts.reduce((max, p) => Math.max(max, p.id || 0), 0) + 1;
     }
-
     function deduplicateMaster() {
         const seen = new Map(), unique = [];
         for (const p of masterProducts) {
@@ -300,6 +301,7 @@
         updateNextIdFromProducts();
     }
 
+    /* ---------- СИНХРОНИЗАЦИЯ ИНВЕНТАРИЗАЦИИ ---------- */
     function syncInventoryFromMaster() {
         inventoryItems = masterProducts.map(prod => ({
             id: prod.id,
@@ -312,6 +314,7 @@
         renderAll();
     }
 
+    /* ---------- LOCAL STORAGE ---------- */
     function loadMasterFromLocal() {
         const saved = localStorage.getItem('products_master_v2');
         if (saved) {
@@ -326,18 +329,31 @@
         }
         return false;
     }
-
     function saveMasterToLocal() {
         localStorage.setItem('products_master_v2', JSON.stringify({ products: masterProducts, nextId: nextMasterId }));
     }
+    function saveInventoryToLocal() {
+        localStorage.setItem('inventory_data_v13', JSON.stringify({ items: inventoryItems }));
+    }
+    function loadInventoryFromLocal() {
+        const saved = localStorage.getItem('inventory_data_v13');
+        if (saved) {
+            try {
+                inventoryItems = JSON.parse(saved).items || [];
+                renderAll();
+                return true;
+            } catch (e) {}
+        }
+        return false;
+    }
 
+    /* ---------- GITHUB ---------- */
     function utf8ToBase64(str) {
         const bytes = new TextEncoder().encode(str);
         let binary = '';
         bytes.forEach(b => binary += String.fromCharCode(b));
         return btoa(binary);
     }
-
     async function saveMasterToGithub(showMsg = true, retryCount = 0) {
         if (!githubToken) { showToast('❌ Установите токен', 'error'); return false; }
         try {
@@ -358,7 +374,6 @@
             return true;
         } catch (e) { console.error(e); showToast(`❌ Ошибка сохранения: ${e.message}`, 'error'); return false; }
     }
-
     async function loadMasterFromGithub(showMsg = true) {
         if (!githubToken) { showToast('❌ Установите токен', 'error'); return false; }
         try {
@@ -389,22 +404,7 @@
         return false;
     }
 
-    function saveInventoryToLocal() {
-        localStorage.setItem('inventory_data_v13', JSON.stringify({ items: inventoryItems }));
-    }
-
-    function loadInventoryFromLocal() {
-        const saved = localStorage.getItem('inventory_data_v13');
-        if (saved) {
-            try {
-                inventoryItems = JSON.parse(saved).items || [];
-                renderAll();
-                return true;
-            } catch (e) {}
-        }
-        return false;
-    }
-
+    /* ---------- ИСТОРИЯ ---------- */
     function saveHistoryToLocal() { localStorage.setItem('inventory_history_v2', JSON.stringify(history)); }
     function loadHistoryFromLocal() {
         const saved = localStorage.getItem('inventory_history_v2');
@@ -460,6 +460,7 @@
         saveHistoryToLocal(); updateHistorySelect();
     }
 
+    /* ---------- CSV (импорт из 1С) ---------- */
     function parseCSVAndMergeMaster(csvText) {
         const lines = csvText.split(/\r?\n/);
         if (!lines.length) return;
@@ -472,16 +473,18 @@
         const statusIdx = headers.findIndex(h => h === 'Статус' || h.includes('Статус'));
         const barcodeIdx = headers.findIndex(h => h === 'Штрихкод' || h === 'Barcode' || h.includes('штрихкод'));
         const csvItems = [];
+        let skipped = 0;
         for (let i = 1; i < lines.length; i++) {
             const cols = lines[i].split(';');
             if (cols.length <= Math.max(nameIdx, catIdx, qtyIdx, statusIdx, barcodeIdx)) continue;
-            if ((cols[statusIdx] || '').trim() !== 'Активен') continue;
+            if ((cols[statusIdx] || '').trim() !== 'Активен') { skipped++; continue; }
             const name = (cols[nameIdx] || '').trim();
             const category = (cols[catIdx] || '').trim();
             const qty = parseFloat(cols[qtyIdx]) || 0;
             const barcode = (barcodeIdx !== -1 && cols[barcodeIdx]) ? cols[barcodeIdx].trim() : '';
             if (name && category) csvItems.push({ name, category, systemQuantity: qty, barcode });
         }
+        if (skipped > 0) showToast(`📊 Пропущено скрытых: ${skipped}`, 'success');
         let added = 0, updated = 0;
         for (const csvItem of csvItems) {
             const match = findBestMatch(csvItem.name, masterProducts, 0.65);
@@ -493,7 +496,14 @@
                 p.category = csvItem.category;
             } else {
                 const newId = nextMasterId++;
-                masterProducts.push({ id: newId, category: csvItem.category, name: csvItem.name, barcode: csvItem.barcode || '', systemQuantity: csvItem.systemQuantity, lastFactQuantity: csvItem.systemQuantity });
+                masterProducts.push({
+                    id: newId,
+                    category: csvItem.category,
+                    name: csvItem.name,
+                    barcode: csvItem.barcode || '',
+                    systemQuantity: csvItem.systemQuantity,
+                    lastFactQuantity: csvItem.systemQuantity
+                });
                 added++;
             }
         }
@@ -502,9 +512,10 @@
         deduplicateMaster();
         syncInventoryFromMaster();
         addToHistory(true);
-        showToast(`✅ Мастер обновлён: +${added}, изменено ${updated}`, 'success');
+        showToast(`✅ Мастер обновлён: добавлено ${added}, обновлено ${updated}`, 'success');
     }
 
+    /* ---------- ТЕКСТОВЫЙ ВВОД ---------- */
     function parseTextInventory(text) {
         const lines = text.split(/\r?\n/);
         let updated = 0;
@@ -523,59 +534,53 @@
         else showToast('❌ Совпадений не найдено', 'error');
     }
 
-  // ========== ЭКСПОРТ TXT с высоким порогом схожести ==========
-function exportToTxt() {
-    const items = inventoryItems.filter(i => i.factQuantity > 0);
-    if (!items.length) { showToast('Нет товаров с ненулевым фактом', 'error'); return; }
-
-    // Группируем только ОЧЕНЬ похожие названия (порог 0.85)
-    const groups = [];
-    for (const item of items) {
-        let foundGroup = null;
-        for (const group of groups) {
-            if (similarity(item.name, group.name) >= 0.85) {
-                foundGroup = group;
-                break;
+    /* ---------- ЭКСПОРТ TXT (мин. остаток, порог 0.85) ---------- */
+    function exportToTxt() {
+        const items = inventoryItems.filter(i => i.factQuantity > 0);
+        if (!items.length) { showToast('Нет товаров с ненулевым фактом', 'error'); return; }
+        const groups = [];
+        for (const item of items) {
+            let foundGroup = null;
+            for (const group of groups) {
+                if (similarity(item.name, group.name) >= 0.85) {
+                    foundGroup = group;
+                    break;
+                }
+            }
+            if (foundGroup) {
+                foundGroup.total = Math.min(foundGroup.total, item.factQuantity);
+                foundGroup.items.push(item);
+            } else {
+                groups.push({
+                    name: item.name,
+                    category: item.category,
+                    total: item.factQuantity,
+                    items: [item]
+                });
             }
         }
-        if (foundGroup) {
-            foundGroup.total = Math.min(foundGroup.total, item.factQuantity);
-            foundGroup.items.push(item);
-        } else {
-            groups.push({
-                name: item.name,
-                category: item.category,
-                total: item.factQuantity,
-                items: [item]
-            });
-        }
+        const catOrder = { 'Напитки': 1, 'Энергетические напитки': 2, 'Готовая Еда': 3, 'Снэки': 4, 'Шоколад': 5 };
+        groups.sort((a, b) => {
+            const catA = catOrder[a.category] || 99;
+            const catB = catOrder[b.category] || 99;
+            if (catA !== catB) return catA - catB;
+            return a.name.localeCompare(b.name);
+        });
+        const lines = groups.map(g => `${g.name} ${g.total}`);
+        const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `inventory_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.txt`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+        showToast(`📄 Экспортировано ${groups.length} позиций`, 'success');
     }
 
-    // Сортировка групп по категориям и названиям
-    const catOrder = { 'Напитки': 1, 'Энергетические напитки': 2, 'Готовая Еда': 3, 'Снэки': 4, 'Шоколад': 5 };
-    groups.sort((a, b) => {
-        const catA = catOrder[a.category] || 99;
-        const catB = catOrder[b.category] || 99;
-        if (catA !== catB) return catA - catB;
-        return a.name.localeCompare(b.name);
-    });
-
-    const lines = groups.map(g => `${g.name} ${g.total}`);
-    const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `inventory_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.txt`;
-    a.click();
-    URL.revokeObjectURL(a.href);
-    showToast(`📄 Экспортировано ${groups.length} уникальных позиций`, 'success');
-}
-
-
+    /* ---------- ОСНОВНЫЕ ДЕЙСТВИЯ ---------- */
     function updateFactQuantity(id, val) {
         const item = inventoryItems.find(i => i.id === id);
         if (item) { item.factQuantity = parseFloat(val) || 0; saveInventoryToLocal(); renderAll(); }
     }
-
     function deleteItem(id) {
         if (!confirm('Удалить товар?')) return;
         inventoryItems = inventoryItems.filter(i => i.id !== id);
@@ -584,7 +589,6 @@ function exportToTxt() {
         saveMasterToLocal(); saveInventoryToLocal(); renderAll();
         showToast('🗑️ Товар удалён', 'success');
     }
-
     function addOrEditItem(editId = null) {
         const modal = document.getElementById('itemModal');
         const title = document.getElementById('modalTitle');
@@ -640,7 +644,6 @@ function exportToTxt() {
         document.getElementById('cancelModalBtn').onclick = () => { modal.classList.remove('active'); saveBtn.onclick = oldHandler; };
         setupAutocomplete();
     }
-
     async function applyAllFactual() {
         for (const inv of inventoryItems) {
             const master = masterProducts.find(p => p.id === inv.id);
@@ -651,6 +654,7 @@ function exportToTxt() {
         if (autoSync && githubToken) { showToast('🔄 Синхронизация...', 'success'); await saveMasterToGithub(true); }
     }
 
+    /* ---------- РЕНДЕР ---------- */
     function renderCards(items) {
         const container = document.getElementById('cardsContainer');
         if (!items.length) {
@@ -676,7 +680,6 @@ function exportToTxt() {
             addOrEditItem(parseInt(card.dataset.id));
         }));
     }
-
     function renderTable(items) {
         const tbody = document.getElementById('tableBody');
         if (!items.length) {
@@ -700,7 +703,6 @@ function exportToTxt() {
             addOrEditItem(parseInt(row.dataset.id));
         }));
     }
-
     function renderAll() {
         let filtered = inventoryItems;
         if (searchTerm) {
@@ -720,7 +722,6 @@ function exportToTxt() {
         document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.filter === viewFilter));
         document.getElementById('onlyWithStockCheckbox').checked = onlyWithStock;
     }
-
     function sortItems(arr) {
         return [...arr].sort((a,b) => {
             let cmp = 0;
@@ -731,6 +732,7 @@ function exportToTxt() {
         });
     }
 
+    /* ---------- ЭКСПОРТ CSV РАСХОЖДЕНИЙ ---------- */
     function exportMismatchesToCSV() {
         const mismatches = inventoryItems.filter(i => i.factQuantity !== i.systemQuantity);
         if (!mismatches.length) { showToast('Нет расхождений', 'error'); return; }
@@ -744,7 +746,6 @@ function exportToTxt() {
         a.click();
         showToast(`📎 Экспортировано ${mismatches.length} расхождений`, 'success');
     }
-
     function loadMismatchesFromCSV(csvText) {
         const lines = csvText.split(/\r?\n/);
         if (!lines.length) return;
@@ -764,6 +765,7 @@ function exportToTxt() {
         else showToast('❌ Товары не найдены', 'error');
     }
 
+    /* ---------- ГРАФИК ---------- */
     function showChart() {
         if (!history.length) { showToast('Нет истории', 'error'); return; }
         const labels = [], mismatches = [], diffs = [];
@@ -785,6 +787,7 @@ function exportToTxt() {
         document.getElementById('chartModal').classList.add('active');
     }
 
+    /* ---------- PDF ---------- */
     async function exportToPDF() {
         const mismatches = inventoryItems.filter(i => i.factQuantity !== i.systemQuantity);
         if (!mismatches.length) { showToast('Нет расхождений', 'error'); return; }
@@ -821,6 +824,141 @@ function exportToTxt() {
         document.body.removeChild(reportDiv);
     }
 
+    /* ---------- СКАНЕР ШТРИХКОДОВ (работает с камерой) ---------- */
+    async function startBarcodeScan() {
+        if ('BarcodeDetector' in window) {
+            try {
+                const detector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e', 'code_128', 'code_39', 'qr_code'] });
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.setAttribute('playsinline', true);
+                video.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:10000;';
+                document.body.appendChild(video);
+                await video.play();
+                const scanInterval = setInterval(async () => {
+                    try {
+                        const barcodes = await detector.detect(video);
+                        if (barcodes.length > 0) {
+                            clearInterval(scanInterval);
+                            stream.getTracks().forEach(t => t.stop());
+                            video.remove();
+                            const barcode = barcodes[0].rawValue;
+                            handleScannedBarcode(barcode);
+                        }
+                    } catch (e) {}
+                }, 200);
+                setTimeout(() => {
+                    clearInterval(scanInterval);
+                    if (stream.active) { stream.getTracks().forEach(t => t.stop()); video.remove(); showToast('Сканирование отменено', 'error'); }
+                }, 30000);
+            } catch (err) {
+                showToast('Не удалось открыть камеру', 'error');
+                manualBarcodeInput();
+            }
+        } else {
+            manualBarcodeInput();
+        }
+    }
+    function manualBarcodeInput() {
+        const code = prompt('Введите штрихкод вручную:');
+        if (code) handleScannedBarcode(code);
+    }
+    function handleScannedBarcode(code) {
+        const product = masterProducts.find(p => p.barcode === code);
+        if (product) {
+            document.getElementById('searchInput').value = product.name;
+            document.getElementById('searchInput').dispatchEvent(new Event('input', { bubbles: true }));
+            setTimeout(() => {
+                const card = document.querySelector(`.inventory-card[data-id="${product.id}"]`);
+                if (card) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    card.classList.add('highlight');
+                    setTimeout(() => card.classList.remove('highlight'), 2000);
+                    showToast(`🔍 Найден: ${product.name}`, 'success');
+                }
+            }, 300);
+        } else {
+            pendingBarcode = code;
+            openBarcodeAssignmentModal(code);
+        }
+    }
+    function openBarcodeAssignmentModal(code) {
+        const modal = document.getElementById('itemModal');
+        document.getElementById('modalTitle').innerText = '🔗 Привязка штрихкода';
+        document.getElementById('modalCategory').value = 'Напитки';
+        document.getElementById('modalName').value = '';
+        document.getElementById('modalBarcode').value = code;
+        document.getElementById('modalBarcode').readOnly = true;
+        document.getElementById('modalSystemQty').value = 0;
+        document.getElementById('modalFactQty').value = 0;
+        const saveBtn = document.getElementById('saveModalBtn');
+        const old = saveBtn.onclick;
+        saveBtn.onclick = () => {
+            const name = document.getElementById('modalName').value.trim();
+            if (!name) { showToast('Введите название', 'error'); return; }
+            const cat = document.getElementById('modalCategory').value;
+            const sys = parseInt(document.getElementById('modalSystemQty').value) || 0;
+            const fact = parseInt(document.getElementById('modalFactQty').value) || 0;
+            const bc = document.getElementById('modalBarcode').value;
+            let prod = masterProducts.find(p => p.name === name && p.category === cat);
+            if (prod) {
+                prod.barcode = bc;
+                saveMasterToLocal();
+                let inv = inventoryItems.find(i => i.id === prod.id);
+                if (inv) { inv.systemQuantity = prod.systemQuantity; inv.factQuantity = prod.lastFactQuantity ?? prod.systemQuantity; }
+                else inventoryItems.push({ id: prod.id, category: prod.category, name: prod.name, systemQuantity: prod.systemQuantity, factQuantity: prod.lastFactQuantity ?? prod.systemQuantity });
+                saveInventoryToLocal(); renderAll();
+                showToast('✅ Штрихкод привязан', 'success');
+            } else {
+                const newId = nextMasterId++;
+                masterProducts.push({ id: newId, category: cat, name, barcode: bc, systemQuantity: sys, lastFactQuantity: fact });
+                inventoryItems.push({ id: newId, category: cat, name, systemQuantity: sys, factQuantity: fact });
+                updateNextIdFromProducts(); saveMasterToLocal(); saveInventoryToLocal(); renderAll();
+                showToast('✅ Товар добавлен со штрихкодом', 'success');
+            }
+            modal.classList.remove('active'); saveBtn.onclick = old;
+            document.getElementById('modalBarcode').readOnly = false;
+            pendingBarcode = null;
+        };
+        document.getElementById('cancelModalBtn').onclick = () => { modal.classList.remove('active'); saveBtn.onclick = old; pendingBarcode = null; document.getElementById('modalBarcode').readOnly = false; };
+        modal.classList.add('active');
+        setupAutocomplete();
+    }
+    async function modalStartBarcodeScan() {
+        if ('BarcodeDetector' in window) {
+            try {
+                const detector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e', 'code_128', 'code_39', 'qr_code'] });
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                const video = document.createElement('video');
+                video.srcObject = stream; video.setAttribute('playsinline', true);
+                video.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:10000;';
+                document.body.appendChild(video);
+                await video.play();
+                const interval = setInterval(async () => {
+                    try {
+                        const barcodes = await detector.detect(video);
+                        if (barcodes.length) {
+                            clearInterval(interval);
+                            stream.getTracks().forEach(t => t.stop());
+                            video.remove();
+                            document.getElementById('modalBarcode').value = barcodes[0].rawValue;
+                            showToast('Штрихкод вставлен', 'success');
+                        }
+                    } catch (e) {}
+                }, 200);
+                setTimeout(() => { clearInterval(interval); if (stream.active) { stream.getTracks().forEach(t => t.stop()); video.remove(); } }, 30000);
+            } catch (e) {
+                const code = prompt('Штрихкод:');
+                if (code) document.getElementById('modalBarcode').value = code;
+            }
+        } else {
+            const code = prompt('Штрихкод:');
+            if (code) document.getElementById('modalBarcode').value = code;
+        }
+    }
+
+    /* ---------- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ---------- */
     function escapeHtml(s) { return s ? s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') : ''; }
     function showToast(text, type='success') {
         const toast = document.getElementById('toast');
@@ -843,7 +981,6 @@ function exportToTxt() {
         if (githubToken) { ts.innerHTML = '✅ Токен есть'; ts.style.background = '#dcfce7'; }
         else { ts.innerHTML = '🔑 Нет токена'; ts.style.background = '#fef3c7'; }
     }
-
     function setupAutocomplete() {
         const inp = document.getElementById('modalName');
         const div = document.getElementById('modalAutocomplete');
@@ -872,9 +1009,7 @@ function exportToTxt() {
         document.addEventListener('click', (e) => { if (!inp.contains(e.target) && !div.contains(e.target)) div.style.display = 'none'; });
     }
 
-    async function startBarcodeScan() { alert('Сканер не подключён'); }
-    async function modalStartBarcodeScan() { alert('Сканер не подключён'); }
-
+    /* ---------- ИНИЦИАЛИЗАЦИЯ ---------- */
     document.addEventListener('DOMContentLoaded', async () => {
         updateRepoDisplay();
         document.getElementById('autoSyncCheckbox').checked = autoSync;
