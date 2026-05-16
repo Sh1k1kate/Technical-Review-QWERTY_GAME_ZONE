@@ -334,6 +334,12 @@ def alert_scheduler():
 app = Flask(__name__)
 user_states = {}
 
+# Health-check для cron-job.org (GET)
+@app.route("/", methods=["GET"])
+def health_check():
+    return "Bot is running", 200
+
+# Основной вебхук Telegram (POST)
 @app.route("/", methods=["POST"])
 def webhook():
     update = request.get_json()
