@@ -357,7 +357,7 @@
         const avg = (wa.length + wb.length) / 2;
         return avg === 0 ? 0 : common / avg;
     }
-    function findBestMatch(csvName, candidates, threshold = 0.65) {
+    function findBestMatch(csvName, candidates, threshold = 0.85) {
         let best = null, bestScore = 0;
         for (const p of candidates) {
             const score = similarity(csvName, p.name);
@@ -512,6 +512,7 @@
         modal.classList.add('active');
     }
 
+    // Импорт CSV с порогом 0.85
     function parseCSVAndMergeMaster(csvText) {
         const lines = csvText.split(/\r?\n/);
         if (!lines.length) return;
@@ -538,7 +539,7 @@
         if (skipped > 0) showToast(`📊 Пропущено скрытых: ${skipped}`, 'success');
         let added = 0, updated = 0;
         for (const csvItem of csvItems) {
-            const match = findBestMatch(csvItem.name, masterProducts, 0.65);
+            const match = findBestMatch(csvItem.name, masterProducts, 0.85);
             if (match) {
                 const p = match.product;
                 if (p.systemQuantity !== csvItem.systemQuantity) { p.systemQuantity = csvItem.systemQuantity; updated++; }
@@ -1028,7 +1029,6 @@
         if (!inventoryItems.length && masterProducts.length) syncInventoryFromMaster();
         await initHistory();
 
-        // Сворачивание панели
         const toggleBtn = document.getElementById('toggleExtraBtn');
         const extraDiv = document.getElementById('extraButtons');
         toggleBtn.addEventListener('click', () => {
@@ -1036,7 +1036,6 @@
             toggleBtn.innerHTML = isOpen ? '⚙️ Ещё ▴' : '⚙️ Ещё ▾';
         });
 
-        // Привязка кнопок
         document.getElementById('csvFileInput').addEventListener('change', e => { if (e.target.files[0]) { const r = new FileReader(); r.onload = ev => parseCSVAndMergeMaster(ev.target.result); r.readAsText(e.target.files[0], 'UTF-8'); } });
         document.getElementById('loadCsvBtn').addEventListener('click', () => document.getElementById('csvFileInput').click());
         document.getElementById('textInputBtn').addEventListener('click', () => document.getElementById('textInputModal').classList.add('active'));
