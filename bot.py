@@ -117,24 +117,22 @@ def get_reply_keyboard(chat_id):
     return {"keyboard": kb, "resize_keyboard": True}
 
 # ==================== Команды ====================
-def cmd_status(chat_id, pc=None):
-    if pc:
-        data = read_json_from_github("games_status.json")
-        if pc not in data:
-            send_message(chat_id, "Нет данных.", reply_markup=get_reply_keyboard(chat_id))
-            return
-        d = data[pc]
-        games = d.get("games", {})
-        lines = [f"Статус ПК {pc}:"]
-        for name, info in games.items():
-            if info["installed"]:
-                icon = "🔄" if info.get("update_available") else "✅"
-            else:
-                icon = "❌"
-            lines.append(f"{icon} {name}")
-        send_message(chat_id, "\n".join(lines), reply_markup=get_reply_keyboard(chat_id))
-    else:
-        cmd_status_all(chat_id)
+def cmd_status(chat_id, pc):
+    """Детальный статус одного ПК (pc – строка с номером)."""
+    data = read_json_from_github("games_status.json")
+    if pc not in data:
+        send_message(chat_id, "Нет данных.", reply_markup=get_reply_keyboard(chat_id))
+        return
+    d = data[pc]
+    games = d.get("games", {})
+    lines = [f"Статус ПК {pc}:"]
+    for name, info in games.items():
+        if info["installed"]:
+            icon = "🔄" if info.get("update_available") else "✅"
+        else:
+            icon = "❌"
+        lines.append(f"{icon} {name}")
+    send_message(chat_id, "\n".join(lines), reply_markup=get_reply_keyboard(chat_id))
 
 def cmd_status_all(chat_id):
     data = read_json_from_github("games_status.json")
@@ -342,10 +340,17 @@ def webhook():
         chat_id = str(msg["chat"]["id"])
         text = msg.get("text", "")
 
-        # Обработка force_reply (ожидание ввода от админа)
+        # Обработка force_reply (ожидание ввода)
         state = user_states.get(chat_id)
         if state:
-            if state["action"] == "awaiting_interval":
+            if state["action"] == "awaiting_status_pc":
+                if text.isdigit():
+                    cmd_status(chat_id, text)
+                else:
+                    send_message(chat_id, "Некорректный номер ПК.", reply_markup=get_reply_keyboard(chat_id))
+                del user_states[chat_id]
+                return "ok"
+            elif state["action"] == "awaiting_interval":
                 if text.isdigit() and int(text) > 0:
                     cmd_set_interval(chat_id, int(text))
                 else:
@@ -401,20 +406,23 @@ def webhook():
                 send_message(chat_id, "❌ Вы отписаны.", reply_markup=get_reply_keyboard(chat_id))
             else:
                 send_message(chat_id, "Вы не были подписаны.", reply_markup=get_reply_keyboard(chat_id))
-        elif text == "📊 Статус":
-            cmd_status(chat_id)  # внутри уже передаётся reply_markup
-        elif text == "📋 Статус всех":
-            cmd_status_all(chat_id)
-        elif text == "📜 История":
-            cmd_history(chat_id)
-        elif text == "📈 Еженедельный":
-            cmd_weekly(chat_id)
+        elif text == "📊 Статус" or text == "/status":
+            # Запрашиваем номер ПК (force_reply)
+            send_message(chat_id, "Введите номер компьютера:", reply_markup={"force_reply": True})
+            user_states[chat_id] = {"action": "awaiting_status_pc"}
         elif text.startswith("/status "):
+            # Прямой вызов с номером
             parts = text.split()
             if len(parts) == 2 and parts[1].isdigit():
                 cmd_status(chat_id, parts[1])
             else:
-                cmd_status(chat_id)
+                send_message(chat_id, "Использование: /status <номер>", reply_markup=get_reply_keyboard(chat_id))
+        elif text == "📋 Статус всех" or text == "/status_all":
+            cmd_status_all(chat_id)
+        elif text == "📜 История" or text == "/history":
+            cmd_history(chat_id)
+        elif text == "📈 Еженедельный" or text == "/weekly":
+            cmd_weekly(chat_id)
         elif text == "🔄 Интервал" or text == "/setinterval":
             if is_admin(chat_id):
                 send_message(chat_id, "Введите новый интервал в минутах:", reply_markup={"force_reply": True})
@@ -477,7 +485,7 @@ def webhook():
                 "Команды:\n"
                 "/start - подписаться\n"
                 "/stop - отписаться\n"
-                "/status [номер_ПК] - статус\n"
+                "/status [номер_ПК] - статус одного ПК\n"
                 "/status_all - все ПК\n"
                 "/history - удаления\n"
                 "Админские:\n"
