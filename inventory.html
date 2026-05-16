@@ -13,6 +13,28 @@
         body.dark-theme { background: #0f172a; color: #e2e8f0; }
         .container { max-width: 800px; margin: 0 auto; padding: 12px; padding-bottom: 80px; }
 
+        /* Навигационная панель */
+        .nav-links { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+        .nav-link {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 30px;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: #1e293b;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            transition: all 0.2s;
+        }
+        .dark-theme .nav-link { background: #1e293b; color: #f1f5f9; border-color: #334155; }
+        .nav-link.primary { background: #3b82f6; color: white; border: none; }
+        .nav-link:active { transform: scale(0.97); }
+
+        /* Верхняя панель инструментов */
         .toolbar { 
             background: white; 
             border-radius: 24px; 
@@ -68,6 +90,7 @@
         .extra-buttons { display: none; gap: 8px; flex-wrap: wrap; align-items: center; }
         .extra-buttons.show { display: flex; }
 
+        /* Строка поиска и фильтры */
         .search-row {
             display: flex;
             gap: 8px;
@@ -130,6 +153,7 @@
         }
         .dark-theme .stat-badge { background: #1e293b; }
 
+        /* Карточки товаров */
         .cards-container { display: flex; flex-direction: column; gap: 12px; }
         .inventory-card {
             background: white;
@@ -239,6 +263,14 @@
 </head>
 <body>
 <div class="container">
+    <!-- Навигационная панель -->
+    <div class="nav-links">
+        <a href="index.html" class="nav-link">🖥️ Технический отчёт</a>
+        <a href="inventory.html?secret=INVENTORY2026" class="nav-link primary">📦 Инвентаризация</a>
+        <a href="games.html" class="nav-link">👾 Статус Игр</a>
+        <a href="mismatches.html?secret=INVENTORY2026" class="nav-link">📋 Все расхождения</a>
+    </div>
+
     <!-- Верхняя сворачиваемая панель -->
     <div class="toolbar" id="toolbar">
         <button class="btn btn-success" id="exportTxtBtn">📄 TXT</button>
