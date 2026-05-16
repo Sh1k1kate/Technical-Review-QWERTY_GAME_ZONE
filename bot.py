@@ -158,8 +158,9 @@ def cmd_history(chat_id):
     for ev in reversed(hist[-10:]):
         ts = ev["timestamp"][:16].replace("T", " ")
         pc = ev["pc"]
-        games = ", ".join(ev["missing"])
-        lines.append(f"{ts} | {pc}: {games}")
+        lines.append(f"\n🖥️ {pc} ({ts})")
+        for g in ev["missing"]:
+            lines.append(f"  ❌ {g}")
     send_message(chat_id, "\n".join(lines), reply_markup=get_reply_keyboard(chat_id))
 
 def cmd_weekly(chat_id):
@@ -314,8 +315,9 @@ def send_pending_alerts():
         for ev in sorted(new_events, key=lambda x: x["timestamp"]):
             ts = ev["timestamp"][:16].replace("T", " ")
             pc = ev["pc"]
-            games = ", ".join(ev["missing"])
-            lines.append(f"{ts} | {pc}: {games}")
+            lines.append(f"\n🖥️ {pc} ({ts})")
+            for g in ev["missing"]:
+                lines.append(f"  ❌ {g}")
         msg = "\n".join(lines)
         send_to_all(msg)
         last_notified_timestamp = new_events[-1]["timestamp"]
