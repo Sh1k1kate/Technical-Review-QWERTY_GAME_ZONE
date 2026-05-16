@@ -94,6 +94,7 @@ def send_to_all(text):
             send_message(sub, text)
 
 def get_reply_keyboard(chat_id):
+    """Генерирует reply-клавиатуру: обычную или админскую, в зависимости от прав."""
     is_sub = str(chat_id) in get_subscribers()
     admin = is_admin(chat_id)
     if admin:
@@ -120,7 +121,7 @@ def cmd_status(chat_id, pc=None):
     if pc:
         data = read_json_from_github("games_status.json")
         if pc not in data:
-            send_message(chat_id, "Нет данных.")
+            send_message(chat_id, "Нет данных.", reply_markup=get_reply_keyboard(chat_id))
             return
         d = data[pc]
         games = d.get("games", {})
@@ -131,14 +132,14 @@ def cmd_status(chat_id, pc=None):
             else:
                 icon = "❌"
             lines.append(f"{icon} {name}")
-        send_message(chat_id, "\n".join(lines))
+        send_message(chat_id, "\n".join(lines), reply_markup=get_reply_keyboard(chat_id))
     else:
         cmd_status_all(chat_id)
 
 def cmd_status_all(chat_id):
     data = read_json_from_github("games_status.json")
     if not data:
-        send_message(chat_id, "Нет данных.")
+        send_message(chat_id, "Нет данных.", reply_markup=get_reply_keyboard(chat_id))
         return
     lines = ["📊 Сводка по всем ПК:"]
     for pc in sorted(data.keys(), key=lambda x: int(x) if x.isdigit() else 0):
@@ -148,12 +149,12 @@ def cmd_status_all(chat_id):
         icon = "✅" if not missing else "❌"
         upd_icon = " 🔄" if upd else ""
         lines.append(f"{icon} {pc}{upd_icon}: отсутствуют {len(missing)} игр")
-    send_message(chat_id, "\n".join(lines))
+    send_message(chat_id, "\n".join(lines), reply_markup=get_reply_keyboard(chat_id))
 
 def cmd_history(chat_id):
     hist = read_json_from_github("game_history.json").get("events", [])
     if not hist:
-        send_message(chat_id, "📭 История пуста.")
+        send_message(chat_id, "📭 История пуста.", reply_markup=get_reply_keyboard(chat_id))
         return
     lines = ["📜 Последние удаления:"]
     for ev in reversed(hist[-10:]):
@@ -161,15 +162,15 @@ def cmd_history(chat_id):
         pc = ev["pc"]
         games = ", ".join(ev["missing"])
         lines.append(f"{ts} | {pc}: {games}")
-    send_message(chat_id, "\n".join(lines))
+    send_message(chat_id, "\n".join(lines), reply_markup=get_reply_keyboard(chat_id))
 
 def cmd_weekly(chat_id):
     if not is_admin(chat_id):
-        send_message(chat_id, "⛔ Только для администратора.")
+        send_message(chat_id, "⛔ Только для администратора.", reply_markup=get_reply_keyboard(chat_id))
         return
     all_data = read_json_from_github("games_status.json")
     if not all_data:
-        send_message(chat_id, "Нет данных.")
+        send_message(chat_id, "Нет данных.", reply_markup=get_reply_keyboard(chat_id))
         return
     game_missing = {}
     game_update = {}
@@ -200,65 +201,65 @@ def cmd_weekly(chat_id):
         lines.append("\n🔄 Нет доступных обновлений.")
     lines.append("\n🔍 Подробнее: https://your-site.com/games.html")
     send_to_all("\n".join(lines))
-    send_message(chat_id, "📊 Отчёт отправлен.")
+    send_message(chat_id, "📊 Отчёт отправлен.", reply_markup=get_reply_keyboard(chat_id))
 
 def cmd_set_interval(chat_id, minutes):
     if not is_admin(chat_id):
-        send_message(chat_id, "⛔ Только для администратора.")
+        send_message(chat_id, "⛔ Только для администратора.", reply_markup=get_reply_keyboard(chat_id))
         return
     gc = read_json_from_github("global_config.json") or {}
     gc["check_interval"] = minutes * 60
     if write_json_to_github("global_config.json", gc, f"set interval {minutes} min"):
-        send_message(chat_id, f"✅ Глобальный интервал изменён на {minutes} мин.")
+        send_message(chat_id, f"✅ Глобальный интервал изменён на {minutes} мин.", reply_markup=get_reply_keyboard(chat_id))
     else:
-        send_message(chat_id, "❌ Ошибка записи.")
+        send_message(chat_id, "❌ Ошибка записи.", reply_markup=get_reply_keyboard(chat_id))
 
 def cmd_force_check(chat_id, pc=None):
     if not is_admin(chat_id):
-        send_message(chat_id, "⛔ Только для администратора.")
+        send_message(chat_id, "⛔ Только для администратора.", reply_markup=get_reply_keyboard(chat_id))
         return
     flags = read_json_from_github("flags.json") or {}
     flags["force_check"] = {"timestamp": datetime.now().isoformat(), "target": pc}
     if write_json_to_github("flags.json", flags, "force_check"):
-        send_message(chat_id, "⏳ Запрос отправлен.")
+        send_message(chat_id, "⏳ Запрос отправлен.", reply_markup=get_reply_keyboard(chat_id))
     else:
-        send_message(chat_id, "❌ Ошибка.")
+        send_message(chat_id, "❌ Ошибка.", reply_markup=get_reply_keyboard(chat_id))
 
 def cmd_clear_cache(chat_id, pc):
     if not is_admin(chat_id):
-        send_message(chat_id, "⛔ Только для администратора.")
+        send_message(chat_id, "⛔ Только для администратора.", reply_markup=get_reply_keyboard(chat_id))
         return
     flags = read_json_from_github("flags.json") or {}
     flags["clearcache"] = {"target": pc, "timestamp": datetime.now().isoformat()}
     if write_json_to_github("flags.json", flags, "clearcache"):
-        send_message(chat_id, f"⏳ Запрос на очистку кэша ПК {pc} отправлен.")
+        send_message(chat_id, f"⏳ Запрос на очистку кэша ПК {pc} отправлен.", reply_markup=get_reply_keyboard(chat_id))
     else:
-        send_message(chat_id, "❌ Ошибка.")
+        send_message(chat_id, "❌ Ошибка.", reply_markup=get_reply_keyboard(chat_id))
 
 def cmd_announce(chat_id, text):
     if not is_admin(chat_id):
-        send_message(chat_id, "⛔ Только для администратора.")
+        send_message(chat_id, "⛔ Только для администратора.", reply_markup=get_reply_keyboard(chat_id))
         return
     send_to_all(f"📢 {text}")
-    send_message(chat_id, "✅ Объявление отправлено.")
+    send_message(chat_id, "✅ Объявление отправлено.", reply_markup=get_reply_keyboard(chat_id))
 
 def cmd_add_admin(chat_id, new_admin):
     if not is_admin(chat_id):
-        send_message(chat_id, "⛔ Только для администратора.")
+        send_message(chat_id, "⛔ Только для администратора.", reply_markup=get_reply_keyboard(chat_id))
         return
     admins = get_admins()
     if new_admin not in admins:
         admins.append(new_admin)
         if write_json_to_github("admins.json", {"admin_ids": admins}, "add admin"):
-            send_message(chat_id, f"✅ Администратор {new_admin} добавлен.")
+            send_message(chat_id, f"✅ Администратор {new_admin} добавлен.", reply_markup=get_reply_keyboard(chat_id))
         else:
-            send_message(chat_id, "❌ Ошибка.")
+            send_message(chat_id, "❌ Ошибка.", reply_markup=get_reply_keyboard(chat_id))
     else:
-        send_message(chat_id, "Уже админ.")
+        send_message(chat_id, "Уже админ.", reply_markup=get_reply_keyboard(chat_id))
 
 def cmd_update_monitor(chat_id, file_id):
     if not is_admin(chat_id):
-        send_message(chat_id, "⛔ Только для администратора.")
+        send_message(chat_id, "⛔ Только для администратора.", reply_markup=get_reply_keyboard(chat_id))
         return
     file_info = requests.get(f"https://api.telegram.org/bot{BOT_TOKEN}/getFile?file_id={file_id}").json()
     file_path = file_info["result"]["file_path"]
@@ -273,7 +274,7 @@ def cmd_update_monitor(chat_id, file_id):
         new_rel = {"tag_name": "monitor", "name": "Monitor Update", "body": "", "draft": False, "prerelease": False}
         resp = requests.post(releases_url, headers=headers, json=new_rel)
         if resp.status_code != 201:
-            send_message(chat_id, "❌ Ошибка создания релиза.")
+            send_message(chat_id, "❌ Ошибка создания релиза.", reply_markup=get_reply_keyboard(chat_id))
             return
         upload_url = resp.json()["upload_url"].replace("{?name,label}", "?name=monitor.exe")
 
@@ -282,20 +283,20 @@ def cmd_update_monitor(chat_id, file_id):
         flags = read_json_from_github("flags.json") or {}
         flags["update_monitor"] = {"timestamp": datetime.now().isoformat()}
         write_json_to_github("flags.json", flags, "set monitor update flag")
-        send_message(chat_id, "✅ Новый monitor.exe загружен. Мониторы обновятся при следующей проверке.")
+        send_message(chat_id, "✅ Новый monitor.exe загружен. Мониторы обновятся при следующей проверке.", reply_markup=get_reply_keyboard(chat_id))
     else:
-        send_message(chat_id, "❌ Ошибка загрузки файла в релиз.")
+        send_message(chat_id, "❌ Ошибка загрузки файла в релиз.", reply_markup=get_reply_keyboard(chat_id))
 
 def cmd_get_config(chat_id, pc):
     if not is_admin(chat_id):
-        send_message(chat_id, "⛔ Только для администратора.")
+        send_message(chat_id, "⛔ Только для администратора.", reply_markup=get_reply_keyboard(chat_id))
         return
     flags = read_json_from_github("flags.json") or {}
     flags["get_config"] = {"target": pc, "requested_by": chat_id, "timestamp": datetime.now().isoformat()}
     if write_json_to_github("flags.json", flags, "get_config"):
-        send_message(chat_id, f"⏳ Запрос конфига с ПК {pc} отправлен.")
+        send_message(chat_id, f"⏳ Запрос конфига с ПК {pc} отправлен.", reply_markup=get_reply_keyboard(chat_id))
     else:
-        send_message(chat_id, "❌ Ошибка.")
+        send_message(chat_id, "❌ Ошибка.", reply_markup=get_reply_keyboard(chat_id))
 
 # ==================== Периодическая рассылка уведомлений ====================
 last_notified_timestamp = datetime.min.isoformat()
@@ -341,34 +342,35 @@ def webhook():
         chat_id = str(msg["chat"]["id"])
         text = msg.get("text", "")
 
+        # Обработка force_reply (ожидание ввода от админа)
         state = user_states.get(chat_id)
         if state:
             if state["action"] == "awaiting_interval":
                 if text.isdigit() and int(text) > 0:
                     cmd_set_interval(chat_id, int(text))
                 else:
-                    send_message(chat_id, "Некорректное значение.")
+                    send_message(chat_id, "Некорректное значение.", reply_markup=get_reply_keyboard(chat_id))
                 del user_states[chat_id]
                 return "ok"
             elif state["action"] == "awaiting_clearcache_pc":
                 if text.isdigit():
                     cmd_clear_cache(chat_id, text)
                 else:
-                    send_message(chat_id, "Некорректный номер ПК.")
+                    send_message(chat_id, "Некорректный номер ПК.", reply_markup=get_reply_keyboard(chat_id))
                 del user_states[chat_id]
                 return "ok"
             elif state["action"] == "awaiting_announcement":
                 if text.strip():
                     cmd_announce(chat_id, text.strip())
                 else:
-                    send_message(chat_id, "Текст не может быть пустым.")
+                    send_message(chat_id, "Текст не может быть пустым.", reply_markup=get_reply_keyboard(chat_id))
                 del user_states[chat_id]
                 return "ok"
             elif state["action"] == "awaiting_get_config_pc":
                 if text.isdigit():
                     cmd_get_config(chat_id, text)
                 else:
-                    send_message(chat_id, "Некорректный номер ПК.")
+                    send_message(chat_id, "Некорректный номер ПК.", reply_markup=get_reply_keyboard(chat_id))
                 del user_states[chat_id]
                 return "ok"
             elif state["action"] == "awaiting_update_config_pc":
@@ -376,7 +378,7 @@ def webhook():
                     user_states[chat_id] = {"action": "upload_config", "pc": text}
                     send_message(chat_id, f"Отправьте файл config.json для ПК {text}.")
                 else:
-                    send_message(chat_id, "Некорректный номер ПК.")
+                    send_message(chat_id, "Некорректный номер ПК.", reply_markup=get_reply_keyboard(chat_id))
                     del user_states[chat_id]
                 return "ok"
             elif state["action"] == "awaiting_force_check_pc":
@@ -384,10 +386,11 @@ def webhook():
                     pc = None if text.lower() == "все" else text
                     cmd_force_check(chat_id, pc)
                 else:
-                    send_message(chat_id, "Некорректный номер ПК.")
+                    send_message(chat_id, "Некорректный номер ПК.", reply_markup=get_reply_keyboard(chat_id))
                 del user_states[chat_id]
                 return "ok"
 
+        # Обработка кнопок и команд
         if text == "/start" or text == "✅ Подписаться":
             if add_subscriber(chat_id):
                 send_message(chat_id, "✅ Вы подписаны.", reply_markup=get_reply_keyboard(chat_id))
@@ -399,7 +402,7 @@ def webhook():
             else:
                 send_message(chat_id, "Вы не были подписаны.", reply_markup=get_reply_keyboard(chat_id))
         elif text == "📊 Статус":
-            cmd_status(chat_id)
+            cmd_status(chat_id)  # внутри уже передаётся reply_markup
         elif text == "📋 Статус всех":
             cmd_status_all(chat_id)
         elif text == "📜 История":
@@ -417,52 +420,58 @@ def webhook():
                 send_message(chat_id, "Введите новый интервал в минутах:", reply_markup={"force_reply": True})
                 user_states[chat_id] = {"action": "awaiting_interval"}
             else:
-                send_message(chat_id, "⛔ Нет прав.")
+                send_message(chat_id, "⛔ Нет прав.", reply_markup=get_reply_keyboard(chat_id))
         elif text == "⚡ Проверка" or text == "/force_check":
             if is_admin(chat_id):
                 send_message(chat_id, "Введите номер ПК (или 'все'):", reply_markup={"force_reply": True})
                 user_states[chat_id] = {"action": "awaiting_force_check_pc"}
             else:
-                send_message(chat_id, "⛔ Нет прав.")
+                send_message(chat_id, "⛔ Нет прав.", reply_markup=get_reply_keyboard(chat_id))
         elif text == "🧹 Кэш" or text == "/clearcache":
             if is_admin(chat_id):
                 send_message(chat_id, "Введите номер ПК:", reply_markup={"force_reply": True})
                 user_states[chat_id] = {"action": "awaiting_clearcache_pc"}
             else:
-                send_message(chat_id, "⛔ Нет прав.")
+                send_message(chat_id, "⛔ Нет прав.", reply_markup=get_reply_keyboard(chat_id))
         elif text == "📢 Оповещение" or text == "/announce":
             if is_admin(chat_id):
                 send_message(chat_id, "Введите текст объявления:", reply_markup={"force_reply": True})
                 user_states[chat_id] = {"action": "awaiting_announcement"}
             else:
-                send_message(chat_id, "⛔ Нет прав.")
+                send_message(chat_id, "⛔ Нет прав.", reply_markup=get_reply_keyboard(chat_id))
         elif text == "📁 Конфиг":
             if is_admin(chat_id):
                 send_message(chat_id, "Выберите действие:", reply_markup={
                     "keyboard": [[{"text": "📥 Получить конфиг"}, {"text": "📤 Обновить конфиг"}], [{"text": "↩️ Назад"}]],
                     "resize_keyboard": True, "one_time_keyboard": True
                 })
+            else:
+                send_message(chat_id, "⛔ Нет прав.", reply_markup=get_reply_keyboard(chat_id))
         elif text == "📥 Получить конфиг":
             if is_admin(chat_id):
                 send_message(chat_id, "Введите номер ПК:", reply_markup={"force_reply": True})
                 user_states[chat_id] = {"action": "awaiting_get_config_pc"}
+            else:
+                send_message(chat_id, "⛔ Нет прав.", reply_markup=get_reply_keyboard(chat_id))
         elif text == "📤 Обновить конфиг":
             if is_admin(chat_id):
                 send_message(chat_id, "Введите номер ПК:", reply_markup={"force_reply": True})
                 user_states[chat_id] = {"action": "awaiting_update_config_pc"}
+            else:
+                send_message(chat_id, "⛔ Нет прав.", reply_markup=get_reply_keyboard(chat_id))
         elif text == "↩️ Назад":
             send_message(chat_id, "Главное меню", reply_markup=get_reply_keyboard(chat_id))
         elif text == "🔄 Обновить монитор" or text == "/update_monitor":
             if is_admin(chat_id):
                 send_message(chat_id, "Отправьте файл monitor.exe")
             else:
-                send_message(chat_id, "⛔ Нет прав.")
+                send_message(chat_id, "⛔ Нет прав.", reply_markup=get_reply_keyboard(chat_id))
         elif text.startswith("/addadmin"):
             parts = text.split()
             if len(parts) == 2 and parts[1].isdigit():
                 cmd_add_admin(chat_id, parts[1])
             else:
-                send_message(chat_id, "Использование: /addadmin <chat_id>")
+                send_message(chat_id, "Использование: /addadmin <chat_id>", reply_markup=get_reply_keyboard(chat_id))
         elif text == "/help":
             help_text = (
                 "Команды:\n"
@@ -491,6 +500,7 @@ def webhook():
         file_id = doc["file_id"]
         chat_id = str(msg["chat"]["id"])
         if not is_admin(chat_id):
+            send_message(chat_id, "⛔ Нет прав.", reply_markup=get_reply_keyboard(chat_id))
             return "ok"
         if file_name.lower() == "monitor.exe":
             cmd_update_monitor(chat_id, file_id)
@@ -507,12 +517,12 @@ def webhook():
                     flags = read_json_from_github("flags.json") or {}
                     flags["update_config"] = {"target": pc, "timestamp": datetime.now().isoformat()}
                     write_json_to_github("flags.json", flags, "update_config")
-                    send_message(chat_id, f"✅ Конфиг для ПК {pc} обновлён.")
+                    send_message(chat_id, f"✅ Конфиг для ПК {pc} обновлён.", reply_markup=get_reply_keyboard(chat_id))
                 except Exception as e:
-                    send_message(chat_id, f"❌ Ошибка обработки JSON: {e}")
+                    send_message(chat_id, f"❌ Ошибка обработки JSON: {e}", reply_markup=get_reply_keyboard(chat_id))
                 del user_states[chat_id]
             else:
-                send_message(chat_id, "Сначала укажите ПК через 📤 Обновить конфиг.")
+                send_message(chat_id, "Сначала укажите ПК через 📤 Обновить конфиг.", reply_markup=get_reply_keyboard(chat_id))
     return "ok"
 
 if __name__ == "__main__":
