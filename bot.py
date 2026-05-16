@@ -229,11 +229,15 @@ def cmd_clear_cache(chat_id, pc):
         send_message(chat_id, "⛔ Только для администратора.", reply_markup=get_reply_keyboard(chat_id))
         return
     flags = read_json_from_github("flags.json") or {}
-    flags["clearcache"] = {"target": pc, "timestamp": datetime.now().isoformat()}
-    if write_json_to_github("flags.json", flags, "clearcache"):
-        send_message(chat_id, f"⏳ Запрос на очистку кэша ПК {pc} отправлен.", reply_markup=get_reply_keyboard(chat_id))
+    # Поддержка "ВСЕ"
+    if pc.lower() == "все":
+        flags["clearcache_all"] = {"timestamp": datetime.now().isoformat()}
+        write_json_to_github("flags.json", flags, "clearcache all")
+        send_message(chat_id, "⏳ Запрос на очистку кэша для ВСЕХ ПК отправлен.", reply_markup=get_reply_keyboard(chat_id))
     else:
-        send_message(chat_id, "❌ Ошибка.", reply_markup=get_reply_keyboard(chat_id))
+        flags["clearcache"] = {"target": pc, "timestamp": datetime.now().isoformat()}
+        write_json_to_github("flags.json", flags, "clearcache")
+        send_message(chat_id, f"⏳ Запрос на очистку кэша ПК {pc} отправлен.", reply_markup=get_reply_keyboard(chat_id))
 
 def cmd_announce(chat_id, text):
     if not is_admin(chat_id):
@@ -366,7 +370,7 @@ def webhook():
                 del user_states[chat_id]
                 return "ok"
             elif state["action"] == "awaiting_clearcache_pc":
-                if text.isdigit():
+                if text.isdigit() or text.lower() == "все":
                     cmd_clear_cache(chat_id, text)
                 else:
                     send_message(chat_id, "Некорректный номер ПК.", reply_markup=get_reply_keyboard(chat_id))
@@ -387,7 +391,7 @@ def webhook():
                 del user_states[chat_id]
                 return "ok"
             elif state["action"] == "awaiting_update_config_pc":
-                if text.isdigit():
+                if text.isdigit() or text.lower() == "все":
                     user_states[chat_id] = {"action": "upload_config", "pc": text}
                     send_message(chat_id, f"Отправьте файл config.json для ПК {text}.")
                 else:
@@ -415,11 +419,9 @@ def webhook():
             else:
                 send_message(chat_id, "Вы не были подписаны.", reply_markup=get_reply_keyboard(chat_id))
         elif text == "📊 Статус" or text == "/status":
-            # Запрашиваем номер ПК (force_reply)
             send_message(chat_id, "Введите номер компьютера:", reply_markup={"force_reply": True})
             user_states[chat_id] = {"action": "awaiting_status_pc"}
         elif text.startswith("/status "):
-            # Прямой вызов с номером
             parts = text.split()
             if len(parts) == 2 and parts[1].isdigit():
                 cmd_status(chat_id, parts[1])
@@ -445,7 +447,7 @@ def webhook():
                 send_message(chat_id, "⛔ Нет прав.", reply_markup=get_reply_keyboard(chat_id))
         elif text == "🧹 Кэш" or text == "/clearcache":
             if is_admin(chat_id):
-                send_message(chat_id, "Введите номер ПК:", reply_markup={"force_reply": True})
+                send_message(chat_id, "Введите номер ПК (или 'все'):", reply_markup={"force_reply": True})
                 user_states[chat_id] = {"action": "awaiting_clearcache_pc"}
             else:
                 send_message(chat_id, "⛔ Нет прав.", reply_markup=get_reply_keyboard(chat_id))
@@ -471,7 +473,7 @@ def webhook():
                 send_message(chat_id, "⛔ Нет прав.", reply_markup=get_reply_keyboard(chat_id))
         elif text == "📤 Обновить конфиг":
             if is_admin(chat_id):
-                send_message(chat_id, "Введите номер ПК:", reply_markup={"force_reply": True})
+                send_message(chat_id, "Введите номер ПК (или 'все'):", reply_markup={"force_reply": True})
                 user_states[chat_id] = {"action": "awaiting_update_config_pc"}
             else:
                 send_message(chat_id, "⛔ Нет прав.", reply_markup=get_reply_keyboard(chat_id))
@@ -498,13 +500,13 @@ def webhook():
                 "/history - удаления\n"
                 "Админские:\n"
                 "/setinterval <минуты>\n"
-                "/force_check [номер_ПК]\n"
-                "/clearcache <номер_ПК>\n"
+                "/force_check [номер_ПК|все]\n"
+                "/clearcache <номер_ПК|все>\n"
                 "/announce <текст>\n"
                 "/addadmin <chat_id>\n"
                 "/update_monitor (пришлите .exe)\n"
                 "/get_config <номер_ПК>\n"
-                "/update_config <номер_ПК> (отправьте config.json)"
+                "/update_config <номер_ПК|все> (отправьте config.json)"
             )
             send_message(chat_id, help_text, reply_markup=get_reply_keyboard(chat_id))
         else:
@@ -529,11 +531,19 @@ def webhook():
                 file_content = requests.get(f"https://api.telegram.org/file/bot{BOT_TOKEN}/{file_path}").content
                 try:
                     new_config = json.loads(file_content.decode('utf-8'))
-                    write_json_to_github(f"configs/{pc}.json", new_config, f"update config PC {pc}")
-                    flags = read_json_from_github("flags.json") or {}
-                    flags["update_config"] = {"target": pc, "timestamp": datetime.now().isoformat()}
-                    write_json_to_github("flags.json", flags, "update_config")
-                    send_message(chat_id, f"✅ Конфиг для ПК {pc} обновлён.", reply_markup=get_reply_keyboard(chat_id))
+                    if pc.lower() == "все":
+                        # Сохраняем конфиг как глобальный и устанавливаем флаг для всех
+                        write_json_to_github("global_config.json", new_config, "update global config")
+                        flags = read_json_from_github("flags.json") or {}
+                        flags["update_config_all"] = {"timestamp": datetime.now().isoformat()}
+                        write_json_to_github("flags.json", flags, "update config all")
+                        send_message(chat_id, "✅ Глобальный конфиг обновлён. Все мониторы применят его при следующей проверке.", reply_markup=get_reply_keyboard(chat_id))
+                    else:
+                        write_json_to_github(f"configs/{pc}.json", new_config, f"update config PC {pc}")
+                        flags = read_json_from_github("flags.json") or {}
+                        flags["update_config"] = {"target": pc, "timestamp": datetime.now().isoformat()}
+                        write_json_to_github("flags.json", flags, "update_config")
+                        send_message(chat_id, f"✅ Конфиг для ПК {pc} обновлён.", reply_markup=get_reply_keyboard(chat_id))
                 except Exception as e:
                     send_message(chat_id, f"❌ Ошибка обработки JSON: {e}", reply_markup=get_reply_keyboard(chat_id))
                 del user_states[chat_id]
