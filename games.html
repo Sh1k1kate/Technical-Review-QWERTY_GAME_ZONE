@@ -98,7 +98,6 @@
     <div class="computers-map" id="computersMap" style="display: none;"></div>
     <div id="lastUpdateTime" class="last-update"></div>
 
-    <!-- Статистика -->
     <div class="stats-section">
         <h2>📊 Статистика</h2>
         <div style="display: flex; flex-wrap: wrap; gap: 20px;">
@@ -112,7 +111,6 @@
     </div>
 </div>
 
-<!-- Модальное окно с деталями игр -->
 <div class="modal" id="detailsModal">
     <div class="modal-content">
         <div class="modal-title" id="modalPcTitle">Компьютер №<span id="modalPcNumber"></span></div>
@@ -234,14 +232,10 @@
             });
         }
 
-        function pcHasUpdate(pcData) {
-            return pcData && pcData.games && Object.values(pcData.games).some(g => g.update_available);
-        }
-
         function getPcStatus(pcData) {
             if (!pcData) return 'unknown';
             const missing = pcData.missing && pcData.missing.length > 0;
-            const hasUpdate = pcHasUpdate(pcData);
+            const hasUpdate = pcData.games && Object.values(pcData.games).some(g => g.update_available);
             if (missing) return 'bad';
             if (hasUpdate) return 'update';
             return 'good';
@@ -254,7 +248,6 @@
                 const pcKey = num.toString();
                 const pcData = gamesStatus[pcKey];
                 
-                // Фильтр по конкретной игре
                 if (selectedGame) {
                     if (!pcData) continue;
                     const inMissing = pcData.missing && pcData.missing.includes(selectedGame);
@@ -262,17 +255,14 @@
                     if (!inMissing && !hasUpdate) continue;
                 }
                 
-                // Основные фильтры
                 if (activeFilter === 'good' && getPcStatus(pcData) !== 'good') continue;
                 if (activeFilter === 'bad' && getPcStatus(pcData) !== 'bad') continue;
                 if (activeFilter === 'update') {
-                    // Для фильтра update показываем все ПК, где есть любое обновление, даже если есть missing
                     if (!pcHasUpdate(pcData)) continue;
                 }
                 
                 if (searchQuery && !pcKey.includes(searchQuery)) continue;
                 
-                // Определяем итоговый статус для цвета ячейки
                 let displayStatus = getPcStatus(pcData);
                 if (selectedGame && pcData) {
                     const inMissing = pcData.missing && pcData.missing.includes(selectedGame);
@@ -280,7 +270,6 @@
                     if (inMissing) displayStatus = 'bad';
                     else if (hasUpdate) displayStatus = 'update';
                 } else if (activeFilter === 'update') {
-                    // Когда фильтр update активен, красим все показанные ячейки как update
                     displayStatus = 'update';
                 }
                 
@@ -300,6 +289,10 @@
                 item.addEventListener('click', () => showDetails(pcKey));
                 mapEl.appendChild(item);
             }
+        }
+
+        function pcHasUpdate(pcData) {
+            return pcData && pcData.games && Object.values(pcData.games).some(g => g.update_available);
         }
 
         function updateCharts() {
@@ -409,7 +402,7 @@
                 document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
                 this.classList.add('active');
                 activeFilter = this.dataset.filter;
-                gameFilterSelect.value = ''; // Сбрасываем фильтр по игре
+                gameFilterSelect.value = '';
                 renderMap();
             });
         });
@@ -421,7 +414,6 @@
 
         gameFilterSelect.addEventListener('change', () => {
             if (gameFilterSelect.value) {
-                // Сбрасываем основные фильтры
                 document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
                 document.querySelector('.filter-chip[data-filter="all"]').classList.add('active');
                 activeFilter = 'all';
