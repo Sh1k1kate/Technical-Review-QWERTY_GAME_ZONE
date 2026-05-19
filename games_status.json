@@ -278,8 +278,8 @@
       "Arc Raiders",
       "Marvel Rivals"
     ],
-    "total": 16,
-    "last_check": "2026-05-19T11:32:59.920899",
+    "total": 17,
+    "last_check": "2026-05-19T11:34:10.265074",
     "games": {
       "CS2": {
         "installed": true,
@@ -342,6 +342,10 @@
         "update_available": false
       },
       "League of Legends": {
+        "installed": true,
+        "update_available": false
+      },
+      "Heartsone": {
         "installed": true,
         "update_available": false
       }
