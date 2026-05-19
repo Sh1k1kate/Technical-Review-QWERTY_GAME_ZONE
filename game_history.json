@@ -139,9 +139,20 @@
         "Roblox",
         "Heartsone"
       ]
+    },
+    {
+      "timestamp": "2026-05-19T14:30:03.736570",
+      "pc": "31",
+      "missing": [
+        "Deadlock",
+        "Arc Raiders",
+        "Marvel Rivals",
+        "Roblox",
+        "Heartsone"
+      ]
     }
   ],
   "_bot_state": {
-    "last_notified": "2026-05-19T16:00:04.562457"
+    "last_notified": "2026-05-19T14:00:03.027175"
   }
 }
