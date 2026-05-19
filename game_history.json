@@ -203,23 +203,9 @@
         "League of Legends",
         "Heartsone"
       ]
-    },
-    {
-      "timestamp": "2026-05-19T15:46:50.374279",
-      "pc": "32",
-      "missing": [
-        "RUST",
-        "Apex Legends",
-        "DayZ",
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox",
-        "Minecraft",
-        "League of Legends"
-      ]
     }
   ],
   "_bot_state": {
-    "last_notified": "2026-05-19T19:22:43.925466"
+    "last_notified": "2026-05-19T19:38:34.280052"
   }
 }
