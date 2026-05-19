@@ -2,7 +2,7 @@ import os, json, time, requests, base64, threading
 from datetime import datetime, timezone, timedelta
 from flask import Flask, request
 
-# ==================== КОНФИГУРАЦИЯ (переменные окружения) ====================
+# ==================== КОНФИГУРАЦИЯ (только переменные окружения) ====================
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 GITHUB_OWNER = os.environ.get("GITHUB_OWNER")
 GITHUB_REPO = os.environ.get("GITHUB_REPO")
@@ -200,7 +200,7 @@ def cmd_weekly(chat_id):
             lines.append(f"• {name}: на {cnt} ПК")
     else:
         lines.append("\n🔄 Нет доступных обновлений.")
-    lines.append("\n🔍 Подробнее: https://sh1k1kate.github.io/Technical-Review-QWERTY_GAME_ZONE/games.html")
+    lines.append("\n🔍 Подробнее: https://your-site.com/games.html")
     send_to_all("\n".join(lines))
     send_message(chat_id, "📊 Отчёт отправлен.", reply_markup=get_reply_keyboard(chat_id))
 
@@ -327,11 +327,24 @@ def send_pending_alerts():
         if not hist or "events" not in hist:
             return
         events = hist["events"]
-        new_events = [e for e in events if e["timestamp"] > last_ts]
+        new_events = []
+        for e in events:
+            if e["timestamp"] > last_ts:
+                new_events.append(e)
         if not new_events:
             return
+        # Убираем возможные дубликаты (одинаковые PC + missing)
+        unique_events = []
+        seen = set()
+        for e in sorted(new_events, key=lambda x: x["timestamp"]):
+            key = (e["pc"], tuple(sorted(e["missing"])))
+            if key not in seen:
+                seen.add(key)
+                unique_events.append(e)
+        if not unique_events:
+            return
         lines = ["🚨 Обнаружены удалённые игры:"]
-        for ev in sorted(new_events, key=lambda x: x["timestamp"]):
+        for ev in unique_events:
             ts = ev["timestamp"][:16].replace("T", " ")
             pc = ev["pc"]
             lines.append(f"\n🖥️ {pc} ({ts})")
@@ -339,7 +352,7 @@ def send_pending_alerts():
                 lines.append(f"  ❌ {g}")
         msg = "\n".join(lines)
         send_to_all(msg)
-        update_last_notified(new_events[-1]["timestamp"])
+        update_last_notified(unique_events[-1]["timestamp"])
 
 def alert_scheduler():
     while True:
