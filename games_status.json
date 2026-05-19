@@ -276,14 +276,10 @@
   "34": {
     "missing": [
       "Arc Raiders",
-      "Marvel Rivals",
-      "Roblox",
-      "Minecraft",
-      "Fortnite",
-      "Мир танков"
+      "Marvel Rivals"
     ],
     "total": 16,
-    "last_check": "2026-05-19T11:11:10.048282",
+    "last_check": "2026-05-19T11:32:59.920899",
     "games": {
       "CS2": {
         "installed": true,
@@ -326,15 +322,15 @@
         "update_available": false
       },
       "Roblox": {
-        "installed": false,
+        "installed": true,
         "update_available": false
       },
       "Minecraft": {
-        "installed": false,
+        "installed": true,
         "update_available": false
       },
       "Fortnite": {
-        "installed": false,
+        "installed": true,
         "update_available": false
       },
       "Warface": {
@@ -342,7 +338,7 @@
         "update_available": false
       },
       "Мир танков": {
-        "installed": false,
+        "installed": true,
         "update_available": false
       },
       "League of Legends": {
