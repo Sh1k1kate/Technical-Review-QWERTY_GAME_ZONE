@@ -93,9 +93,12 @@
     }
   },
   "34": {
-    "missing": [],
+    "missing": [
+      "Arc Raiders",
+      "Marvel Rivals"
+    ],
     "total": 17,
-    "last_check": "2026-05-19T19:48:39.627326",
+    "last_check": "2026-05-19T19:49:25.986121",
     "games": {
       "CS2": {
         "installed": true,
@@ -126,12 +129,12 @@
         "update_available": false
       },
       "Arc Raiders": {
-        "installed": true,
+        "installed": false,
         "update_available": false
       },
       "Marvel Rivals": {
-        "installed": true,
-        "update_available": true
+        "installed": false,
+        "update_available": false
       },
       "Valorant": {
         "installed": true,
