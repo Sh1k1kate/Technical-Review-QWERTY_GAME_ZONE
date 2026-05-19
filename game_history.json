@@ -43,14 +43,25 @@
       ]
     },
     {
-      "timestamp": "2026-05-19T11:30:03.111926",
-      "pc": "31",
+      "timestamp": "2026-05-19T15:30:04.641879",
+      "pc": "1",
       "missing": [
+        "CS2",
+        "Dota 2",
+        "PUBG",
+        "RUST",
         "Deadlock",
+        "Apex Legends",
+        "DayZ",
         "Arc Raiders",
         "Marvel Rivals",
+        "Valorant",
         "Roblox",
-        "Heartsone"
+        "Minecraft",
+        "Fortnite",
+        "Warface",
+        "Мир танков",
+        "League of Legends"
       ]
     }
   ]
