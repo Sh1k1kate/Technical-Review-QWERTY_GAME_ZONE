@@ -506,7 +506,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-05-19T13:00:00.453631",
+    "last_check": "2026-05-19T12:30:00.457598",
     "games": {
       "CS2": {
         "installed": true,
@@ -574,6 +574,85 @@
       },
       "Heartsone": {
         "installed": false,
+        "update_available": false
+      }
+    }
+  },
+  "35": {
+    "missing": [
+      "Arc Raiders",
+      "Marvel Rivals",
+      "Roblox"
+    ],
+    "total": 17,
+    "last_check": "2026-05-19T13:00:00.967748",
+    "games": {
+      "CS2": {
+        "installed": true,
+        "update_available": true
+      },
+      "Dota 2": {
+        "installed": true,
+        "update_available": true
+      },
+      "PUBG": {
+        "installed": true,
+        "update_available": false
+      },
+      "RUST": {
+        "installed": true,
+        "update_available": true
+      },
+      "Deadlock": {
+        "installed": true,
+        "update_available": true
+      },
+      "Apex Legends": {
+        "installed": true,
+        "update_available": false
+      },
+      "DayZ": {
+        "installed": true,
+        "update_available": false
+      },
+      "Arc Raiders": {
+        "installed": false,
+        "update_available": false
+      },
+      "Marvel Rivals": {
+        "installed": false,
+        "update_available": false
+      },
+      "Valorant": {
+        "installed": true,
+        "update_available": false
+      },
+      "Roblox": {
+        "installed": false,
+        "update_available": false
+      },
+      "Minecraft": {
+        "installed": true,
+        "update_available": false
+      },
+      "Fortnite": {
+        "installed": true,
+        "update_available": false
+      },
+      "Warface": {
+        "installed": true,
+        "update_available": false
+      },
+      "Мир танков": {
+        "installed": true,
+        "update_available": false
+      },
+      "League of Legends": {
+        "installed": true,
+        "update_available": false
+      },
+      "Heartsone": {
+        "installed": true,
         "update_available": false
       }
     }
