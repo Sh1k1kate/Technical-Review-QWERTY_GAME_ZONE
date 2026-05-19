@@ -3,13 +3,17 @@ from datetime import datetime, timezone, timedelta
 from flask import Flask, request
 
 # ==================== КОНФИГУРАЦИЯ (переменные окружения) ====================
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "ВАШ_ТОКЕН_БОТА")
-GITHUB_OWNER = os.environ.get("GITHUB_OWNER", "Sh1k1kate")
-GITHUB_REPO = os.environ.get("GITHUB_REPO", "Technical-Review-QWERTY_GAME_ZONE")
-GITHUB_BRANCH = "main"
-GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "ghp_...")
-ADMIN_CHAT_ID = os.environ.get("ADMIN_CHAT_ID", "398362790")
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
+GITHUB_OWNER = os.environ.get("GITHUB_OWNER")
+GITHUB_REPO = os.environ.get("GITHUB_REPO")
+GITHUB_BRANCH = os.environ.get("GITHUB_BRANCH", "main")
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
+ADMIN_CHAT_ID = os.environ.get("ADMIN_CHAT_ID")
 NOVOSIBIRSK_TZ = timezone(timedelta(hours=7))
+
+for var in ["BOT_TOKEN", "GITHUB_OWNER", "GITHUB_REPO", "GITHUB_TOKEN", "ADMIN_CHAT_ID"]:
+    if not os.environ.get(var):
+        raise RuntimeError(f"Не задана переменная окружения {var}")
 
 # ==================== GitHub helpers ====================
 def get_github_raw(file_path):
@@ -94,7 +98,6 @@ def send_to_all(text):
             send_message(sub, text)
 
 def get_reply_keyboard(chat_id):
-    """Генерирует reply-клавиатуру: обычную или админскую, в зависимости от прав."""
     is_sub = str(chat_id) in get_subscribers()
     admin = is_admin(chat_id)
     if admin:
@@ -118,7 +121,6 @@ def get_reply_keyboard(chat_id):
 
 # ==================== Команды ====================
 def cmd_status(chat_id, pc):
-    """Детальный статус одного ПК (pc – строка с номером)."""
     data = read_json_from_github("games_status.json")
     if pc not in data:
         send_message(chat_id, "Нет данных.", reply_markup=get_reply_keyboard(chat_id))
@@ -198,7 +200,7 @@ def cmd_weekly(chat_id):
             lines.append(f"• {name}: на {cnt} ПК")
     else:
         lines.append("\n🔄 Нет доступных обновлений.")
-    lines.append("\n🔍 Подробнее: https://your-site.com/games.html")
+    lines.append("\n🔍 Подробнее: https://sh1k1kate.github.io/Technical-Review-QWERTY_GAME_ZONE/games.html")
     send_to_all("\n".join(lines))
     send_message(chat_id, "📊 Отчёт отправлен.", reply_markup=get_reply_keyboard(chat_id))
 
@@ -229,7 +231,6 @@ def cmd_clear_cache(chat_id, pc):
         send_message(chat_id, "⛔ Только для администратора.", reply_markup=get_reply_keyboard(chat_id))
         return
     flags = read_json_from_github("flags.json") or {}
-    # Поддержка "ВСЕ"
     if pc.lower() == "все":
         flags["clearcache_all"] = {"timestamp": datetime.now().isoformat()}
         write_json_to_github("flags.json", flags, "clearcache all")
@@ -302,17 +303,31 @@ def cmd_get_config(chat_id, pc):
         send_message(chat_id, "❌ Ошибка.", reply_markup=get_reply_keyboard(chat_id))
 
 # ==================== Периодическая рассылка уведомлений ====================
-last_notified_timestamp = datetime.min.isoformat()
 alert_lock = threading.Lock()
 
+def get_last_notified():
+    data = read_json_from_github("game_history.json")
+    if data and "_bot_state" in data:
+        return data["_bot_state"].get("last_notified")
+    return datetime.min.isoformat()
+
+def update_last_notified(ts):
+    data = read_json_from_github("game_history.json")
+    if not data:
+        data = {"events": [], "_bot_state": {}}
+    if "_bot_state" not in data:
+        data["_bot_state"] = {}
+    data["_bot_state"]["last_notified"] = ts
+    write_json_to_github("game_history.json", data, "update bot state")
+
 def send_pending_alerts():
-    global last_notified_timestamp
-    hist = read_json_from_github("game_history.json")
-    if not hist or "events" not in hist:
-        return
-    events = hist["events"]
     with alert_lock:
-        new_events = [e for e in events if e["timestamp"] > last_notified_timestamp]
+        last_ts = get_last_notified()
+        hist = read_json_from_github("game_history.json")
+        if not hist or "events" not in hist:
+            return
+        events = hist["events"]
+        new_events = [e for e in events if e["timestamp"] > last_ts]
         if not new_events:
             return
         lines = ["🚨 Обнаружены удалённые игры:"]
@@ -324,7 +339,7 @@ def send_pending_alerts():
                 lines.append(f"  ❌ {g}")
         msg = "\n".join(lines)
         send_to_all(msg)
-        last_notified_timestamp = new_events[-1]["timestamp"]
+        update_last_notified(new_events[-1]["timestamp"])
 
 def alert_scheduler():
     while True:
@@ -334,16 +349,44 @@ def alert_scheduler():
         except Exception as e:
             print(f"Alert scheduler error: {e}")
 
+# ==================== Обработка флагов (ответы мониторов) ====================
+def flags_worker():
+    while True:
+        time.sleep(30)
+        try:
+            flags = read_json_from_github("flags.json")
+            if not flags:
+                continue
+            if "config_ready" in flags:
+                cr = flags["config_ready"]
+                pc = cr.get("pc")
+                requested_by = cr.get("requested_by")
+                config_data = read_json_from_github(f"configs_shared/{pc}.json")
+                if config_data:
+                    send_document(requested_by, json.dumps(config_data, indent=2, ensure_ascii=False).encode('utf-8'),
+                                  f"config_{pc}.json", f"Конфиг с ПК {pc}")
+                del flags["config_ready"]
+                write_json_to_github("flags.json", flags, "clear config_ready")
+            if "status_ready" in flags:
+                sr = flags["status_ready"]
+                pc = sr.get("pc")
+                requested_by = sr.get("requested_by")
+                status_data = read_json_from_github(f"status_{pc}.json")
+                if status_data:
+                    send_message(requested_by, status_data["text"])
+                del flags["status_ready"]
+                write_json_to_github("flags.json", flags, "clear status_ready")
+        except Exception as e:
+            print(f"Flags worker error: {e}")
+
 # ==================== Flask Webhook ====================
 app = Flask(__name__)
 user_states = {}
 
-# Health-check для cron-job.org (GET)
 @app.route("/", methods=["GET"])
 def health_check():
     return "Bot is running", 200
 
-# Основной вебхук Telegram (POST)
 @app.route("/", methods=["POST"])
 def webhook():
     update = request.get_json()
@@ -352,7 +395,7 @@ def webhook():
         chat_id = str(msg["chat"]["id"])
         text = msg.get("text", "")
 
-        # Обработка force_reply (ожидание ввода)
+        # Обработка force_reply
         state = user_states.get(chat_id)
         if state:
             if state["action"] == "awaiting_status_pc":
@@ -532,7 +575,6 @@ def webhook():
                 try:
                     new_config = json.loads(file_content.decode('utf-8'))
                     if pc.lower() == "все":
-                        # Сохраняем конфиг как глобальный и устанавливаем флаг для всех
                         write_json_to_github("global_config.json", new_config, "update global config")
                         flags = read_json_from_github("flags.json") or {}
                         flags["update_config_all"] = {"timestamp": datetime.now().isoformat()}
@@ -553,4 +595,5 @@ def webhook():
 
 if __name__ == "__main__":
     threading.Thread(target=alert_scheduler, daemon=True).start()
+    threading.Thread(target=flags_worker, daemon=True).start()
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
