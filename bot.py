@@ -2,18 +2,17 @@ import os, json, time, requests, base64, threading
 from datetime import datetime, timezone, timedelta
 from flask import Flask, request
 
-# ==================== КОНФИГУРАЦИЯ (только переменные окружения) ====================
+# ==================== КОНФИГУРАЦИЯ (все из переменных окружения) ====================
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
-GITHUB_OWNER = os.environ.get("GITHUB_OWNER")
-GITHUB_REPO = os.environ.get("GITHUB_REPO")
+GITHUB_OWNER = os.environ.get("GITHUB_OWNER", "Sh1k1kate")
+GITHUB_REPO = os.environ.get("GITHUB_REPO", "Technical-Review-QWERTY_GAME_ZONE")
 GITHUB_BRANCH = os.environ.get("GITHUB_BRANCH", "main")
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 ADMIN_CHAT_ID = os.environ.get("ADMIN_CHAT_ID")
 NOVOSIBIRSK_TZ = timezone(timedelta(hours=7))
 
-for var in ["BOT_TOKEN", "GITHUB_OWNER", "GITHUB_REPO", "GITHUB_TOKEN", "ADMIN_CHAT_ID"]:
-    if not os.environ.get(var):
-        raise RuntimeError(f"Не задана переменная окружения {var}")
+if not BOT_TOKEN or not GITHUB_TOKEN or not ADMIN_CHAT_ID:
+    raise RuntimeError("BOT_TOKEN, GITHUB_TOKEN and ADMIN_CHAT_ID must be set in environment")
 
 # ==================== GitHub helpers ====================
 def get_github_raw(file_path):
@@ -98,6 +97,7 @@ def send_to_all(text):
             send_message(sub, text)
 
 def get_reply_keyboard(chat_id):
+    """Генерирует reply-клавиатуру: обычную или админскую, в зависимости от прав."""
     is_sub = str(chat_id) in get_subscribers()
     admin = is_admin(chat_id)
     if admin:
@@ -121,6 +121,7 @@ def get_reply_keyboard(chat_id):
 
 # ==================== Команды ====================
 def cmd_status(chat_id, pc):
+    """Детальный статус одного ПК (pc – строка с номером)."""
     data = read_json_from_github("games_status.json")
     if pc not in data:
         send_message(chat_id, "Нет данных.", reply_markup=get_reply_keyboard(chat_id))
@@ -303,48 +304,21 @@ def cmd_get_config(chat_id, pc):
         send_message(chat_id, "❌ Ошибка.", reply_markup=get_reply_keyboard(chat_id))
 
 # ==================== Периодическая рассылка уведомлений ====================
+last_notified_timestamp = datetime.min.isoformat()
 alert_lock = threading.Lock()
 
-def get_last_notified():
-    data = read_json_from_github("game_history.json")
-    if data and "_bot_state" in data:
-        return data["_bot_state"].get("last_notified")
-    return datetime.min.isoformat()
-
-def update_last_notified(ts):
-    data = read_json_from_github("game_history.json")
-    if not data:
-        data = {"events": [], "_bot_state": {}}
-    if "_bot_state" not in data:
-        data["_bot_state"] = {}
-    data["_bot_state"]["last_notified"] = ts
-    write_json_to_github("game_history.json", data, "update bot state")
-
 def send_pending_alerts():
+    global last_notified_timestamp
+    hist = read_json_from_github("game_history.json")
+    if not hist or "events" not in hist:
+        return
+    events = hist["events"]
     with alert_lock:
-        last_ts = get_last_notified()
-        hist = read_json_from_github("game_history.json")
-        if not hist or "events" not in hist:
-            return
-        events = hist["events"]
-        new_events = []
-        for e in events:
-            if e["timestamp"] > last_ts:
-                new_events.append(e)
+        new_events = [e for e in events if e["timestamp"] > last_notified_timestamp]
         if not new_events:
             return
-        # Убираем возможные дубликаты (одинаковые PC + missing)
-        unique_events = []
-        seen = set()
-        for e in sorted(new_events, key=lambda x: x["timestamp"]):
-            key = (e["pc"], tuple(sorted(e["missing"])))
-            if key not in seen:
-                seen.add(key)
-                unique_events.append(e)
-        if not unique_events:
-            return
         lines = ["🚨 Обнаружены удалённые игры:"]
-        for ev in unique_events:
+        for ev in sorted(new_events, key=lambda x: x["timestamp"]):
             ts = ev["timestamp"][:16].replace("T", " ")
             pc = ev["pc"]
             lines.append(f"\n🖥️ {pc} ({ts})")
@@ -352,7 +326,7 @@ def send_pending_alerts():
                 lines.append(f"  ❌ {g}")
         msg = "\n".join(lines)
         send_to_all(msg)
-        update_last_notified(unique_events[-1]["timestamp"])
+        last_notified_timestamp = new_events[-1]["timestamp"]
 
 def alert_scheduler():
     while True:
@@ -362,33 +336,41 @@ def alert_scheduler():
         except Exception as e:
             print(f"Alert scheduler error: {e}")
 
-# ==================== Обработка флагов (ответы мониторов) ====================
+# ==================== Обработка флагов от мониторов ====================
+def check_and_deliver_flags():
+    """Проверяет flags.json на наличие готовых ответов от мониторов."""
+    flags = read_json_from_github("flags.json")
+    if not flags:
+        return
+
+    modified = False
+    if "config_ready" in flags:
+        pc = flags["config_ready"]["pc"]
+        requested_by = flags["config_ready"]["requested_by"]
+        config_data = read_json_from_github(f"configs_shared/{pc}.json")
+        if config_data:
+            send_document(requested_by, json.dumps(config_data, indent=2, ensure_ascii=False).encode('utf-8'),
+                         f"config_{pc}.json", f"config.json с ПК {pc}")
+        del flags["config_ready"]
+        modified = True
+
+    if "status_ready" in flags:
+        pc = flags["status_ready"]["pc"]
+        requested_by = flags["status_ready"]["requested_by"]
+        status_data = read_json_from_github(f"status_{pc}.json")
+        if status_data:
+            send_message(requested_by, status_data["text"])
+        del flags["status_ready"]
+        modified = True
+
+    if modified:
+        write_json_to_github("flags.json", flags, "deliver flags")
+
 def flags_worker():
     while True:
         time.sleep(30)
         try:
-            flags = read_json_from_github("flags.json")
-            if not flags:
-                continue
-            if "config_ready" in flags:
-                cr = flags["config_ready"]
-                pc = cr.get("pc")
-                requested_by = cr.get("requested_by")
-                config_data = read_json_from_github(f"configs_shared/{pc}.json")
-                if config_data:
-                    send_document(requested_by, json.dumps(config_data, indent=2, ensure_ascii=False).encode('utf-8'),
-                                  f"config_{pc}.json", f"Конфиг с ПК {pc}")
-                del flags["config_ready"]
-                write_json_to_github("flags.json", flags, "clear config_ready")
-            if "status_ready" in flags:
-                sr = flags["status_ready"]
-                pc = sr.get("pc")
-                requested_by = sr.get("requested_by")
-                status_data = read_json_from_github(f"status_{pc}.json")
-                if status_data:
-                    send_message(requested_by, status_data["text"])
-                del flags["status_ready"]
-                write_json_to_github("flags.json", flags, "clear status_ready")
+            check_and_deliver_flags()
         except Exception as e:
             print(f"Flags worker error: {e}")
 
@@ -396,10 +378,12 @@ def flags_worker():
 app = Flask(__name__)
 user_states = {}
 
+# Health-check для cron-job.org (GET)
 @app.route("/", methods=["GET"])
 def health_check():
     return "Bot is running", 200
 
+# Основной вебхук Telegram (POST)
 @app.route("/", methods=["POST"])
 def webhook():
     update = request.get_json()
@@ -408,7 +392,7 @@ def webhook():
         chat_id = str(msg["chat"]["id"])
         text = msg.get("text", "")
 
-        # Обработка force_reply
+        # Обработка force_reply (ожидание ввода)
         state = user_states.get(chat_id)
         if state:
             if state["action"] == "awaiting_status_pc":
