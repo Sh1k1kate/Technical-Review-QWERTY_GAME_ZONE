@@ -1,16 +1,7 @@
 {
   "events": [
     {
-      "timestamp": "2026-05-20T09:45:13.041480",
-      "pc": "33",
-      "missing": [
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox"
-      ]
-    },
-    {
-      "timestamp": "2026-05-20T14:00:02.713136",
+      "timestamp": "2026-05-20T16:00:12.211858",
       "pc": "32",
       "missing": [
         "RUST",
@@ -21,98 +12,6 @@
         "Roblox",
         "Minecraft",
         "League of Legends"
-      ]
-    },
-    {
-      "timestamp": "2026-05-20T14:15:02.964857",
-      "pc": "32",
-      "missing": [
-        "RUST",
-        "Apex Legends",
-        "DayZ",
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox",
-        "Minecraft",
-        "League of Legends"
-      ]
-    },
-    {
-      "timestamp": "2026-05-20T10:30:13.553715",
-      "pc": "33",
-      "missing": [
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox"
-      ]
-    },
-    {
-      "timestamp": "2026-05-20T14:45:03.000885",
-      "pc": "32",
-      "missing": [
-        "RUST",
-        "Apex Legends",
-        "DayZ",
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox",
-        "Minecraft",
-        "League of Legends"
-      ]
-    },
-    {
-      "timestamp": "2026-05-20T11:00:03.311027",
-      "pc": "33",
-      "missing": [
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox"
-      ]
-    },
-    {
-      "timestamp": "2026-05-20T15:15:03.279434",
-      "pc": "32",
-      "missing": [
-        "RUST",
-        "Apex Legends",
-        "DayZ",
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox",
-        "Minecraft",
-        "League of Legends"
-      ]
-    },
-    {
-      "timestamp": "2026-05-20T11:30:03.036428",
-      "pc": "33",
-      "missing": [
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox"
-      ]
-    },
-    {
-      "timestamp": "2026-05-20T15:45:02.879701",
-      "pc": "32",
-      "missing": [
-        "RUST",
-        "Apex Legends",
-        "DayZ",
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox",
-        "Minecraft",
-        "League of Legends"
-      ]
-    },
-    {
-      "timestamp": "2026-05-20T12:00:02.859895",
-      "pc": "33",
-      "missing": [
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox"
       ]
     }
   ]
