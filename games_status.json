@@ -11,7 +11,7 @@
       "League of Legends"
     ],
     "total": 17,
-    "last_check": "2026-05-22T04:45:00.470264",
+    "last_check": "2026-05-22T04:30:10.260273",
     "games": {
       "CS2": {
         "installed": true,
@@ -75,6 +75,84 @@
       },
       "League of Legends": {
         "installed": false,
+        "update_available": false
+      },
+      "Heartsone": {
+        "installed": true,
+        "update_available": false
+      }
+    }
+  },
+  "34": {
+    "missing": [
+      "Arc Raiders",
+      "Marvel Rivals"
+    ],
+    "total": 17,
+    "last_check": "2026-05-22T04:45:00.447966",
+    "games": {
+      "CS2": {
+        "installed": true,
+        "update_available": false
+      },
+      "Dota 2": {
+        "installed": true,
+        "update_available": false
+      },
+      "PUBG": {
+        "installed": true,
+        "update_available": true
+      },
+      "RUST": {
+        "installed": true,
+        "update_available": false
+      },
+      "Deadlock": {
+        "installed": true,
+        "update_available": true
+      },
+      "Apex Legends": {
+        "installed": true,
+        "update_available": true
+      },
+      "DayZ": {
+        "installed": true,
+        "update_available": false
+      },
+      "Arc Raiders": {
+        "installed": false,
+        "update_available": false
+      },
+      "Marvel Rivals": {
+        "installed": false,
+        "update_available": false
+      },
+      "Valorant": {
+        "installed": true,
+        "update_available": false
+      },
+      "Roblox": {
+        "installed": true,
+        "update_available": false
+      },
+      "Minecraft": {
+        "installed": true,
+        "update_available": false
+      },
+      "Fortnite": {
+        "installed": true,
+        "update_available": false
+      },
+      "Warface": {
+        "installed": true,
+        "update_available": false
+      },
+      "Мир танков": {
+        "installed": true,
+        "update_available": false
+      },
+      "League of Legends": {
+        "installed": true,
         "update_available": false
       },
       "Heartsone": {
