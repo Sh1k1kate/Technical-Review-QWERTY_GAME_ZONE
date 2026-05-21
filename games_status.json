@@ -164,23 +164,22 @@
       }
     }
   },
-  "36": {
+  "35": {
     "missing": [
       "Arc Raiders",
       "Marvel Rivals",
-      "Roblox",
-      "League of Legends"
+      "Roblox"
     ],
     "total": 17,
-    "last_check": "2026-05-21T14:45:00.450690",
+    "last_check": "2026-05-21T14:45:00.535810",
     "games": {
       "CS2": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "Dota 2": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "PUBG": {
         "installed": true,
@@ -188,7 +187,7 @@
       },
       "RUST": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "Deadlock": {
         "installed": true,
@@ -235,7 +234,7 @@
         "update_available": false
       },
       "League of Legends": {
-        "installed": false,
+        "installed": true,
         "update_available": false
       },
       "Heartsone": {
