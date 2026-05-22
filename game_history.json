@@ -1,73 +1,17 @@
 {
   "events": [
     {
-      "timestamp": "2026-05-22T09:00:11.993821",
-      "pc": "31",
+      "timestamp": "2026-05-22T10:45:11.875895",
+      "pc": "32",
       "missing": [
-        "Deadlock",
+        "RUST",
+        "Apex Legends",
+        "DayZ",
         "Arc Raiders",
         "Marvel Rivals",
         "Roblox",
-        "Heartsone"
-      ]
-    },
-    {
-      "timestamp": "2026-05-22T09:15:02.880063",
-      "pc": "34",
-      "missing": [
-        "Arc Raiders",
-        "Marvel Rivals"
-      ]
-    },
-    {
-      "timestamp": "2026-05-22T09:30:02.659865",
-      "pc": "34",
-      "missing": [
-        "Arc Raiders",
-        "Marvel Rivals"
-      ]
-    },
-    {
-      "timestamp": "2026-05-22T09:45:02.734209",
-      "pc": "34",
-      "missing": [
-        "Arc Raiders",
-        "Marvel Rivals"
-      ]
-    },
-    {
-      "timestamp": "2026-05-22T10:00:02.617633",
-      "pc": "34",
-      "missing": [
-        "Arc Raiders",
-        "Marvel Rivals"
-      ]
-    },
-    {
-      "timestamp": "2026-05-22T10:15:02.643313",
-      "pc": "34",
-      "missing": [
-        "Arc Raiders",
-        "Marvel Rivals"
-      ]
-    },
-    {
-      "timestamp": "2026-05-22T10:30:12.428723",
-      "pc": "31",
-      "missing": [
-        "Deadlock",
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox",
-        "Heartsone"
-      ]
-    },
-    {
-      "timestamp": "2026-05-22T10:45:02.581733",
-      "pc": "34",
-      "missing": [
-        "Arc Raiders",
-        "Marvel Rivals"
+        "Minecraft",
+        "League of Legends"
       ]
     }
   ]
