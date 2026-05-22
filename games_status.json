@@ -80,14 +80,13 @@
       }
     }
   },
-  "33": {
+  "34": {
     "missing": [
       "Arc Raiders",
-      "Marvel Rivals",
-      "Roblox"
+      "Marvel Rivals"
     ],
     "total": 17,
-    "last_check": "2026-05-22T06:45:00.601445",
+    "last_check": "2026-05-22T10:45:00.440073",
     "games": {
       "CS2": {
         "installed": true,
@@ -95,15 +94,15 @@
       },
       "Dota 2": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "PUBG": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "RUST": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "Deadlock": {
         "installed": true,
@@ -130,7 +129,7 @@
         "update_available": false
       },
       "Roblox": {
-        "installed": false,
+        "installed": true,
         "update_available": false
       },
       "Minecraft": {
