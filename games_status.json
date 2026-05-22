@@ -8,7 +8,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-05-23T06:15:00.825320",
+    "last_check": "2026-05-23T06:30:00.449129",
     "games": {
       "CS2": {
         "installed": true,
@@ -165,11 +165,11 @@
       "Marvel Rivals"
     ],
     "total": 17,
-    "last_check": "2026-05-23T06:30:00.527275",
+    "last_check": "2026-05-23T06:00:00.837144",
     "games": {
       "CS2": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "Dota 2": {
         "installed": true,
@@ -185,7 +185,7 @@
       },
       "Deadlock": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "Apex Legends": {
         "installed": true,
