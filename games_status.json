@@ -1,82 +1,4 @@
 {
-  "34": {
-    "missing": [
-      "Arc Raiders",
-      "Marvel Rivals"
-    ],
-    "total": 17,
-    "last_check": "2026-05-24T02:00:10.502302",
-    "games": {
-      "CS2": {
-        "installed": true,
-        "update_available": false
-      },
-      "Dota 2": {
-        "installed": true,
-        "update_available": false
-      },
-      "PUBG": {
-        "installed": true,
-        "update_available": true
-      },
-      "RUST": {
-        "installed": true,
-        "update_available": true
-      },
-      "Deadlock": {
-        "installed": true,
-        "update_available": true
-      },
-      "Apex Legends": {
-        "installed": true,
-        "update_available": true
-      },
-      "DayZ": {
-        "installed": true,
-        "update_available": false
-      },
-      "Arc Raiders": {
-        "installed": false,
-        "update_available": false
-      },
-      "Marvel Rivals": {
-        "installed": false,
-        "update_available": false
-      },
-      "Valorant": {
-        "installed": true,
-        "update_available": false
-      },
-      "Roblox": {
-        "installed": true,
-        "update_available": false
-      },
-      "Minecraft": {
-        "installed": true,
-        "update_available": false
-      },
-      "Fortnite": {
-        "installed": true,
-        "update_available": false
-      },
-      "Warface": {
-        "installed": true,
-        "update_available": false
-      },
-      "Мир танков": {
-        "installed": true,
-        "update_available": false
-      },
-      "League of Legends": {
-        "installed": true,
-        "update_available": false
-      },
-      "Heartsone": {
-        "installed": true,
-        "update_available": false
-      }
-    }
-  },
   "35": {
     "missing": [
       "Arc Raiders",
@@ -84,7 +6,7 @@
       "Roblox"
     ],
     "total": 17,
-    "last_check": "2026-05-23T23:15:00.584118",
+    "last_check": "2026-05-23T23:30:10.322132",
     "games": {
       "CS2": {
         "installed": true,
@@ -152,87 +74,6 @@
       },
       "Heartsone": {
         "installed": true,
-        "update_available": false
-      }
-    }
-  },
-  "31": {
-    "missing": [
-      "Deadlock",
-      "Arc Raiders",
-      "Marvel Rivals",
-      "Roblox",
-      "Heartsone"
-    ],
-    "total": 17,
-    "last_check": "2026-05-24T03:30:00.447586",
-    "games": {
-      "CS2": {
-        "installed": true,
-        "update_available": false
-      },
-      "Dota 2": {
-        "installed": true,
-        "update_available": true
-      },
-      "PUBG": {
-        "installed": true,
-        "update_available": false
-      },
-      "RUST": {
-        "installed": true,
-        "update_available": false
-      },
-      "Deadlock": {
-        "installed": false,
-        "update_available": false
-      },
-      "Apex Legends": {
-        "installed": true,
-        "update_available": false
-      },
-      "DayZ": {
-        "installed": true,
-        "update_available": false
-      },
-      "Arc Raiders": {
-        "installed": false,
-        "update_available": false
-      },
-      "Marvel Rivals": {
-        "installed": false,
-        "update_available": false
-      },
-      "Valorant": {
-        "installed": true,
-        "update_available": false
-      },
-      "Roblox": {
-        "installed": false,
-        "update_available": false
-      },
-      "Minecraft": {
-        "installed": true,
-        "update_available": false
-      },
-      "Fortnite": {
-        "installed": true,
-        "update_available": false
-      },
-      "Warface": {
-        "installed": true,
-        "update_available": false
-      },
-      "Мир танков": {
-        "installed": true,
-        "update_available": false
-      },
-      "League of Legends": {
-        "installed": true,
-        "update_available": false
-      },
-      "Heartsone": {
-        "installed": false,
         "update_available": false
       }
     }
