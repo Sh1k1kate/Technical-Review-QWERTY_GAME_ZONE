@@ -80,13 +80,14 @@
       ]
     },
     {
-      "timestamp": "2026-05-24T20:15:03.240793",
-      "pc": "36",
+      "timestamp": "2026-05-25T00:15:02.419171",
+      "pc": "31",
       "missing": [
+        "Deadlock",
         "Arc Raiders",
         "Marvel Rivals",
         "Roblox",
-        "League of Legends"
+        "Heartsone"
       ]
     }
   ]
