@@ -1,7 +1,7 @@
 {
   "events": [
     {
-      "timestamp": "2026-05-24T07:00:12.625431",
+      "timestamp": "2026-05-24T09:00:12.571256",
       "pc": "31",
       "missing": [
         "Deadlock",
@@ -9,79 +9,6 @@
         "Marvel Rivals",
         "Roblox",
         "Heartsone"
-      ]
-    },
-    {
-      "timestamp": "2026-05-24T07:15:02.991137",
-      "pc": "31",
-      "missing": [
-        "Deadlock",
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox",
-        "Heartsone"
-      ]
-    },
-    {
-      "timestamp": "2026-05-24T07:30:02.781758",
-      "pc": "31",
-      "missing": [
-        "Deadlock",
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox",
-        "Heartsone"
-      ]
-    },
-    {
-      "timestamp": "2026-05-24T07:45:02.818686",
-      "pc": "31",
-      "missing": [
-        "Deadlock",
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox",
-        "Heartsone"
-      ]
-    },
-    {
-      "timestamp": "2026-05-24T08:00:03.091648",
-      "pc": "31",
-      "missing": [
-        "Deadlock",
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox",
-        "Heartsone"
-      ]
-    },
-    {
-      "timestamp": "2026-05-24T08:15:02.802691",
-      "pc": "31",
-      "missing": [
-        "Deadlock",
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox",
-        "Heartsone"
-      ]
-    },
-    {
-      "timestamp": "2026-05-24T04:30:03.014629",
-      "pc": "35",
-      "missing": [
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox"
-      ]
-    },
-    {
-      "timestamp": "2026-05-24T04:45:02.796974",
-      "pc": "35",
-      "missing": [
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox"
       ]
     }
   ]
