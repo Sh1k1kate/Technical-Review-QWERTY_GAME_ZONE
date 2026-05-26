@@ -6,7 +6,7 @@
       "Roblox"
     ],
     "total": 17,
-    "last_check": "2026-05-26T20:45:00.617088",
+    "last_check": "2026-05-26T20:30:00.618833",
     "games": {
       "CS2": {
         "installed": true,
@@ -250,7 +250,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-05-26T19:38:47.941438",
+    "last_check": "2026-05-27T00:47:07.813715",
     "games": {
       "CS2": {
         "installed": true,
@@ -266,7 +266,7 @@
       },
       "RUST": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "Deadlock": {
         "installed": false,
