@@ -250,7 +250,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-05-28T01:15:00.658650",
+    "last_check": "2026-05-28T01:30:01.238366",
     "games": {
       "CS2": {
         "installed": true,
@@ -262,11 +262,11 @@
       },
       "PUBG": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "RUST": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "Deadlock": {
         "installed": false,
