@@ -85,7 +85,7 @@
       "Roblox"
     ],
     "total": 17,
-    "last_check": "2026-05-28T14:08:48.590374",
+    "last_check": "2026-05-28T16:45:00.810124",
     "games": {
       "CS2": {
         "installed": true,
@@ -109,7 +109,7 @@
       },
       "Apex Legends": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "DayZ": {
         "installed": true,
