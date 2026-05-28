@@ -6,7 +6,7 @@
       "Roblox"
     ],
     "total": 17,
-    "last_check": "2026-05-28T13:30:00.657319",
+    "last_check": "2026-05-28T14:30:00.444026",
     "games": {
       "CS2": {
         "installed": true,
@@ -14,7 +14,7 @@
       },
       "Dota 2": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "PUBG": {
         "installed": true,
@@ -85,7 +85,7 @@
       "Roblox"
     ],
     "total": 17,
-    "last_check": "2026-05-28T14:30:00.634718",
+    "last_check": "2026-05-28T14:08:48.590374",
     "games": {
       "CS2": {
         "installed": true,
