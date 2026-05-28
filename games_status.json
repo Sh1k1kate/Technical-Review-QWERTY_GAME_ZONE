@@ -6,7 +6,7 @@
       "Roblox"
     ],
     "total": 17,
-    "last_check": "2026-05-28T15:30:01.084303",
+    "last_check": "2026-05-28T13:30:00.657319",
     "games": {
       "CS2": {
         "installed": true,
@@ -14,7 +14,7 @@
       },
       "Dota 2": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "PUBG": {
         "installed": true,
@@ -22,11 +22,11 @@
       },
       "RUST": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "Deadlock": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "Apex Legends": {
         "installed": true,
@@ -250,7 +250,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-05-28T19:15:00.605480",
+    "last_check": "2026-05-28T19:30:00.452443",
     "games": {
       "CS2": {
         "installed": true,
