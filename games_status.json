@@ -85,11 +85,11 @@
       "Roblox"
     ],
     "total": 17,
-    "last_check": "2026-05-29T12:39:34.896935",
+    "last_check": "2026-05-29T16:00:00.817567",
     "games": {
       "CS2": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "Dota 2": {
         "installed": true,
