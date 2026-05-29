@@ -250,7 +250,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-05-29T10:30:00.463417",
+    "last_check": "2026-05-29T21:01:26.695806",
     "games": {
       "CS2": {
         "installed": true,
@@ -258,7 +258,7 @@
       },
       "Dota 2": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "PUBG": {
         "installed": true,
@@ -328,7 +328,7 @@
       "Marvel Rivals"
     ],
     "total": 17,
-    "last_check": "2026-05-29T21:00:00.581992",
+    "last_check": "2026-05-29T20:45:00.421031",
     "games": {
       "CS2": {
         "installed": true,
