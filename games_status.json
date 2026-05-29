@@ -85,11 +85,11 @@
       "Roblox"
     ],
     "total": 17,
-    "last_check": "2026-05-29T15:45:00.785953",
+    "last_check": "2026-05-29T12:39:34.896935",
     "games": {
       "CS2": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "Dota 2": {
         "installed": true,
@@ -328,7 +328,7 @@
       "Marvel Rivals"
     ],
     "total": 17,
-    "last_check": "2026-05-29T19:38:46.826422",
+    "last_check": "2026-05-29T19:45:00.498497",
     "games": {
       "CS2": {
         "installed": true,
