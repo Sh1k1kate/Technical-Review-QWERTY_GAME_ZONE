@@ -85,7 +85,7 @@
       "Roblox"
     ],
     "total": 17,
-    "last_check": "2026-05-31T18:15:00.993560",
+    "last_check": "2026-05-31T16:15:00.956506",
     "games": {
       "CS2": {
         "installed": true,
@@ -97,7 +97,7 @@
       },
       "PUBG": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "RUST": {
         "installed": true,
@@ -169,7 +169,7 @@
       "League of Legends"
     ],
     "total": 17,
-    "last_check": "2026-05-31T22:00:00.674239",
+    "last_check": "2026-05-31T22:15:00.728581",
     "games": {
       "CS2": {
         "installed": true,
