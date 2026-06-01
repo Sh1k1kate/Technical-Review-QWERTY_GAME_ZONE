@@ -1849,11 +1849,14 @@
       ]
     },
     {
-      "timestamp": "2026-06-02T03:27:19.445766",
-      "pc": "34",
+      "timestamp": "2026-06-02T03:30:02.975827",
+      "pc": "31",
       "missing": [
+        "Deadlock",
         "Arc Raiders",
-        "Marvel Rivals"
+        "Marvel Rivals",
+        "Roblox",
+        "Heartsone"
       ]
     }
   ]
