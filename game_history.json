@@ -1843,16 +1843,12 @@
       ]
     },
     {
-      "timestamp": "2026-06-02T03:45:02.950455",
-      "pc": "32",
+      "timestamp": "2026-06-01T23:45:02.851656",
+      "pc": "36",
       "missing": [
-        "RUST",
-        "Apex Legends",
-        "DayZ",
         "Arc Raiders",
         "Marvel Rivals",
         "Roblox",
-        "Minecraft",
         "League of Legends"
       ]
     }
