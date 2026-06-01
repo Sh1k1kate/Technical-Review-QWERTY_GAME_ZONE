@@ -1846,12 +1846,13 @@
       ]
     },
     {
-      "timestamp": "2026-06-01T22:15:03.820369",
-      "pc": "33",
+      "timestamp": "2026-06-01T22:15:02.869485",
+      "pc": "36",
       "missing": [
         "Arc Raiders",
         "Marvel Rivals",
-        "Roblox"
+        "Roblox",
+        "League of Legends"
       ]
     }
   ]
