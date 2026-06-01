@@ -1,20 +1,6 @@
 {
   "events": [
     {
-      "timestamp": "2026-05-30T11:00:05.599373",
-      "pc": "32",
-      "missing": [
-        "RUST",
-        "Apex Legends",
-        "DayZ",
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox",
-        "Minecraft",
-        "League of Legends"
-      ]
-    },
-    {
       "timestamp": "2026-05-30T11:15:03.191628",
       "pc": "32",
       "missing": [
@@ -1909,6 +1895,14 @@
     },
     {
       "timestamp": "2026-06-01T12:30:03.053187",
+      "pc": "34",
+      "missing": [
+        "Arc Raiders",
+        "Marvel Rivals"
+      ]
+    },
+    {
+      "timestamp": "2026-06-01T12:45:03.176143",
       "pc": "34",
       "missing": [
         "Arc Raiders",
