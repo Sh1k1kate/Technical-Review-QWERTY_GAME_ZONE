@@ -85,7 +85,7 @@
       "Roblox"
     ],
     "total": 17,
-    "last_check": "2026-06-02T04:16:14.619561",
+    "last_check": "2026-06-02T17:42:19.977637",
     "games": {
       "CS2": {
         "installed": true,
@@ -93,7 +93,7 @@
       },
       "Dota 2": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "PUBG": {
         "installed": true,
@@ -105,7 +105,7 @@
       },
       "Deadlock": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "Apex Legends": {
         "installed": true,
@@ -113,7 +113,7 @@
       },
       "DayZ": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "Arc Raiders": {
         "installed": false,
