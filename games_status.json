@@ -85,7 +85,7 @@
       "Roblox"
     ],
     "total": 17,
-    "last_check": "2026-06-02T13:15:01.666455",
+    "last_check": "2026-06-02T04:16:14.619561",
     "games": {
       "CS2": {
         "installed": true,
@@ -93,7 +93,7 @@
       },
       "Dota 2": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "PUBG": {
         "installed": true,
@@ -250,7 +250,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-02T17:00:01.747631",
+    "last_check": "2026-06-02T17:15:00.580270",
     "games": {
       "CS2": {
         "installed": true,
