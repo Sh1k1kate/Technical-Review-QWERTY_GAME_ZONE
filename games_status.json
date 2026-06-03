@@ -6,7 +6,7 @@
       "Roblox"
     ],
     "total": 17,
-    "last_check": "2026-05-29T22:19:37.499169",
+    "last_check": "2026-06-03T10:03:01.517402",
     "games": {
       "CS2": {
         "installed": true,
@@ -250,7 +250,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-03T14:00:00.764601",
+    "last_check": "2026-06-03T13:45:00.409364",
     "games": {
       "CS2": {
         "installed": true,
@@ -274,7 +274,7 @@
       },
       "Apex Legends": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "DayZ": {
         "installed": true,
