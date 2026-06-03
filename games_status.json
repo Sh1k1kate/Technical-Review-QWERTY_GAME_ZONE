@@ -6,7 +6,7 @@
       "Roblox"
     ],
     "total": 17,
-    "last_check": "2026-06-03T19:31:04.630400",
+    "last_check": "2026-06-03T23:06:50.655785",
     "games": {
       "CS2": {
         "installed": true,
@@ -14,7 +14,7 @@
       },
       "Dota 2": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "PUBG": {
         "installed": true,
@@ -329,7 +329,7 @@
       "Marvel Rivals"
     ],
     "total": 17,
-    "last_check": "2026-06-04T03:06:48.807335",
+    "last_check": "2026-06-03T15:15:00.454906",
     "games": {
       "CS2": {
         "installed": true,
