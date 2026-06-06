@@ -96,7 +96,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-06T12:30:00.565462",
+    "last_check": "2026-06-06T11:17:13.572370",
     "games": {
       "CS2": {
         "installed": true,
@@ -112,7 +112,7 @@
       },
       "RUST": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "Deadlock": {
         "installed": true,
@@ -431,7 +431,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-05T23:45:35.634344",
+    "last_check": "2026-06-06T12:30:00.497489",
     "games": {
       "CS2": {
         "installed": true,
