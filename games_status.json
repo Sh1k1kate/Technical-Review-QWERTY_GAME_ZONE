@@ -261,7 +261,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-06T16:15:00.416680",
+    "last_check": "2026-06-06T17:15:00.433058",
     "games": {
       "CS2": {
         "installed": true,
@@ -269,7 +269,7 @@
       },
       "Dota 2": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "PUBG": {
         "installed": true,
@@ -277,7 +277,7 @@
       },
       "RUST": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "Deadlock": {
         "installed": false,
@@ -285,7 +285,7 @@
       },
       "Apex Legends": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "DayZ": {
         "installed": true,
@@ -431,7 +431,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-06T13:15:00.442089",
+    "last_check": "2026-06-05T23:45:35.634344",
     "games": {
       "CS2": {
         "installed": true,
