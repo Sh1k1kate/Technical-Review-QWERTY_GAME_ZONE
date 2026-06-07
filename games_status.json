@@ -181,7 +181,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-08T05:00:00.461651",
+    "last_check": "2026-06-08T04:45:00.436240",
     "games": {
       "CS2": {
         "installed": true,
@@ -337,7 +337,6 @@
   "34": {
     "missing": [
       "Deadlock",
-      "DayZ",
       "Arc Raiders",
       "Marvel Rivals",
       "Roblox",
@@ -347,7 +346,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-07T03:58:04.495217",
+    "last_check": "2026-06-08T05:00:40.548754",
     "games": {
       "CS2": {
         "installed": true,
@@ -363,7 +362,7 @@
       },
       "RUST": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "Deadlock": {
         "installed": false,
@@ -374,7 +373,7 @@
         "update_available": false
       },
       "DayZ": {
-        "installed": false,
+        "installed": true,
         "update_available": false
       },
       "Arc Raiders": {
