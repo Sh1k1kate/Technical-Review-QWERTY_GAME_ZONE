@@ -1,21 +1,6 @@
 {
   "events": [
     {
-      "timestamp": "2026-06-07T03:15:03.383029",
-      "pc": "34",
-      "missing": [
-        "Deadlock",
-        "DayZ",
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox",
-        "Fortnite",
-        "Мир танков",
-        "League of Legends",
-        "Heartsone"
-      ]
-    },
-    {
       "timestamp": "2026-06-07T03:30:03.301408",
       "pc": "34",
       "missing": [
@@ -2792,6 +2777,21 @@
     },
     {
       "timestamp": "2026-06-09T00:15:02.699832",
+      "pc": "35",
+      "missing": [
+        "Deadlock",
+        "DayZ",
+        "Arc Raiders",
+        "Marvel Rivals",
+        "Roblox",
+        "Fortnite",
+        "Warface",
+        "Мир танков",
+        "Heartsone"
+      ]
+    },
+    {
+      "timestamp": "2026-06-09T00:30:02.714970",
       "pc": "35",
       "missing": [
         "Deadlock",
