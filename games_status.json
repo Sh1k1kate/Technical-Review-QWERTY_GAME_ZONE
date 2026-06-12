@@ -11,7 +11,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-13T00:15:00.610385",
+    "last_check": "2026-06-13T00:30:00.438607",
     "games": {
       "CS2": {
         "installed": true,
@@ -423,12 +423,13 @@
       "Arc Raiders",
       "Marvel Rivals",
       "Roblox",
+      "Fortnite",
       "Мир танков",
       "League of Legends",
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-13T00:28:47.757137",
+    "last_check": "2026-06-10T15:02:15.665768",
     "games": {
       "CS2": {
         "installed": true,
@@ -436,7 +437,7 @@
       },
       "Dota 2": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "PUBG": {
         "installed": true,
@@ -479,7 +480,7 @@
         "update_available": false
       },
       "Fortnite": {
-        "installed": true,
+        "installed": false,
         "update_available": false
       },
       "Warface": {
