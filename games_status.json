@@ -180,19 +180,19 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-09T01:15:00.587122",
+    "last_check": "2026-06-13T06:35:20.795028",
     "games": {
       "CS2": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "Dota 2": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "PUBG": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "RUST": {
         "installed": true,
@@ -200,7 +200,7 @@
       },
       "Deadlock": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "Apex Legends": {
         "installed": true,
