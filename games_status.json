@@ -261,7 +261,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-13T23:30:00.645422",
+    "last_check": "2026-06-13T23:15:00.584725",
     "games": {
       "CS2": {
         "installed": true,
@@ -340,11 +340,10 @@
       "Marvel Rivals",
       "Roblox",
       "Мир танков",
-      "League of Legends",
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-13T17:16:15.728244",
+    "last_check": "2026-06-13T23:30:17.803296",
     "games": {
       "CS2": {
         "installed": true,
@@ -407,7 +406,7 @@
         "update_available": false
       },
       "League of Legends": {
-        "installed": false,
+        "installed": true,
         "update_available": false
       },
       "Heartsone": {
