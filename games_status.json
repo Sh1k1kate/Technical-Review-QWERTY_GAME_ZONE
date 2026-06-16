@@ -1,17 +1,18 @@
 {
-  "35": {
+  "32": {
     "missing": [
-      "Deadlock",
       "DayZ",
       "Arc Raiders",
       "Marvel Rivals",
       "Roblox",
+      "Minecraft",
+      "Fortnite",
       "Warface",
       "Мир танков",
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-16T15:30:00.487084",
+    "last_check": "2026-06-16T19:30:10.294006",
     "games": {
       "CS2": {
         "installed": true,
@@ -19,7 +20,7 @@
       },
       "Dota 2": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "PUBG": {
         "installed": true,
@@ -27,10 +28,10 @@
       },
       "RUST": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "Deadlock": {
-        "installed": false,
+        "installed": true,
         "update_available": false
       },
       "Apex Legends": {
@@ -58,11 +59,11 @@
         "update_available": false
       },
       "Minecraft": {
-        "installed": true,
+        "installed": false,
         "update_available": false
       },
       "Fortnite": {
-        "installed": true,
+        "installed": false,
         "update_available": false
       },
       "Warface": {
