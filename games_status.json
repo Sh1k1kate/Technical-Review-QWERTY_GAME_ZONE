@@ -93,7 +93,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-19T21:45:00.602040",
+    "last_check": "2026-06-19T21:36:31.874163",
     "games": {
       "CS2": {
         "installed": true,
@@ -149,6 +149,91 @@
       },
       "Warface": {
         "installed": true,
+        "update_available": false
+      },
+      "Мир танков": {
+        "installed": false,
+        "update_available": false
+      },
+      "League of Legends": {
+        "installed": true,
+        "update_available": false
+      },
+      "Heartsone": {
+        "installed": false,
+        "update_available": false
+      }
+    }
+  },
+  "32": {
+    "missing": [
+      "DayZ",
+      "Arc Raiders",
+      "Marvel Rivals",
+      "Roblox",
+      "Minecraft",
+      "Fortnite",
+      "Warface",
+      "Мир танков",
+      "Heartsone"
+    ],
+    "total": 17,
+    "last_check": "2026-06-19T21:45:00.422218",
+    "games": {
+      "CS2": {
+        "installed": true,
+        "update_available": false
+      },
+      "Dota 2": {
+        "installed": true,
+        "update_available": true
+      },
+      "PUBG": {
+        "installed": true,
+        "update_available": false
+      },
+      "RUST": {
+        "installed": true,
+        "update_available": true
+      },
+      "Deadlock": {
+        "installed": true,
+        "update_available": false
+      },
+      "Apex Legends": {
+        "installed": true,
+        "update_available": false
+      },
+      "DayZ": {
+        "installed": false,
+        "update_available": false
+      },
+      "Arc Raiders": {
+        "installed": false,
+        "update_available": false
+      },
+      "Marvel Rivals": {
+        "installed": false,
+        "update_available": false
+      },
+      "Valorant": {
+        "installed": true,
+        "update_available": false
+      },
+      "Roblox": {
+        "installed": false,
+        "update_available": false
+      },
+      "Minecraft": {
+        "installed": false,
+        "update_available": false
+      },
+      "Fortnite": {
+        "installed": false,
+        "update_available": false
+      },
+      "Warface": {
+        "installed": false,
         "update_available": false
       },
       "Мир танков": {
