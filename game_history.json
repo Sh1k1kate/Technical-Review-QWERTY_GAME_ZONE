@@ -1,14 +1,16 @@
 {
   "events": [
     {
-      "timestamp": "2026-06-21T08:15:22.206485",
-      "pc": "36",
+      "timestamp": "2026-06-21T08:15:22.267949",
+      "pc": "35",
       "missing": [
+        "Deadlock",
+        "DayZ",
         "Arc Raiders",
         "Marvel Rivals",
         "Roblox",
+        "Warface",
         "Мир танков",
-        "League of Legends",
         "Heartsone"
       ]
     }
