@@ -1,14 +1,15 @@
 {
-  "31": {
+  "34": {
     "missing": [
       "Deadlock",
       "Arc Raiders",
       "Marvel Rivals",
       "Roblox",
+      "Мир танков",
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-24T05:30:00.636847",
+    "last_check": "2026-06-24T05:30:15.006251",
     "games": {
       "CS2": {
         "installed": true,
@@ -67,7 +68,7 @@
         "update_available": false
       },
       "Мир танков": {
-        "installed": true,
+        "installed": false,
         "update_available": false
       },
       "League of Legends": {
