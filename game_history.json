@@ -1214,13 +1214,16 @@
       ]
     },
     {
-      "timestamp": "2026-06-26T14:30:03.236077",
-      "pc": "34",
+      "timestamp": "2026-06-26T14:30:02.600876",
+      "pc": "32",
       "missing": [
-        "Deadlock",
+        "DayZ",
         "Arc Raiders",
         "Marvel Rivals",
         "Roblox",
+        "Minecraft",
+        "Fortnite",
+        "Warface",
         "Мир танков",
         "Heartsone"
       ]
