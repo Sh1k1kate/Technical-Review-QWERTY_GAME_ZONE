@@ -90,15 +90,15 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-26T23:45:00.851538",
+    "last_check": "2026-06-27T00:00:00.723581",
     "games": {
       "CS2": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "Dota 2": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "PUBG": {
         "installed": true,
