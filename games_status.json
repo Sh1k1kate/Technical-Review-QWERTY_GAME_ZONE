@@ -341,7 +341,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-27T01:15:01.692157",
+    "last_check": "2026-06-27T03:43:36.941723",
     "games": {
       "CS2": {
         "installed": true,
@@ -369,7 +369,7 @@
       },
       "DayZ": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "Arc Raiders": {
         "installed": false,
