@@ -1,7 +1,6 @@
 {
   "34": {
     "missing": [
-      "Deadlock",
       "Arc Raiders",
       "Marvel Rivals",
       "Roblox",
@@ -9,7 +8,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-29T14:21:31.928271",
+    "last_check": "2026-06-29T19:15:00.614660",
     "games": {
       "CS2": {
         "installed": true,
@@ -28,7 +27,7 @@
         "update_available": false
       },
       "Deadlock": {
-        "installed": false,
+        "installed": true,
         "update_available": false
       },
       "Apex Legends": {
