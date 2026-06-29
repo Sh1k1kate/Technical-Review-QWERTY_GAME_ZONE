@@ -258,7 +258,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-29T12:15:00.645650",
+    "last_check": "2026-06-29T12:30:00.956867",
     "games": {
       "CS2": {
         "installed": true,
@@ -278,7 +278,7 @@
       },
       "Deadlock": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "Apex Legends": {
         "installed": true,
@@ -340,7 +340,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-06-29T12:30:00.483357",
+    "last_check": "2026-06-29T04:15:00.666942",
     "games": {
       "CS2": {
         "installed": true,
