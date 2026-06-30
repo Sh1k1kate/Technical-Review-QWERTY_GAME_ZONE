@@ -2646,14 +2646,13 @@
       ]
     },
     {
-      "timestamp": "2026-06-30T07:45:04.210010",
-      "pc": "33",
+      "timestamp": "2026-06-30T11:45:02.591026",
+      "pc": "31",
       "missing": [
+        "Deadlock",
         "Arc Raiders",
         "Marvel Rivals",
         "Roblox",
-        "Fortnite",
-        "Мир танков",
         "Heartsone"
       ]
     }
