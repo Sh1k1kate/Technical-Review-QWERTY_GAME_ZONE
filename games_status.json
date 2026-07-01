@@ -8,7 +8,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-07-02T01:45:00.667375",
+    "last_check": "2026-07-02T02:00:00.619134",
     "games": {
       "CS2": {
         "installed": true,
@@ -20,7 +20,7 @@
       },
       "PUBG": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "RUST": {
         "installed": true,
@@ -89,7 +89,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-07-02T02:00:00.429402",
+    "last_check": "2026-07-02T01:00:00.634327",
     "games": {
       "CS2": {
         "installed": true,
