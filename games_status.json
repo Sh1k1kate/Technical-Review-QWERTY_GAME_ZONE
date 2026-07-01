@@ -257,7 +257,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-07-01T17:45:00.467642",
+    "last_check": "2026-07-01T18:00:01.552941",
     "games": {
       "CS2": {
         "installed": true,
@@ -339,11 +339,11 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-07-01T18:00:00.651120",
+    "last_check": "2026-07-01T15:33:00.637191",
     "games": {
       "CS2": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "Dota 2": {
         "installed": true,
