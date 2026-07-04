@@ -89,7 +89,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-07-04T17:55:45.901221",
+    "last_check": "2026-07-04T16:30:00.458087",
     "games": {
       "CS2": {
         "installed": true,
@@ -97,7 +97,7 @@
       },
       "Dota 2": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "PUBG": {
         "installed": true,
@@ -339,7 +339,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-07-04T11:08:16.049370",
+    "last_check": "2026-07-04T14:00:00.764911",
     "games": {
       "CS2": {
         "installed": true,
@@ -347,7 +347,7 @@
       },
       "Dota 2": {
         "installed": true,
-        "update_available": true
+        "update_available": false
       },
       "PUBG": {
         "installed": true,
