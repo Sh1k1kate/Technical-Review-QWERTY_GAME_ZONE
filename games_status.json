@@ -8,11 +8,11 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-07-06T12:30:00.442224",
+    "last_check": "2026-07-06T12:45:01.620107",
     "games": {
       "CS2": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "Dota 2": {
         "installed": true,
@@ -89,7 +89,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-07-06T12:45:00.428251",
+    "last_check": "2026-07-06T01:00:00.653270",
     "games": {
       "CS2": {
         "installed": true,
