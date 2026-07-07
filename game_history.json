@@ -146,15 +146,14 @@
       ]
     },
     {
-      "timestamp": "2026-07-07T23:45:04.846921",
-      "pc": "33",
+      "timestamp": "2026-07-07T23:45:02.600960",
+      "pc": "36",
       "missing": [
-        "Apex Legends",
         "Arc Raiders",
         "Marvel Rivals",
         "Roblox",
-        "Fortnite",
         "Мир танков",
+        "League of Legends",
         "Heartsone"
       ]
     }
