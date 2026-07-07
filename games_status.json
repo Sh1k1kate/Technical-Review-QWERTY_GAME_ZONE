@@ -10,7 +10,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-07-07T08:15:10.290984",
+    "last_check": "2026-07-07T08:30:10.277698",
     "games": {
       "CS2": {
         "installed": true,
@@ -62,91 +62,6 @@
       },
       "Fortnite": {
         "installed": true,
-        "update_available": false
-      },
-      "Warface": {
-        "installed": false,
-        "update_available": false
-      },
-      "Мир танков": {
-        "installed": false,
-        "update_available": false
-      },
-      "League of Legends": {
-        "installed": true,
-        "update_available": false
-      },
-      "Heartsone": {
-        "installed": false,
-        "update_available": false
-      }
-    }
-  },
-  "32": {
-    "missing": [
-      "DayZ",
-      "Arc Raiders",
-      "Marvel Rivals",
-      "Roblox",
-      "Minecraft",
-      "Fortnite",
-      "Warface",
-      "Мир танков",
-      "Heartsone"
-    ],
-    "total": 17,
-    "last_check": "2026-07-07T12:30:00.448629",
-    "games": {
-      "CS2": {
-        "installed": true,
-        "update_available": true
-      },
-      "Dota 2": {
-        "installed": true,
-        "update_available": false
-      },
-      "PUBG": {
-        "installed": true,
-        "update_available": false
-      },
-      "RUST": {
-        "installed": true,
-        "update_available": false
-      },
-      "Deadlock": {
-        "installed": true,
-        "update_available": false
-      },
-      "Apex Legends": {
-        "installed": true,
-        "update_available": false
-      },
-      "DayZ": {
-        "installed": false,
-        "update_available": false
-      },
-      "Arc Raiders": {
-        "installed": false,
-        "update_available": false
-      },
-      "Marvel Rivals": {
-        "installed": false,
-        "update_available": false
-      },
-      "Valorant": {
-        "installed": true,
-        "update_available": false
-      },
-      "Roblox": {
-        "installed": false,
-        "update_available": false
-      },
-      "Minecraft": {
-        "installed": false,
-        "update_available": false
-      },
-      "Fortnite": {
-        "installed": false,
         "update_available": false
       },
       "Warface": {
