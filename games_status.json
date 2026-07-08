@@ -82,18 +82,17 @@
       }
     }
   },
-  "33": {
+  "34": {
     "missing": [
       "Apex Legends",
       "Arc Raiders",
       "Marvel Rivals",
       "Roblox",
-      "Fortnite",
       "Мир танков",
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-07-08T14:45:00.966779",
+    "last_check": "2026-07-08T18:45:00.433655",
     "games": {
       "CS2": {
         "installed": true,
@@ -105,7 +104,7 @@
       },
       "PUBG": {
         "installed": true,
-        "update_available": false
+        "update_available": true
       },
       "RUST": {
         "installed": true,
@@ -144,7 +143,7 @@
         "update_available": false
       },
       "Fortnite": {
-        "installed": false,
+        "installed": true,
         "update_available": false
       },
       "Warface": {
