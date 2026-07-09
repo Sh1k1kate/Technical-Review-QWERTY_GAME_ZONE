@@ -8,7 +8,7 @@
       "Heartsone"
     ],
     "total": 17,
-    "last_check": "2026-07-09T22:30:10.329224",
+    "last_check": "2026-07-09T22:45:10.258205",
     "games": {
       "CS2": {
         "installed": true,
@@ -68,89 +68,6 @@
       },
       "Мир танков": {
         "installed": true,
-        "update_available": false
-      },
-      "League of Legends": {
-        "installed": true,
-        "update_available": false
-      },
-      "Heartsone": {
-        "installed": false,
-        "update_available": false
-      }
-    }
-  },
-  "35": {
-    "missing": [
-      "DayZ",
-      "Arc Raiders",
-      "Marvel Rivals",
-      "Roblox",
-      "Warface",
-      "Мир танков",
-      "Heartsone"
-    ],
-    "total": 17,
-    "last_check": "2026-07-09T18:45:00.798319",
-    "games": {
-      "CS2": {
-        "installed": true,
-        "update_available": false
-      },
-      "Dota 2": {
-        "installed": true,
-        "update_available": false
-      },
-      "PUBG": {
-        "installed": true,
-        "update_available": false
-      },
-      "RUST": {
-        "installed": true,
-        "update_available": true
-      },
-      "Deadlock": {
-        "installed": true,
-        "update_available": true
-      },
-      "Apex Legends": {
-        "installed": true,
-        "update_available": true
-      },
-      "DayZ": {
-        "installed": false,
-        "update_available": false
-      },
-      "Arc Raiders": {
-        "installed": false,
-        "update_available": false
-      },
-      "Marvel Rivals": {
-        "installed": false,
-        "update_available": false
-      },
-      "Valorant": {
-        "installed": true,
-        "update_available": false
-      },
-      "Roblox": {
-        "installed": false,
-        "update_available": false
-      },
-      "Minecraft": {
-        "installed": true,
-        "update_available": false
-      },
-      "Fortnite": {
-        "installed": true,
-        "update_available": false
-      },
-      "Warface": {
-        "installed": false,
-        "update_available": false
-      },
-      "Мир танков": {
-        "installed": false,
         "update_available": false
       },
       "League of Legends": {
