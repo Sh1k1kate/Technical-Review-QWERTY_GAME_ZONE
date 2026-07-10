@@ -1,7 +1,7 @@
 {
   "events": [
     {
-      "timestamp": "2026-07-10T02:45:22.332189",
+      "timestamp": "2026-07-10T03:00:22.383686",
       "pc": "35",
       "missing": [
         "DayZ",
@@ -10,17 +10,6 @@
         "Roblox",
         "Warface",
         "Мир танков",
-        "Heartsone"
-      ]
-    },
-    {
-      "timestamp": "2026-07-10T07:00:03.333589",
-      "pc": "31",
-      "missing": [
-        "Deadlock",
-        "Arc Raiders",
-        "Marvel Rivals",
-        "Roblox",
         "Heartsone"
       ]
     }
